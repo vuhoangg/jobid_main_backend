@@ -1,5 +1,5 @@
 import {GraphQLNonNull} from "graphql";
-import {PaginationArguments, SpecificArgument} from "../../types";
+import {PaginationArguments} from "../../types";
 import {getUser, getUsers} from "../resolvers/get";
 import {User, UserArguments, UserConnection} from "../types";
 
