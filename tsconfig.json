@@ -8,8 +8,9 @@
     "outDir": "dist",
     "noImplicitAny": false
   },
-  //  "include": [
-  //    "declare.d.ts"
-  //  ],
+    "include": [
+      "src/app.ts",
+      "src/declare.d.ts"
+    ],
   "lib": ["es2015"]
 }
