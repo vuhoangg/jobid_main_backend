@@ -19,6 +19,8 @@ const benefitSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  seo_title: String,
+  seo_description: String
 }, {timestamps: {createdAt: 'created_at', updatedAt: 'updated_at'}});
 
 const Benefit = mongoose.model('Benefit', benefitSchema);

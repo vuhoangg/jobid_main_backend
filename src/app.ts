@@ -28,6 +28,15 @@ app.use(
 app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(
+  cors({
+    credentials: true,
+    origin: [
+      process.env.SITE_URL,
+      process.env.STUDIO_URL,
+    ],
+  })
+);
 
 passport.serializeUser((user: any, done) => {
     // console.log("serializeUser", user);
