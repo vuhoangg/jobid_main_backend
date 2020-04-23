@@ -1,5 +1,3 @@
-import {AuthRouter} from "./modules/auth/router";
-
 require('dotenv').config();
 import express from "express";
 import cors from "cors";
@@ -11,6 +9,7 @@ import cookieSession from "cookie-session";
 import cookieParser from "cookie-parser";
 import graphqlHTTP from "express-graphql";
 import {Connection} from "./db/connection";
+import {AuthRouter} from "./modules/auth/router";
 import {UploadRouter} from "./modules/upload/router";
 import AppSchema from "./schema";
 import {isExistingEmailUser, isExistingIdUser, saveNewFacebookUser, saveNewGoogleUser} from "./modules/auth/handles";
