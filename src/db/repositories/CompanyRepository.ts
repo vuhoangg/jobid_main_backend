@@ -10,6 +10,9 @@ interface ISort {
 
 interface IFilter {
   sort_by?: ISort;
+  name?: string;
+  job_location?: string;
+  job_category?: string;
 }
 
 interface IGetBy {
@@ -18,6 +21,15 @@ interface IGetBy {
 
 function getCondition(filter: IFilter) {
   let condition = {};
+  if (filter.name) {
+    condition = Object.assign(condition, {$or: [{vi_name: new RegExp(filter.name, "i")}, {en_name: new RegExp(filter.name, "i")}]});
+  }
+  if (filter.job_category) {
+    condition = Object.assign(condition, {job_category: filter.job_category});
+  }
+  if (filter.job_location) {
+    condition = Object.assign(condition, {job_location: filter.job_location});
+  }
   return condition;
 }
 

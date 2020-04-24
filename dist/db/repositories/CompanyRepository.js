@@ -8,6 +8,15 @@ const log_1 = require("../../helpers/log");
 const promise_1 = require("../../helpers/promise");
 function getCondition(filter) {
     let condition = {};
+    if (filter.name) {
+        condition = Object.assign(condition, { $or: [{ vi_name: new RegExp(filter.name, "i") }, { en_name: new RegExp(filter.name, "i") }] });
+    }
+    if (filter.job_category) {
+        condition = Object.assign(condition, { job_category: filter.job_category });
+    }
+    if (filter.job_location) {
+        condition = Object.assign(condition, { job_location: filter.job_location });
+    }
     return condition;
 }
 function getSort(sortBy) {

@@ -20,19 +20,31 @@ router.get("/google", passport_1.default.authenticate("google", {
     scope: ["profile", "email"],
 }));
 router.get("/google/callback", passport_1.default.authenticate("google", { failureRedirect: "/login" }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.cookie('user', req.user, { domain: process.env.COOKIE_SHARE_DOMAIN, maxAge: parseInt(process.env.COOKIE_AGE), httpOnly: false });
+    res.cookie('user', req.user, {
+        domain: process.env.COOKIE_SHARE_DOMAIN,
+        maxAge: parseInt(process.env.COOKIE_AGE),
+        httpOnly: false
+    });
     res.redirect(process.env.SITE_URL);
 }));
 router.get("/facebook", passport_1.default.authenticate("facebook", {
     scope: ["email"]
 }));
 router.get("/facebook/callback", passport_1.default.authenticate("facebook", { failureRedirect: "/login" }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.cookie('user', req.user, { domain: process.env.COOKIE_SHARE_DOMAIN, maxAge: parseInt(process.env.COOKIE_AGE), httpOnly: false });
+    res.cookie('user', req.user, {
+        domain: process.env.COOKIE_SHARE_DOMAIN,
+        maxAge: parseInt(process.env.COOKIE_AGE),
+        httpOnly: false
+    });
     res.redirect(process.env.SITE_URL);
 }));
 router.get("/zalo", passport_1.default.authenticate('zalo'));
 router.get("/zalo/callback", passport_1.default.authenticate('zalo', { failureRedirect: "/login" }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.cookie('user', req.user, { domain: process.env.COOKIE_SHARE_DOMAIN, maxAge: parseInt(process.env.COOKIE_AGE), httpOnly: false });
+    res.cookie('user', req.user, {
+        domain: process.env.COOKIE_SHARE_DOMAIN,
+        maxAge: parseInt(process.env.COOKIE_AGE),
+        httpOnly: false
+    });
     res.redirect(process.env.SITE_URL);
 }));
 //# sourceMappingURL=index.js.map
