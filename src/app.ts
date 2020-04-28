@@ -33,6 +33,8 @@ app.use(
     origin: [
       process.env.SITE_URL,
       process.env.STUDIO_URL,
+      process.env.LOCAL_SITE,
+      process.env.LOCAL_STUDIO,
     ],
   })
 );
