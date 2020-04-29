@@ -1,0 +1,89 @@
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const JobPostRepository_1 = __importDefault(require("../../../db/repositories/JobPostRepository"));
+const helpers_1 = require("../../helpers");
+function getJobPost(source, args, context, info) {
+    const fields = helpers_1.rootField(info);
+    let _id = args._id ? args._id : context.jobPost._id;
+    return JobPostRepository_1.default.get(_id, fields)
+        .then((jobPost) => __awaiter(this, void 0, void 0, function* () {
+        let node = {
+            _id: jobPost._id,
+            title: jobPost.title,
+            slug: jobPost.slug,
+            job_level: jobPost.job_level,
+            job_category: jobPost.job_category,
+            description: jobPost.description,
+            requirement: jobPost.requirement,
+            job_location: jobPost.job_location,
+            salary: jobPost.salary,
+            job_skill: jobPost.job_skill,
+            job_prefer_language: jobPost.job_prefer_language,
+            email_for_application: jobPost.email_for_application,
+            company: jobPost.company,
+            view_count: jobPost.view_count,
+            seo_title: jobPost.seo_title,
+            seo_description: jobPost.seo_description,
+            created_at: jobPost.created_at,
+            updated_at: jobPost.updated_at,
+        };
+        return node;
+    }));
+}
+exports.getJobPost = getJobPost;
+function getJobPosts(source, args, context, info) {
+    let infos = helpers_1.rootInfo(info);
+    let filter = helpers_1.filterObject(args.filter);
+    let page = args.page > 50 ? 10 : args.page;
+    return JobPostRepository_1.default.filter(filter, args.limit, page, infos.edges)
+        .then((jobPosts) => __awaiter(this, void 0, void 0, function* () {
+        let edges = [];
+        for (let i = 0; i < jobPosts.length; i++) {
+            let jobPost = {
+                cursor: jobPosts[i]._id,
+                node: {
+                    _id: jobPosts[i]._id,
+                    title: jobPosts[i].title,
+                    slug: jobPosts[i].slug,
+                    job_level: jobPosts[i].job_level,
+                    job_category: jobPosts[i].job_category,
+                    description: jobPosts[i].description,
+                    requirement: jobPosts[i].requirement,
+                    job_location: jobPosts[i].job_location,
+                    salary: jobPosts[i].salary,
+                    job_skill: jobPosts[i].job_skill,
+                    job_prefer_language: jobPosts[i].job_prefer_language,
+                    email_for_application: jobPosts[i].email_for_application,
+                    company: jobPosts[i].company,
+                    view_count: jobPosts[i].view_count,
+                    seo_title: jobPosts[i].seo_title,
+                    seo_description: jobPosts[i].seo_description,
+                    created_at: jobPosts[i].created_at,
+                    updated_at: jobPosts[i].updated_at,
+                }
+            };
+            edges.push(jobPost);
+        }
+        let countData = (infos.pageInfo && infos.pageInfo.length) ? yield JobPostRepository_1.default.count(filter) : 0;
+        let dataRet = Object.assign({ edges }, { pageInfo: {
+                length: countData,
+                hasNextPage: jobPosts.length >= args.limit,
+                hasPreviousPage: page > 1
+            } });
+        return dataRet;
+    }));
+}
+exports.getJobPosts = getJobPosts;
+//# sourceMappingURL=get.js.map

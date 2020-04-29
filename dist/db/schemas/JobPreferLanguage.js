@@ -2,11 +2,20 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose = require("mongoose");
 const jobPreferLanguageSchema = new mongoose.Schema({
-    title: {
+    vi_title: {
         type: String,
         required: true,
     },
-    slug: {
+    en_title: {
+        type: String,
+        required: true,
+    },
+    vi_slug: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    en_slug: {
         type: String,
         required: true,
         unique: true,

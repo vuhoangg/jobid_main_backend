@@ -13,6 +13,7 @@ export function getActivitys(source, args, context, info) {
           cursor: activitys[i]._id,
           node: {
             _id: activitys[i]._id,
+            name: activitys[i].name,
             vi_message: activitys[i].vi_message,
             en_message: activitys[i].en_message,
             href_type: activitys[i].href_type,

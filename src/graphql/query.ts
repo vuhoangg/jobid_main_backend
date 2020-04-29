@@ -1,4 +1,4 @@
-import { GraphQLObjectType } from "graphql";
+import {GraphQLObjectType} from "graphql";
 import userQueries from "./user/queries";
 import jobSkillQueries from "./job_skill/queries";
 import jobTitleQueries from "./job_title/queries";
@@ -9,23 +9,27 @@ import jobCategoryQueries from "./job_category/queries";
 import companyQueries from "./company/queries";
 import jobPreferLanguageQueries from "./job_prefer_language/queries";
 import suggestionQueries from "./suggestion/queries";
+import jobPostQueries from "./job_post/queries";
+import activityQueries from "./activity/queries";
 
 const QueryRoot = new GraphQLObjectType({
-    fields: {
-        ...userQueries,
-        ...jobSkillQueries,
-        ...jobTitleQueries,
-        ...benefitQueries,
-        ...jobLevelQueries,
-        ...jobLocationQueries,
-        ...jobTitleQueries,
-        ...jobSkillQueries,
-        ...jobCategoryQueries,
-        ...benefitQueries,
-        ...companyQueries,
-        ...jobPreferLanguageQueries,
-        ...suggestionQueries,
-    },
-    name: "QueryRoot",
+  fields: {
+    ...userQueries,
+    ...jobSkillQueries,
+    ...jobTitleQueries,
+    ...benefitQueries,
+    ...jobLevelQueries,
+    ...jobLocationQueries,
+    ...jobTitleQueries,
+    ...jobSkillQueries,
+    ...jobCategoryQueries,
+    ...benefitQueries,
+    ...companyQueries,
+    ...jobPreferLanguageQueries,
+    ...suggestionQueries,
+    ...jobPostQueries,
+    ...activityQueries,
+  },
+  name: "QueryRoot",
 });
 export default QueryRoot;

@@ -1,4 +1,4 @@
-import { GraphQLObjectType } from "graphql";
+import {GraphQLObjectType} from "graphql";
 import userMutations from "./user/mutations";
 import jobSkillMutations from "./job_skill/mutations";
 import jobTitleMutations from "./job_title/mutations";
@@ -9,23 +9,25 @@ import jobCategoryMutations from "./job_category/mutations";
 import companyMutations from "./company/mutations";
 import jobPreferLanguageMutations from "./job_prefer_language/mutations";
 import suggestionMutations from "./suggestion/mutations";
+import jobPostMutations from "./job_post/mutations";
 
 const Mutation = new GraphQLObjectType({
-    fields: {
-        ...userMutations,
-        ...jobSkillMutations,
-        ...jobTitleMutations,
-        ...benefitMutations,
-        ...jobLevelMutations,
-        ...jobLocationMutations,
-        ...jobTitleMutations,
-        ...jobSkillMutations,
-        ...jobCategoryMutations,
-        ...benefitMutations,
-        ...companyMutations,
-        ...jobPreferLanguageMutations,
-        ...suggestionMutations,
-    },
-    name: "Mutation",
+  fields: {
+    ...userMutations,
+    ...jobSkillMutations,
+    ...jobTitleMutations,
+    ...benefitMutations,
+    ...jobLevelMutations,
+    ...jobLocationMutations,
+    ...jobTitleMutations,
+    ...jobSkillMutations,
+    ...jobCategoryMutations,
+    ...benefitMutations,
+    ...companyMutations,
+    ...jobPreferLanguageMutations,
+    ...suggestionMutations,
+    ...jobPostMutations
+  },
+  name: "Mutation",
 });
 export default Mutation;

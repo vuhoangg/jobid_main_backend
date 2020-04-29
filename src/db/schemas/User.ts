@@ -1,3 +1,5 @@
+import JobSkill from "./JobSkill";
+
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
@@ -31,8 +33,74 @@ const userSchema = new mongoose.Schema({
 
   // == info filter
   intro: String,
-
-
+  skill: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'JobSkill'
+    }
+  ],
+  employment_history: [
+    {
+      position: {
+        type: String,
+        required: true,
+      },
+      company: {
+        type: String,
+        required: true,
+      },
+      from_month: Date,
+      to_month: Date,
+      description: String,
+    }
+  ],
+  education_history: [
+    {
+      subject: {
+        type: String,
+        required: true,
+      },
+      school: {
+        type: String,
+        required: true,
+      },
+      qualification: {
+        type: String,
+        required: true,
+      },
+      from_month: Date,
+      to_month: Date,
+      achievement: String,
+    }
+  ],
+  work_preference: {
+    job_location: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'JobLocation'
+      }
+    ],
+    job_category: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'JobCategory'
+      }
+    ],
+    job_level: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'JobLevel'
+    },
+    salary: {
+      type: Number,
+      required: true,
+    },
+    benefit: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Benefit'
+      }
+    ]
+  },
   // == end info filter
   spam: {
     default: 0,

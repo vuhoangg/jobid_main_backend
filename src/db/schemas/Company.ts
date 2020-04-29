@@ -74,6 +74,10 @@ const companySchema = new mongoose.Schema({
       }
     }
   ],
+  follow: {
+    type: Number,
+    default: 0,
+  },
   seo_title: String,
   seo_description: String
 }, {timestamps: {createdAt: 'created_at', updatedAt: 'updated_at'}});
