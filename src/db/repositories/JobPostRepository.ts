@@ -11,10 +11,13 @@ interface ISort {
 
 interface IFilter {
   sort_by?: ISort;
-  vi_title?: string;
-  en_title?: string;
-  vi_slug?: string;
-  en_slug?: string;
+  title?: string;
+  slug?: string;
+  job_level?: string;
+  job_category?: string;
+  job_location?: string;
+  job_skill?: string;
+  company_benefit?: string;
 }
 
 interface IGetBy {
@@ -23,18 +26,28 @@ interface IGetBy {
 
 function getCondition(filter: IFilter) {
   let condition = {};
-  if (filter.vi_title) {
-    condition = Object.assign(condition, {vi_title: new RegExp(filter.vi_title, "i")});
+  if (filter.title) {
+    condition = Object.assign(condition, {title: new RegExp(filter.title, "i")});
   }
-  if (filter.en_title) {
-    condition = Object.assign(condition, {en_title: new RegExp(filter.en_title, "i")});
+  if (filter.slug) {
+    condition = Object.assign(condition, {slug: filter.slug});
   }
-  if (filter.vi_slug) {
-    condition = Object.assign(condition, {vi_slug: filter.vi_slug});
+  if (filter.job_level) {
+    condition = Object.assign(condition, {job_level: filter.job_level});
   }
-  if (filter.en_slug) {
-    condition = Object.assign(condition, {en_slug: filter.en_slug});
+  if (filter.job_category) {
+    condition = Object.assign(condition, {job_category: filter.job_category});
   }
+  if (filter.job_location) {
+    condition = Object.assign(condition, {job_location: filter.job_location});
+  }
+  if (filter.job_skill) {
+    condition = Object.assign(condition, {job_skill: filter.job_skill});
+  }
+  if (filter.company_benefit) {
+    condition = Object.assign(condition, {"company.benefit.id": filter.company_benefit});
+  }
+
   return condition;
 }
 

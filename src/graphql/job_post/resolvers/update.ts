@@ -24,10 +24,12 @@ export function createJobPost(source, args, context, info) {
       href_type: "job_post",
       href_url: slug,
     };
-    ActivityService.create(activity);
 
     input = Object.assign(input, {slug: slug});
     input = Object.assign(input, {user: loggedUser._id});
-    return JobPostService.create(input);
+    return JobPostService.create(input).then(async (r) => {
+      await ActivityService.create(activity);
+      return r;
+    });
   }
 }
