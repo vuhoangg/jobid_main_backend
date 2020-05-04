@@ -48,7 +48,7 @@ export const BenefitConnection = new GraphQLObjectType({
 
 export const BenefitInput = new GraphQLInputObjectType({
   fields: {
-    _id: {type: new GraphQLNonNull(GraphQLString)},
+    _id: {type: GraphQLString},
     vi_title: {type: new GraphQLNonNull(GraphQLString)},
     en_title: {type: new GraphQLNonNull(GraphQLString)},
     vi_slug: {type: new GraphQLNonNull(GraphQLString)},

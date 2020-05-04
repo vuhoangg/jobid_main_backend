@@ -154,5 +154,6 @@ export const JobPostInput = new GraphQLInputObjectType({
 });
 
 export const JobPostArguments = {
-  _id: {type: new GraphQLNonNull(GraphQLString)},
+  _id: {type: GraphQLString},
+  slug: {type: GraphQLString},
 };

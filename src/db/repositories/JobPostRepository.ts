@@ -22,6 +22,7 @@ interface IFilter {
 
 interface IGetBy {
   _id?: string;
+  slug?: string;
 }
 
 function getCondition(filter: IFilter) {
@@ -110,7 +111,7 @@ class JobPostRepository implements CrudContract {
       return JobPost.find(condition, projection)
         .populate('job_level').populate('job_category').populate('job_location').populate('job_skill')
         .populate('job_prefer_language')
-        .populate('benefit.id')
+        .populate('company.benefit.id')
         .populate('company.ref')
         .sort(sort).skip(limit * (page - 1)).limit(limit);
     } catch (e) {
@@ -122,7 +123,23 @@ class JobPostRepository implements CrudContract {
   getBy(getBy: IGetBy, projection) {
     try {
       if (getBy._id) {
-        return JobPost.findById(getBy._id, projection);
+        return JobPost.findById(getBy._id, projection)
+          .populate('job_level')
+          .populate('job_category')
+          .populate('job_location')
+          .populate('job_skill')
+          .populate('job_prefer_language')
+          .populate('company.benefit.id')
+          .populate('company.ref');
+      } else if (getBy.slug) {
+        return JobPost.findOne({slug: getBy.slug}, projection)
+          .populate('job_level')
+          .populate('job_category')
+          .populate('job_location')
+          .populate('job_skill')
+          .populate('job_prefer_language')
+          .populate('company.benefit.id')
+          .populate('company.ref');;
       } else {
         return promiseNull();
       }

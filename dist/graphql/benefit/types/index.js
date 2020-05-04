@@ -42,7 +42,7 @@ exports.BenefitConnection = new graphql_1.GraphQLObjectType({
 });
 exports.BenefitInput = new graphql_1.GraphQLInputObjectType({
     fields: {
-        _id: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
+        _id: { type: graphql_1.GraphQLString },
         vi_title: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         en_title: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         vi_slug: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },

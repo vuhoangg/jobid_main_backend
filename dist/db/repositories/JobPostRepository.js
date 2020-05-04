@@ -89,7 +89,7 @@ class JobPostRepository {
             return JobPost_1.default.find(condition, projection)
                 .populate('job_level').populate('job_category').populate('job_location').populate('job_skill')
                 .populate('job_prefer_language')
-                .populate('benefit.id')
+                .populate('company.benefit.id')
                 .populate('company.ref')
                 .sort(sort).skip(limit * (page - 1)).limit(limit);
         }
@@ -101,7 +101,25 @@ class JobPostRepository {
     getBy(getBy, projection) {
         try {
             if (getBy._id) {
-                return JobPost_1.default.findById(getBy._id, projection);
+                return JobPost_1.default.findById(getBy._id, projection)
+                    .populate('job_level')
+                    .populate('job_category')
+                    .populate('job_location')
+                    .populate('job_skill')
+                    .populate('job_prefer_language')
+                    .populate('company.benefit.id')
+                    .populate('company.ref');
+            }
+            else if (getBy.slug) {
+                return JobPost_1.default.findOne({ slug: getBy.slug }, projection)
+                    .populate('job_level')
+                    .populate('job_category')
+                    .populate('job_location')
+                    .populate('job_skill')
+                    .populate('job_prefer_language')
+                    .populate('company.benefit.id')
+                    .populate('company.ref');
+                ;
             }
             else {
                 return promise_1.promiseNull();

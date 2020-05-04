@@ -16,8 +16,8 @@ const JobPostRepository_1 = __importDefault(require("../../../db/repositories/Jo
 const helpers_1 = require("../../helpers");
 function getJobPost(source, args, context, info) {
     const fields = helpers_1.rootField(info);
-    let _id = args._id ? args._id : context.jobPost._id;
-    return JobPostRepository_1.default.get(_id, fields)
+    let getBy = args._id ? { _id: args._id } : { slug: args.slug };
+    return JobPostRepository_1.default.getBy(getBy, fields)
         .then((jobPost) => __awaiter(this, void 0, void 0, function* () {
         let node = {
             _id: jobPost._id,
@@ -28,12 +28,12 @@ function getJobPost(source, args, context, info) {
             description: jobPost.description,
             requirement: jobPost.requirement,
             job_location: jobPost.job_location,
-            salary: jobPost.salary,
+            salary: jobPost.salary.show ? jobPost.salary : null,
             job_skill: jobPost.job_skill,
             job_prefer_language: jobPost.job_prefer_language,
             email_for_application: jobPost.email_for_application,
             company: jobPost.company,
-            view_count: jobPost.view_count,
+            view_count: jobPost.view_count ? jobPost.view_count : 0,
             seo_title: jobPost.seo_title,
             seo_description: jobPost.seo_description,
             created_at: jobPost.created_at,
@@ -62,12 +62,12 @@ function getJobPosts(source, args, context, info) {
                     description: jobPosts[i].description,
                     requirement: jobPosts[i].requirement,
                     job_location: jobPosts[i].job_location,
-                    salary: jobPosts[i].salary,
+                    salary: jobPosts[i].salary.show ? jobPosts[i].salary : null,
                     job_skill: jobPosts[i].job_skill,
                     job_prefer_language: jobPosts[i].job_prefer_language,
                     email_for_application: jobPosts[i].email_for_application,
                     company: jobPosts[i].company,
-                    view_count: jobPosts[i].view_count,
+                    view_count: jobPosts[i].view_count ? jobPosts[i].view_count : 0,
                     seo_title: jobPosts[i].seo_title,
                     seo_description: jobPosts[i].seo_description,
                     created_at: jobPosts[i].created_at,
