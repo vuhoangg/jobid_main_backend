@@ -16,8 +16,7 @@ const JobLevelRepository_1 = __importDefault(require("../../../db/repositories/J
 const helpers_1 = require("../../helpers");
 function getJobLevel(source, args, context, info) {
     const fields = helpers_1.rootField(info);
-    let _id = args._id ? args._id : context.jobLevel._id;
-    return JobLevelRepository_1.default.get(_id, fields)
+    return JobLevelRepository_1.default.get(args._id, fields)
         .then((jobLevel) => __awaiter(this, void 0, void 0, function* () {
         let node = {
             _id: jobLevel._id,

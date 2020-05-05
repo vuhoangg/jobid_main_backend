@@ -3,8 +3,7 @@ import {filterObject, rootField, rootInfo} from "../../helpers";
 
 export function getJobApply(source, args, context, info) {
   const fields = rootField(info);
-  let _id = args._id ? args._id : context.jobApply._id;
-  return JobApplyService.get(_id, fields)
+  return JobApplyService.get(args._id, fields)
     .then(async (jobApply) => {
       let node = {
         _id: jobApply._id,

@@ -3,8 +3,7 @@ import {filterObject, rootField, rootInfo} from "../../helpers";
 
 export function getSuggestion(source, args, context, info) {
     const fields = rootField(info);
-    let _id = args._id ? args._id : context.suggestion._id;
-    return SuggestionService.get(_id, fields)
+    return SuggestionService.get(args._id, fields)
         .then(async (suggestion) => {
             let node = {
                 _id: suggestion._id,

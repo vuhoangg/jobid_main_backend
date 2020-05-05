@@ -10,6 +10,9 @@ interface ISort {
 
 interface IFilter {
   sort_by?: ISort;
+  job_post?: string;
+  user?: string;
+  status?: string;
 }
 
 interface IGetBy {
@@ -18,6 +21,15 @@ interface IGetBy {
 
 function getCondition(filter: IFilter) {
   let condition = {};
+  if (filter.job_post) {
+    condition = Object.assign(condition, {job_post: filter.job_post});
+  }
+  if (filter.user) {
+    condition = Object.assign(condition, {user: filter.user});
+  }
+  if (filter.status) {
+    condition = Object.assign(condition, {status: filter.status});
+  }
   return condition;
 }
 

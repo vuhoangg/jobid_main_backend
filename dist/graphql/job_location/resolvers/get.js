@@ -16,8 +16,7 @@ const JobLocationRepository_1 = __importDefault(require("../../../db/repositorie
 const helpers_1 = require("../../helpers");
 function getJobLocation(source, args, context, info) {
     const fields = helpers_1.rootField(info);
-    let _id = args._id ? args._id : context.jobLocation._id;
-    return JobLocationRepository_1.default.get(_id, fields)
+    return JobLocationRepository_1.default.get(args._id, fields)
         .then((jobLocation) => __awaiter(this, void 0, void 0, function* () {
         let node = {
             _id: jobLocation._id,

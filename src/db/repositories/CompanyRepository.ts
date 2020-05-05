@@ -17,6 +17,7 @@ interface IFilter {
 
 interface IGetBy {
   _id?: string;
+  slug?: string;
 }
 
 function getCondition(filter: IFilter) {
@@ -96,7 +97,13 @@ class CompanyRepository implements CrudContract {
   getBy(getBy: IGetBy, projection) {
     try {
       if (getBy._id) {
-        return Company.findById(getBy._id, projection);
+        return Company.findById(getBy._id, projection)
+          .populate('job_category')
+          .populate('job_location');
+      } else if (getBy.slug) {
+        return Company.findOne({$or: [{vi_slug: getBy.slug}, {en_slug: getBy.slug}]}, projection)
+          .populate('job_category')
+          .populate('job_location');
       } else {
         return promiseNull();
       }

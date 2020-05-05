@@ -10,10 +10,7 @@ interface ISort {
 
 interface IFilter {
   sort_by?: ISort;
-  vi_title?: string;
-  en_title?: string;
-  vi_slug?: string;
-  en_slug?: string;
+  title?: string;
 }
 
 interface IGetBy {
@@ -22,17 +19,8 @@ interface IGetBy {
 
 function getCondition(filter: IFilter) {
   let condition = {};
-  if (filter.vi_title) {
-    condition = Object.assign(condition, {vi_title: new RegExp(filter.vi_title, "i")});
-  }
-  if (filter.en_title) {
-    condition = Object.assign(condition, {en_title: new RegExp(filter.en_title, "i")});
-  }
-  if (filter.vi_slug) {
-    condition = Object.assign(condition, {vi_slug: filter.vi_slug});
-  }
-  if (filter.en_slug) {
-    condition = Object.assign(condition, {en_slug: filter.en_slug});
+  if (filter.title) {
+    condition = Object.assign(condition, {$or: [{vi_title: new RegExp(filter.title, "i")}, {en_title: new RegExp(filter.title, "i")}]});
   }
   return condition;
 }

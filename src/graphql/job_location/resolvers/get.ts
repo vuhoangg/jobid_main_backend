@@ -3,8 +3,7 @@ import {filterObject, rootField, rootInfo} from "../../helpers";
 
 export function getJobLocation(source, args, context, info) {
   const fields = rootField(info);
-  let _id = args._id ? args._id : context.jobLocation._id;
-  return JobLocationService.get(_id, fields)
+  return JobLocationService.get(args._id, fields)
     .then(async (jobLocation) => {
       let node = {
         _id: jobLocation._id,

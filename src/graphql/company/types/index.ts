@@ -153,7 +153,7 @@ export const CompanyConnection = new GraphQLObjectType({
 
 export const CompanyInput = new GraphQLInputObjectType({
   fields: {
-    _id: {type: new GraphQLNonNull(GraphQLString)},
+    _id: {type: GraphQLString},
     default_lang: {type: new GraphQLNonNull(GraphQLString)},
     en_name: {type: GraphQLString},
     vi_name: {type: GraphQLString},
@@ -179,5 +179,6 @@ export const CompanyInput = new GraphQLInputObjectType({
 });
 
 export const CompanyArguments = {
-  _id: {type: new GraphQLNonNull(GraphQLString)},
+  _id: {type: GraphQLString},
+  slug: {type: GraphQLString},
 };

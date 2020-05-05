@@ -16,8 +16,7 @@ const JobViewRepository_1 = __importDefault(require("../../../db/repositories/Jo
 const helpers_1 = require("../../helpers");
 function getJobView(source, args, context, info) {
     const fields = helpers_1.rootField(info);
-    let _id = args._id ? args._id : context.jobView._id;
-    return JobViewRepository_1.default.get(_id, fields)
+    return JobViewRepository_1.default.get(args._id, fields)
         .then((jobView) => __awaiter(this, void 0, void 0, function* () {
         let node = {
             _id: jobView._id,

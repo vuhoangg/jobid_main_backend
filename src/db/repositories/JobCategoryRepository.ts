@@ -10,6 +10,7 @@ interface ISort {
 
 interface IFilter {
   sort_by?: ISort;
+  title?: string;
 }
 
 interface IGetBy {
@@ -18,6 +19,9 @@ interface IGetBy {
 
 function getCondition(filter: IFilter) {
   let condition = {};
+  if (filter.title) {
+    condition = Object.assign(condition, {$or: [{vi_title: new RegExp(filter.title, "i")}, {en_title: new RegExp(filter.title, "i")}]});
+  }
   return condition;
 }
 

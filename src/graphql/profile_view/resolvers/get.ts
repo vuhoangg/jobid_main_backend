@@ -3,8 +3,7 @@ import {filterObject, rootField, rootInfo} from "../../helpers";
 
 export function getProfileView(source, args, context, info) {
   const fields = rootField(info);
-  let _id = args._id ? args._id : context.profileView._id;
-  return ProfileViewService.get(_id, fields)
+  return ProfileViewService.get(args._id, fields)
     .then(async (profileView) => {
       let node = {
         _id: profileView._id,

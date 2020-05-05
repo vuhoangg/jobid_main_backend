@@ -8,6 +8,12 @@ const log_1 = require("../../helpers/log");
 const promise_1 = require("../../helpers/promise");
 function getCondition(filter) {
     let condition = {};
+    if (filter.user) {
+        condition = Object.assign(condition, { user: filter.user });
+    }
+    if (filter.company) {
+        condition = Object.assign(condition, { company: filter.company });
+    }
     return condition;
 }
 function getSort(sortBy) {

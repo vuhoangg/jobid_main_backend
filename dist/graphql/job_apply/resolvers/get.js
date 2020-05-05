@@ -16,8 +16,7 @@ const JobApplyRepository_1 = __importDefault(require("../../../db/repositories/J
 const helpers_1 = require("../../helpers");
 function getJobApply(source, args, context, info) {
     const fields = helpers_1.rootField(info);
-    let _id = args._id ? args._id : context.jobApply._id;
-    return JobApplyRepository_1.default.get(_id, fields)
+    return JobApplyRepository_1.default.get(args._id, fields)
         .then((jobApply) => __awaiter(this, void 0, void 0, function* () {
         let node = {
             _id: jobApply._id,

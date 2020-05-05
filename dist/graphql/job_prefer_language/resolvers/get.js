@@ -16,8 +16,7 @@ const JobPreferLanguageRepository_1 = __importDefault(require("../../../db/repos
 const helpers_1 = require("../../helpers");
 function getJobPreferLanguage(source, args, context, info) {
     const fields = helpers_1.rootField(info);
-    let _id = args._id ? args._id : context.jobPreferLanguage._id;
-    return JobPreferLanguageRepository_1.default.get(_id, fields)
+    return JobPreferLanguageRepository_1.default.get(args._id, fields)
         .then((jobPreferLanguage) => __awaiter(this, void 0, void 0, function* () {
         let node = {
             _id: jobPreferLanguage._id,

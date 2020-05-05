@@ -3,8 +3,7 @@ import {filterObject, rootField, rootInfo} from "../../helpers";
 
 export function getJobSkill(source, args, context, info) {
     const fields = rootField(info);
-    let _id = args._id ? args._id : context.jobSkill._id;
-    return JobSkillService.get(_id, fields)
+    return JobSkillService.get(args._id, fields)
         .then(async (jobSkill) => {
             let node = {
                 _id: jobSkill._id,

@@ -16,8 +16,7 @@ const CompanyFollowRepository_1 = __importDefault(require("../../../db/repositor
 const helpers_1 = require("../../helpers");
 function getCompanyFollow(source, args, context, info) {
     const fields = helpers_1.rootField(info);
-    let _id = args._id ? args._id : context.companyFollow._id;
-    return CompanyFollowRepository_1.default.get(_id, fields)
+    return CompanyFollowRepository_1.default.get(args._id, fields)
         .then((companyFollow) => __awaiter(this, void 0, void 0, function* () {
         let node = {
             _id: companyFollow._id,

@@ -16,8 +16,7 @@ const JobSkillRepository_1 = __importDefault(require("../../../db/repositories/J
 const helpers_1 = require("../../helpers");
 function getJobSkill(source, args, context, info) {
     const fields = helpers_1.rootField(info);
-    let _id = args._id ? args._id : context.jobSkill._id;
-    return JobSkillRepository_1.default.get(_id, fields)
+    return JobSkillRepository_1.default.get(args._id, fields)
         .then((jobSkill) => __awaiter(this, void 0, void 0, function* () {
         let node = {
             _id: jobSkill._id,

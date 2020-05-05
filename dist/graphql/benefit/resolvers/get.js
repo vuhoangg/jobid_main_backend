@@ -16,8 +16,7 @@ const BenefitRepository_1 = __importDefault(require("../../../db/repositories/Be
 const helpers_1 = require("../../helpers");
 function getBenefit(source, args, context, info) {
     const fields = helpers_1.rootField(info);
-    let _id = args._id ? args._id : context.benefit._id;
-    return BenefitRepository_1.default.get(_id, fields)
+    return BenefitRepository_1.default.get(args._id, fields)
         .then((benefit) => __awaiter(this, void 0, void 0, function* () {
         let node = {
             _id: benefit._id,

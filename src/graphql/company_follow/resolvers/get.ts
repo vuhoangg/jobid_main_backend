@@ -3,8 +3,7 @@ import {filterObject, rootField, rootInfo} from "../../helpers";
 
 export function getCompanyFollow(source, args, context, info) {
   const fields = rootField(info);
-  let _id = args._id ? args._id : context.companyFollow._id;
-  return CompanyFollowService.get(_id, fields)
+  return CompanyFollowService.get(args._id, fields)
     .then(async (companyFollow) => {
       let node = {
         _id: companyFollow._id,

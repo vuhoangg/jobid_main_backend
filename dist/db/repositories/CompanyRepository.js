@@ -81,7 +81,14 @@ class CompanyRepository {
     getBy(getBy, projection) {
         try {
             if (getBy._id) {
-                return Company_1.default.findById(getBy._id, projection);
+                return Company_1.default.findById(getBy._id, projection)
+                    .populate('job_category')
+                    .populate('job_location');
+            }
+            else if (getBy.slug) {
+                return Company_1.default.findOne({ $or: [{ vi_slug: getBy.slug }, { en_slug: getBy.slug }] }, projection)
+                    .populate('job_category')
+                    .populate('job_location');
             }
             else {
                 return promise_1.promiseNull();

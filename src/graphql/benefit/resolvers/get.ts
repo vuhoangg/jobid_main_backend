@@ -3,8 +3,7 @@ import {filterObject, rootField, rootInfo} from "../../helpers";
 
 export function getBenefit(source, args, context, info) {
     const fields = rootField(info);
-    let _id = args._id ? args._id : context.benefit._id;
-    return BenefitService.get(_id, fields)
+    return BenefitService.get(args._id, fields)
         .then(async (benefit) => {
             let node = {
                 _id: benefit._id,

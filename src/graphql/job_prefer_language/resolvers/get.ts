@@ -3,8 +3,7 @@ import {filterObject, rootField, rootInfo} from "../../helpers";
 
 export function getJobPreferLanguage(source, args, context, info) {
   const fields = rootField(info);
-  let _id = args._id ? args._id : context.jobPreferLanguage._id;
-  return JobPreferLanguageService.get(_id, fields)
+  return JobPreferLanguageService.get(args._id, fields)
     .then(async (jobPreferLanguage) => {
       let node = {
         _id: jobPreferLanguage._id,

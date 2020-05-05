@@ -3,8 +3,7 @@ import {filterObject, rootField, rootInfo} from "../../helpers";
 
 export function getJobAlert(source, args, context, info) {
   const fields = rootField(info);
-  let _id = args._id ? args._id : context.jobAlert._id;
-  return JobAlertService.get(_id, fields)
+  return JobAlertService.get(args._id, fields)
     .then(async (jobAlert) => {
       let node = {
         _id: jobAlert._id,

@@ -3,8 +3,7 @@ import {filterObject, rootField, rootInfo} from "../../helpers";
 
 export function getJobLevel(source, args, context, info) {
   const fields = rootField(info);
-  let _id = args._id ? args._id : context.jobLevel._id;
-  return JobLevelService.get(_id, fields)
+  return JobLevelService.get(args._id, fields)
     .then(async (jobLevel) => {
       let node = {
         _id: jobLevel._id,

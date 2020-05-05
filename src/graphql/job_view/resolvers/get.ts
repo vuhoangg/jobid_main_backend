@@ -3,8 +3,7 @@ import {filterObject, rootField, rootInfo} from "../../helpers";
 
 export function getJobView(source, args, context, info) {
   const fields = rootField(info);
-  let _id = args._id ? args._id : context.jobView._id;
-  return JobViewService.get(_id, fields)
+  return JobViewService.get(args._id, fields)
     .then(async (jobView) => {
       let node = {
         _id: jobView._id,

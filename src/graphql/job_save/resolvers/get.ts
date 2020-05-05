@@ -3,8 +3,7 @@ import {filterObject, rootField, rootInfo} from "../../helpers";
 
 export function getJobSave(source, args, context, info) {
   const fields = rootField(info);
-  let _id = args._id ? args._id : context.jobSave._id;
-  return JobSaveService.get(_id, fields)
+  return JobSaveService.get(args._id, fields)
     .then(async (jobSave) => {
       let node = {
         _id: jobSave._id,

@@ -16,8 +16,8 @@ const CompanyRepository_1 = __importDefault(require("../../../db/repositories/Co
 const helpers_1 = require("../../helpers");
 function getCompany(source, args, context, info) {
     const fields = helpers_1.rootField(info);
-    let _id = args._id ? args._id : context.company._id;
-    return CompanyRepository_1.default.get(_id, fields)
+    let getBy = args._id ? { _id: args._id } : { slug: args.slug };
+    return CompanyRepository_1.default.getBy(getBy, fields)
         .then((company) => __awaiter(this, void 0, void 0, function* () {
         let node = {
             _id: company._id,

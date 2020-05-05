@@ -8,6 +8,12 @@ const log_1 = require("../../helpers/log");
 const promise_1 = require("../../helpers/promise");
 function getCondition(filter) {
     let condition = {};
+    if (filter.user_hunter) {
+        condition = Object.assign(condition, { user_hunter: filter.user_hunter });
+    }
+    if (filter.user_profile) {
+        condition = Object.assign(condition, { user_profile: filter.user_profile });
+    }
     return condition;
 }
 function getSort(sortBy) {

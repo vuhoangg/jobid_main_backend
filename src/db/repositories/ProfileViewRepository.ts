@@ -10,6 +10,8 @@ interface ISort {
 
 interface IFilter {
   sort_by?: ISort;
+  user_hunter?: string;
+  user_profile?: string;
 }
 
 interface IGetBy {
@@ -18,6 +20,12 @@ interface IGetBy {
 
 function getCondition(filter: IFilter) {
   let condition = {};
+  if (filter.user_hunter) {
+    condition = Object.assign(condition, {user_hunter: filter.user_hunter});
+  }
+  if (filter.user_profile) {
+    condition = Object.assign(condition, {user_profile: filter.user_profile});
+  }
   return condition;
 }
 

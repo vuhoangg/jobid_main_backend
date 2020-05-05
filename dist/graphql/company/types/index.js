@@ -146,7 +146,7 @@ exports.CompanyConnection = new graphql_1.GraphQLObjectType({
 });
 exports.CompanyInput = new graphql_1.GraphQLInputObjectType({
     fields: {
-        _id: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
+        _id: { type: graphql_1.GraphQLString },
         default_lang: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         en_name: { type: graphql_1.GraphQLString },
         vi_name: { type: graphql_1.GraphQLString },
@@ -171,6 +171,7 @@ exports.CompanyInput = new graphql_1.GraphQLInputObjectType({
     description: "The updated properties for a company.",
 });
 exports.CompanyArguments = {
-    _id: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
+    _id: { type: graphql_1.GraphQLString },
+    slug: { type: graphql_1.GraphQLString },
 };
 //# sourceMappingURL=index.js.map

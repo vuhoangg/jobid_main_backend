@@ -16,8 +16,7 @@ const SuggestionRepository_1 = __importDefault(require("../../../db/repositories
 const helpers_1 = require("../../helpers");
 function getSuggestion(source, args, context, info) {
     const fields = helpers_1.rootField(info);
-    let _id = args._id ? args._id : context.suggestion._id;
-    return SuggestionRepository_1.default.get(_id, fields)
+    return SuggestionRepository_1.default.get(args._id, fields)
         .then((suggestion) => __awaiter(this, void 0, void 0, function* () {
         let node = {
             _id: suggestion._id,
