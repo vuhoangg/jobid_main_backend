@@ -1,5 +1,5 @@
 import {
-  GraphQLInputObjectType,
+  GraphQLInputObjectType, GraphQLInt,
   GraphQLList,
   GraphQLNonNull,
   GraphQLObjectType,
@@ -120,6 +120,7 @@ export const Company = new GraphQLObjectType({
     text_story: {type: new GraphQLList(TextStory)},
     people: {type: new GraphQLList(People)},
     benefit: {type: new GraphQLList(BenefitContent)},
+    follow: {type: GraphQLInt},
     seo_title: {type: GraphQLString},
     seo_description: {type: GraphQLString},
     created_at: {type: new GraphQLNonNull(GraphQLString)},

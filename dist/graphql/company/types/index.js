@@ -114,6 +114,7 @@ exports.Company = new graphql_1.GraphQLObjectType({
         text_story: { type: new graphql_1.GraphQLList(exports.TextStory) },
         people: { type: new graphql_1.GraphQLList(exports.People) },
         benefit: { type: new graphql_1.GraphQLList(exports.BenefitContent) },
+        follow: { type: graphql_1.GraphQLInt },
         seo_title: { type: graphql_1.GraphQLString },
         seo_description: { type: graphql_1.GraphQLString },
         created_at: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
