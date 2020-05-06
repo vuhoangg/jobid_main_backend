@@ -19,6 +19,7 @@ const benefitSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  icon: String,
   seo_title: String,
   seo_description: String
 }, {timestamps: {createdAt: 'created_at', updatedAt: 'updated_at'}});

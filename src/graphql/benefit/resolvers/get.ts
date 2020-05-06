@@ -11,6 +11,8 @@ export function getBenefit(source, args, context, info) {
                 en_title: benefit.en_title,
                 vi_slug: benefit.vi_slug,
                 en_slug: benefit.en_slug,
+                seo_title: benefit.seo_title,
+                seo_description: benefit.seo_description,
                 created_at: benefit.created_at,
                 updated_at: benefit.updated_at,
             };
@@ -34,6 +36,9 @@ export function getBenefits(source, args, context, info) {
                         en_title: benefits[i].en_title,
                         vi_slug: benefits[i].vi_slug,
                         en_slug: benefits[i].en_slug,
+                        icon: benefits[i].icon,
+                        seo_title: benefits[i].seo_title,
+                        seo_description: benefits[i].seo_description,
                         created_at: benefits[i].created_at,
                         updated_at: benefits[i].updated_at,
                     }
