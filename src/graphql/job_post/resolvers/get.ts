@@ -33,8 +33,8 @@ export function getJobPost(source, args, context, info) {
 export function getJobPosts(source, args, context, info) {
   let infos = rootInfo(info);
   let filter = filterObject(args.filter);
-  let page = args.page > 50 ? 10 : args.page;
-  return JobPostService.filter(filter, args.limit, page, infos.edges)
+  let limit = args.limit > 50 ? 10 : args.limit;
+  return JobPostService.filter(filter, limit, args.page, infos.edges)
     .then(async (jobPosts) => {
       let edges = [];
       for (let i = 0; i < jobPosts.length; i++) {
@@ -68,8 +68,8 @@ export function getJobPosts(source, args, context, info) {
         ...{edges},
         pageInfo: {
           length: countData,
-          hasNextPage: jobPosts.length >= args.limit,
-          hasPreviousPage: page > 1
+          hasNextPage: jobPosts.length >= limit,
+          hasPreviousPage: args.page > 1
         }
       };
       return dataRet;
