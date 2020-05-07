@@ -46,8 +46,8 @@ exports.getJobPost = getJobPost;
 function getJobPosts(source, args, context, info) {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
-    let page = args.page > 50 ? 10 : args.page;
-    return JobPostRepository_1.default.filter(filter, args.limit, page, infos.edges)
+    let limit = args.limit > 50 ? 10 : args.limit;
+    return JobPostRepository_1.default.filter(filter, limit, args.page, infos.edges)
         .then((jobPosts) => __awaiter(this, void 0, void 0, function* () {
         let edges = [];
         for (let i = 0; i < jobPosts.length; i++) {
@@ -79,8 +79,8 @@ function getJobPosts(source, args, context, info) {
         let countData = (infos.pageInfo && infos.pageInfo.length) ? yield JobPostRepository_1.default.count(filter) : 0;
         let dataRet = Object.assign({ edges }, { pageInfo: {
                 length: countData,
-                hasNextPage: jobPosts.length >= args.limit,
-                hasPreviousPage: page > 1
+                hasNextPage: jobPosts.length >= limit,
+                hasPreviousPage: args.page > 1
             } });
         return dataRet;
     }));

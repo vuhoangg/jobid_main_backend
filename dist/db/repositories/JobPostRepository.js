@@ -86,6 +86,7 @@ class JobPostRepository {
         try {
             let condition = getCondition(filter);
             let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
+            console.log(sort);
             return JobPost_1.default.find(condition, projection)
                 .populate('job_level').populate('job_category').populate('job_location').populate('job_skill')
                 .populate('job_prefer_language')
