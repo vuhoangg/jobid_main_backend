@@ -9,7 +9,7 @@ function updateJobSave(source, args, context, info) {
         let loggedUser = context.user;
         let input = args.input;
         input = Object.assign(input, { user: loggedUser._id });
-        return JobSaveRepository_1.default.update(input);
+        return JobSaveRepository_1.default.saveJob(input);
     }
 }
 exports.updateJobSave = updateJobSave;

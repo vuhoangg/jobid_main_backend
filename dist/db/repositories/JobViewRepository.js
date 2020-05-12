@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const JobView_1 = __importDefault(require("../schemas/JobView"));
 const log_1 = require("../../helpers/log");
 const promise_1 = require("../../helpers/promise");
+const JobPost_1 = __importDefault(require("../schemas/JobPost"));
 function getCondition(filter) {
     let condition = {};
     if (filter.user) {
@@ -68,7 +69,10 @@ class JobViewRepository {
         try {
             let condition = getCondition(filter);
             let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
-            return JobView_1.default.find(condition, projection).sort(sort).skip(limit * (page - 1)).limit(limit);
+            return JobView_1.default.find(condition, projection)
+                .populate('user')
+                .populate({ path: 'job_post', populate: { path: 'job_location' } })
+                .sort(sort).skip(limit * (page - 1)).limit(limit);
         }
         catch (e) {
             log_1.errorLog(e);
@@ -92,6 +96,20 @@ class JobViewRepository {
     update(data) {
         try {
             return JobView_1.default.findByIdAndUpdate(data._id, data, { new: true });
+        }
+        catch (e) {
+            log_1.errorLog(e);
+            return promise_1.promiseNull();
+        }
+    }
+    viewJob(data) {
+        try {
+            // update view_count then save tracking
+            return JobPost_1.default.findByIdAndUpdate(data.job_post, { $inc: { view_count: 1 } }).then(r => {
+                if (r) {
+                    return JobView_1.default.findOneAndUpdate({ job_post: data.job_post, user: data.user }, data, { upsert: true, new: true });
+                }
+            });
         }
         catch (e) {
             log_1.errorLog(e);

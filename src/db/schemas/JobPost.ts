@@ -71,13 +71,13 @@ const jobPostSchema = new mongoose.Schema({
     logo: String,
     photos: [String],
     video: String,
-    view_count: {
-      type: Number,
-      default: 0
-    },
-    seo_title: String,
-    seo_description: String,
-  }
+  },
+  view_count: {
+    type: Number,
+    default: 0
+  },
+  seo_title: String,
+  seo_description: String,
 }, {timestamps: {createdAt: 'created_at', updatedAt: 'updated_at'}});
 
 const JobPost = mongoose.model('JobPost', jobPostSchema);

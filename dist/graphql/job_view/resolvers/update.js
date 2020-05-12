@@ -9,7 +9,7 @@ function updateJobView(source, args, context, info) {
         let loggedUser = context.user;
         let input = args.input;
         input = Object.assign(input, { user: loggedUser._id });
-        return JobViewRepository_1.default.update(input);
+        return JobViewRepository_1.default.viewJob(input);
     }
 }
 exports.updateJobView = updateJobView;

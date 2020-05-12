@@ -86,7 +86,10 @@ class JobApplyRepository implements CrudContract {
     try {
       let condition = getCondition(filter);
       let sort = filter.sort_by ? getSort(filter.sort_by) : {_id: "desc"};
-      return JobApply.find(condition, projection).sort(sort).skip(limit * (page - 1)).limit(limit);
+      return JobApply.find(condition, projection)
+        .populate('user')
+        .populate('job_post')
+        .sort(sort).skip(limit * (page - 1)).limit(limit);
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -109,6 +112,15 @@ class JobApplyRepository implements CrudContract {
   update(data) {
     try {
       return JobApply.findByIdAndUpdate(data._id, data, {new: true});
+    } catch (e) {
+      errorLog(e);
+      return promiseNull();
+    }
+  }
+
+  applyJob(data) {
+    try {
+      return JobApply.findOneAndUpdate({job_post: data.job_post, user: data.user}, data, {upsert: true, new: true});
     } catch (e) {
       errorLog(e);
       return promiseNull();

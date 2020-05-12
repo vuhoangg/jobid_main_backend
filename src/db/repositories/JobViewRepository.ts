@@ -2,6 +2,7 @@ import {CrudContract} from "../contracts/CrudContract";
 import JobView from "../schemas/JobView";
 import {errorLog} from "../../helpers/log";
 import {promiseNull} from "../../helpers/promise";
+import JobPost from "../schemas/JobPost";
 
 interface ISort {
   created?: "newest" | "oldest",
@@ -82,7 +83,10 @@ class JobViewRepository implements CrudContract {
     try {
       let condition = getCondition(filter);
       let sort = filter.sort_by ? getSort(filter.sort_by) : {_id: "desc"};
-      return JobView.find(condition, projection).sort(sort).skip(limit * (page - 1)).limit(limit);
+      return JobView.find(condition, projection)
+        .populate('user')
+        .populate({ path: 'job_post', populate: { path: 'job_location' }})
+        .sort(sort).skip(limit * (page - 1)).limit(limit);
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -105,6 +109,20 @@ class JobViewRepository implements CrudContract {
   update(data) {
     try {
       return JobView.findByIdAndUpdate(data._id, data, {new: true});
+    } catch (e) {
+      errorLog(e);
+      return promiseNull();
+    }
+  }
+
+  viewJob(data) {
+    try {
+      // update view_count then save tracking
+      return JobPost.findByIdAndUpdate(data.job_post, {$inc: {view_count: 1}}).then(r => {
+        if (r) {
+          return JobView.findOneAndUpdate({job_post: data.job_post, user: data.user}, data, {upsert: true, new: true});
+        }
+      })
     } catch (e) {
       errorLog(e);
       return promiseNull();

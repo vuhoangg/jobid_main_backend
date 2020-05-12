@@ -5,6 +5,6 @@ export function updateJobApply(source, args, context, info) {
     let loggedUser = context.user;
     let input = args.input;
     input = Object.assign(input, {user: loggedUser._id});
-    return JobApplyService.update(input);
+    return JobApplyService.applyJob(input);
   }
 }

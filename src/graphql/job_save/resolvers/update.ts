@@ -5,6 +5,6 @@ export function updateJobSave(source, args, context, info) {
     let loggedUser = context.user;
     let input = args.input;
     input = Object.assign(input, {user: loggedUser._id});
-    return JobSaveService.update(input);
+    return JobSaveService.saveJob(input);
   }
 }

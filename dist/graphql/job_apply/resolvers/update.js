@@ -9,7 +9,7 @@ function updateJobApply(source, args, context, info) {
         let loggedUser = context.user;
         let input = args.input;
         input = Object.assign(input, { user: loggedUser._id });
-        return JobApplyRepository_1.default.update(input);
+        return JobApplyRepository_1.default.applyJob(input);
     }
 }
 exports.updateJobApply = updateJobApply;

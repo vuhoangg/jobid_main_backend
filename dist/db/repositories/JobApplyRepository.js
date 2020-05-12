@@ -71,7 +71,10 @@ class JobApplyRepository {
         try {
             let condition = getCondition(filter);
             let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
-            return JobApply_1.default.find(condition, projection).sort(sort).skip(limit * (page - 1)).limit(limit);
+            return JobApply_1.default.find(condition, projection)
+                .populate('user')
+                .populate('job_post')
+                .sort(sort).skip(limit * (page - 1)).limit(limit);
         }
         catch (e) {
             log_1.errorLog(e);
@@ -95,6 +98,15 @@ class JobApplyRepository {
     update(data) {
         try {
             return JobApply_1.default.findByIdAndUpdate(data._id, data, { new: true });
+        }
+        catch (e) {
+            log_1.errorLog(e);
+            return promise_1.promiseNull();
+        }
+    }
+    applyJob(data) {
+        try {
+            return JobApply_1.default.findOneAndUpdate({ job_post: data.job_post, user: data.user }, data, { upsert: true, new: true });
         }
         catch (e) {
             log_1.errorLog(e);

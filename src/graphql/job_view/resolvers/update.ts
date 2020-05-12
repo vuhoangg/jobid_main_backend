@@ -5,6 +5,6 @@ export function updateJobView(source, args, context, info) {
     let loggedUser = context.user;
     let input = args.input;
     input = Object.assign(input, {user: loggedUser._id});
-    return JobViewService.update(input);
+    return JobViewService.viewJob(input);
   }
 }
