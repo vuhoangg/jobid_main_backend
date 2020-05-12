@@ -88,7 +88,7 @@ class JobApplyRepository implements CrudContract {
       let sort = filter.sort_by ? getSort(filter.sort_by) : {_id: "desc"};
       return JobApply.find(condition, projection)
         .populate('user')
-        .populate('job_post')
+        .populate({ path: 'job_post', populate: { path: 'job_location' }})
         .sort(sort).skip(limit * (page - 1)).limit(limit);
     } catch (e) {
       errorLog(e);
