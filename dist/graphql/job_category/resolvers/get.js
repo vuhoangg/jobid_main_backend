@@ -16,7 +16,8 @@ const JobCategoryRepository_1 = __importDefault(require("../../../db/repositorie
 const helpers_1 = require("../../helpers");
 function getJobCategory(source, args, context, info) {
     const fields = helpers_1.rootField(info);
-    return JobCategoryRepository_1.default.get(args._id, fields)
+    let getBy = args._id ? { _id: args._id } : { slug: args.slug };
+    return JobCategoryRepository_1.default.getBy(getBy, fields)
         .then((jobCategory) => __awaiter(this, void 0, void 0, function* () {
         let node = {
             _id: jobCategory._id,

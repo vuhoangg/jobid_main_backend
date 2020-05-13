@@ -77,6 +77,9 @@ class JobCategoryRepository {
             if (getBy._id) {
                 return JobCategory_1.default.findById(getBy._id, projection);
             }
+            else if (getBy.slug) {
+                return JobCategory_1.default.findOne({ $or: [{ vi_slug: getBy.slug }, { en_slug: getBy.slug }] }, projection);
+            }
             else {
                 return promise_1.promiseNull();
             }

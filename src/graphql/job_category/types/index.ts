@@ -61,5 +61,6 @@ export const JobCategoryInput = new GraphQLInputObjectType({
 });
 
 export const JobCategoryArguments = {
-  _id: {type: new GraphQLNonNull(GraphQLString)},
+  _id: {type: GraphQLString},
+  slug: {type: GraphQLString},
 };

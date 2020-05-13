@@ -61,5 +61,6 @@ export const JobLocationInput = new GraphQLInputObjectType({
 });
 
 export const JobLocationArguments = {
-  _id: {type: new GraphQLNonNull(GraphQLString)},
+  _id: {type: GraphQLString},
+  slug: {type: GraphQLString},
 };

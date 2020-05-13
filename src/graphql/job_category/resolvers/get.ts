@@ -3,7 +3,8 @@ import {filterObject, rootField, rootInfo} from "../../helpers";
 
 export function getJobCategory(source, args, context, info) {
   const fields = rootField(info);
-  return JobCategoryService.get(args._id, fields)
+  let getBy = args._id ? {_id: args._id} : {slug: args.slug};
+  return JobCategoryService.getBy(getBy, fields)
     .then(async (jobCategory) => {
       let node = {
         _id: jobCategory._id,

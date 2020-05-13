@@ -54,6 +54,7 @@ exports.JobLocationInput = new graphql_1.GraphQLInputObjectType({
     description: "The updated properties for a job location.",
 });
 exports.JobLocationArguments = {
-    _id: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
+    _id: { type: graphql_1.GraphQLString },
+    slug: { type: graphql_1.GraphQLString },
 };
 //# sourceMappingURL=index.js.map
