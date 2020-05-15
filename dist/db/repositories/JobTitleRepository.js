@@ -77,6 +77,9 @@ class JobTitleRepository {
             if (getBy._id) {
                 return JobTitle_1.default.findById(getBy._id, projection);
             }
+            else if (getBy.slug) {
+                return JobTitle_1.default.findOne({ slug: getBy.slug }, projection);
+            }
             else {
                 return promise_1.promiseNull();
             }

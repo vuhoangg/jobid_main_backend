@@ -16,7 +16,8 @@ const JobTitleRepository_1 = __importDefault(require("../../../db/repositories/J
 const helpers_1 = require("../../helpers");
 function getJobTitle(source, args, context, info) {
     const fields = helpers_1.rootField(info);
-    return JobTitleRepository_1.default.get(args._id, fields)
+    let getBy = args._id ? { _id: args._id } : { slug: args.slug };
+    return JobTitleRepository_1.default.getBy(getBy, fields)
         .then((jobTitle) => __awaiter(this, void 0, void 0, function* () {
         let node = {
             _id: jobTitle._id,
@@ -34,7 +35,8 @@ exports.getJobTitle = getJobTitle;
 function getJobTitles(source, args, context, info) {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
-    return JobTitleRepository_1.default.filter(filter, args.limit, args.page, infos.edges)
+    let limit = args.limit > 50 ? 10 : args.limit;
+    return JobTitleRepository_1.default.filter(filter, limit, args.page, infos.edges)
         .then((jobTitles) => __awaiter(this, void 0, void 0, function* () {
         let edges = [];
         for (let i = 0; i < jobTitles.length; i++) {
@@ -55,7 +57,7 @@ function getJobTitles(source, args, context, info) {
         let countData = (infos.pageInfo && infos.pageInfo.length) ? yield JobTitleRepository_1.default.count(filter) : 0;
         let dataRet = Object.assign({ edges }, { pageInfo: {
                 length: countData,
-                hasNextPage: jobTitles.length >= args.limit,
+                hasNextPage: jobTitles.length >= limit,
                 hasPreviousPage: args.page > 1
             } });
         return dataRet;

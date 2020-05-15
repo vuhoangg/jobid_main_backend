@@ -42,10 +42,12 @@ const jobPostSchema = new mongoose.Schema({
       ref: 'JobSkill',
     }
   ],
-  job_prefer_language: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'JobPreferLanguage',
-  },
+  job_prefer_language: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'JobPreferLanguage',
+    }
+  ],
   email_for_application: {
     type: String,
     required: true,
