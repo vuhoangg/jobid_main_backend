@@ -111,7 +111,7 @@ class JobPostRepository implements CrudContract {
       return JobPost.find(condition, projection)
         .populate('job_level').populate('job_category').populate('job_location').populate('job_skill')
         .populate('job_prefer_language')
-        .populate('company.benefit.id')
+        .populate('company.benefit.benefit_id')
         .populate('company.ref')
         .sort(sort).skip(limit * (page - 1)).limit(limit);
     } catch (e) {
@@ -129,7 +129,7 @@ class JobPostRepository implements CrudContract {
           .populate('job_location')
           .populate('job_skill')
           .populate('job_prefer_language')
-          .populate('company.benefit.id')
+          .populate('company.benefit.benefit_id')
           .populate('company.ref');
       } else if (getBy.slug) {
         return JobPost.findOne({slug: getBy.slug}, projection)
@@ -138,7 +138,7 @@ class JobPostRepository implements CrudContract {
           .populate('job_location')
           .populate('job_skill')
           .populate('job_prefer_language')
-          .populate('company.benefit.id')
+          .populate('company.benefit.benefit_id')
           .populate('company.ref');;
       } else {
         return promiseNull();

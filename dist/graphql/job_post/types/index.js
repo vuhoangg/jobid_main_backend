@@ -31,7 +31,7 @@ exports.JobSalaryInput = new graphql_1.GraphQLInputObjectType({
 exports.JobBenefit = new graphql_1.GraphQLObjectType({
     description: "Represents a job benefit.",
     fields: {
-        id: { type: types_8.Benefit },
+        benefit_id: { type: types_8.Benefit },
         content: { type: graphql_1.GraphQLString },
     },
     name: "JobBenefit"
@@ -39,7 +39,7 @@ exports.JobBenefit = new graphql_1.GraphQLObjectType({
 exports.JobBenefitInput = new graphql_1.GraphQLInputObjectType({
     description: "The updated properties for a job benefit.",
     fields: {
-        id: { type: graphql_1.GraphQLString },
+        benefit_id: { type: graphql_1.GraphQLString },
         content: { type: graphql_1.GraphQLString },
     },
     name: "JobBenefitInput"

@@ -63,7 +63,7 @@ const jobPostSchema = new mongoose.Schema({
     description: String,
     benefit: [
       {
-        id: {
+        benefit_id: {
           type: mongoose.Schema.Types.ObjectId,
           ref: 'Benefit',
         },

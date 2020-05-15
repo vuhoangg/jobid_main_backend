@@ -37,7 +37,7 @@ export const JobSalaryInput = new GraphQLInputObjectType({
 export const JobBenefit = new GraphQLObjectType({
   description: "Represents a job benefit.",
   fields: {
-    id: {type: Benefit},
+    benefit_id: {type: Benefit},
     content: {type: GraphQLString},
   },
   name: "JobBenefit"
@@ -46,7 +46,7 @@ export const JobBenefit = new GraphQLObjectType({
 export const JobBenefitInput = new GraphQLInputObjectType({
   description: "The updated properties for a job benefit.",
   fields: {
-    id: {type: GraphQLString},
+    benefit_id: {type: GraphQLString},
     content: {type: GraphQLString},
   },
   name: "JobBenefitInput"
