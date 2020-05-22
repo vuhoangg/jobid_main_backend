@@ -29,6 +29,9 @@ function getCondition(filter) {
     if (filter.company_benefit) {
         condition = Object.assign(condition, { "company.benefit.id": filter.company_benefit });
     }
+    if (filter.user) {
+        condition = Object.assign(condition, { "user.ref": filter.user });
+    }
     return condition;
 }
 function getSort(sortBy) {
@@ -91,6 +94,7 @@ class JobPostRepository {
                 .populate('job_prefer_language')
                 .populate('company.benefit.benefit_id')
                 .populate('company.ref')
+                .populate('user.ref')
                 .sort(sort).skip(limit * (page - 1)).limit(limit);
         }
         catch (e) {
@@ -108,7 +112,8 @@ class JobPostRepository {
                     .populate('job_skill')
                     .populate('job_prefer_language')
                     .populate('company.benefit.benefit_id')
-                    .populate('company.ref');
+                    .populate('company.ref')
+                    .populate('user.ref');
             }
             else if (getBy.slug) {
                 return JobPost_1.default.findOne({ slug: getBy.slug }, projection)
@@ -118,8 +123,8 @@ class JobPostRepository {
                     .populate('job_skill')
                     .populate('job_prefer_language')
                     .populate('company.benefit.benefit_id')
-                    .populate('company.ref');
-                ;
+                    .populate('company.ref')
+                    .populate('user.ref');
             }
             else {
                 return promise_1.promiseNull();

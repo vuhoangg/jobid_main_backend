@@ -81,6 +81,20 @@ const jobPostSchema = new mongoose.Schema({
     },
     seo_title: String,
     seo_description: String,
+    user: {
+        in_company: {
+            type: Number,
+            default: 0,
+        },
+        ref: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    },
+    status: {
+        type: String,
+        enum: ['active', 'trash', 'draft']
+    }
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
 const JobPost = mongoose.model('JobPost', jobPostSchema);
 exports.default = JobPost;

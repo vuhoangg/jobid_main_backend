@@ -19,7 +19,8 @@ function updateJobPost(source, args, context, info) {
     if (context.isAuthenticated()) {
         let loggedUser = context.user;
         let input = args.input;
-        input = Object.assign(input, { user: loggedUser._id });
+        // TODO in_company
+        input = Object.assign(input, { user: { ref: loggedUser._id, in_company: 0 } });
         return JobPostRepository_1.default.update(input);
     }
 }
@@ -37,7 +38,8 @@ function createJobPost(source, args, context, info) {
             href_url: slug,
         };
         input = Object.assign(input, { slug: slug });
-        input = Object.assign(input, { user: loggedUser._id });
+        // TODO in_company
+        input = Object.assign(input, { user: { ref: loggedUser._id, in_company: 0 } });
         return JobPostRepository_1.default.create(input).then((r) => __awaiter(this, void 0, void 0, function* () {
             yield ActivityRepository_1.default.create(activity);
             return r;

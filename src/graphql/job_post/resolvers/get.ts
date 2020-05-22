@@ -4,6 +4,10 @@ import {filterObject, rootField, rootInfo} from "../../helpers";
 export function getJobPost(source, args, context, info) {
   const fields = rootField(info);
   let getBy = args._id ? {_id: args._id} : {slug: args.slug};
+  let loggedUser = null;
+  if (context.isAuthenticated()) {
+    loggedUser = context.user;
+  }
   return JobPostService.getBy(getBy, fields)
     .then(async (jobPost) => {
       let node = {
@@ -15,12 +19,13 @@ export function getJobPost(source, args, context, info) {
         description: jobPost.description,
         requirement: jobPost.requirement,
         job_location: jobPost.job_location,
-        salary: jobPost.salary.show ? jobPost.salary : null,
+        salary: (jobPost.salary.show || (loggedUser && loggedUser._id.toString() === jobPost.user.ref._id.toString())) ? jobPost.salary : null,
         job_skill: jobPost.job_skill,
         job_prefer_language: jobPost.job_prefer_language,
         email_for_application: jobPost.email_for_application,
         company: jobPost.company,
         view_count: jobPost.view_count ? jobPost.view_count : 0,
+        user: jobPost.user,
         seo_title: jobPost.seo_title,
         seo_description: jobPost.seo_description,
         created_at: jobPost.created_at,
@@ -55,6 +60,7 @@ export function getJobPosts(source, args, context, info) {
             email_for_application: jobPosts[i].email_for_application,
             company: jobPosts[i].company,
             view_count: jobPosts[i].view_count ? jobPosts[i].view_count : 0,
+            user: jobPosts[i].user,
             seo_title: jobPosts[i].seo_title,
             seo_description: jobPosts[i].seo_description,
             created_at: jobPosts[i].created_at,

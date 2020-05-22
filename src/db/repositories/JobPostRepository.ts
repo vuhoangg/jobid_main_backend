@@ -13,6 +13,7 @@ interface IFilter {
   sort_by?: ISort;
   title?: string;
   slug?: string;
+  user?: string;
   job_level?: string;
   job_category?: string;
   job_location?: string;
@@ -47,6 +48,9 @@ function getCondition(filter: IFilter) {
   }
   if (filter.company_benefit) {
     condition = Object.assign(condition, {"company.benefit.id": filter.company_benefit});
+  }
+  if (filter.user) {
+    condition = Object.assign(condition, {"user.ref": filter.user});
   }
 
   return condition;
@@ -113,6 +117,7 @@ class JobPostRepository implements CrudContract {
         .populate('job_prefer_language')
         .populate('company.benefit.benefit_id')
         .populate('company.ref')
+        .populate('user.ref')
         .sort(sort).skip(limit * (page - 1)).limit(limit);
     } catch (e) {
       errorLog(e);
@@ -130,7 +135,8 @@ class JobPostRepository implements CrudContract {
           .populate('job_skill')
           .populate('job_prefer_language')
           .populate('company.benefit.benefit_id')
-          .populate('company.ref');
+          .populate('company.ref')
+          .populate('user.ref');
       } else if (getBy.slug) {
         return JobPost.findOne({slug: getBy.slug}, projection)
           .populate('job_level')
@@ -139,7 +145,8 @@ class JobPostRepository implements CrudContract {
           .populate('job_skill')
           .populate('job_prefer_language')
           .populate('company.benefit.benefit_id')
-          .populate('company.ref');;
+          .populate('company.ref')
+          .populate('user.ref');
       } else {
         return promiseNull();
       }

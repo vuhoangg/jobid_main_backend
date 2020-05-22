@@ -14,6 +14,16 @@ import {JobSkill} from "../../job_skill/types";
 import {JobPreferLanguage} from "../../job_prefer_language/types";
 import {Company} from "../../company/types";
 import {Benefit} from "../../benefit/types";
+import {User} from "../../user/types";
+
+export const JobUser = new GraphQLObjectType({
+  description: "Represents a job user.",
+  fields: {
+    ref: {type: User},
+    in_company: {type: GraphQLBoolean},
+  },
+  name: "JobUser",
+});
 
 export const JobSalary = new GraphQLObjectType({
   description: "Represents a job salary.",
@@ -103,6 +113,7 @@ export const JobPost = new GraphQLObjectType({
     company: {type: new GraphQLNonNull(JobCompany)},
 
     view_count: {type: GraphQLInt},
+    user: {type: JobUser},
     seo_title: {type: GraphQLString},
     seo_description: {type: GraphQLString},
     created_at: {type: new GraphQLNonNull(GraphQLString)},

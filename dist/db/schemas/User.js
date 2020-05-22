@@ -104,6 +104,19 @@ const userSchema = new mongoose.Schema({
         default: 0,
         type: Number
     },
+    // -- company role
+    company_role: [
+        {
+            company_id: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Company'
+            },
+            group_permission: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'GroupPermission'
+            }
+        }
+    ]
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
 const User = mongoose.model('User', userSchema);
 exports.default = User;

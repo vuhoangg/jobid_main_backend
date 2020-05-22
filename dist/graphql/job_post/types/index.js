@@ -10,6 +10,15 @@ const types_5 = require("../../job_skill/types");
 const types_6 = require("../../job_prefer_language/types");
 const types_7 = require("../../company/types");
 const types_8 = require("../../benefit/types");
+const types_9 = require("../../user/types");
+exports.JobUser = new graphql_1.GraphQLObjectType({
+    description: "Represents a job user.",
+    fields: {
+        ref: { type: types_9.User },
+        in_company: { type: graphql_1.GraphQLBoolean },
+    },
+    name: "JobUser",
+});
 exports.JobSalary = new graphql_1.GraphQLObjectType({
     description: "Represents a job salary.",
     fields: {
@@ -91,6 +100,7 @@ exports.JobPost = new graphql_1.GraphQLObjectType({
         email_for_application: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         company: { type: new graphql_1.GraphQLNonNull(exports.JobCompany) },
         view_count: { type: graphql_1.GraphQLInt },
+        user: { type: exports.JobUser },
         seo_title: { type: graphql_1.GraphQLString },
         seo_description: { type: graphql_1.GraphQLString },
         created_at: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },

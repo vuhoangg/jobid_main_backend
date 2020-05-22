@@ -6,7 +6,8 @@ export function updateJobPost(source, args, context, info) {
   if (context.isAuthenticated()) {
     let loggedUser = context.user;
     let input = args.input;
-    input = Object.assign(input, {user: loggedUser._id});
+    // TODO in_company
+    input = Object.assign(input, {user: {ref: loggedUser._id, in_company: 0}});
     return JobPostService.update(input);
   }
 }
@@ -26,7 +27,8 @@ export function createJobPost(source, args, context, info) {
     };
 
     input = Object.assign(input, {slug: slug});
-    input = Object.assign(input, {user: loggedUser._id});
+    // TODO in_company
+    input = Object.assign(input, {user: {ref: loggedUser._id, in_company: 0}});
     return JobPostService.create(input).then(async (r) => {
       await ActivityService.create(activity);
       return r;
