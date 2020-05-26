@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.SpecificArgument = exports.PaginationArguments = exports.PageInfo = void 0;
 const graphql_1 = require("graphql");
 exports.PageInfo = new graphql_1.GraphQLObjectType({
     description: "Information to aid in pagination.",

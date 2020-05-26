@@ -89,7 +89,8 @@ class UserRepository {
     }
     update(data) {
         try {
-            return User_1.default.findByIdAndUpdate(data._id, { $set: flattenNestedObject_1.flattenNestedObject(data) }, { new: true });
+            let dataUpdate = flattenNestedObject_1.processDataUpdate(data);
+            return User_1.default.findByIdAndUpdate(data._id, dataUpdate, { new: true });
         }
         catch (e) {
             log_1.errorLog(e);

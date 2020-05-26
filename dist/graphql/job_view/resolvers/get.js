@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getJobViews = exports.getJobView = void 0;
 const JobViewRepository_1 = __importDefault(require("../../../db/repositories/JobViewRepository"));
 const helpers_1 = require("../../helpers");
 function getJobView(source, args, context, info) {

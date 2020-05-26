@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.createBenefit = exports.updateBenefit = void 0;
 const BenefitRepository_1 = __importDefault(require("../../../db/repositories/BenefitRepository"));
 const permission_1 = require("../../../helpers/permission");
 function updateBenefit(source, args, context, info) {

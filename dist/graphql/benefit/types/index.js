@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.BenefitArguments = exports.BenefitInput = exports.BenefitConnection = exports.BenefitEdge = exports.Benefit = void 0;
 const graphql_1 = require("graphql");
 const types_1 = require("../../types");
 exports.Benefit = new graphql_1.GraphQLObjectType({

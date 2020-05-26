@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.sendWelcome = void 0;
 const api_1 = require("../utils/api");
 const log_1 = require("../helpers/log");
 exports.sendWelcome = (email) => {

@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.createJobSkill = exports.updateJobSkill = void 0;
 const JobSkillRepository_1 = __importDefault(require("../../../db/repositories/JobSkillRepository"));
 const permission_1 = require("../../../helpers/permission");
 function updateJobSkill(source, args, context, info) {

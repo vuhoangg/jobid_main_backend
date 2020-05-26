@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getCompanys = exports.getCompany = void 0;
 const CompanyRepository_1 = __importDefault(require("../../../db/repositories/CompanyRepository"));
 const helpers_1 = require("../../helpers");
 function getCompany(source, args, context, info) {

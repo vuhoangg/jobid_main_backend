@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.JobPreferLanguageArguments = exports.JobPreferLanguageInput = exports.JobPreferLanguageConnection = exports.JobPreferLanguageEdge = exports.JobPreferLanguage = void 0;
 const graphql_1 = require("graphql");
 const types_1 = require("../../types");
 exports.JobPreferLanguage = new graphql_1.GraphQLObjectType({
