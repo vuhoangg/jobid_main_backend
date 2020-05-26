@@ -2,6 +2,7 @@ import {CrudContract} from "../contracts/CrudContract";
 import User from "../schemas/User";
 import {errorLog} from "../../helpers/log";
 import {promiseNull} from "../../helpers/promise";
+import {flattenNestedObject} from "../../helpers/flattenNestedObject";
 
 interface ISort {
   created?: "newest" | "oldest",
@@ -99,7 +100,7 @@ class UserRepository implements CrudContract {
 
   update(data) {
     try {
-      return User.findByIdAndUpdate(data._id, data, {new: true});
+      return User.findByIdAndUpdate(data._id, {$set: flattenNestedObject(data)}, {new: true});
     } catch (e) {
       errorLog(e);
       return promiseNull();
