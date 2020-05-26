@@ -6,10 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const UserRepository_1 = __importDefault(require("../../../db/repositories/UserRepository"));
 function updateUser(source, args, context, info) {
     if (context.isAuthenticated()) {
-        let loggedUser = context.user;
-        if (loggedUser._id.toString() === args.input._id) {
-            return UserRepository_1.default.update(args.input);
-        }
+        let loggedInUser = context.user;
+        let input = args.input;
+        input = Object.assign(input, { _id: loggedInUser._id });
+        return UserRepository_1.default.update(input);
     }
 }
 exports.updateUser = updateUser;
