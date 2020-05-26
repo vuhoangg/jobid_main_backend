@@ -88,6 +88,7 @@ class UserRepository {
     }
     update(data) {
         try {
+            console.log(data);
             return User_1.default.findByIdAndUpdate(data._id, data, { new: true });
         }
         catch (e) {
