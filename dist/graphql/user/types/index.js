@@ -20,7 +20,7 @@ const UserEducationHistory = new graphql_1.GraphQLObjectType({
     },
     name: "UserEducationHistory"
 });
-const UserEducationHistoryInput = new graphql_1.GraphQLObjectType({
+const UserEducationHistoryInput = new graphql_1.GraphQLInputObjectType({
     description: "The updated properties for an user education history",
     fields: {
         subject: { type: graphql_1.GraphQLString },
@@ -43,7 +43,7 @@ const UserEmploymentHistory = new graphql_1.GraphQLObjectType({
     },
     name: "UserEmploymentHistory"
 });
-const UserEmploymentHistoryInput = new graphql_1.GraphQLObjectType({
+const UserEmploymentHistoryInput = new graphql_1.GraphQLInputObjectType({
     description: "The updated properties for an user employment history",
     fields: {
         position: { type: graphql_1.GraphQLString },

@@ -26,7 +26,7 @@ const UserEducationHistory = new GraphQLObjectType({
   name: "UserEducationHistory"
 });
 
-const UserEducationHistoryInput = new GraphQLObjectType({
+const UserEducationHistoryInput = new GraphQLInputObjectType({
   description: "The updated properties for an user education history",
   fields: {
     subject: {type: GraphQLString},
@@ -51,7 +51,7 @@ const UserEmploymentHistory = new GraphQLObjectType({
   name: "UserEmploymentHistory"
 });
 
-const UserEmploymentHistoryInput = new GraphQLObjectType({
+const UserEmploymentHistoryInput = new GraphQLInputObjectType({
   description: "The updated properties for an user employment history",
   fields: {
     position: {type: GraphQLString},
