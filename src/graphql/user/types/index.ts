@@ -9,7 +9,9 @@ import {
 import {PageInfo} from "../../types";
 import {JobLevel} from "../../job_level/types";
 import {JobLocation} from "../../job_location/types";
-import {JobSkill} from "../../job_skill/types";
+import {JobSkill, JobSkillInput} from "../../job_skill/types";
+import {JobCategory} from "../../job_category/types";
+import {Benefit} from "../../benefit/types";
 
 const UserEducationHistory = new GraphQLObjectType({
   description: "Represents an user education history",
@@ -82,8 +84,11 @@ const UserLanguageInput = new GraphQLInputObjectType({
 const UserWorkPreference = new GraphQLObjectType({
   description: "Represents an user work preference",
   fields: {
-    lang: {type: GraphQLString},
-    level: {type: GraphQLString},
+    job_location: {type: new GraphQLList(JobLocation)},
+    job_category: {type: new GraphQLList(JobCategory)},
+    job_level: {type: JobLevel},
+    salary: {type: GraphQLString},
+    benefit: {type: new GraphQLList(Benefit)},
   },
   name: "UserWorkPreference"
 });
@@ -91,8 +96,11 @@ const UserWorkPreference = new GraphQLObjectType({
 const UserWorkPreferenceInput = new GraphQLInputObjectType({
   description: "The updated properties for an user work preference",
   fields: {
-    lang: {type: GraphQLString},
-    level: {type: GraphQLString},
+    job_location: {type: new GraphQLList(GraphQLString)},
+    job_category: {type: new GraphQLList(GraphQLString)},
+    job_level: {type: GraphQLString},
+    salary: {type: GraphQLString},
+    benefit: {type: new GraphQLList(GraphQLString)},
   },
   name: "UserWorkPreferenceInput"
 });
@@ -120,8 +128,8 @@ export const UserCustomizeInfo = new GraphQLObjectType({
     skill: {type: new GraphQLList(JobSkill)},
     language: {type: new GraphQLList(UserLanguage)},
     employment_history: {type: new GraphQLList(UserEmploymentHistory)},
-
-
+    education_history: {type: new GraphQLList(UserEducationHistory)},
+    work_preference: {type: UserWorkPreference},
   },
   name: "UserCustomizeInfo",
 });
@@ -142,6 +150,15 @@ export const UserCustomizeInfoInput = new GraphQLInputObjectType({
     nation: {type: GraphQLString},
     gender: {type: GraphQLString},
     status: {type: GraphQLString},
+
+    location: {type: GraphQLString},
+    specific_address: {type: GraphQLString},
+    intro: {type: GraphQLString},
+    skill: {type: new GraphQLList(JobSkillInput)},
+    language: {type: new GraphQLList(UserLanguageInput)},
+    employment_history: {type: new GraphQLList(UserEmploymentHistoryInput)},
+    education_history: {type: new GraphQLList(UserEducationHistoryInput)},
+    work_preference: {type: UserWorkPreferenceInput},
   },
   name: "UserCustomizeInfoInput",
 });

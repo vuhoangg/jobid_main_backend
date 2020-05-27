@@ -6,6 +6,8 @@ const types_1 = require("../../types");
 const types_2 = require("../../job_level/types");
 const types_3 = require("../../job_location/types");
 const types_4 = require("../../job_skill/types");
+const types_5 = require("../../job_category/types");
+const types_6 = require("../../benefit/types");
 const UserEducationHistory = new graphql_1.GraphQLObjectType({
     description: "Represents an user education history",
     fields: {
@@ -71,16 +73,22 @@ const UserLanguageInput = new graphql_1.GraphQLInputObjectType({
 const UserWorkPreference = new graphql_1.GraphQLObjectType({
     description: "Represents an user work preference",
     fields: {
-        lang: { type: graphql_1.GraphQLString },
-        level: { type: graphql_1.GraphQLString },
+        job_location: { type: new graphql_1.GraphQLList(types_3.JobLocation) },
+        job_category: { type: new graphql_1.GraphQLList(types_5.JobCategory) },
+        job_level: { type: types_2.JobLevel },
+        salary: { type: graphql_1.GraphQLString },
+        benefit: { type: new graphql_1.GraphQLList(types_6.Benefit) },
     },
     name: "UserWorkPreference"
 });
 const UserWorkPreferenceInput = new graphql_1.GraphQLInputObjectType({
     description: "The updated properties for an user work preference",
     fields: {
-        lang: { type: graphql_1.GraphQLString },
-        level: { type: graphql_1.GraphQLString },
+        job_location: { type: new graphql_1.GraphQLList(graphql_1.GraphQLString) },
+        job_category: { type: new graphql_1.GraphQLList(graphql_1.GraphQLString) },
+        job_level: { type: graphql_1.GraphQLString },
+        salary: { type: graphql_1.GraphQLString },
+        benefit: { type: new graphql_1.GraphQLList(graphql_1.GraphQLString) },
     },
     name: "UserWorkPreferenceInput"
 });
@@ -106,6 +114,8 @@ exports.UserCustomizeInfo = new graphql_1.GraphQLObjectType({
         skill: { type: new graphql_1.GraphQLList(types_4.JobSkill) },
         language: { type: new graphql_1.GraphQLList(UserLanguage) },
         employment_history: { type: new graphql_1.GraphQLList(UserEmploymentHistory) },
+        education_history: { type: new graphql_1.GraphQLList(UserEducationHistory) },
+        work_preference: { type: UserWorkPreference },
     },
     name: "UserCustomizeInfo",
 });
@@ -125,6 +135,14 @@ exports.UserCustomizeInfoInput = new graphql_1.GraphQLInputObjectType({
         nation: { type: graphql_1.GraphQLString },
         gender: { type: graphql_1.GraphQLString },
         status: { type: graphql_1.GraphQLString },
+        location: { type: graphql_1.GraphQLString },
+        specific_address: { type: graphql_1.GraphQLString },
+        intro: { type: graphql_1.GraphQLString },
+        skill: { type: new graphql_1.GraphQLList(types_4.JobSkillInput) },
+        language: { type: new graphql_1.GraphQLList(UserLanguageInput) },
+        employment_history: { type: new graphql_1.GraphQLList(UserEmploymentHistoryInput) },
+        education_history: { type: new graphql_1.GraphQLList(UserEducationHistoryInput) },
+        work_preference: { type: UserWorkPreferenceInput },
     },
     name: "UserCustomizeInfoInput",
 });
