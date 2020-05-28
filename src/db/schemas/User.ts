@@ -54,6 +54,7 @@ const userSchema = new mongoose.Schema({
     first_name: String,
     last_name: String,
     current_job_title: String,
+    current_job_company: String,
     current_job_level: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "JobLevel"
