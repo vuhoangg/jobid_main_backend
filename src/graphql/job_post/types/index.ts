@@ -149,17 +149,17 @@ export const JobPostConnection = new GraphQLObjectType({
 export const JobPostInput = new GraphQLInputObjectType({
   fields: {
     _id: {type: GraphQLString},
-    title: {type: new GraphQLNonNull(GraphQLString)},
+    title: {type: GraphQLString}, // create
     job_level: {type: GraphQLString},
     job_category: {type: new GraphQLList(GraphQLString)},
-    description: {type: new GraphQLNonNull(GraphQLString)},
-    requirement: {type: new GraphQLNonNull(GraphQLString)},
+    description: {type: GraphQLString}, // create
+    requirement: {type: GraphQLString}, // create
     job_location: {type: new GraphQLList(GraphQLString)},
     salary: {type: JobSalaryInput},
     job_skill: {type: new GraphQLList(GraphQLString)},
     job_prefer_language: {type: new GraphQLList(GraphQLString)},
-    email_for_application: {type: new GraphQLNonNull(GraphQLString)},
-    company: {type: new GraphQLNonNull(JobCompanyInput)},
+    email_for_application: {type: GraphQLString}, // create
+    company: {type: JobCompanyInput}, // create
     status: {type: GraphQLString},
   },
   name: "JobPostInput",

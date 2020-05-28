@@ -39,7 +39,8 @@ function createJobPost(source, args, context, info) {
             href_url: slug,
         };
         input = Object.assign(input, { slug: slug });
-        // TODO in_company
+        // TODO in_company check post from company internal
+        // TODO validate input create
         input = Object.assign(input, { user: { ref: loggedUser._id, in_company: 0 } });
         return JobPostRepository_1.default.create(input).then((r) => __awaiter(this, void 0, void 0, function* () {
             yield ActivityRepository_1.default.create(activity);

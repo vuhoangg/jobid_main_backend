@@ -27,7 +27,8 @@ export function createJobPost(source, args, context, info) {
     };
 
     input = Object.assign(input, {slug: slug});
-    // TODO in_company
+    // TODO in_company check post from company internal
+    // TODO validate input create
     input = Object.assign(input, {user: {ref: loggedUser._id, in_company: 0}});
     return JobPostService.create(input).then(async (r) => {
       await ActivityService.create(activity);
