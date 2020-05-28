@@ -138,7 +138,7 @@ exports.UserCustomizeInfoInput = new graphql_1.GraphQLInputObjectType({
         location: { type: graphql_1.GraphQLString },
         specific_address: { type: graphql_1.GraphQLString },
         intro: { type: graphql_1.GraphQLString },
-        skill: { type: new graphql_1.GraphQLList(types_4.JobSkillInput) },
+        skill: { type: new graphql_1.GraphQLList(graphql_1.GraphQLString) },
         language: { type: new graphql_1.GraphQLList(UserLanguageInput) },
         employment_history: { type: new graphql_1.GraphQLList(UserEmploymentHistoryInput) },
         education_history: { type: new graphql_1.GraphQLList(UserEducationHistoryInput) },

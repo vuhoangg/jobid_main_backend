@@ -154,7 +154,7 @@ export const UserCustomizeInfoInput = new GraphQLInputObjectType({
     location: {type: GraphQLString},
     specific_address: {type: GraphQLString},
     intro: {type: GraphQLString},
-    skill: {type: new GraphQLList(JobSkillInput)},
+    skill: {type: new GraphQLList(GraphQLString)},
     language: {type: new GraphQLList(UserLanguageInput)},
     employment_history: {type: new GraphQLList(UserEmploymentHistoryInput)},
     education_history: {type: new GraphQLList(UserEducationHistoryInput)},
