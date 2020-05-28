@@ -52,7 +52,14 @@ class UserRepository {
     }
     get(id, projection) {
         try {
-            return User_1.default.findById(id, projection);
+            return User_1.default.findById(id, projection)
+                .populate("customize_info.current_job_level")
+                .populate("customize_info.location")
+                .populate("customize_info.skill")
+                .populate("customize_info.work_preference.job_location")
+                .populate("customize_info.work_preference.job_category")
+                .populate("customize_info.work_preference.job_level")
+                .populate("customize_info.work_preference.benefit");
         }
         catch (e) {
             log_1.errorLog(e);
@@ -63,7 +70,13 @@ class UserRepository {
         try {
             let condition = getCondition(filter);
             let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
-            return User_1.default.find(condition, projection).sort(sort).skip(limit * (page - 1)).limit(limit);
+            return User_1.default.find(condition, projection).sort(sort).skip(limit * (page - 1)).limit(limit).populate("customize_info.current_job_level")
+                .populate("customize_info.location")
+                .populate("customize_info.skill")
+                .populate("customize_info.work_preference.job_location")
+                .populate("customize_info.work_preference.job_category")
+                .populate("customize_info.work_preference.job_level")
+                .populate("customize_info.work_preference.benefit");
         }
         catch (e) {
             log_1.errorLog(e);

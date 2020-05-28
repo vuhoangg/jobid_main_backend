@@ -65,7 +65,14 @@ class UserRepository implements CrudContract {
 
   get(id, projection) {
     try {
-      return User.findById(id, projection);
+      return User.findById(id, projection)
+        .populate("customize_info.current_job_level")
+        .populate("customize_info.location")
+        .populate("customize_info.skill")
+        .populate("customize_info.work_preference.job_location")
+        .populate("customize_info.work_preference.job_category")
+        .populate("customize_info.work_preference.job_level")
+        .populate("customize_info.work_preference.benefit");
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -76,7 +83,13 @@ class UserRepository implements CrudContract {
     try {
       let condition = getCondition(filter);
       let sort = filter.sort_by ? getSort(filter.sort_by) : {_id: "desc"};
-      return User.find(condition, projection).sort(sort).skip(limit * (page - 1)).limit(limit);
+      return User.find(condition, projection).sort(sort).skip(limit * (page - 1)).limit(limit).populate("customize_info.current_job_level")
+        .populate("customize_info.location")
+        .populate("customize_info.skill")
+        .populate("customize_info.work_preference.job_location")
+        .populate("customize_info.work_preference.job_category")
+        .populate("customize_info.work_preference.job_level")
+        .populate("customize_info.work_preference.benefit");
     } catch (e) {
       errorLog(e);
       return promiseNull();
