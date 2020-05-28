@@ -11,6 +11,17 @@ interface ISort {
 
 interface IFilter {
   sort_by?: ISort;
+  current_job_level?: string;
+  gender?: string;
+  nation?: string;
+  language?: string;
+  salary_from?: string;
+  salary_to?: string;
+  experience_from?: string;
+  experience_to?: string;
+  last_updated?: string;
+  prefer_job_location?: string;
+  prefer_job_category?: string;
 }
 
 interface IGetBy {

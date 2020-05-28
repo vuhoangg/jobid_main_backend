@@ -19,6 +19,7 @@ interface IFilter {
   job_location?: string;
   job_skill?: string;
   company_benefit?: string;
+  status?: string;
 }
 
 interface IGetBy {
@@ -51,6 +52,9 @@ function getCondition(filter: IFilter) {
   }
   if (filter.user) {
     condition = Object.assign(condition, {"user.ref": filter.user});
+  }
+  if (filter.status) {
+    condition = Object.assign(condition, {"status": filter.status});
   }
 
   return condition;

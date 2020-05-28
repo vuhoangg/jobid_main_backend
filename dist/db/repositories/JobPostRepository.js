@@ -32,6 +32,9 @@ function getCondition(filter) {
     if (filter.user) {
         condition = Object.assign(condition, { "user.ref": filter.user });
     }
+    if (filter.status) {
+        condition = Object.assign(condition, { "status": filter.status });
+    }
     return condition;
 }
 function getSort(sortBy) {
