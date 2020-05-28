@@ -113,6 +113,7 @@ export const JobPost = new GraphQLObjectType({
     company: {type: new GraphQLNonNull(JobCompany)},
 
     view_count: {type: GraphQLInt},
+    status: {type: GraphQLString},
     user: {type: JobUser},
     seo_title: {type: GraphQLString},
     seo_description: {type: GraphQLString},
@@ -159,6 +160,7 @@ export const JobPostInput = new GraphQLInputObjectType({
     job_prefer_language: {type: new GraphQLList(GraphQLString)},
     email_for_application: {type: new GraphQLNonNull(GraphQLString)},
     company: {type: new GraphQLNonNull(JobCompanyInput)},
+    status: {type: GraphQLString},
   },
   name: "JobPostInput",
   description: "The updated properties for a job post.",
