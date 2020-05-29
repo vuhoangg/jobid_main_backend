@@ -71,7 +71,7 @@ class ProfileViewRepository implements CrudContract {
 
   get(id, projection) {
     try {
-      return ProfileView.findById(id, projection);
+      return ProfileView.findById(id, projection).populate('user_hunter').populate('user_profile');
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -82,7 +82,7 @@ class ProfileViewRepository implements CrudContract {
     try {
       let condition = getCondition(filter);
       let sort = filter.sort_by ? getSort(filter.sort_by) : {_id: "desc"};
-      return ProfileView.find(condition, projection).sort(sort).skip(limit * (page - 1)).limit(limit);
+      return ProfileView.find(condition, projection).populate('user_hunter').populate('user_profile').sort(sort).skip(limit * (page - 1)).limit(limit);
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -105,6 +105,16 @@ class ProfileViewRepository implements CrudContract {
   update(data) {
     try {
       return ProfileView.findByIdAndUpdate(data._id, data, {new: true});
+    } catch (e) {
+      errorLog(e);
+      return promiseNull();
+    }
+  }
+
+  profileView(data) {
+    try {
+      let updateData = Object.assign(data, {$inc: {view_count: 1}});
+      return ProfileView.findOneAndUpdate({user_hunter: data.user_hunter, user_profile: data.user_profile}, updateData, {new: true, upsert: true});
     } catch (e) {
       errorLog(e);
       return promiseNull();

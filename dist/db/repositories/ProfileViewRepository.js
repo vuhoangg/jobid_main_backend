@@ -57,7 +57,7 @@ class ProfileViewRepository {
     }
     get(id, projection) {
         try {
-            return ProfileView_1.default.findById(id, projection);
+            return ProfileView_1.default.findById(id, projection).populate('user_hunter').populate('user_profile');
         }
         catch (e) {
             log_1.errorLog(e);
@@ -68,7 +68,7 @@ class ProfileViewRepository {
         try {
             let condition = getCondition(filter);
             let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
-            return ProfileView_1.default.find(condition, projection).sort(sort).skip(limit * (page - 1)).limit(limit);
+            return ProfileView_1.default.find(condition, projection).populate('user_hunter').populate('user_profile').sort(sort).skip(limit * (page - 1)).limit(limit);
         }
         catch (e) {
             log_1.errorLog(e);
@@ -92,6 +92,16 @@ class ProfileViewRepository {
     update(data) {
         try {
             return ProfileView_1.default.findByIdAndUpdate(data._id, data, { new: true });
+        }
+        catch (e) {
+            log_1.errorLog(e);
+            return promise_1.promiseNull();
+        }
+    }
+    profileView(data) {
+        try {
+            let updateData = Object.assign(data, { $inc: { view_count: 1 } });
+            return ProfileView_1.default.findOneAndUpdate({ user_hunter: data.user_hunter, user_profile: data.user_profile }, updateData, { new: true, upsert: true });
         }
         catch (e) {
             log_1.errorLog(e);

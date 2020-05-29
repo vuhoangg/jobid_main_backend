@@ -7,8 +7,9 @@ export function getProfileView(source, args, context, info) {
     .then(async (profileView) => {
       let node = {
         _id: profileView._id,
-        job_post: profileView.job_post,
-        user: profileView.user,
+        user_hunter: profileView.user_hunter,
+        user_profile: profileView.user_profile,
+        view_count: profileView.view_count,
         created_at: profileView.created_at,
         updated_at: profileView.updated_at,
       };
@@ -28,8 +29,9 @@ export function getProfileViews(source, args, context, info) {
           cursor: profileViews[i]._id,
           node: {
             _id: profileViews[i]._id,
-            job_post: profileViews[i].job_post,
-            user: profileViews[i].user,
+            user_hunter: profileViews[i].user_hunter,
+            user_profile: profileViews[i].user_profile,
+            view_count: profileViews[i].view_count,
             created_at: profileViews[i].created_at,
             updated_at: profileViews[i].updated_at,
           }

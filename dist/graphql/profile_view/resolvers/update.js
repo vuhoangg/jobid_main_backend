@@ -9,8 +9,8 @@ function updateProfileView(source, args, context, info) {
     if (context.isAuthenticated()) {
         let loggedUser = context.user;
         let input = args.input;
-        input = Object.assign(input, { user: loggedUser._id });
-        return ProfileViewRepository_1.default.update(input);
+        input = Object.assign(input, { user_hunter: loggedUser._id });
+        return ProfileViewRepository_1.default.profileView(input);
     }
 }
 exports.updateProfileView = updateProfileView;

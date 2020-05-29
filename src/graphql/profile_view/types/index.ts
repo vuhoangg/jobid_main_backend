@@ -1,5 +1,5 @@
 import {
-  GraphQLInputObjectType,
+  GraphQLInputObjectType, GraphQLInt,
   GraphQLList,
   GraphQLNonNull,
   GraphQLObjectType,
@@ -13,8 +13,9 @@ export const ProfileView = new GraphQLObjectType({
   description: "Represents a profile view.",
   fields: {
     _id: {type: new GraphQLNonNull(GraphQLString)},
-    job_post: {type: JobPost},
-    user: {type: User},
+    user_hunter: {type: User},
+    user_profile: {type: User},
+    view_count: {type: GraphQLInt},
     created_at: {type: new GraphQLNonNull(GraphQLString)},
     updated_at: {type: new GraphQLNonNull(GraphQLString)},
   },
@@ -46,7 +47,7 @@ export const ProfileViewConnection = new GraphQLObjectType({
 
 export const ProfileViewInput = new GraphQLInputObjectType({
   fields: {
-    job_post: {type: new GraphQLNonNull(GraphQLString)},
+    user_profile: {type: new GraphQLNonNull(GraphQLString)},
   },
   name: "ProfileViewInput",
   description: "The updated properties for a profile view.",

@@ -4,13 +4,13 @@ exports.ProfileViewArguments = exports.ProfileViewInput = exports.ProfileViewCon
 const graphql_1 = require("graphql");
 const types_1 = require("../../types");
 const types_2 = require("../../user/types");
-const types_3 = require("../../job_post/types");
 exports.ProfileView = new graphql_1.GraphQLObjectType({
     description: "Represents a profile view.",
     fields: {
         _id: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
-        job_post: { type: types_3.JobPost },
-        user: { type: types_2.User },
+        user_hunter: { type: types_2.User },
+        user_profile: { type: types_2.User },
+        view_count: { type: graphql_1.GraphQLInt },
         created_at: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         updated_at: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
     },
@@ -41,7 +41,7 @@ exports.ProfileViewConnection = new graphql_1.GraphQLObjectType({
 });
 exports.ProfileViewInput = new graphql_1.GraphQLInputObjectType({
     fields: {
-        job_post: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
+        user_profile: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
     },
     name: "ProfileViewInput",
     description: "The updated properties for a profile view.",
