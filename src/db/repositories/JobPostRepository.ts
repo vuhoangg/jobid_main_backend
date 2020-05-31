@@ -55,6 +55,8 @@ function getCondition(filter: IFilter) {
   }
   if (filter.status) {
     condition = Object.assign(condition, {"status": filter.status});
+  } else {
+    condition = Object.assign(condition, {"status": "active"});
   }
 
   return condition;
