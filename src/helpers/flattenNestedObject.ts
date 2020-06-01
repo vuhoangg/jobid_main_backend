@@ -11,7 +11,7 @@ export const processDataUpdate = (object) => {
 export const flattenNestedObject = (object, prefix = "", res = {}) => {
   return Object.entries(object).reduce((r, [key, val]) => {
     const k = `${prefix}${key}`;
-    if (typeof val === "object") {
+    if (typeof val === "object" && !Array.isArray(val)) {
       flattenNestedObject(val, `${k}.`, r);
     } else {
       res[k] = val;

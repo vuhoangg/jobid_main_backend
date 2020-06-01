@@ -13,7 +13,7 @@ exports.processDataUpdate = (object) => {
 exports.flattenNestedObject = (object, prefix = "", res = {}) => {
     return Object.entries(object).reduce((r, [key, val]) => {
         const k = `${prefix}${key}`;
-        if (typeof val === "object") {
+        if (typeof val === "object" && !Array.isArray(val)) {
             exports.flattenNestedObject(val, `${k}.`, r);
         }
         else {
