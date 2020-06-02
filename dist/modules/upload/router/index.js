@@ -22,6 +22,18 @@ router.post("/upload_image", (req, res) => __awaiter(void 0, void 0, void 0, fun
         let base64 = req.body.base64_image;
         let fileName = req.body.fileName;
         let typeUpload = req.body.typeUpload;
+        let url = yield s3_1.s3UploadImage(base64, fileName, typeUpload);
+        res.send({ location: url });
+    }
+    else {
+        res.send("fail");
+    }
+}));
+router.post("/upload_file", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (req.isAuthenticated()) {
+        let base64 = req.body.base64_image;
+        let fileName = req.body.fileName;
+        let typeUpload = req.body.typeUpload;
         let url = yield s3_1.s3UploadFile(base64, fileName, typeUpload);
         res.send({ location: url });
     }
@@ -33,7 +45,7 @@ router.post("/private_upload_image_app", (req, res) => __awaiter(void 0, void 0,
     let base64 = req.body.base64_image;
     let fileName = req.body.fileName;
     let typeUpload = req.body.typeUpload;
-    let url = yield s3_1.s3UploadFile(base64, fileName, typeUpload);
+    let url = yield s3_1.s3UploadImage(base64, fileName, typeUpload);
     res.send({ location: url });
 }));
 //# sourceMappingURL=index.js.map

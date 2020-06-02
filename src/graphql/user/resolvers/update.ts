@@ -5,7 +5,6 @@ export function updateUser (source, args, context, info) {
       let loggedUser = context.user;
       let input = args.input;
       input = Object.assign(input, {_id: loggedUser._id});
-      console.log(input);
       return UserService.update(input);
     }
 }

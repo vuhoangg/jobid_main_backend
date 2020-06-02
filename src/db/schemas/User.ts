@@ -48,6 +48,7 @@ const userSchema = new mongoose.Schema({
     }
   ],
   customize_info: {
+    psid: String, // facebook chat page id
     cover: String,
     avatar: String,
     files: [String],
