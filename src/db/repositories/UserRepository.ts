@@ -2,7 +2,7 @@ import {CrudContract} from "../contracts/CrudContract";
 import User from "../schemas/User";
 import {errorLog} from "../../helpers/log";
 import {promiseNull} from "../../helpers/promise";
-import {flattenNestedObject, processDataUpdate} from "../../helpers/flattenNestedObject";
+import {processDataUpdate} from "../../helpers/flattenNestedObject";
 
 interface ISort {
   created?: "newest" | "oldest",
@@ -11,6 +11,7 @@ interface ISort {
 
 interface IFilter {
   sort_by?: ISort;
+  name?: string;
   current_job_level?: string;
   gender?: string;
   nation?: string;
