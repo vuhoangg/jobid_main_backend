@@ -34,8 +34,10 @@ app.use(cors_1.default({
     origin: [
         process.env.SITE_URL,
         process.env.STUDIO_URL,
+        process.env.ADMIN_URL,
         process.env.LOCAL_SITE,
         process.env.LOCAL_STUDIO,
+        process.env.LOCAL_ADMIN,
     ],
 }));
 passport_1.default.serializeUser((user, done) => {
