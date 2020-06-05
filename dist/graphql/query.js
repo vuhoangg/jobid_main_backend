@@ -22,8 +22,9 @@ const queries_15 = __importDefault(require("./company_follow/queries"));
 const queries_16 = __importDefault(require("./job_alert/queries"));
 const queries_17 = __importDefault(require("./job_view/queries"));
 const queries_18 = __importDefault(require("./profile_view/queries"));
+const queries_19 = __importDefault(require("./notification/queries"));
 const QueryRoot = new graphql_1.GraphQLObjectType({
-    fields: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, queries_1.default), queries_2.default), queries_3.default), queries_4.default), queries_5.default), queries_6.default), queries_3.default), queries_2.default), queries_7.default), queries_4.default), queries_8.default), queries_9.default), queries_10.default), queries_11.default), queries_12.default), queries_13.default), queries_14.default), queries_15.default), queries_16.default), queries_17.default), queries_18.default),
+    fields: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, queries_1.default), queries_2.default), queries_3.default), queries_4.default), queries_5.default), queries_6.default), queries_3.default), queries_2.default), queries_7.default), queries_4.default), queries_8.default), queries_9.default), queries_10.default), queries_11.default), queries_12.default), queries_13.default), queries_14.default), queries_15.default), queries_16.default), queries_17.default), queries_18.default), queries_19.default),
     name: "QueryRoot",
 });
 exports.default = QueryRoot;

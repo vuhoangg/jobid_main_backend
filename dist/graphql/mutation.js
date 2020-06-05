@@ -21,8 +21,9 @@ const mutations_14 = __importDefault(require("./company_follow/mutations"));
 const mutations_15 = __importDefault(require("./job_alert/mutations"));
 const mutations_16 = __importDefault(require("./job_view/mutations"));
 const mutations_17 = __importDefault(require("./profile_view/mutations"));
+const mutations_18 = __importDefault(require("./notification/mutations"));
 const Mutation = new graphql_1.GraphQLObjectType({
-    fields: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, mutations_1.default), mutations_2.default), mutations_3.default), mutations_4.default), mutations_5.default), mutations_6.default), mutations_3.default), mutations_2.default), mutations_7.default), mutations_4.default), mutations_8.default), mutations_9.default), mutations_10.default), mutations_11.default), mutations_12.default), mutations_13.default), mutations_14.default), mutations_15.default), mutations_16.default), mutations_17.default),
+    fields: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, mutations_1.default), mutations_2.default), mutations_3.default), mutations_4.default), mutations_5.default), mutations_6.default), mutations_3.default), mutations_2.default), mutations_7.default), mutations_4.default), mutations_8.default), mutations_9.default), mutations_10.default), mutations_11.default), mutations_12.default), mutations_13.default), mutations_14.default), mutations_15.default), mutations_16.default), mutations_17.default), mutations_18.default),
     name: "Mutation",
 });
 exports.default = Mutation;

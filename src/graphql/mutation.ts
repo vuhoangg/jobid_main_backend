@@ -16,6 +16,7 @@ import companyFollowMutations from "./company_follow/mutations";
 import jobAlertMutations from "./job_alert/mutations";
 import jobViewMutations from "./job_view/mutations";
 import profileViewMutations from "./profile_view/mutations";
+import notificationMutations from "./notification/mutations";
 
 const Mutation = new GraphQLObjectType({
   fields: {
@@ -39,6 +40,7 @@ const Mutation = new GraphQLObjectType({
     ...jobAlertMutations,
     ...jobViewMutations,
     ...profileViewMutations,
+    ...notificationMutations,
   },
   name: "Mutation",
 });

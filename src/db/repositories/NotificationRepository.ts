@@ -14,7 +14,7 @@ interface IFilter {
   sort_by?: ISort;
   type?: string;
   subject?: string;
-  target_object_ype?: string;
+  target_object_type?: string;
   target_ref?: string;
 }
 
@@ -30,8 +30,8 @@ function getCondition(filter: IFilter) {
   if (filter.subject) {
     condition = Object.assign(condition, {subject: filter.subject});
   }
-  if (filter.target_object_ype) {
-    condition = Object.assign(condition, {"target.object_type": filter.target_object_ype});
+  if (filter.target_object_type) {
+    condition = Object.assign(condition, {"target.object_type": filter.target_object_type});
   }
   if (filter.target_ref) {
     condition = Object.assign(condition, {"target.ref": filter.target_ref});
@@ -122,6 +122,14 @@ class NotificationRepository implements CrudContract {
     }
   }
 
+  readNotification(_id) {
+    try {
+      return Notification.findByIdAndUpdate(_id, {read: true}, {new: true});
+    } catch (e) {
+      errorLog(e);
+      return promiseNull();
+    }
+  }
 }
 
 const NotificationService = new NotificationRepository();

@@ -1,14 +1,21 @@
 import JobPostService from "../../../db/repositories/JobPostRepository";
 import ActivityService from "../../../db/repositories/ActivityRepository";
 import {toSlug} from "../../../helpers/string";
+import NotificationService from "../../../db/repositories/NotificationRepository";
 
 export function updateJobPost(source, args, context, info) {
   if (context.isAuthenticated()) {
     let loggedUser = context.user;
     let input = args.input;
     // TODO in_company
-    input = Object.assign(input, {user: {ref: loggedUser._id, in_company: 0}});
-    return JobPostService.update(input);
+    return JobPostService.get(input._id, {}).then(r1 => {
+      if (r1 && r1.user === loggedUser._id) {
+        input = Object.assign(input, {user: {ref: loggedUser._id, in_company: 0}});
+        return JobPostService.update(input);
+      } else {
+        return r1
+      }
+    })
   }
 }
 
@@ -25,6 +32,17 @@ export function createJobPost(source, args, context, info) {
       href_type: "job_post",
       href_url: slug,
     };
+    let notification = {
+      type: "user",
+      subject: "user_post_job",
+      target: {
+        object_type: "user",
+        ref: loggedUser._id
+      },
+      message: "Tin tuyển dụng của bạn đã được đăng tải. Cảm ơn bạn đã sử dụng Kết Nối Việc!",
+      href: slug,
+      read: false,
+    }
 
     input = Object.assign(input, {slug: slug});
     // TODO in_company check post from company internal
@@ -32,6 +50,7 @@ export function createJobPost(source, args, context, info) {
     input = Object.assign(input, {user: {ref: loggedUser._id, in_company: 0}});
     return JobPostService.create(input).then(async (r) => {
       await ActivityService.create(activity);
+      await NotificationService.create(notification);
       return r;
     });
   }

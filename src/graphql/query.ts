@@ -17,6 +17,7 @@ import companyFollowQueries from "./company_follow/queries";
 import jobAlertQueries from "./job_alert/queries";
 import jobViewQueries from "./job_view/queries";
 import profileViewQueries from "./profile_view/queries";
+import notificationQueries from "./notification/queries";
 
 const QueryRoot = new GraphQLObjectType({
   fields: {
@@ -41,6 +42,7 @@ const QueryRoot = new GraphQLObjectType({
     ...jobAlertQueries,
     ...jobViewQueries,
     ...profileViewQueries,
+    ...notificationQueries,
   },
   name: "QueryRoot",
 });

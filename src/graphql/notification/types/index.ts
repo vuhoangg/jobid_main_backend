@@ -9,16 +9,37 @@ import {
 
 import {PageInfo} from "../../types";
 
+
+export const NotificationTarget = new GraphQLObjectType({
+  description: "Represents a notification target.",
+  fields: {
+    object_type: {type: GraphQLString},
+    ref: {type: GraphQLString},
+  },
+  name: "NotificationTarget"
+});
+
+export const NotificationTargetInput = new GraphQLInputObjectType({
+  description: "The updated properties for a notification.",
+  fields: {
+    object_type: {type: GraphQLString},
+    ref: {type: GraphQLString},
+  },
+  name: "NotificationTargetInput"
+});
+
 export const Notification = new GraphQLObjectType({
   description: "Represents a notification",
   fields: {
     _id: {type: GraphQLString},
     type: {type: GraphQLString},
     subject: {type: GraphQLString},
-    target: {type: GraphQLString},
+    target: {type: NotificationTarget},
     message: {type: GraphQLString},
     href: {type: GraphQLString},
     read: {type: GraphQLBoolean},
+    created_at: {type: GraphQLString},
+    updated_at: {type: GraphQLString},
   },
   name: "Notification"
 });
@@ -52,7 +73,7 @@ export const NotificationInput = new GraphQLInputObjectType({
     _id: {type: GraphQLString},
     type: {type: GraphQLString},
     subject: {type: GraphQLString},
-    target: {type: GraphQLString},
+    target: {type: NotificationTargetInput},
     message: {type: GraphQLString},
     href: {type: GraphQLString},
     read: {type: GraphQLBoolean},
