@@ -6,6 +6,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         unique: true
     },
+    psid: {
+        type: String,
+    },
     password: {
         type: String,
     },

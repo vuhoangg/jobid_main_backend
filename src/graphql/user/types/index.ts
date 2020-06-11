@@ -170,6 +170,7 @@ export const User = new GraphQLObjectType({
   fields: {
     _id: {type: new GraphQLNonNull(GraphQLString)},
     email: {type: GraphQLString},
+    psid: {type: GraphQLString},
     first_name: {type: GraphQLString},
     last_name: {type: GraphQLString},
     birth_day: {type: GraphQLString},
@@ -212,6 +213,7 @@ export const UserInput = new GraphQLInputObjectType({
   fields: {
     first_name: {type: GraphQLString},
     last_name: {type: GraphQLString},
+    psid: {type: GraphQLString},
     birth_day: {type: GraphQLString},
     avatar: {type: GraphQLString},
     gender: {type: GraphQLString},

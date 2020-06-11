@@ -153,6 +153,7 @@ exports.User = new graphql_1.GraphQLObjectType({
     fields: {
         _id: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         email: { type: graphql_1.GraphQLString },
+        psid: { type: graphql_1.GraphQLString },
         first_name: { type: graphql_1.GraphQLString },
         last_name: { type: graphql_1.GraphQLString },
         birth_day: { type: graphql_1.GraphQLString },
@@ -193,6 +194,7 @@ exports.UserInput = new graphql_1.GraphQLInputObjectType({
     fields: {
         first_name: { type: graphql_1.GraphQLString },
         last_name: { type: graphql_1.GraphQLString },
+        psid: { type: graphql_1.GraphQLString },
         birth_day: { type: graphql_1.GraphQLString },
         avatar: { type: graphql_1.GraphQLString },
         gender: { type: graphql_1.GraphQLString },
