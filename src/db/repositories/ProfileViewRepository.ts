@@ -112,6 +112,7 @@ class ProfileViewRepository implements CrudContract {
   }
 
   profileView(data) {
+    
     try {
       let updateData = Object.assign(data, {$inc: {view_count: 1}});
       return ProfileView.findOneAndUpdate({user_hunter: data.user_hunter, user_profile: data.user_profile}, updateData, {new: true, upsert: true});
