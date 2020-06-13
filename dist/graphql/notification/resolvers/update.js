@@ -10,7 +10,7 @@ function updateNotification(source, args, context, info) {
         let loggedUser = context.user;
         let input = args.input;
         return NotificationRepository_1.default.get(input._id, {}).then(r1 => {
-            if (input.user === loggedUser._id) {
+            if (r1.target.ref == loggedUser._id) {
                 input = Object.assign(input, { user: loggedUser._id });
                 return NotificationRepository_1.default.readNotification(input);
             }

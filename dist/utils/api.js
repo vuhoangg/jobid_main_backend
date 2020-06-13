@@ -8,13 +8,14 @@ const axios_1 = __importDefault(require("axios"));
 const client = axios_1.default.create({
     timeout: 30000,
 });
-exports.api = (method, url, data) => client
+exports.api = (method, url, params, data) => client
     .request({
     data: JSON.stringify(data),
     headers: {
         "Accept": "application/json",
         "Content-Type": "application/json",
     },
+    params: params,
     method,
     url,
     withCredentials: true,
