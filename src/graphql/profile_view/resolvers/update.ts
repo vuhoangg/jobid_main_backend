@@ -41,7 +41,7 @@ export function updateProfileView(source, args, context, info) {
             .catch((e) => console.log(e));
         }
       });
-      
+
       return data;
     });
   }
