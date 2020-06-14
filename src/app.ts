@@ -14,6 +14,7 @@ import {UploadRouter} from "./modules/upload/router";
 import AppSchema from "./schema";
 import {isExistingEmailUser, isExistingIdUser, saveNewFacebookUser, saveNewGoogleUser} from "./modules/auth/handles";
 
+
 Connection.connect();
 const app = express();
 app.use(bodyParser.json({ limit: "50mb" }));

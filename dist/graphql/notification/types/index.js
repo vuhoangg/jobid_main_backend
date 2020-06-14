@@ -60,12 +60,6 @@ exports.NotificationConnection = new graphql_1.GraphQLObjectType({
 exports.NotificationInput = new graphql_1.GraphQLInputObjectType({
     fields: {
         _id: { type: graphql_1.GraphQLString },
-        type: { type: graphql_1.GraphQLString },
-        subject: { type: graphql_1.GraphQLString },
-        target: { type: exports.NotificationTargetInput },
-        message: { type: graphql_1.GraphQLString },
-        href: { type: graphql_1.GraphQLString },
-        read: { type: graphql_1.GraphQLBoolean },
     },
     name: "NotificationInput",
     description: "The updated properties for a notification.",
