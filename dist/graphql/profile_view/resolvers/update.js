@@ -16,6 +16,7 @@ exports.updateProfileView = void 0;
 const ProfileViewRepository_1 = __importDefault(require("../../../db/repositories/ProfileViewRepository"));
 const NotificationRepository_1 = __importDefault(require("../../../db/repositories/NotificationRepository"));
 const api_1 = require("../../../utils/api");
+const UserRepository_1 = __importDefault(require("../../../db/repositories/UserRepository"));
 function updateProfileView(source, args, context, info) {
     if (context.isAuthenticated()) {
         let loggedUser = context.user;
@@ -34,22 +35,26 @@ function updateProfileView(source, args, context, info) {
                 read: false,
             };
             NotificationRepository_1.default.create(notification);
-            api_1.api("POST", `${process.env.SOCKET_URL}/socket/notify/${data.user_profile}`, {
-                params: {
-                    token: "asdasfgasfasd2132",
-                },
-            }, {
-                data: yield NotificationRepository_1.default.create(notification),
-            })
-                .then((data) => console.log(data))
-                .catch((e) => console.log(e));
-            // api("POST", `${process.env.BOT_URL}/send_notification`, {
-            //   psid: "3332232216822875",
-            //   message_type: "profile_view",
-            //   message_text: `${loggedUser.first_name} ${loggedUser.last_name} đã xem hồ sơ của bạn`,
+            // api("POST", `${process.env.SOCKET_URL}/socket/notify/${data.user_profile}`, {
+            //   params: {
+            //     token: "asdasfgasfasd2132",
+            //   },
+            // }, {
+            //   data: await NotificationService.create(notification),
             // })
             //   .then((data) => console.log(data))
             //   .catch((e) => console.log(e));
+            UserRepository_1.default.get(data.user_profile, {}).then(r => {
+                if (r && r.psid) {
+                    api_1.api("POST", `${process.env.BOT_URL}/send_notification`, {
+                        psid: r.psid,
+                        message_type: "profile_view",
+                        message_text: `${loggedUser.first_name} ${loggedUser.last_name} đã xem hồ sơ của bạn`,
+                    })
+                        .then((data) => console.log(data))
+                        .catch((e) => console.log(e));
+                }
+            });
             return data;
         }));
     }
