@@ -29,7 +29,7 @@ export function updateJobApply(source, args, context, info) {
       const params = {
         token: process.env.SOCKET_TOKEN as string,
       }
-      api("POST",`${process.env.SOCKET_URL}/socket/notify/${target.ref}`,params,{
+      api("POST",`${process.env.SOCKET_SERVER_URL}/socket/notify/${target.ref}`,params,{
         data: notification
       }).then(res => console.log(res))
       .catch(e => console.log(e))

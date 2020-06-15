@@ -7,6 +7,8 @@ export function updateProfileView(source, args, context, info) {
     let input = args.input;
     input = Object.assign(input, { user_hunter: loggedUser._id });
     return ProfileViewService.profileView(input).then(async (data) => {
+      console.log("updateProfileView -> data", data)
+
       let notification = {
         type: "user",
         subject: "user_apply_job",
@@ -17,18 +19,20 @@ export function updateProfileView(source, args, context, info) {
         message: `${loggedUser.first_name} ${loggedUser.last_name} đã xem hồ sơ của bạn`,
         href: "",
         read: false,
+        created_at: data.created_at,
+        updated_at: data.updated_at,
       };
-      const n1 = await NotificationService.create(notification);
+      await NotificationService.create(notification);
       const params = {
         token: process.env.SOCKET_TOKEN as string,
       };
-      api("POST", `${process.env.SOCKET_URL}/socket/notify/${data.user_profile}`, params, {
-        data: n1,
+      api("POST", `${process.env.SOCKET_SERVER_URL}/socket/notify/${data.user_profile}`,params, {
+        data: notification,
       })
         .then((data) => console.log(data))
         .catch((e) => console.log(e));
 
-      api("POST", `${process.env.BOT_URL}/send_notification`, {
+      api("POST", `${process.env.BOT_URL}/send_notification`,null, {
         psid: "3332232216822875",
         message_type: "profile_view",
         message_text: `${loggedUser.first_name} ${loggedUser.last_name} đã xem hồ sơ của bạn`,

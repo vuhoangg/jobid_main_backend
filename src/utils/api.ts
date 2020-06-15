@@ -4,7 +4,7 @@ const client = axios.create({
     timeout: 30000,
 });
 
-export const api = (method: Method, url: string,data?: any, params?: any) => client
+export const api = (method: Method, url: string, params?: any,data?: any,) => client
     .request({
         data: JSON.stringify(data),
         headers: {
