@@ -20,6 +20,15 @@ const companySchema = new mongoose.Schema({
       ref: "JobLocation",
     }
   ],
+  verify_status: {
+    type: Boolean,
+    default: false,
+
+  },
+  premium_status: {
+    type: Boolean,
+    default: false,
+  },
   address: [String],
   album: [String],
   en_slug: {

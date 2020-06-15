@@ -4,6 +4,7 @@ import {
   GraphQLNonNull,
   GraphQLObjectType,
   GraphQLString,
+  GraphQLBoolean
 } from "graphql";
 import {PageInfo} from "../../types";
 import {JobCategory} from "../../job_category/types";
@@ -109,6 +110,8 @@ export const Company = new GraphQLObjectType({
     job_category: {type: new GraphQLList(JobCategory)},
     company_type: {type: GraphQLString},
     job_location: {type: new GraphQLList(JobLocation)},
+    verify_status: {type: GraphQLBoolean},
+    premium_status: {type: GraphQLBoolean},
     address: {type: new GraphQLList(GraphQLString)},
     album: {type: new GraphQLList(GraphQLString)},
     en_slug: {type: new GraphQLNonNull(GraphQLString)},
@@ -161,6 +164,8 @@ export const CompanyInput = new GraphQLInputObjectType({
     job_category: {type: new GraphQLList(GraphQLString)},
     company_type: {type: GraphQLString},
     job_location: {type: new GraphQLList(GraphQLString)},
+    verify_status: {type: GraphQLBoolean},
+    premium_status: {type: GraphQLBoolean},
     address: {type: new GraphQLList(GraphQLString)},
     album: {type: new GraphQLList(GraphQLString)},
     en_slug: {type: new GraphQLNonNull(GraphQLString)},

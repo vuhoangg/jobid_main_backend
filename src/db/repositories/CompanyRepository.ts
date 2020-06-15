@@ -11,6 +11,8 @@ interface ISort {
 interface IFilter {
   sort_by?: ISort;
   name?: string;
+  verify_status?: boolean;
+  premium_status?: boolean;
   job_location?: string;
   job_category?: string;
 }
@@ -24,6 +26,12 @@ function getCondition(filter: IFilter) {
   let condition = {};
   if (filter.name) {
     condition = Object.assign(condition, {$or: [{vi_name: new RegExp(filter.name, "i")}, {en_name: new RegExp(filter.name, "i")}]});
+  }
+  if(filter.verify_status) {
+    condition = Object.assign(condition, {verify_status: filter.verify_status});
+  }
+  if(filter.premium_status) {
+    condition = Object.assign(condition, {premium_status: filter.premium_status});
   }
   if (filter.job_category) {
     condition = Object.assign(condition, {job_category: filter.job_category});
