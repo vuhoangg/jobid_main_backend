@@ -1,13 +1,15 @@
 import JobApplyService from "../../../db/repositories/JobApplyRepository";
 import JobPostService from "../../../db/repositories/JobPostRepository";
 import NotificationService from "../../../db/repositories/NotificationRepository";
+import { api } from "../../../utils/api";
 
 export function updateJobApply(source, args, context, info) {
   if (context.isAuthenticated()) {
     let loggedUser = context.user;
     let input = args.input;
     input = Object.assign(input, {user: loggedUser._id});
-    return JobApplyService.applyJob(input).then(async (r1) => {
+    return JobApplyService.applyJob(input).then(async (data) => {
+
       let jobPost = await JobPostService.get(input.job_post, {});
       let target = jobPost.user;
       let notification = {
@@ -15,13 +17,23 @@ export function updateJobApply(source, args, context, info) {
         subject: "user_apply_job",
         target: {
           object_type: "user",
-          ref: target
+          ref: target.ref
         },
         message: `${loggedUser.first_name} ${loggedUser.last_name} đã ứng tuyển tin tuyển dụng ${jobPost.title}`,
         href: jobPost.slug,
         read: false,
+        created_at: jobPost.created_at,
+        updated_at: jobPost.updated_at,
       }
       await NotificationService.create(notification);
+      const params = {
+        token: process.env.SOCKET_TOKEN as string,
+      }
+      api("POST",`${process.env.SOCKET_SERVER_URL}/socket/notify/${target.ref}`,params,{
+        data: notification
+      }).then(res => console.log(res))
+      .catch(e => console.log(e))
+      return data;
     });
   }
 }
