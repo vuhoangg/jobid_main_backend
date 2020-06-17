@@ -66,6 +66,7 @@ class CompanyRepository implements CrudContract {
 
   create(data) {
     try {
+      console.log('data', data)
       return Company.create(data);
     } catch (e) {
       errorLog(e);

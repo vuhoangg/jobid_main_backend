@@ -1,3 +1,4 @@
+import { JobCategoryInput } from './../../job_category/types/index';
 import {
   GraphQLInputObjectType, GraphQLInt,
   GraphQLList,
@@ -161,7 +162,7 @@ export const CompanyInput = new GraphQLInputObjectType({
     default_lang: {type: new GraphQLNonNull(GraphQLString)},
     en_name: {type: GraphQLString},
     vi_name: {type: GraphQLString},
-    job_category: {type: new GraphQLList(GraphQLString)},
+    job_category: {type: new GraphQLList(JobCategoryInput)},
     company_type: {type: GraphQLString},
     job_location: {type: new GraphQLList(GraphQLString)},
     verify_status: {type: GraphQLBoolean},

@@ -5,6 +5,7 @@ export function getCompany(source, args, context, info) {
   const fields = rootField(info);
   let getBy = args._id ? { _id: args._id } : { slug: args.slug };
   return CompanyService.getBy(getBy, fields).then(async (company) => {
+    console.log(company)
     let node = {
       _id: company._id,
       default_lang: company.default_lang,
@@ -14,7 +15,7 @@ export function getCompany(source, args, context, info) {
       company_type: company.company_type,
       job_location: company.job_location,
       verify_status: company.verify_status,
-      premium_status: company.premium.status,
+      premium_status: company.premium_status,
       address: company.address,
       album: company.album,
       en_slug: company.en_slug,
