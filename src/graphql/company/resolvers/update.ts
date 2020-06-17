@@ -9,12 +9,11 @@ export function updateCompany (source, args, context, info) {
     }
 }
 export function createCompany (source, args, context, info) {
-console.log("createCompany -> args", args.input)
     
-    // if (context.isAuthenticated()) {
+    if (context.isAuthenticated()) {
         let loggedUser = context.user;
-        // if (isSuperUser(loggedUser.email)) {
+        if (isSuperUser(loggedUser.email)) {
             return CompanyService.create(args.input);
-        // }
-    // }
+        }
+    }
 }
