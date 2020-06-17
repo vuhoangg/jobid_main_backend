@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CompanyArguments = exports.CompanyInput = exports.CompanyConnection = exports.CompanyEdge = exports.Company = exports.BenefitContentInput = exports.BenefitContent = exports.PeopleInput = exports.People = exports.TextStoryInput = exports.TextStory = exports.MediaStoryInput = exports.MediaStory = void 0;
+const index_1 = require("./../../job_category/types/index");
 const graphql_1 = require("graphql");
 const types_1 = require("../../types");
 const types_2 = require("../../job_category/types");
@@ -104,6 +105,8 @@ exports.Company = new graphql_1.GraphQLObjectType({
         job_category: { type: new graphql_1.GraphQLList(types_2.JobCategory) },
         company_type: { type: graphql_1.GraphQLString },
         job_location: { type: new graphql_1.GraphQLList(types_3.JobLocation) },
+        verify_status: { type: graphql_1.GraphQLBoolean },
+        premium_status: { type: graphql_1.GraphQLBoolean },
         address: { type: new graphql_1.GraphQLList(graphql_1.GraphQLString) },
         album: { type: new graphql_1.GraphQLList(graphql_1.GraphQLString) },
         en_slug: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
@@ -152,9 +155,11 @@ exports.CompanyInput = new graphql_1.GraphQLInputObjectType({
         default_lang: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         en_name: { type: graphql_1.GraphQLString },
         vi_name: { type: graphql_1.GraphQLString },
-        job_category: { type: new graphql_1.GraphQLList(graphql_1.GraphQLString) },
+        job_category: { type: new graphql_1.GraphQLList(index_1.JobCategoryInput) },
         company_type: { type: graphql_1.GraphQLString },
         job_location: { type: new graphql_1.GraphQLList(graphql_1.GraphQLString) },
+        verify_status: { type: graphql_1.GraphQLBoolean },
+        premium_status: { type: graphql_1.GraphQLBoolean },
         address: { type: new graphql_1.GraphQLList(graphql_1.GraphQLString) },
         album: { type: new graphql_1.GraphQLList(graphql_1.GraphQLString) },
         en_slug: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },

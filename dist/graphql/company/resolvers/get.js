@@ -18,8 +18,8 @@ const helpers_1 = require("../../helpers");
 function getCompany(source, args, context, info) {
     const fields = helpers_1.rootField(info);
     let getBy = args._id ? { _id: args._id } : { slug: args.slug };
-    return CompanyRepository_1.default.getBy(getBy, fields)
-        .then((company) => __awaiter(this, void 0, void 0, function* () {
+    return CompanyRepository_1.default.getBy(getBy, fields).then((company) => __awaiter(this, void 0, void 0, function* () {
+        console.log(company);
         let node = {
             _id: company._id,
             default_lang: company.default_lang,
@@ -28,6 +28,8 @@ function getCompany(source, args, context, info) {
             job_category: company.job_category,
             company_type: company.company_type,
             job_location: company.job_location,
+            verify_status: company.verify_status,
+            premium_status: company.premium_status,
             address: company.address,
             album: company.album,
             en_slug: company.en_slug,
@@ -52,8 +54,7 @@ exports.getCompany = getCompany;
 function getCompanys(source, args, context, info) {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
-    return CompanyRepository_1.default.filter(filter, args.limit, args.page, infos.edges)
-        .then((companys) => __awaiter(this, void 0, void 0, function* () {
+    return CompanyRepository_1.default.filter(filter, args.limit, args.page, infos.edges).then((companys) => __awaiter(this, void 0, void 0, function* () {
         let edges = [];
         for (let i = 0; i < companys.length; i++) {
             let company = {
@@ -66,6 +67,8 @@ function getCompanys(source, args, context, info) {
                     job_category: companys[i].job_category,
                     company_type: companys[i].company_type,
                     job_location: companys[i].job_location,
+                    verify_status: companys[i].verify_status,
+                    premium_status: companys[i].premium_status,
                     address: companys[i].address,
                     album: companys[i].album,
                     en_slug: companys[i].en_slug,
@@ -82,15 +85,15 @@ function getCompanys(source, args, context, info) {
                     seo_description: companys[i].seo_description,
                     created_at: companys[i].created_at,
                     updated_at: companys[i].updated_at,
-                }
+                },
             };
             edges.push(company);
         }
-        let countData = (infos.pageInfo && infos.pageInfo.length) ? yield CompanyRepository_1.default.count(filter) : 0;
+        let countData = infos.pageInfo && infos.pageInfo.length ? yield CompanyRepository_1.default.count(filter) : 0;
         let dataRet = Object.assign({ edges }, { pageInfo: {
                 length: countData,
                 hasNextPage: companys.length >= args.limit,
-                hasPreviousPage: args.page > 1
+                hasPreviousPage: args.page > 1,
             } });
         return dataRet;
     }));

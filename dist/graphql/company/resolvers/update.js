@@ -19,6 +19,7 @@ function createCompany(source, args, context, info) {
     if (context.isAuthenticated()) {
         let loggedUser = context.user;
         if (permission_1.isSuperUser(loggedUser.email)) {
+            // TODO remove input premium, verify status
             return CompanyRepository_1.default.create(args.input);
         }
     }
