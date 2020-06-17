@@ -4,12 +4,12 @@ const graphql_1 = require("graphql");
 const types_1 = require("../types");
 const update_1 = require("../resolvers/update");
 const companyFeatureMutations = {
-    companyFeautreUpdate: {
+    companyFeatureUpdate: {
         args: { input: { type: graphql_1.GraphQLNonNull(types_1.CompanyFeatureInput) } },
         resolve: (source, args, context, info) => update_1.updateCompanyFeature(source, args, context, info),
         type: new graphql_1.GraphQLNonNull(types_1.CompanyFeature),
     },
-    companyFeautreCreate: {
+    companyFeatureCreate: {
         args: { input: { type: graphql_1.GraphQLNonNull(types_1.CompanyFeatureInput) } },
         resolve: (source, args, context, info) => update_1.createCompanyFeature(source, args, context, info),
         type: new graphql_1.GraphQLNonNull(types_1.CompanyFeature),

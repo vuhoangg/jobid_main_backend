@@ -3,12 +3,12 @@ import { CompanyFeature, CompanyFeatureInput } from "../types";
 import { createCompanyFeature, updateCompanyFeature } from "../resolvers/update";
 
 const companyFeatureMutations = {
-  companyFeautreUpdate: {
+  companyFeatureUpdate: {
     args: { input: { type: GraphQLNonNull(CompanyFeatureInput) } },
     resolve: (source, args, context, info) => updateCompanyFeature(source, args, context, info),
     type: new GraphQLNonNull(CompanyFeature),
   },
-  companyFeautreCreate: {
+  companyFeatureCreate: {
     args: { input: { type: GraphQLNonNull(CompanyFeatureInput) } },
     resolve: (source, args, context, info) => createCompanyFeature(source, args, context, info),
     type: new GraphQLNonNull(CompanyFeature),
