@@ -3,6 +3,10 @@ const mongoose = require("mongoose");
 const groupPermissionSchema = new mongoose.Schema(
   {
     name: String,
+    company: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Company",
+    },
     permission: [
       {
         resource: {

@@ -53,6 +53,7 @@ export const GroupPermission = new GraphQLObjectType({
   fields: {
     _id: { type: new GraphQLNonNull(GraphQLString) },
     name: { type: new GraphQLNonNull(GraphQLString) },
+    company: { type: new GraphQLNonNull(GraphQLString) },
     permission: { type: new GraphQLList(PermissionOutput) },
   },
   name: "GroupPermission",
@@ -61,8 +62,9 @@ export const GroupPermission = new GraphQLObjectType({
 
 export const GroupPermissionInput = new GraphQLInputObjectType({
   fields: {
-    _id: { type: GraphQLString },
+    _id: { type: new GraphQLNonNull(GraphQLString) },
     name: { type: new GraphQLNonNull(GraphQLString) },
+    company: { type: new GraphQLNonNull(GraphQLString) },
     permission: { type: new GraphQLList(Permission) },
   },
   name: "GroupPermissionInput",

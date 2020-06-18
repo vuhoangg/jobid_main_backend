@@ -43,6 +43,7 @@ exports.GroupPermission = new graphql_1.GraphQLObjectType({
     fields: {
         _id: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         name: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
+        company: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         permission: { type: new graphql_1.GraphQLList(exports.PermissionOutput) },
     },
     name: "GroupPermission",
@@ -50,8 +51,9 @@ exports.GroupPermission = new graphql_1.GraphQLObjectType({
 });
 exports.GroupPermissionInput = new graphql_1.GraphQLInputObjectType({
     fields: {
-        _id: { type: graphql_1.GraphQLString },
+        _id: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         name: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
+        company: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         permission: { type: new graphql_1.GraphQLList(exports.Permission) },
     },
     name: "GroupPermissionInput",

@@ -1,12 +1,12 @@
-import {CrudContract} from "../contracts/CrudContract";
+import { CrudContract } from "../contracts/CrudContract";
 import User from "../schemas/User";
-import {errorLog} from "../../helpers/log";
-import {promiseNull} from "../../helpers/promise";
-import {processDataUpdate} from "../../helpers/flattenNestedObject";
+import { errorLog } from "../../helpers/log";
+import { promiseNull } from "../../helpers/promise";
+import { processDataUpdate } from "../../helpers/flattenNestedObject";
 
 interface ISort {
-  created?: "newest" | "oldest",
-  updated?: "newest" | "oldest",
+  created?: "newest" | "oldest";
+  updated?: "newest" | "oldest";
 }
 
 interface IFilter {
@@ -38,10 +38,10 @@ function getCondition(filter: IFilter) {
 function getSort(sortBy: ISort) {
   let sort = {};
   if (sortBy.created) {
-    sort = Object.assign(sort, {_id: (sortBy.created === "newest" ? "desc" : "asc")})
+    sort = Object.assign(sort, { _id: sortBy.created === "newest" ? "desc" : "asc" });
   }
   if (sortBy.updated) {
-    sort = Object.assign(sort, {updated_at: (sortBy.updated === "newest" ? "desc" : "asc")})
+    sort = Object.assign(sort, { updated_at: sortBy.updated === "newest" ? "desc" : "asc" });
   }
   return sort;
 }
@@ -94,8 +94,12 @@ class UserRepository implements CrudContract {
   filter(filter: IFilter, limit, page, projection) {
     try {
       let condition = getCondition(filter);
-      let sort = filter.sort_by ? getSort(filter.sort_by) : {_id: "desc"};
-      return User.find(condition, projection).sort(sort).skip(limit * (page - 1)).limit(limit).populate("customize_info.current_job_level")
+      let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
+      return User.find(condition, projection)
+        .sort(sort)
+        .skip(limit * (page - 1))
+        .limit(limit)
+        .populate("customize_info.current_job_level")
         .populate("customize_info.location")
         .populate("customize_info.skill")
         .populate("customize_info.work_preference.job_location")
@@ -113,7 +117,7 @@ class UserRepository implements CrudContract {
       if (getBy._id) {
         return User.findById(getBy._id, projection);
       } else if (getBy.email) {
-        return User.findOne({email: getBy.email}, projection);
+        return User.findOne({ email: getBy.email }, projection);
       } else {
         return promiseNull();
       }
@@ -126,7 +130,16 @@ class UserRepository implements CrudContract {
   update(data) {
     try {
       let dataUpdate = processDataUpdate(data);
-      return User.findByIdAndUpdate(data._id, dataUpdate, {new: true});
+      return User.findByIdAndUpdate(data._id, dataUpdate, { new: true });
+    } catch (e) {
+      errorLog(e);
+      return promiseNull();
+    }
+  }
+
+  updateCompanyPermission(data) {
+    try {
+      return User.findByIdAndUpdate(data._id, { $addToSet: { company_role: data.company_role } });
     } catch (e) {
       errorLog(e);
       return promiseNull();
