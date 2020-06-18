@@ -9,7 +9,9 @@ const promise_1 = require("../../helpers/promise");
 function getCondition(filter) {
     let condition = {};
     if (filter.name) {
-        condition = Object.assign(condition, { $or: [{ vi_name: new RegExp(filter.name, "i") }, { en_name: new RegExp(filter.name, "i") }] });
+        condition = Object.assign(condition, {
+            $or: [{ vi_name: new RegExp(filter.name, "i") }, { en_name: new RegExp(filter.name, "i") }],
+        });
     }
     if (filter.verify_status) {
         condition = Object.assign(condition, { verify_status: filter.verify_status });
@@ -28,10 +30,10 @@ function getCondition(filter) {
 function getSort(sortBy) {
     let sort = {};
     if (sortBy.created) {
-        sort = Object.assign(sort, { _id: (sortBy.created === "newest" ? "desc" : "asc") });
+        sort = Object.assign(sort, { _id: sortBy.created === "newest" ? "desc" : "asc" });
     }
     if (sortBy.updated) {
-        sort = Object.assign(sort, { updated_at: (sortBy.updated === "newest" ? "desc" : "asc") });
+        sort = Object.assign(sort, { updated_at: sortBy.updated === "newest" ? "desc" : "asc" });
     }
     return sort;
 }
@@ -48,7 +50,7 @@ class CompanyRepository {
     }
     create(data) {
         try {
-            console.log('data', data);
+            console.log("data", data);
             return Company_1.default.create(data);
         }
         catch (e) {
@@ -78,7 +80,12 @@ class CompanyRepository {
         try {
             let condition = getCondition(filter);
             let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
-            return Company_1.default.find(condition, projection).populate('job_category').populate('job_location').sort(sort).skip(limit * (page - 1)).limit(limit);
+            return Company_1.default.find(condition, projection)
+                .populate("job_category")
+                .populate("job_location")
+                .sort(sort)
+                .skip(limit * (page - 1))
+                .limit(limit);
         }
         catch (e) {
             log_1.errorLog(e);
@@ -88,14 +95,12 @@ class CompanyRepository {
     getBy(getBy, projection) {
         try {
             if (getBy._id) {
-                return Company_1.default.findById(getBy._id, projection)
-                    .populate('job_category')
-                    .populate('job_location');
+                return Company_1.default.findById(getBy._id, projection).populate("job_category").populate("job_location");
             }
             else if (getBy.slug) {
                 return Company_1.default.findOne({ $or: [{ vi_slug: getBy.slug }, { en_slug: getBy.slug }] }, projection)
-                    .populate('job_category')
-                    .populate('job_location');
+                    .populate("job_category")
+                    .populate("job_location");
             }
             else {
                 return promise_1.promiseNull();
@@ -109,6 +114,15 @@ class CompanyRepository {
     update(data) {
         try {
             return Company_1.default.findByIdAndUpdate(data._id, data, { new: true });
+        }
+        catch (e) {
+            log_1.errorLog(e);
+            return promise_1.promiseNull();
+        }
+    }
+    updateUserPermission(data) {
+        try {
+            return Company_1.default.findByIdAndUpdate(data._id, { $addToSet: { users: data.users } });
         }
         catch (e) {
             log_1.errorLog(e);

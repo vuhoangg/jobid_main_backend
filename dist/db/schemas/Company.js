@@ -12,14 +12,14 @@ const companySchema = new mongoose.Schema({
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "JobCategory",
-        }
+        },
     ],
     company_type: String,
     job_location: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "JobLocation",
-        }
+        },
     ],
     verify_status: {
         type: Boolean,
@@ -52,7 +52,7 @@ const companySchema = new mongoose.Schema({
             en_content: [String],
             media_type: String,
             media_link: String,
-        }
+        },
     ],
     text_story: [
         {
@@ -60,7 +60,7 @@ const companySchema = new mongoose.Schema({
             en_title: String,
             vi_content: [String],
             en_content: [String],
-        }
+        },
     ],
     people: [
         {
@@ -71,7 +71,7 @@ const companySchema = new mongoose.Schema({
             vi_position: String,
             en_position: String,
             media_link: String,
-        }
+        },
     ],
     benefit: [
         {
@@ -80,16 +80,28 @@ const companySchema = new mongoose.Schema({
             id: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "Benefit",
-            }
-        }
+            },
+        },
+    ],
+    users: [
+        {
+            user_id: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
+            },
+            permission: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "GroupPermission",
+            },
+        },
     ],
     follow: {
         type: Number,
         default: 0,
     },
     seo_title: String,
-    seo_description: String
-}, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
-const Company = mongoose.model('Company', companySchema);
+    seo_description: String,
+}, { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } });
+const Company = mongoose.model("Company", companySchema);
 exports.default = Company;
 //# sourceMappingURL=Company.js.map

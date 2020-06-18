@@ -14,10 +14,10 @@ function getCondition(filter) {
 function getSort(sortBy) {
     let sort = {};
     if (sortBy.created) {
-        sort = Object.assign(sort, { _id: (sortBy.created === "newest" ? "desc" : "asc") });
+        sort = Object.assign(sort, { _id: sortBy.created === "newest" ? "desc" : "asc" });
     }
     if (sortBy.updated) {
-        sort = Object.assign(sort, { updated_at: (sortBy.updated === "newest" ? "desc" : "asc") });
+        sort = Object.assign(sort, { updated_at: sortBy.updated === "newest" ? "desc" : "asc" });
     }
     return sort;
 }
@@ -70,7 +70,11 @@ class UserRepository {
         try {
             let condition = getCondition(filter);
             let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
-            return User_1.default.find(condition, projection).sort(sort).skip(limit * (page - 1)).limit(limit).populate("customize_info.current_job_level")
+            return User_1.default.find(condition, projection)
+                .sort(sort)
+                .skip(limit * (page - 1))
+                .limit(limit)
+                .populate("customize_info.current_job_level")
                 .populate("customize_info.location")
                 .populate("customize_info.skill")
                 .populate("customize_info.work_preference.job_location")
@@ -104,6 +108,15 @@ class UserRepository {
         try {
             let dataUpdate = flattenNestedObject_1.processDataUpdate(data);
             return User_1.default.findByIdAndUpdate(data._id, dataUpdate, { new: true });
+        }
+        catch (e) {
+            log_1.errorLog(e);
+            return promise_1.promiseNull();
+        }
+    }
+    updateCompanyPermission(data) {
+        try {
+            return User_1.default.findByIdAndUpdate(data._id, { $addToSet: { company_role: data.company_role } });
         }
         catch (e) {
             log_1.errorLog(e);
