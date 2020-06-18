@@ -15,6 +15,7 @@ interface IFilter {
   premium_status?: boolean;
   job_location?: string;
   job_category?: string;
+  created_by?: string;
 }
 
 interface IGetBy {
@@ -38,6 +39,9 @@ function getCondition(filter: IFilter) {
   }
   if (filter.job_location) {
     condition = Object.assign(condition, {job_location: filter.job_location});
+  }
+  if(filter.created_by) {
+    condition = Object.assign(condition, {created_by: filter.created_by});
   }
   return condition;
 }

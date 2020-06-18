@@ -10,10 +10,10 @@ export function updateGroupPermission(source, args, context, info) {
   }
 }
 export function createGroupPermission(source, args, context, info) {
-  if (context.isAuthenticated()) {
-    let loggedUser = context.user;
-    if (isSuperUser(loggedUser.email)) {
+  // if (context.isAuthenticated()) {
+  //   let loggedUser = context.user;
+  //   if (isSuperUser(loggedUser.email)) {
       return GroupPermissionService.create(args.input);
-    }
-  }
+  //   }
+  // }
 }

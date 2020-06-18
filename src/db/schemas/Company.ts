@@ -1,3 +1,4 @@
+import { JobViewInput } from './../../graphql/job_view/types/index';
 const mongoose = require("mongoose");
 
 const companySchema = new mongoose.Schema({
@@ -7,6 +8,7 @@ const companySchema = new mongoose.Schema({
   },
   en_name: String,
   vi_name: String,
+  
   job_category: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -33,17 +35,20 @@ const companySchema = new mongoose.Schema({
   album: [String],
   en_slug: {
     type: String,
-    required: true,
     unique: true,
   },
   vi_slug: {
     type: String,
-    required: true,
     unique: true,
   },
   logo: String,
   cover: String,
   website: String,
+  region: String,
+  phone: String,
+  facebook: String,
+  youtube: String,
+  address_contact: String,
   media_story: [
     {
       vi_title: String,
@@ -87,6 +92,11 @@ const companySchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  created_by: {
+    type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+  },
+
   seo_title: String,
   seo_description: String
 }, {timestamps: {createdAt: 'created_at', updatedAt: 'updated_at'}});
