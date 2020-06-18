@@ -1,4 +1,4 @@
-import {GraphQLObjectType} from "graphql";
+import { GraphQLObjectType } from "graphql";
 import userMutations from "./user/mutations";
 import jobSkillMutations from "./job_skill/mutations";
 import jobTitleMutations from "./job_title/mutations";
@@ -17,6 +17,8 @@ import jobAlertMutations from "./job_alert/mutations";
 import jobViewMutations from "./job_view/mutations";
 import profileViewMutations from "./profile_view/mutations";
 import notificationMutations from "./notification/mutations";
+import companyFeatureMutations from "./company_feature/mutations";
+import groupPermissionMutations from "./group_permission/mutations";
 
 const Mutation = new GraphQLObjectType({
   fields: {
@@ -41,6 +43,8 @@ const Mutation = new GraphQLObjectType({
     ...jobViewMutations,
     ...profileViewMutations,
     ...notificationMutations,
+    ...companyFeatureMutations,
+    ...groupPermissionMutations,
   },
   name: "Mutation",
 });
