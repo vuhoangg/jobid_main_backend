@@ -1,4 +1,4 @@
-import {GraphQLObjectType} from "graphql";
+import { GraphQLObjectType } from "graphql";
 import userQueries from "./user/queries";
 import jobSkillQueries from "./job_skill/queries";
 import jobTitleQueries from "./job_title/queries";
@@ -18,6 +18,8 @@ import jobAlertQueries from "./job_alert/queries";
 import jobViewQueries from "./job_view/queries";
 import profileViewQueries from "./profile_view/queries";
 import notificationQueries from "./notification/queries";
+import companyFeatureQueries from "./company_feature/queries";
+import groupPermissionQueries from "./group_permission/queries";
 
 const QueryRoot = new GraphQLObjectType({
   fields: {
@@ -43,6 +45,8 @@ const QueryRoot = new GraphQLObjectType({
     ...jobViewQueries,
     ...profileViewQueries,
     ...notificationQueries,
+    ...companyFeatureQueries,
+    ...groupPermissionQueries,
   },
   name: "QueryRoot",
 });

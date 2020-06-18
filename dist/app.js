@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-require('dotenv').config();
+require("dotenv").config();
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = __importDefault(require("body-parser"));
@@ -46,9 +46,11 @@ passport_1.default.serializeUser((user, done) => {
 });
 passport_1.default.deserializeUser((_id, done) => {
     // console.log("deserializeUser", _id);
-    handles_1.isExistingIdUser(_id).then((user) => {
+    handles_1.isExistingIdUser(_id)
+        .then((user) => {
         done(null, user);
-    }).catch(function (err) {
+    })
+        .catch(function (err) {
         console.log(err);
     });
 });
@@ -58,12 +60,12 @@ passport_1.default.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 }, (accessToken, refreshToken, profile, cb) => {
-    handles_1.isExistingEmailUser(profile.emails[0].value).then(r1 => {
+    handles_1.isExistingEmailUser(profile.emails[0].value).then((r1) => {
         if (r1) {
             cb(null, r1);
         }
         else {
-            handles_1.saveNewGoogleUser(profile).then(r2 => {
+            handles_1.saveNewGoogleUser(profile).then((r2) => {
                 cb(null, r2);
             });
         }
@@ -86,12 +88,12 @@ passport_1.default.use(new FacebookStrategy({
         "picture",
     ],
 }, function (accessToken, refreshToken, profile, cb) {
-    handles_1.isExistingEmailUser(profile.emails[0].value).then(r1 => {
+    handles_1.isExistingEmailUser(profile.emails[0].value).then((r1) => {
         if (r1) {
             cb(null, r1);
         }
         else {
-            handles_1.saveNewFacebookUser(profile).then(r2 => {
+            handles_1.saveNewFacebookUser(profile).then((r2) => {
                 cb(null, r2);
             });
         }

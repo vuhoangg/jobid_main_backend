@@ -11,6 +11,12 @@ function getCondition(filter) {
     if (filter.name) {
         condition = Object.assign(condition, { $or: [{ vi_name: new RegExp(filter.name, "i") }, { en_name: new RegExp(filter.name, "i") }] });
     }
+    if (filter.verify_status) {
+        condition = Object.assign(condition, { verify_status: filter.verify_status });
+    }
+    if (filter.premium_status) {
+        condition = Object.assign(condition, { premium_status: filter.premium_status });
+    }
     if (filter.job_category) {
         condition = Object.assign(condition, { job_category: filter.job_category });
     }
@@ -42,6 +48,7 @@ class CompanyRepository {
     }
     create(data) {
         try {
+            console.log('data', data);
             return Company_1.default.create(data);
         }
         catch (e) {
