@@ -1,14 +1,14 @@
-import { GraphQLInputObjectType, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLString } from "graphql";
-import { PageInfo } from "../../types";
+import {GraphQLInputObjectType, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLString} from "graphql";
+import {PageInfo} from "../../types";
 
 export const CompanyFeature = new GraphQLObjectType({
   description: "Represents a company follow.",
   fields: {
-    _id: { type: new GraphQLNonNull(GraphQLString) },
-    name: { type: new GraphQLNonNull(GraphQLString) },
-    description: { type: new GraphQLNonNull(GraphQLString) },
-    created_at: { type: new GraphQLNonNull(GraphQLString) },
-    updated_at: { type: new GraphQLNonNull(GraphQLString) },
+    _id: {type: new GraphQLNonNull(GraphQLString)},
+    name: {type: new GraphQLNonNull(GraphQLString)},
+    description: {type: new GraphQLNonNull(GraphQLString)},
+    created_at: {type: new GraphQLNonNull(GraphQLString)},
+    updated_at: {type: new GraphQLNonNull(GraphQLString)},
   },
   name: "CompanyFeature",
 });
@@ -16,7 +16,7 @@ export const CompanyFeature = new GraphQLObjectType({
 export const CompanyFeatureEdge = new GraphQLObjectType({
   description: "A list of edges.",
   fields: {
-    cursor: { type: new GraphQLNonNull(GraphQLString) },
+    cursor: {type: new GraphQLNonNull(GraphQLString)},
     node: {
       description: "The item at the end of CompanyFeatureEdge.",
       resolve: (parent) => parent.node,
@@ -33,20 +33,20 @@ export const CompanyFeatureConnection = new GraphQLObjectType({
       resolve: (parent) => parent.edges,
       type: new GraphQLNonNull(new GraphQLList(CompanyFeatureEdge)),
     },
-    pageInfo: { type: new GraphQLNonNull(PageInfo) },
+    pageInfo: {type: new GraphQLNonNull(PageInfo)},
   },
   name: "CompanyFeatureConnection",
 });
 
 export const CompanyFeatureArguments = {
-  _id: { type: new GraphQLNonNull(GraphQLString) },
+  _id: {type: new GraphQLNonNull(GraphQLString)},
 };
 
 export const CompanyFeatureInput = new GraphQLInputObjectType({
   fields: {
-    _id: { type: GraphQLString },
-    name: { type: new GraphQLNonNull(GraphQLString) },
-    description: { type: new GraphQLNonNull(GraphQLString) },
+    _id: {type: GraphQLString},
+    name: {type: new GraphQLNonNull(GraphQLString)},
+    description: {type: new GraphQLNonNull(GraphQLString)},
   },
   name: "CompanyFeatureInput",
   description: "The updated properties for a company feature.",

@@ -13,8 +13,8 @@ exports.JobCategory = new graphql_1.GraphQLObjectType({
         en_slug: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         seo_title: { type: graphql_1.GraphQLString },
         seo_description: { type: graphql_1.GraphQLString },
-        created_at: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
-        updated_at: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
+        created_at: { type: graphql_1.GraphQLString },
+        updated_at: { type: graphql_1.GraphQLString },
     },
     name: "JobCategory",
 });

@@ -12,13 +12,22 @@ interface ISort {
 
 interface IFilter {
   sort_by?: ISort;
-  user?: string;
-  company?: string;
+  name?: string;
+  description?: string;
 }
 
 function getCondition(filter: IFilter) {
   let condition = {};
-
+  if (filter.name) {
+    condition = Object.assign(condition, {
+      name: new RegExp(filter.name, "i")
+    });
+  }
+  if (filter.description) {
+    condition = Object.assign(condition, {
+      description: new RegExp(filter.description, "i")
+    });
+  }
   return condition;
 }
 

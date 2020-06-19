@@ -17,8 +17,8 @@ export const JobCategory = new GraphQLObjectType({
     en_slug: {type: new GraphQLNonNull(GraphQLString)},
     seo_title: {type: GraphQLString},
     seo_description: {type: GraphQLString},
-    created_at: {type: new GraphQLNonNull(GraphQLString)},
-    updated_at: {type: new GraphQLNonNull(GraphQLString)},
+    created_at: {type: GraphQLString},
+    updated_at: {type: GraphQLString},
   },
   name: "JobCategory",
 });

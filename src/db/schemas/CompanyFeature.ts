@@ -10,7 +10,7 @@ const CompanyFeatureSchema = new mongoose.Schema(
       type: String,
     },
   },
-  { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
+  {timestamps: {createdAt: "created_at", updatedAt: "updated_at"}}
 );
 
 const CompanyFeature = mongoose.model("CompanyFeature", CompanyFeatureSchema);
