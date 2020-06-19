@@ -100,7 +100,25 @@ class CompanyRepository implements CrudContract {
     try {
       let condition = getCondition(filter);
       let sort = filter.sort_by ? getSort(filter.sort_by) : {_id: "desc"};
-      return Company.find(condition, projection).populate('job_category').populate('job_location').sort(sort).skip(limit * (page - 1)).limit(limit);
+      return Company.find(condition, projection)
+      .populate('job_category')
+      .populate('job_location')
+      .populate({ 
+        path: 'list_user',
+        populate: {
+          path: 'user',
+          model: 'User'
+        }
+     })
+     .populate({ 
+      path: 'list_user',
+      populate: {
+        path: 'target_permission',
+        model: 'GroupPermission'
+      }
+   })
+      .sort(sort).skip(limit * (page - 1))
+      .limit(limit);
     } catch (e) {
       errorLog(e);
       return promiseNull();

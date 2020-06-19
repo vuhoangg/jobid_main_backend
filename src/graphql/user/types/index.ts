@@ -227,4 +227,5 @@ export const UserInput = new GraphQLInputObjectType({
 
 export const UserArguments = {
   _id: {type: GraphQLString},
+  email: {type: GraphQLString},
 };

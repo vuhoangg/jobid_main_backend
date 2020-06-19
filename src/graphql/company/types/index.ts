@@ -1,3 +1,5 @@
+import { GroupPermission, GroupPermissionInput } from './../../group_permission/types/index';
+import { User, UserInput } from './../../user/types/index';
 import { JobCategoryInput } from "./../../job_category/types/index";
 import {
   GraphQLInputObjectType,
@@ -37,7 +39,22 @@ export const MediaStoryInput = new GraphQLInputObjectType({
   },
   name: "MediaStoryInput",
 });
-
+export const ListUser = new GraphQLObjectType({
+  description: "Represents a list user",
+  fields: {
+    user: {type: User},
+    target_permission: {type: GroupPermission}
+  },
+  name: "ListUser",
+});
+export const ListUserInput = new GraphQLInputObjectType({
+  description: "The updated properties for a list user",
+  fields: {
+    user: {type: GraphQLString},
+    target_permission: {type: GraphQLString}
+  },
+  name: "ListUserInput",
+});
 export const TextStory = new GraphQLObjectType({
   description: "Represents a text story.",
   fields: {
@@ -127,6 +144,7 @@ export const Company = new GraphQLObjectType({
     youtube: { type: GraphQLString },
     address_contact: { type: GraphQLString },
     created_by: { type: GraphQLString },
+    list_user: { type: new GraphQLList(ListUser) },
     media_story: { type: new GraphQLList(MediaStory) },
     text_story: { type: new GraphQLList(TextStory) },
     people: { type: new GraphQLList(People) },
@@ -185,8 +203,9 @@ export const CompanyInput = new GraphQLInputObjectType({
     phone: { type: GraphQLString },
     facebook: { type: GraphQLString },
     youtube: { type: GraphQLString },
-    address_contact: {type: GraphQLString},
+    address_contact: { type: GraphQLString },
     created_by: { type: GraphQLString },
+    list_user: { type: new GraphQLList(ListUserInput) },
     media_story: { type: new GraphQLList(MediaStoryInput) },
     text_story: { type: new GraphQLList(TextStoryInput) },
     people: { type: new GraphQLList(PeopleInput) },
