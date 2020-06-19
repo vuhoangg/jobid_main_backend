@@ -3,10 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.assignPermission = exports.createCompany = exports.updateCompany = void 0;
+exports.premiumCompany = exports.verifyCompany = exports.assignPermission = exports.createCompany = exports.updateCompany = void 0;
 const CompanyRepository_1 = __importDefault(require("../../../db/repositories/CompanyRepository"));
 const permission_1 = require("../../../helpers/permission");
 const UserRepository_1 = __importDefault(require("../../../db/repositories/UserRepository"));
+const string_1 = require("../../../helpers/string");
 function updateCompany(source, args, context, info) {
     if (context.isAuthenticated()) {
         let loggedUser = context.user;
@@ -17,11 +18,14 @@ function updateCompany(source, args, context, info) {
 }
 exports.updateCompany = updateCompany;
 function createCompany(source, args, context, info) {
+    let input = args.input;
+    input.vi_slug = string_1.toSlug(input.vi_name || input.en_name, true).toLowerCase();
+    input.en_slug = string_1.toSlug(input.vi_name || input.en_name, true).toLowerCase();
     if (context.isAuthenticated()) {
         let loggedUser = context.user;
         if (permission_1.isSuperUser(loggedUser.email)) {
             // TODO remove input premium, verify status
-            return CompanyRepository_1.default.create(args.input);
+            return CompanyRepository_1.default.create(input);
         }
     }
 }
@@ -42,4 +46,24 @@ function assignPermission(source, args, context, info) {
     }
 }
 exports.assignPermission = assignPermission;
+function verifyCompany(source, args, context, info) {
+    if (context.isAuthenticated()) {
+        let loggedUser = context.user;
+        let input = args.input;
+        if (permission_1.isSuperUser(loggedUser.email)) {
+            return CompanyRepository_1.default.verify(input._id);
+        }
+    }
+}
+exports.verifyCompany = verifyCompany;
+function premiumCompany(source, args, context, info) {
+    if (context.isAuthenticated()) {
+        let loggedUser = context.user;
+        let input = args.input;
+        if (permission_1.isSuperUser(loggedUser.email)) {
+            return CompanyRepository_1.default.premium(input._id);
+        }
+    }
+}
+exports.premiumCompany = premiumCompany;
 //# sourceMappingURL=update.js.map

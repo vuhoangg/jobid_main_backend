@@ -19,7 +19,6 @@ function getCompany(source, args, context, info) {
     const fields = helpers_1.rootField(info);
     let getBy = args._id ? { _id: args._id } : { slug: args.slug };
     return CompanyRepository_1.default.getBy(getBy, fields).then((company) => __awaiter(this, void 0, void 0, function* () {
-        console.log(company);
         let node = {
             _id: company._id,
             default_lang: company.default_lang,
@@ -37,6 +36,12 @@ function getCompany(source, args, context, info) {
             logo: company.logo,
             cover: company.cover,
             website: company.website,
+            region: company.region,
+            phone: company.phone,
+            facebook: company.facebook,
+            youtube: company.youtube,
+            address_contact: company.address_contact,
+            created_by: company.created_by,
             media_story: company.media_story,
             text_story: company.text_story,
             people: company.people,
@@ -76,6 +81,12 @@ function getCompanys(source, args, context, info) {
                     logo: companys[i].logo,
                     cover: companys[i].cover,
                     website: companys[i].website,
+                    region: companys[i].region,
+                    phone: companys[i].phone,
+                    facebook: companys[i].facebook,
+                    youtube: companys[i].youtube,
+                    address_contact: companys[i].address_contact,
+                    created_by: companys[i].created_by,
                     media_story: companys[i].media_story,
                     text_story: companys[i].text_story,
                     people: companys[i].people,

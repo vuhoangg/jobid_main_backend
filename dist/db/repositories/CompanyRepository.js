@@ -25,6 +25,9 @@ function getCondition(filter) {
     if (filter.job_location) {
         condition = Object.assign(condition, { job_location: filter.job_location });
     }
+    if (filter.created_by) {
+        condition = Object.assign(condition, { created_by: filter.created_by });
+    }
     return condition;
 }
 function getSort(sortBy) {
@@ -123,6 +126,24 @@ class CompanyRepository {
     updateUserPermission(data) {
         try {
             return Company_1.default.findByIdAndUpdate(data._id, { $addToSet: { users: data.users } });
+        }
+        catch (e) {
+            log_1.errorLog(e);
+            return promise_1.promiseNull();
+        }
+    }
+    verify(_id, status = true) {
+        try {
+            return Company_1.default.findByIdAndUpdate(_id, { verify_status: status }, { new: true });
+        }
+        catch (e) {
+            log_1.errorLog(e);
+            return promise_1.promiseNull();
+        }
+    }
+    premium(_id, status = true) {
+        try {
+            return Company_1.default.findByIdAndUpdate(_id, { premium_status: status }, { new: true });
         }
         catch (e) {
             log_1.errorLog(e);

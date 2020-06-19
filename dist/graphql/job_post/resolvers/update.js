@@ -17,20 +17,26 @@ const JobPostRepository_1 = __importDefault(require("../../../db/repositories/Jo
 const ActivityRepository_1 = __importDefault(require("../../../db/repositories/ActivityRepository"));
 const string_1 = require("../../../helpers/string");
 const NotificationRepository_1 = __importDefault(require("../../../db/repositories/NotificationRepository"));
+const permission_1 = require("../../../helpers/permission");
 function updateJobPost(source, args, context, info) {
     if (context.isAuthenticated()) {
         let loggedUser = context.user;
         let input = args.input;
         // TODO in_company
-        return JobPostRepository_1.default.get(input._id, {}).then(r1 => {
-            if (r1 && r1.user === loggedUser._id) {
-                input = Object.assign(input, { user: { ref: loggedUser._id, in_company: 0 } });
-                return JobPostRepository_1.default.update(input);
-            }
-            else {
-                return r1;
-            }
-        });
+        if (permission_1.isSuperUser(loggedUser.email)) {
+            return JobPostRepository_1.default.update(input);
+        }
+        else {
+            return JobPostRepository_1.default.get(input._id, {}).then(r1 => {
+                if (r1 && r1.user.ref.toString() == loggedUser._id.toString()) {
+                    input = Object.assign(input, { user: { ref: loggedUser._id, in_company: 0 } });
+                    return JobPostRepository_1.default.update(input);
+                }
+                else {
+                    return r1;
+                }
+            });
+        }
     }
 }
 exports.updateJobPost = updateJobPost;

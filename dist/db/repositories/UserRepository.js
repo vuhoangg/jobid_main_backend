@@ -9,6 +9,12 @@ const promise_1 = require("../../helpers/promise");
 const flattenNestedObject_1 = require("../../helpers/flattenNestedObject");
 function getCondition(filter) {
     let condition = {};
+    if (filter.name) {
+        condition = Object.assign(condition, { "$or": [{ first_name: new RegExp(filter.name, "i") }, { last_name: new RegExp(filter.name, "i") }] });
+    }
+    if (filter.spam != undefined) {
+        condition = Object.assign(condition, { spam: { "$gt": Number(filter.spam) } });
+    }
     return condition;
 }
 function getSort(sortBy) {
@@ -116,7 +122,25 @@ class UserRepository {
     }
     updateCompanyPermission(data) {
         try {
-            return User_1.default.findByIdAndUpdate(data._id, { $addToSet: { company_role: data.company_role } });
+            return User_1.default.findByIdAndUpdate(data._id, { $addToSet: { company_role: data.company_role } }, { new: true });
+        }
+        catch (e) {
+            log_1.errorLog(e);
+            return promise_1.promiseNull();
+        }
+    }
+    markSpam(_id) {
+        try {
+            return User_1.default.findByIdAndUpdate(_id, { $inc: { spam: 1 } }, { new: true });
+        }
+        catch (e) {
+            log_1.errorLog(e);
+            return promise_1.promiseNull();
+        }
+    }
+    removeSpam(_id) {
+        try {
+            return User_1.default.findByIdAndUpdate(_id, { spam: 0 }, { new: true });
         }
         catch (e) {
             log_1.errorLog(e);

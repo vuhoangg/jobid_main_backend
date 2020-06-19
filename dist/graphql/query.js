@@ -25,8 +25,10 @@ const queries_18 = __importDefault(require("./profile_view/queries"));
 const queries_19 = __importDefault(require("./notification/queries"));
 const queries_20 = __importDefault(require("./company_feature/queries"));
 const queries_21 = __importDefault(require("./group_permission/queries"));
+const queries_22 = __importDefault(require("./website_role/queries"));
+const queries_23 = __importDefault(require("./logout/queries"));
 const QueryRoot = new graphql_1.GraphQLObjectType({
-    fields: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, queries_1.default), queries_2.default), queries_3.default), queries_4.default), queries_5.default), queries_6.default), queries_3.default), queries_2.default), queries_7.default), queries_4.default), queries_8.default), queries_9.default), queries_10.default), queries_11.default), queries_12.default), queries_13.default), queries_14.default), queries_15.default), queries_16.default), queries_17.default), queries_18.default), queries_19.default), queries_20.default), queries_21.default),
+    fields: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, queries_1.default), queries_2.default), queries_3.default), queries_4.default), queries_5.default), queries_6.default), queries_3.default), queries_2.default), queries_7.default), queries_4.default), queries_8.default), queries_9.default), queries_10.default), queries_11.default), queries_12.default), queries_13.default), queries_14.default), queries_15.default), queries_16.default), queries_17.default), queries_18.default), queries_19.default), queries_20.default), queries_21.default), queries_22.default), queries_23.default),
     name: "QueryRoot",
 });
 exports.default = QueryRoot;

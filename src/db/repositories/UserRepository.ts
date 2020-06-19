@@ -1,8 +1,8 @@
-import { CrudContract } from "../contracts/CrudContract";
+import {CrudContract} from "../contracts/CrudContract";
 import User from "../schemas/User";
-import { errorLog } from "../../helpers/log";
-import { promiseNull } from "../../helpers/promise";
-import { processDataUpdate } from "../../helpers/flattenNestedObject";
+import {errorLog} from "../../helpers/log";
+import {promiseNull} from "../../helpers/promise";
+import {processDataUpdate} from "../../helpers/flattenNestedObject";
 
 interface ISort {
   created?: "newest" | "oldest";
@@ -12,6 +12,7 @@ interface ISort {
 interface IFilter {
   sort_by?: ISort;
   name?: string;
+  spam?: number;
   current_job_level?: string;
   gender?: string;
   nation?: string;
@@ -32,16 +33,22 @@ interface IGetBy {
 
 function getCondition(filter: IFilter) {
   let condition = {};
+  if (filter.name) {
+    condition = Object.assign(condition, {"$or": [{first_name: new RegExp(filter.name, "i")}, {last_name: new RegExp(filter.name, "i")}]})
+  }
+  if (filter.spam != undefined) {
+    condition = Object.assign(condition, {spam: {"$gt": Number(filter.spam)}})
+  }
   return condition;
 }
 
 function getSort(sortBy: ISort) {
   let sort = {};
   if (sortBy.created) {
-    sort = Object.assign(sort, { _id: sortBy.created === "newest" ? "desc" : "asc" });
+    sort = Object.assign(sort, {_id: sortBy.created === "newest" ? "desc" : "asc"});
   }
   if (sortBy.updated) {
-    sort = Object.assign(sort, { updated_at: sortBy.updated === "newest" ? "desc" : "asc" });
+    sort = Object.assign(sort, {updated_at: sortBy.updated === "newest" ? "desc" : "asc"});
   }
   return sort;
 }
@@ -94,7 +101,7 @@ class UserRepository implements CrudContract {
   filter(filter: IFilter, limit, page, projection) {
     try {
       let condition = getCondition(filter);
-      let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
+      let sort = filter.sort_by ? getSort(filter.sort_by) : {_id: "desc"};
       return User.find(condition, projection)
         .sort(sort)
         .skip(limit * (page - 1))
@@ -117,7 +124,7 @@ class UserRepository implements CrudContract {
       if (getBy._id) {
         return User.findById(getBy._id, projection);
       } else if (getBy.email) {
-        return User.findOne({ email: getBy.email }, projection);
+        return User.findOne({email: getBy.email}, projection);
       } else {
         return promiseNull();
       }
@@ -130,7 +137,7 @@ class UserRepository implements CrudContract {
   update(data) {
     try {
       let dataUpdate = processDataUpdate(data);
-      return User.findByIdAndUpdate(data._id, dataUpdate, { new: true });
+      return User.findByIdAndUpdate(data._id, dataUpdate, {new: true});
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -139,13 +146,32 @@ class UserRepository implements CrudContract {
 
   updateCompanyPermission(data) {
     try {
-      return User.findByIdAndUpdate(data._id, { $addToSet: { company_role: data.company_role } });
+      return User.findByIdAndUpdate(data._id, {$addToSet: {company_role: data.company_role}}, {new: true});
+    } catch (e) {
+      errorLog(e);
+      return promiseNull();
+    }
+  }
+
+  markSpam(_id) {
+    try {
+      return User.findByIdAndUpdate(_id, {$inc: {spam: 1}}, {new: true});
+    } catch (e) {
+      errorLog(e);
+      return promiseNull();
+    }
+  }
+
+  removeSpam(_id) {
+    try {
+      return User.findByIdAndUpdate(_id, {spam: 0}, {new: true});
     } catch (e) {
       errorLog(e);
       return promiseNull();
     }
   }
 }
+
 
 const UserService = new UserRepository();
 export default UserService;

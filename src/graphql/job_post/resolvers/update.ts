@@ -2,20 +2,26 @@ import JobPostService from "../../../db/repositories/JobPostRepository";
 import ActivityService from "../../../db/repositories/ActivityRepository";
 import {toSlug} from "../../../helpers/string";
 import NotificationService from "../../../db/repositories/NotificationRepository";
+import {isSuperUser} from "../../../helpers/permission";
 
 export function updateJobPost(source, args, context, info) {
   if (context.isAuthenticated()) {
     let loggedUser = context.user;
     let input = args.input;
     // TODO in_company
-    return JobPostService.get(input._id, {}).then(r1 => {
-      if (r1 && r1.user === loggedUser._id) {
-        input = Object.assign(input, {user: {ref: loggedUser._id, in_company: 0}});
-        return JobPostService.update(input);
-      } else {
-        return r1
-      }
-    })
+
+    if (isSuperUser(loggedUser.email)) {
+      return JobPostService.update(input);
+    } else {
+      return JobPostService.get(input._id, {}).then(r1 => {
+        if (r1 && r1.user.ref.toString() == loggedUser._id.toString()) {
+          input = Object.assign(input, {user: {ref: loggedUser._id, in_company: 0}});
+          return JobPostService.update(input);
+        } else {
+          return r1
+        }
+      })
+    }
   }
 }
 

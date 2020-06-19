@@ -20,6 +20,8 @@ import profileViewQueries from "./profile_view/queries";
 import notificationQueries from "./notification/queries";
 import companyFeatureQueries from "./company_feature/queries";
 import groupPermissionQueries from "./group_permission/queries";
+import websiteRoleQueries from "./website_role/queries";
+import logoutQueries from "./logout/queries";
 
 const QueryRoot = new GraphQLObjectType({
   fields: {
@@ -47,6 +49,8 @@ const QueryRoot = new GraphQLObjectType({
     ...notificationQueries,
     ...companyFeatureQueries,
     ...groupPermissionQueries,
+    ...websiteRoleQueries,
+    ...logoutQueries,
   },
   name: "QueryRoot",
 });

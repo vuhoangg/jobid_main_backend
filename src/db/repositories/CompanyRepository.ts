@@ -147,6 +147,24 @@ class CompanyRepository implements CrudContract {
       return promiseNull();
     }
   }
+
+  verify(_id, status = true) {
+    try {
+      return Company.findByIdAndUpdate(_id, { verify_status: status }, {new: true});
+    } catch (e) {
+      errorLog(e);
+      return promiseNull();
+    }
+  }
+
+  premium(_id, status = true) {
+    try {
+      return Company.findByIdAndUpdate(_id, { premium_status: status }, {new: true});
+    } catch (e) {
+      errorLog(e);
+      return promiseNull();
+    }
+  }
 }
 
 const CompanyService = new CompanyRepository();

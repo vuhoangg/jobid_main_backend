@@ -211,6 +211,7 @@ export const UserConnection = new GraphQLObjectType({
 
 export const UserInput = new GraphQLInputObjectType({
   fields: {
+    _id: {type: GraphQLString},
     first_name: {type: GraphQLString},
     last_name: {type: GraphQLString},
     psid: {type: GraphQLString},

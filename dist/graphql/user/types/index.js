@@ -192,6 +192,7 @@ exports.UserConnection = new graphql_1.GraphQLObjectType({
 });
 exports.UserInput = new graphql_1.GraphQLInputObjectType({
     fields: {
+        _id: { type: graphql_1.GraphQLString },
         first_name: { type: graphql_1.GraphQLString },
         last_name: { type: graphql_1.GraphQLString },
         psid: { type: graphql_1.GraphQLString },

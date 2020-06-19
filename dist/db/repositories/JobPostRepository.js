@@ -29,6 +29,9 @@ function getCondition(filter) {
     if (filter.company_benefit) {
         condition = Object.assign(condition, { "company.benefit.id": filter.company_benefit });
     }
+    if (filter.company) {
+        condition = Object.assign(condition, { "company.ref": filter.company });
+    }
     if (filter.user) {
         condition = Object.assign(condition, { "user.ref": filter.user });
     }
