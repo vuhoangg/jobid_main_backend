@@ -17,7 +17,7 @@ exports.MediaStory = new graphql_1.GraphQLObjectType({
         media_type: { type: graphql_1.GraphQLString },
         media_link: { type: graphql_1.GraphQLString },
     },
-    name: "MediaStory"
+    name: "MediaStory",
 });
 exports.MediaStoryInput = new graphql_1.GraphQLInputObjectType({
     description: "The updated properties for a media story.",
@@ -29,7 +29,7 @@ exports.MediaStoryInput = new graphql_1.GraphQLInputObjectType({
         media_type: { type: graphql_1.GraphQLString },
         media_link: { type: graphql_1.GraphQLString },
     },
-    name: "MediaStoryInput"
+    name: "MediaStoryInput",
 });
 exports.TextStory = new graphql_1.GraphQLObjectType({
     description: "Represents a text story.",
@@ -39,7 +39,7 @@ exports.TextStory = new graphql_1.GraphQLObjectType({
         vi_content: { type: new graphql_1.GraphQLList(graphql_1.GraphQLString) },
         en_content: { type: new graphql_1.GraphQLList(graphql_1.GraphQLString) },
     },
-    name: "TextStory"
+    name: "TextStory",
 });
 exports.TextStoryInput = new graphql_1.GraphQLInputObjectType({
     description: "The updated properties for a text story.",
@@ -49,7 +49,7 @@ exports.TextStoryInput = new graphql_1.GraphQLInputObjectType({
         vi_content: { type: new graphql_1.GraphQLList(graphql_1.GraphQLString) },
         en_content: { type: new graphql_1.GraphQLList(graphql_1.GraphQLString) },
     },
-    name: "TextStoryInput"
+    name: "TextStoryInput",
 });
 exports.People = new graphql_1.GraphQLObjectType({
     description: "Represents a person.",
@@ -62,7 +62,7 @@ exports.People = new graphql_1.GraphQLObjectType({
         en_position: { type: graphql_1.GraphQLString },
         media_link: { type: graphql_1.GraphQLString },
     },
-    name: "People"
+    name: "People",
 });
 exports.PeopleInput = new graphql_1.GraphQLInputObjectType({
     description: "The updated properties for a person.",
@@ -75,7 +75,7 @@ exports.PeopleInput = new graphql_1.GraphQLInputObjectType({
         en_position: { type: graphql_1.GraphQLString },
         media_link: { type: graphql_1.GraphQLString },
     },
-    name: "PeopleInput"
+    name: "PeopleInput",
 });
 exports.BenefitContent = new graphql_1.GraphQLObjectType({
     description: "Represents a benefit content.",
@@ -84,7 +84,7 @@ exports.BenefitContent = new graphql_1.GraphQLObjectType({
         en_content: { type: graphql_1.GraphQLString },
         id: { type: types_4.Benefit },
     },
-    name: "BenefitContent"
+    name: "BenefitContent",
 });
 exports.BenefitContentInput = new graphql_1.GraphQLInputObjectType({
     description: "The updated properties for a benefit content.",
@@ -93,7 +93,7 @@ exports.BenefitContentInput = new graphql_1.GraphQLInputObjectType({
         en_content: { type: graphql_1.GraphQLString },
         id: { type: graphql_1.GraphQLString },
     },
-    name: "BenefitContentInput"
+    name: "BenefitContentInput",
 });
 exports.Company = new graphql_1.GraphQLObjectType({
     description: "Represents a company.",
@@ -111,6 +111,8 @@ exports.Company = new graphql_1.GraphQLObjectType({
         album: { type: new graphql_1.GraphQLList(graphql_1.GraphQLString) },
         en_slug: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         vi_slug: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
+        min_size: { type: graphql_1.GraphQLInt },
+        max_size: { type: graphql_1.GraphQLInt },
         logo: { type: graphql_1.GraphQLString },
         cover: { type: graphql_1.GraphQLString },
         website: { type: graphql_1.GraphQLString },
