@@ -1,39 +1,38 @@
-import {JobCategoryInput} from "./../../job_category/types/index";
 import {
-  GraphQLBoolean,
   GraphQLInputObjectType,
   GraphQLInt,
   GraphQLList,
   GraphQLNonNull,
   GraphQLObjectType,
   GraphQLString,
+  GraphQLBoolean,
 } from "graphql";
-import {PageInfo} from "../../types";
-import {JobCategory} from "../../job_category/types";
-import {JobLocation} from "../../job_location/types";
-import {Benefit} from "../../benefit/types";
+import { PageInfo } from "../../types";
+import { JobCategory, JobCategoryInput } from "../../job_category/types";
+import { JobLocation } from "../../job_location/types";
+import { Benefit } from "../../benefit/types";
 
 export const MediaStory = new GraphQLObjectType({
   description: "Represents a media story.",
   fields: {
-    vi_title: {type: GraphQLString},
-    en_title: {type: GraphQLString},
-    vi_content: {type: new GraphQLList(GraphQLString)},
-    en_content: {type: new GraphQLList(GraphQLString)},
-    media_type: {type: GraphQLString},
-    media_link: {type: GraphQLString},
+    vi_title: { type: GraphQLString },
+    en_title: { type: GraphQLString },
+    vi_content: { type: new GraphQLList(GraphQLString) },
+    en_content: { type: new GraphQLList(GraphQLString) },
+    media_type: { type: GraphQLString },
+    media_link: { type: GraphQLString },
   },
   name: "MediaStory",
 });
 export const MediaStoryInput = new GraphQLInputObjectType({
   description: "The updated properties for a media story.",
   fields: {
-    vi_title: {type: GraphQLString},
-    en_title: {type: GraphQLString},
-    vi_content: {type: new GraphQLList(GraphQLString)},
-    en_content: {type: new GraphQLList(GraphQLString)},
-    media_type: {type: GraphQLString},
-    media_link: {type: GraphQLString},
+    vi_title: { type: GraphQLString },
+    en_title: { type: GraphQLString },
+    vi_content: { type: new GraphQLList(GraphQLString) },
+    en_content: { type: new GraphQLList(GraphQLString) },
+    media_type: { type: GraphQLString },
+    media_link: { type: GraphQLString },
   },
   name: "MediaStoryInput",
 });
@@ -41,64 +40,64 @@ export const MediaStoryInput = new GraphQLInputObjectType({
 export const TextStory = new GraphQLObjectType({
   description: "Represents a text story.",
   fields: {
-    vi_title: {type: GraphQLString},
-    en_title: {type: GraphQLString},
-    vi_content: {type: new GraphQLList(GraphQLString)},
-    en_content: {type: new GraphQLList(GraphQLString)},
+    vi_title: { type: GraphQLString },
+    en_title: { type: GraphQLString },
+    vi_content: { type: new GraphQLList(GraphQLString) },
+    en_content: { type: new GraphQLList(GraphQLString) },
   },
   name: "TextStory",
 });
 export const TextStoryInput = new GraphQLInputObjectType({
   description: "The updated properties for a text story.",
   fields: {
-    vi_title: {type: GraphQLString},
-    en_title: {type: GraphQLString},
-    vi_content: {type: new GraphQLList(GraphQLString)},
-    en_content: {type: new GraphQLList(GraphQLString)},
+    vi_title: { type: GraphQLString },
+    en_title: { type: GraphQLString },
+    vi_content: { type: new GraphQLList(GraphQLString) },
+    en_content: { type: new GraphQLList(GraphQLString) },
   },
   name: "TextStoryInput",
 });
 export const People = new GraphQLObjectType({
   description: "Represents a person.",
   fields: {
-    vi_name: {type: GraphQLString},
-    en_name: {type: GraphQLString},
-    vi_content: {type: new GraphQLList(GraphQLString)},
-    en_content: {type: new GraphQLList(GraphQLString)},
-    vi_position: {type: GraphQLString},
-    en_position: {type: GraphQLString},
-    media_link: {type: GraphQLString},
+    vi_name: { type: GraphQLString },
+    en_name: { type: GraphQLString },
+    vi_content: { type: new GraphQLList(GraphQLString) },
+    en_content: { type: new GraphQLList(GraphQLString) },
+    vi_position: { type: GraphQLString },
+    en_position: { type: GraphQLString },
+    media_link: { type: GraphQLString },
   },
   name: "People",
 });
 export const PeopleInput = new GraphQLInputObjectType({
   description: "The updated properties for a person.",
   fields: {
-    vi_name: {type: GraphQLString},
-    en_name: {type: GraphQLString},
-    vi_content: {type: new GraphQLList(GraphQLString)},
-    en_content: {type: new GraphQLList(GraphQLString)},
-    vi_position: {type: GraphQLString},
-    en_position: {type: GraphQLString},
-    media_link: {type: GraphQLString},
+    vi_name: { type: GraphQLString },
+    en_name: { type: GraphQLString },
+    vi_content: { type: new GraphQLList(GraphQLString) },
+    en_content: { type: new GraphQLList(GraphQLString) },
+    vi_position: { type: GraphQLString },
+    en_position: { type: GraphQLString },
+    media_link: { type: GraphQLString },
   },
   name: "PeopleInput",
 });
 export const BenefitContent = new GraphQLObjectType({
   description: "Represents a benefit content.",
   fields: {
-    vi_content: {type: GraphQLString},
-    en_content: {type: GraphQLString},
-    id: {type: Benefit},
+    vi_content: { type: GraphQLString },
+    en_content: { type: GraphQLString },
+    id: { type: Benefit },
   },
   name: "BenefitContent",
 });
 export const BenefitContentInput = new GraphQLInputObjectType({
   description: "The updated properties for a benefit content.",
   fields: {
-    vi_content: {type: GraphQLString},
-    en_content: {type: GraphQLString},
-    id: {type: GraphQLString},
+    vi_content: { type: GraphQLString },
+    en_content: { type: GraphQLString },
+    id: { type: GraphQLString },
   },
   name: "BenefitContentInput",
 });
@@ -136,13 +135,15 @@ export const Company = new GraphQLObjectType({
     seo_description: {type: GraphQLString},
     created_at: {type: new GraphQLNonNull(GraphQLString)},
     updated_at: {type: new GraphQLNonNull(GraphQLString)},
+    min_size: { type: GraphQLInt },
+    max_size: { type: GraphQLInt },
   },
   name: "Company",
 });
 export const CompanyEdge = new GraphQLObjectType({
   description: "A list of edges.",
   fields: {
-    cursor: {type: new GraphQLNonNull(GraphQLString)},
+    cursor: { type: new GraphQLNonNull(GraphQLString) },
     node: {
       description: "The item at the end of CompanyEdge.",
       resolve: (parent) => parent.node,
@@ -151,6 +152,7 @@ export const CompanyEdge = new GraphQLObjectType({
   },
   name: "CompanyEdge",
 });
+
 export const CompanyConnection = new GraphQLObjectType({
   description: "List of companys.",
   fields: {
@@ -158,7 +160,7 @@ export const CompanyConnection = new GraphQLObjectType({
       resolve: (parent) => parent.edges,
       type: new GraphQLNonNull(new GraphQLList(CompanyEdge)),
     },
-    pageInfo: {type: new GraphQLNonNull(PageInfo)},
+    pageInfo: { type: new GraphQLNonNull(PageInfo) },
   },
   name: "CompanyConnection",
 });
@@ -217,6 +219,6 @@ export const AssignPermissionOnput = new GraphQLObjectType({
 });
 
 export const CompanyArguments = {
-  _id: {type: GraphQLString},
-  slug: {type: GraphQLString},
+  _id: { type: GraphQLString },
+  slug: { type: GraphQLString },
 };

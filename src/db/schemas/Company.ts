@@ -43,6 +43,14 @@ const companySchema = new mongoose.Schema({
   logo: String,
   cover: String,
   website: String,
+  min_size: {
+    type: Number,
+    default: 0,
+  },
+  max_size: {
+    type: Number,
+    default: 0,
+  },
   region: String,
   phone: String,
   facebook: String,
@@ -109,6 +117,7 @@ const companySchema = new mongoose.Schema({
   },
   seo_title: String,
   seo_description: String,
+
 }, {timestamps: {createdAt: "created_at", updatedAt: "updated_at"}});
 
 const Company = mongoose.model("Company", companySchema);

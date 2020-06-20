@@ -42,6 +42,14 @@ const companySchema = new mongoose.Schema({
     logo: String,
     cover: String,
     website: String,
+    min_size: {
+        type: Number,
+        default: 0,
+    },
+    max_size: {
+        type: Number,
+        default: 0,
+    },
     region: String,
     phone: String,
     facebook: String,
