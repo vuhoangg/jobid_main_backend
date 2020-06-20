@@ -208,5 +208,6 @@ exports.UserInput = new graphql_1.GraphQLInputObjectType({
 });
 exports.UserArguments = {
     _id: { type: graphql_1.GraphQLString },
+    email: { type: graphql_1.GraphQLString },
 };
 //# sourceMappingURL=index.js.map

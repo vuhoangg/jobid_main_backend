@@ -2,9 +2,10 @@ import UserService from "../../../db/repositories/UserRepository";
 import {filterObject, rootField, rootInfo} from "../../helpers";
 
 export function getUser(source, args, context, info) {
+  
   const fields = rootField(info);
-  let _id = args._id ? args._id : context.user._id;
-  return UserService.get(_id, fields)
+  // let _id = args._id ? args._id : context.user._id;
+  return UserService.getBy(args, fields)
     .then(async (user) => {
       let node = {
         _id: user._id,

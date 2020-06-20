@@ -1,11 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CompanyArguments = exports.AssignPermissionOnput = exports.AssignPermissionInput = exports.CompanyInput = exports.CompanyConnection = exports.CompanyEdge = exports.Company = exports.BenefitContentInput = exports.BenefitContent = exports.PeopleInput = exports.People = exports.TextStoryInput = exports.TextStory = exports.MediaStoryInput = exports.MediaStory = void 0;
+exports.CompanyArguments = exports.AssignPermissionOnput = exports.AssignPermissionInput = exports.CompanyInput = exports.CompanyConnection = exports.CompanyEdge = exports.Company = exports.BenefitContentInput = exports.BenefitContent = exports.PeopleInput = exports.People = exports.TextStoryInput = exports.TextStory = exports.ListUserInput = exports.ListUser = exports.MediaStoryInput = exports.MediaStory = void 0;
+const types_1 = require("./../../group_permission/types");
+const types_2 = require("./../../user/types");
 const graphql_1 = require("graphql");
-const types_1 = require("../../types");
-const types_2 = require("../../job_category/types");
-const types_3 = require("../../job_location/types");
-const types_4 = require("../../benefit/types");
+const types_3 = require("../../types");
+const types_4 = require("../../job_category/types");
+const types_5 = require("../../job_location/types");
+const types_6 = require("../../benefit/types");
 exports.MediaStory = new graphql_1.GraphQLObjectType({
     description: "Represents a media story.",
     fields: {
@@ -29,6 +31,22 @@ exports.MediaStoryInput = new graphql_1.GraphQLInputObjectType({
         media_link: { type: graphql_1.GraphQLString },
     },
     name: "MediaStoryInput",
+});
+exports.ListUser = new graphql_1.GraphQLObjectType({
+    description: "Represents a list user",
+    fields: {
+        user: { type: types_2.User },
+        target_permission: { type: types_1.GroupPermission }
+    },
+    name: "ListUser",
+});
+exports.ListUserInput = new graphql_1.GraphQLInputObjectType({
+    description: "The updated properties for a list user",
+    fields: {
+        user: { type: graphql_1.GraphQLString },
+        target_permission: { type: graphql_1.GraphQLString }
+    },
+    name: "ListUserInput",
 });
 exports.TextStory = new graphql_1.GraphQLObjectType({
     description: "Represents a text story.",
@@ -81,7 +99,7 @@ exports.BenefitContent = new graphql_1.GraphQLObjectType({
     fields: {
         vi_content: { type: graphql_1.GraphQLString },
         en_content: { type: graphql_1.GraphQLString },
-        id: { type: types_4.Benefit },
+        id: { type: types_6.Benefit },
     },
     name: "BenefitContent",
 });
@@ -101,9 +119,9 @@ exports.Company = new graphql_1.GraphQLObjectType({
         default_lang: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         en_name: { type: graphql_1.GraphQLString },
         vi_name: { type: graphql_1.GraphQLString },
-        job_category: { type: new graphql_1.GraphQLList(types_2.JobCategory) },
+        job_category: { type: new graphql_1.GraphQLList(types_4.JobCategory) },
         company_type: { type: graphql_1.GraphQLString },
-        job_location: { type: new graphql_1.GraphQLList(types_3.JobLocation) },
+        job_location: { type: new graphql_1.GraphQLList(types_5.JobLocation) },
         verify_status: { type: graphql_1.GraphQLBoolean },
         premium_status: { type: graphql_1.GraphQLBoolean },
         address: { type: new graphql_1.GraphQLList(graphql_1.GraphQLString) },
@@ -119,17 +137,20 @@ exports.Company = new graphql_1.GraphQLObjectType({
         youtube: { type: graphql_1.GraphQLString },
         address_contact: { type: graphql_1.GraphQLString },
         created_by: { type: graphql_1.GraphQLString },
+        list_user: { type: new graphql_1.GraphQLList(exports.ListUser) },
         media_story: { type: new graphql_1.GraphQLList(exports.MediaStory) },
         text_story: { type: new graphql_1.GraphQLList(exports.TextStory) },
         people: { type: new graphql_1.GraphQLList(exports.People) },
         benefit: { type: new graphql_1.GraphQLList(exports.BenefitContent) },
         follow: { type: graphql_1.GraphQLInt },
+        min_size: { type: graphql_1.GraphQLInt },
+        max_size: { type: graphql_1.GraphQLInt },
+        description: { type: graphql_1.GraphQLString },
+        slogan: { type: graphql_1.GraphQLString },
         seo_title: { type: graphql_1.GraphQLString },
         seo_description: { type: graphql_1.GraphQLString },
         created_at: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         updated_at: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
-        min_size: { type: graphql_1.GraphQLInt },
-        max_size: { type: graphql_1.GraphQLInt },
     },
     name: "Company",
 });
@@ -152,7 +173,7 @@ exports.CompanyConnection = new graphql_1.GraphQLObjectType({
             resolve: (parent) => parent.edges,
             type: new graphql_1.GraphQLNonNull(new graphql_1.GraphQLList(exports.CompanyEdge)),
         },
-        pageInfo: { type: new graphql_1.GraphQLNonNull(types_1.PageInfo) },
+        pageInfo: { type: new graphql_1.GraphQLNonNull(types_3.PageInfo) },
     },
     name: "CompanyConnection",
 });
@@ -162,7 +183,7 @@ exports.CompanyInput = new graphql_1.GraphQLInputObjectType({
         default_lang: { type: graphql_1.GraphQLString },
         en_name: { type: graphql_1.GraphQLString },
         vi_name: { type: graphql_1.GraphQLString },
-        job_category: { type: new graphql_1.GraphQLList(types_2.JobCategoryInput) },
+        job_category: { type: new graphql_1.GraphQLList(types_4.JobCategoryInput) },
         company_type: { type: graphql_1.GraphQLString },
         job_location: { type: new graphql_1.GraphQLList(graphql_1.GraphQLString) },
         verify_status: { type: graphql_1.GraphQLBoolean },
@@ -180,10 +201,13 @@ exports.CompanyInput = new graphql_1.GraphQLInputObjectType({
         youtube: { type: graphql_1.GraphQLString },
         address_contact: { type: graphql_1.GraphQLString },
         created_by: { type: graphql_1.GraphQLString },
+        list_user: { type: new graphql_1.GraphQLList(exports.ListUserInput) },
         media_story: { type: new graphql_1.GraphQLList(exports.MediaStoryInput) },
         text_story: { type: new graphql_1.GraphQLList(exports.TextStoryInput) },
         people: { type: new graphql_1.GraphQLList(exports.PeopleInput) },
         benefit: { type: new graphql_1.GraphQLList(exports.BenefitContentInput) },
+        description: { type: graphql_1.GraphQLString },
+        slogan: { type: graphql_1.GraphQLString },
         seo_title: { type: graphql_1.GraphQLString },
         seo_description: { type: graphql_1.GraphQLString },
     },

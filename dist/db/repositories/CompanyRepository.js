@@ -84,10 +84,23 @@ class CompanyRepository {
             let condition = getCondition(filter);
             let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
             return Company_1.default.find(condition, projection)
-                .populate("job_category")
-                .populate("job_location")
-                .sort(sort)
-                .skip(limit * (page - 1))
+                .populate('job_category')
+                .populate('job_location')
+                .populate({
+                path: 'list_user',
+                populate: {
+                    path: 'user',
+                    model: 'User'
+                }
+            })
+                .populate({
+                path: 'list_user',
+                populate: {
+                    path: 'target_permission',
+                    model: 'GroupPermission'
+                }
+            })
+                .sort(sort).skip(limit * (page - 1))
                 .limit(limit);
         }
         catch (e) {
@@ -102,8 +115,22 @@ class CompanyRepository {
             }
             else if (getBy.slug) {
                 return Company_1.default.findOne({ $or: [{ vi_slug: getBy.slug }, { en_slug: getBy.slug }] }, projection)
-                    .populate("job_category")
-                    .populate("job_location");
+                    .populate('job_category')
+                    .populate('job_location')
+                    .populate({
+                    path: 'list_user',
+                    populate: {
+                        path: 'user',
+                        model: 'User'
+                    }
+                })
+                    .populate({
+                    path: 'list_user',
+                    populate: {
+                        path: 'target_permission',
+                        model: 'GroupPermission'
+                    }
+                });
             }
             else {
                 return promise_1.promiseNull();
