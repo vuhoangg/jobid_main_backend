@@ -134,7 +134,21 @@ class CompanyRepository implements CrudContract {
       } else if (getBy.slug) {
         return Company.findOne({$or: [{vi_slug: getBy.slug}, {en_slug: getBy.slug}]}, projection)
           .populate('job_category')
-          .populate('job_location');
+          .populate('job_location')
+          .populate({ 
+            path: 'list_user',
+            populate: {
+              path: 'user',
+              model: 'User'
+            }
+         })
+         .populate({ 
+          path: 'list_user',
+          populate: {
+            path: 'target_permission',
+            model: 'GroupPermission'
+          }
+       })
       } else {
         return promiseNull();
       }

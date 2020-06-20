@@ -49,6 +49,8 @@ const companySchema = new mongoose.Schema(
     facebook: String,
     youtube: String,
     address_contact: String,
+    description: String,
+    slogan: String,
     media_story: [
       {
         vi_title: String,
