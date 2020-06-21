@@ -122,9 +122,23 @@ class UserRepository implements CrudContract {
   getBy(getBy: IGetBy, projection) {
     try {
       if (getBy._id) {
-        return User.findById(getBy._id, projection);
+        return User.findById(getBy._id, projection)
+          .populate("customize_info.current_job_level")
+          .populate("customize_info.location")
+          .populate("customize_info.skill")
+          .populate("customize_info.work_preference.job_location")
+          .populate("customize_info.work_preference.job_category")
+          .populate("customize_info.work_preference.job_level")
+          .populate("customize_info.work_preference.benefit");;
       } else if (getBy.email) {
-        return User.findOne({email: getBy.email}, projection);
+        return User.findOne({email: getBy.email}, projection)
+          .populate("customize_info.current_job_level")
+          .populate("customize_info.location")
+          .populate("customize_info.skill")
+          .populate("customize_info.work_preference.job_location")
+          .populate("customize_info.work_preference.job_category")
+          .populate("customize_info.work_preference.job_level")
+          .populate("customize_info.work_preference.benefit");;
       } else {
         return promiseNull();
       }

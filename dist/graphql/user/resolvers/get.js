@@ -17,8 +17,13 @@ const UserRepository_1 = __importDefault(require("../../../db/repositories/UserR
 const helpers_1 = require("../../helpers");
 function getUser(source, args, context, info) {
     const fields = helpers_1.rootField(info);
-    // let _id = args._id ? args._id : context.user._id;
-    return UserRepository_1.default.getBy(args, fields)
+    let getBy = {
+        _id: context.user._id
+    };
+    if (args._id || args.email) {
+        getBy = args;
+    }
+    return UserRepository_1.default.getBy(getBy, fields)
         .then((user) => __awaiter(this, void 0, void 0, function* () {
         let node = {
             _id: user._id,
