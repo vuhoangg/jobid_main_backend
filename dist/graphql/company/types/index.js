@@ -183,7 +183,7 @@ exports.CompanyInput = new graphql_1.GraphQLInputObjectType({
         default_lang: { type: graphql_1.GraphQLString },
         en_name: { type: graphql_1.GraphQLString },
         vi_name: { type: graphql_1.GraphQLString },
-        job_category: { type: new graphql_1.GraphQLList(types_4.JobCategoryInput) },
+        job_category: { type: new graphql_1.GraphQLList(graphql_1.GraphQLString) },
         company_type: { type: graphql_1.GraphQLString },
         job_location: { type: new graphql_1.GraphQLList(graphql_1.GraphQLString) },
         verify_status: { type: graphql_1.GraphQLBoolean },

@@ -23,10 +23,8 @@ function createCompany(source, args, context, info) {
     input.en_slug = string_1.toSlug(input.vi_name || input.en_name, true).toLowerCase();
     if (context.isAuthenticated()) {
         let loggedUser = context.user;
-        if (permission_1.isSuperUser(loggedUser.email)) {
-            // TODO remove input premium, verify status
-            return CompanyRepository_1.default.create(input);
-        }
+        input = Object.assign(input, { created_by: loggedUser._id });
+        return CompanyRepository_1.default.create(input);
     }
 }
 exports.createCompany = createCompany;
