@@ -5,7 +5,7 @@ export function getUser(source, args, context, info) {
 
   const fields = rootField(info);
   let getBy = {
-    _id: context.user._id
+    _id: context.isAuthenticated() ? context.user._id : "",
   };
   if (args._id || args.email) {
     getBy = args;

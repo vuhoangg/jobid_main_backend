@@ -18,7 +18,7 @@ const helpers_1 = require("../../helpers");
 function getUser(source, args, context, info) {
     const fields = helpers_1.rootField(info);
     let getBy = {
-        _id: context.user._id
+        _id: context.isAuthenticated() ? context.user._id : "",
     };
     if (args._id || args.email) {
         getBy = args;
