@@ -9,7 +9,7 @@ import {
 } from "graphql";
 import { PageInfo } from "../../types";
 
-export const Actions = new GraphQLInputObjectType({
+export const ActionInput = new GraphQLInputObjectType({
   description: "Represents a action.",
   fields: {
     read: { type: new GraphQLNonNull(GraphQLBoolean) },
@@ -17,10 +17,10 @@ export const Actions = new GraphQLInputObjectType({
     update: { type: new GraphQLNonNull(GraphQLBoolean) },
     delete: { type: new GraphQLNonNull(GraphQLBoolean) },
   },
-  name: "Actions",
+  name: "ActionInput",
 });
 
-export const ActionsOutput = new GraphQLObjectType({
+export const Action = new GraphQLObjectType({
   description: "Represents a action.",
   fields: {
     read: { type: GraphQLBoolean },
@@ -28,25 +28,25 @@ export const ActionsOutput = new GraphQLObjectType({
     update: { type: GraphQLBoolean },
     delete: { type: GraphQLBoolean },
   },
-  name: "ActionsOutput",
+  name: "Action",
 });
 
-export const Permission = new GraphQLInputObjectType({
+export const PermissionInput = new GraphQLInputObjectType({
   description: "Represents a permission.",
   fields: {
     resource: { type: new GraphQLNonNull(GraphQLString) },
-    actions: { type: new GraphQLNonNull(Actions) },
+    actions: { type: new GraphQLNonNull(ActionInput) },
+  },
+  name: "PermissionInput",
+});
+
+export const Permission = new GraphQLObjectType({
+  description: "Represents a permission.",
+  fields: {
+    resource: { type: new GraphQLNonNull(GraphQLString) },
+    actions: { type: Action },
   },
   name: "Permission",
-});
-
-export const PermissionOutput = new GraphQLObjectType({
-  description: "Represents a permission.",
-  fields: {
-    resource: { type: new GraphQLNonNull(GraphQLString) },
-    actions: { type: ActionsOutput },
-  },
-  name: "PermissionOutput",
 });
 
 export const GroupPermission = new GraphQLObjectType({
@@ -54,7 +54,7 @@ export const GroupPermission = new GraphQLObjectType({
     _id: { type: new GraphQLNonNull(GraphQLString) },
     name: { type: new GraphQLNonNull(GraphQLString) },
     company: { type: new GraphQLNonNull(GraphQLString) },
-    permission: { type: new GraphQLList(PermissionOutput) },
+    permission: { type: new GraphQLList(Permission) },
   },
   name: "GroupPermission",
   description: "Represents a group permission.",
@@ -62,10 +62,10 @@ export const GroupPermission = new GraphQLObjectType({
 
 export const GroupPermissionInput = new GraphQLInputObjectType({
   fields: {
-    _id: { type: new GraphQLNonNull(GraphQLString) },
+    _id: { type: GraphQLString },
     name: { type: new GraphQLNonNull(GraphQLString) },
     company: { type: new GraphQLNonNull(GraphQLString) },
-    permission: { type: new GraphQLList(Permission) },
+    permission: { type: new GraphQLList(PermissionInput) },
   },
   name: "GroupPermissionInput",
   description: "The updated properties for a group permisstion.",
