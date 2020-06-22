@@ -112,7 +112,23 @@ class CompanyRepository {
     getBy(getBy, projection) {
         try {
             if (getBy._id) {
-                return Company_1.default.findById(getBy._id, projection).populate("job_category").populate("job_location");
+                return Company_1.default.findById(getBy._id, projection)
+                    .populate("job_category")
+                    .populate("job_location")
+                    .populate({
+                    path: "list_user",
+                    populate: {
+                        path: "user",
+                        model: "User",
+                    },
+                })
+                    .populate({
+                    path: "list_user",
+                    populate: {
+                        path: "target_permission",
+                        model: "GroupPermission",
+                    },
+                });
             }
             else if (getBy.slug) {
                 return Company_1.default.findOne({ $or: [{ vi_slug: getBy.slug }, { en_slug: getBy.slug }] }, projection)
