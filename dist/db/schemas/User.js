@@ -50,7 +50,6 @@ const userSchema = new mongoose.Schema({
         }
     ],
     customize_info: {
-        psid: String,
         cover: String,
         avatar: String,
         files: [String],

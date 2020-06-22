@@ -11,7 +11,7 @@ function updateUser(source, args, context, info) {
         let loggedUser = context.user;
         let input = args.input;
         input = Object.assign(input, { _id: loggedUser._id });
-        return UserRepository_1.default.markSpam(input);
+        return UserRepository_1.default.update(input);
     }
 }
 exports.updateUser = updateUser;
