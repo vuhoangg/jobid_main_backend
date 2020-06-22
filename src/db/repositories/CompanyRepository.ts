@@ -131,7 +131,23 @@ class CompanyRepository implements CrudContract {
   getBy(getBy: IGetBy, projection) {
     try {
       if (getBy._id) {
-        return Company.findById(getBy._id, projection).populate("job_category").populate("job_location");
+        return Company.findById(getBy._id, projection)
+          .populate("job_category")
+          .populate("job_location")
+          .populate({
+            path: "list_user",
+            populate: {
+              path: "user",
+              model: "User",
+            },
+          })
+          .populate({
+            path: "list_user",
+            populate: {
+              path: "target_permission",
+              model: "GroupPermission",
+            },
+          });
       } else if (getBy.slug) {
         return Company.findOne({ $or: [{ vi_slug: getBy.slug }, { en_slug: getBy.slug }] }, projection)
           .populate("job_category")
