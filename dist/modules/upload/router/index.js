@@ -41,6 +41,18 @@ router.post("/upload_file", (req, res) => __awaiter(void 0, void 0, void 0, func
         res.send("fail");
     }
 }));
+router.post("/upload_file_pdf", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (req.isAuthenticated()) {
+        let baseData = req.body.baseData;
+        let fileName = req.body.fileName;
+        let typeUpload = req.body.typeUpload;
+        let url = yield s3_1.s3UploadPdf(baseData, fileName, typeUpload);
+        res.send({ location: url });
+    }
+    else {
+        res.send("fail");
+    }
+}));
 router.post("/private_upload_image_app", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let base64 = req.body.base64_image;
     let fileName = req.body.fileName;

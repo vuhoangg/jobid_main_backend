@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
     email: {
         type: String,
-        unique: true
+        unique: true,
     },
     psid: {
         type: String,
@@ -34,20 +34,28 @@ const userSchema = new mongoose.Schema({
     },
     spam: {
         default: 0,
-        type: Number
+        type: Number,
     },
     // -- company role
     company_role: [
         {
             company_id: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'Company'
+                ref: "Company",
             },
             group_permission: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'GroupPermission'
-            }
-        }
+                ref: "GroupPermission",
+            },
+        },
+    ],
+    manager_cv: [
+        {
+            cv_id: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "CurriculumVitae",
+            },
+        },
     ],
     customize_info: {
         cover: String,
@@ -59,7 +67,7 @@ const userSchema = new mongoose.Schema({
         current_job_company: String,
         current_job_level: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "JobLevel"
+            ref: "JobLevel",
         },
         current_experience_number: Number,
         phone: String,
@@ -69,21 +77,21 @@ const userSchema = new mongoose.Schema({
         status: String,
         location: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "JobLocation"
+            ref: "JobLocation",
         },
         specific_address: String,
         intro: String,
         skill: [
             {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'JobSkill'
-            }
+                ref: "JobSkill",
+            },
         ],
         language: [
             {
                 lang: String,
                 level: String,
-            }
+            },
         ],
         employment_history: [
             {
@@ -98,7 +106,7 @@ const userSchema = new mongoose.Schema({
                 from_month: Date,
                 to_month: Date,
                 description: String,
-            }
+            },
         ],
         education_history: [
             {
@@ -117,24 +125,24 @@ const userSchema = new mongoose.Schema({
                 from_month: Date,
                 to_month: Date,
                 achievement: String,
-            }
+            },
         ],
         work_preference: {
             job_location: [
                 {
                     type: mongoose.Schema.Types.ObjectId,
-                    ref: 'JobLocation'
-                }
+                    ref: "JobLocation",
+                },
             ],
             job_category: [
                 {
                     type: mongoose.Schema.Types.ObjectId,
-                    ref: 'JobCategory'
-                }
+                    ref: "JobCategory",
+                },
             ],
             job_level: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'JobLevel'
+                ref: "JobLevel",
             },
             salary: {
                 type: Number,
@@ -143,12 +151,12 @@ const userSchema = new mongoose.Schema({
             benefit: [
                 {
                     type: mongoose.Schema.Types.ObjectId,
-                    ref: 'Benefit'
-                }
-            ]
+                    ref: "Benefit",
+                },
+            ],
         },
-    }
-}, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
-const User = mongoose.model('User', userSchema);
+    },
+}, { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } });
+const User = mongoose.model("User", userSchema);
 exports.default = User;
 //# sourceMappingURL=User.js.map
