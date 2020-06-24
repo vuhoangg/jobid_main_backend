@@ -47,7 +47,7 @@ import {
       _id: {type: GraphQLString},
       clientId: {type: GraphQLString},
       location: {type: GraphQLString},
-      browser: {type: GraphQLString},
+      browser: {type: GraphQLString}
     },
     name: "ClientSubcriberInput",
     description: "The updated properties for a ClientSubcriberInput.",

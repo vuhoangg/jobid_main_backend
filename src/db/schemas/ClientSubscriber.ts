@@ -6,7 +6,7 @@ const ClientSubscriberSchema = new mongoose.Schema(
       type: String,
     },
     location: {
-        type: String,
+      type: String,
     },
     browser: {
       type: String,
