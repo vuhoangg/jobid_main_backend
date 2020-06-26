@@ -11,7 +11,7 @@ import graphqlHTTP from "express-graphql";
 import { Connection } from "./db/connection";
 import { AuthRouter } from "./modules/auth/router";
 import { UploadRouter } from "./modules/upload/router";
-import { handlePushNotificationSubscription, sendPushNotification } from "./modules/clientRegistration";
+import { ServiceNotificationRouter } from "./modules/clientRegistration";
 import AppSchema from "./schema";
 import { isExistingEmailUser, isExistingIdUser, saveNewFacebookUser, saveNewGoogleUser } from "./modules/auth/handles";
 Connection.connect();
@@ -28,7 +28,20 @@ app.use(
 app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: [
+      process.env.SITE_URL,
+      process.env.STUDIO_URL,
+      process.env.ADMIN_URL,
+      process.env.LOCAL_SITE,
+      process.env.LOCAL_STUDIO,
+      process.env.LOCAL_ADMIN,
+    ],
+  })
+);
+
 
 
 passport.serializeUser((user: any, done) => {
@@ -104,8 +117,7 @@ passport.use(
 
 app.use("/upload", UploadRouter);
 app.use("/auth", AuthRouter);
-app.post("/subscription", handlePushNotificationSubscription);
-app.get("/subscription/:id", sendPushNotification);
+app.use("/", ServiceNotificationRouter)
 app.use(
   "/graphql",
   graphqlHTTP({

@@ -23,6 +23,7 @@ import groupPermissionQueries from "./group_permission/queries";
 import websiteRoleQueries from "./website_role/queries";
 import logoutQueries from "./logout/queries";
 import clientSubcriberQueries from "./client_subcriber/queries"
+import serviceWorkerNotificationQueries from "./service_notification/queries";
 
 const QueryRoot = new GraphQLObjectType({
   fields: {
@@ -52,7 +53,8 @@ const QueryRoot = new GraphQLObjectType({
     ...groupPermissionQueries,
     ...websiteRoleQueries,
     ...logoutQueries,
-    ...clientSubcriberQueries
+    ...clientSubcriberQueries,
+    ...serviceWorkerNotificationQueries
   },
   name: "QueryRoot",
 });
