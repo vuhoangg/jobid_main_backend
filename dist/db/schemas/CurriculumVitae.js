@@ -128,6 +128,11 @@ const CurriculumVitaeSchema = new mongoose.Schema({
             },
         },
     ],
+    status: {
+        type: String,
+        enum: ["active", "trash", "draft"],
+        default: "active",
+    },
 }, { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } });
 const CurriculumVitae = mongoose.model("CurriculumVitae", CurriculumVitaeSchema);
 exports.default = CurriculumVitae;

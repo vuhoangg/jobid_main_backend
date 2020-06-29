@@ -128,6 +128,11 @@ const CurriculumVitaeSchema = new mongoose.Schema(
         },
       },
     ],
+    status: {
+      type: String,
+      enum: ["active", "trash", "draft"],
+      default: "active",
+    },
   },
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );

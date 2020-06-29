@@ -1,4 +1,4 @@
-import { GraphQLNonNull } from "graphql";
+import { GraphQLNonNull, GraphQLString } from "graphql";
 import { CurriculumVitae, CurriculumVitaeInput } from "../types";
 import { createCurriculumVitae, updateCurriculumVitae } from "../resolvers/update";
 

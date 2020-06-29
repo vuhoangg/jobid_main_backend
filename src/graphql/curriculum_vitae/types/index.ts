@@ -10,7 +10,7 @@ import {
 import { PageInfo } from "../../types";
 
 export const InfoInput = new GraphQLInputObjectType({
-  description: "",
+  description: "info input",
   fields: {
     info_resumeTitle: {
       type: GraphQLString,
@@ -35,7 +35,7 @@ export const InfoInput = new GraphQLInputObjectType({
 });
 
 export const EducationInput = new GraphQLInputObjectType({
-  description: "",
+  description: "education input",
   fields: {
     id: {
       type: GraphQLString,
@@ -57,7 +57,7 @@ export const EducationInput = new GraphQLInputObjectType({
 });
 
 export const TargetInput = new GraphQLInputObjectType({
-  description: "",
+  description: "target input",
   fields: {
     target_short: {
       type: GraphQLString,
@@ -73,7 +73,7 @@ export const TargetInput = new GraphQLInputObjectType({
 });
 
 export const InterestInput = new GraphQLInputObjectType({
-  description: "",
+  description: "interest input",
   fields: {
     id: { type: GraphQLString },
     interest_name: { type: GraphQLString },
@@ -82,7 +82,7 @@ export const InterestInput = new GraphQLInputObjectType({
 });
 
 export const ExperienceInput = new GraphQLInputObjectType({
-  description: "",
+  description: "experience input",
   fields: {
     id: {
       type: GraphQLString,
@@ -104,7 +104,7 @@ export const ExperienceInput = new GraphQLInputObjectType({
 });
 
 export const SkillInput = new GraphQLInputObjectType({
-  description: "",
+  description: "skill input",
   fields: {
     id: {
       type: GraphQLString,
@@ -120,7 +120,7 @@ export const SkillInput = new GraphQLInputObjectType({
 });
 
 export const PersonInput = new GraphQLInputObjectType({
-  description: "",
+  description: "peron input",
   fields: {
     id: {
       type: GraphQLString,
@@ -142,7 +142,7 @@ export const PersonInput = new GraphQLInputObjectType({
 });
 
 export const Info = new GraphQLObjectType({
-  description: "",
+  description: "info",
   fields: {
     info_resumeTitle: {
       type: GraphQLString,
@@ -167,7 +167,7 @@ export const Info = new GraphQLObjectType({
 });
 
 export const Education = new GraphQLObjectType({
-  description: "",
+  description: "education",
   fields: {
     id: {
       type: GraphQLString,
@@ -189,7 +189,7 @@ export const Education = new GraphQLObjectType({
 });
 
 export const Target = new GraphQLObjectType({
-  description: "",
+  description: "target",
   fields: {
     target_short: {
       type: GraphQLString,
@@ -205,7 +205,7 @@ export const Target = new GraphQLObjectType({
 });
 
 export const Interest = new GraphQLObjectType({
-  description: "",
+  description: "interest",
   fields: {
     id: { type: GraphQLString },
     interest_name: { type: GraphQLString },
@@ -214,7 +214,7 @@ export const Interest = new GraphQLObjectType({
 });
 
 export const Experience = new GraphQLObjectType({
-  description: "",
+  description: "experience",
   fields: {
     id: {
       type: GraphQLString,
@@ -236,7 +236,7 @@ export const Experience = new GraphQLObjectType({
 });
 
 export const Skill = new GraphQLObjectType({
-  description: "",
+  description: "skill",
   fields: {
     id: {
       type: GraphQLString,
@@ -252,7 +252,7 @@ export const Skill = new GraphQLObjectType({
 });
 
 export const Person = new GraphQLObjectType({
-  description: "",
+  description: "person",
   fields: {
     id: {
       type: GraphQLString,
@@ -274,16 +274,16 @@ export const Person = new GraphQLObjectType({
 });
 
 export const CurriculumVitaeInput = new GraphQLInputObjectType({
-  description: "",
+  description: "input cv",
   fields: {
     _id: { type: GraphQLString },
-    theme_id: { type: new GraphQLNonNull(GraphQLString) },
-    user_created: { type: new GraphQLNonNull(GraphQLString) },
+    theme_id: { type: GraphQLString },
+    user_created: { type: GraphQLString },
     image_url: {
-      type: new GraphQLNonNull(GraphQLString),
+      type: GraphQLString,
     },
     pdf_url: {
-      type: new GraphQLNonNull(GraphQLString),
+      type: GraphQLString,
     },
     avatar: { type: GraphQLString },
     info: { type: InfoInput },
@@ -303,12 +303,15 @@ export const CurriculumVitaeInput = new GraphQLInputObjectType({
     person: {
       type: new GraphQLList(PersonInput),
     },
+    status: {
+      type: GraphQLString,
+    },
   },
   name: "CurriculumVitaeInput",
 });
 
 export const CurriculumVitae = new GraphQLObjectType({
-  description: "",
+  description: "output cv",
   fields: {
     _id: { type: GraphQLString },
     theme_id: { type: new GraphQLNonNull(GraphQLString) },
@@ -337,6 +340,40 @@ export const CurriculumVitae = new GraphQLObjectType({
     person: {
       type: new GraphQLList(Person),
     },
+    status: {
+      type: GraphQLString,
+    },
+    created_at: { type: GraphQLString },
+    updated_at: { type: GraphQLString },
   },
   name: "CurriculumVitae",
 });
+
+export const CurriculumVitaeEdge = new GraphQLObjectType({
+  description: "A list of edges.",
+  fields: {
+    cursor: { type: new GraphQLNonNull(GraphQLString) },
+    node: {
+      description: "The item at the end of CurriculumVitaeEdge.",
+      resolve: (parent) => parent.node,
+      type: new GraphQLNonNull(CurriculumVitae),
+    },
+  },
+  name: "CurriculumVitaeEdge",
+});
+
+export const CurriculumVitaeConnection = new GraphQLObjectType({
+  description: "List of CV.",
+  fields: {
+    edges: {
+      resolve: (parent) => parent.edges,
+      type: new GraphQLNonNull(new GraphQLList(CurriculumVitaeEdge)),
+    },
+    pageInfo: { type: new GraphQLNonNull(PageInfo) },
+  },
+  name: "CurriculumVitaeConnection",
+});
+
+export const CurriculumVitaeArguments = {
+  _id: { type: new GraphQLNonNull(GraphQLString) },
+};

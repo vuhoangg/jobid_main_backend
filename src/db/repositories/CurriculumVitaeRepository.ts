@@ -18,7 +18,6 @@ interface IFilter {
 
 function getCondition(filter: IFilter) {
   let condition = {};
-
   return condition;
 }
 
@@ -62,9 +61,9 @@ class CurriculumVitaeRepository implements CrudContract {
     }
   }
 
-  get(id, projection) {
+  get(condition, projection) {
     try {
-      return CurriculumVitae.findById(id, projection);
+      return CurriculumVitae.findOne(condition, projection);
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -75,7 +74,7 @@ class CurriculumVitaeRepository implements CrudContract {
     try {
       let condition = getCondition(filter);
       let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
-      return CurriculumVitae.find(condition, projection)
+      return CurriculumVitae.find(filter, projection)
         .sort(sort)
         .skip(limit * (page - 1))
         .limit(limit);
@@ -87,8 +86,8 @@ class CurriculumVitaeRepository implements CrudContract {
 
   getBy(getBy: any, projection) {
     try {
-      if (getBy._id) {
-        return CurriculumVitae.findById(getBy._id, projection);
+      if (getBy.user_create) {
+        return CurriculumVitae.find({ _id: getBy.user_create }, projection);
       } else {
         return promiseNull();
       }

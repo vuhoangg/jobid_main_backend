@@ -49,9 +49,9 @@ class CurriculumVitaeRepository {
             return promise_1.promiseNull();
         }
     }
-    get(id, projection) {
+    get(condition, projection) {
         try {
-            return CurriculumVitae_1.default.findById(id, projection);
+            return CurriculumVitae_1.default.findOne(condition, projection);
         }
         catch (e) {
             log_1.errorLog(e);
@@ -62,7 +62,7 @@ class CurriculumVitaeRepository {
         try {
             let condition = getCondition(filter);
             let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
-            return CurriculumVitae_1.default.find(condition, projection)
+            return CurriculumVitae_1.default.find(filter, projection)
                 .sort(sort)
                 .skip(limit * (page - 1))
                 .limit(limit);
@@ -74,8 +74,8 @@ class CurriculumVitaeRepository {
     }
     getBy(getBy, projection) {
         try {
-            if (getBy._id) {
-                return CurriculumVitae_1.default.findById(getBy._id, projection);
+            if (getBy.user_create) {
+                return CurriculumVitae_1.default.find({ _id: getBy.user_create }, projection);
             }
             else {
                 return promise_1.promiseNull();

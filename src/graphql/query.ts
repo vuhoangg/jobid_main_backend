@@ -22,6 +22,7 @@ import companyFeatureQueries from "./company_feature/queries";
 import groupPermissionQueries from "./group_permission/queries";
 import websiteRoleQueries from "./website_role/queries";
 import logoutQueries from "./logout/queries";
+import curriculumVitaeQueries from "./curriculum_vitae/queries";
 
 const QueryRoot = new GraphQLObjectType({
   fields: {
@@ -51,6 +52,7 @@ const QueryRoot = new GraphQLObjectType({
     ...groupPermissionQueries,
     ...websiteRoleQueries,
     ...logoutQueries,
+    ...curriculumVitaeQueries,
   },
   name: "QueryRoot",
 });
