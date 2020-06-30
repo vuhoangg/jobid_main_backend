@@ -8,31 +8,29 @@ const router = express.Router();
 webpush.setVapidDetails(process.env.MAILTO_WEBPUSH, process.env.PUBLIC_WEBPUSH_KEY, process.env.PRIVATE_WEBPUSH_KEY);
 router.post("/subscription", (req, res) => {
   const clientIp = requestIp.getClientIp(req);
-  const blackListIp = ["127.0.0.1", "::1", "::ffff:127.0.0.1"];
-  if (blackListIp.includes(clientIp)) {
-    const geo = geoIp.lookup("42.113.204.212");
-    const subscriptionRequest = req.body.data;
-    let locate = JSON.stringify(geo);
-    let client = JSON.stringify(subscriptionRequest);
-    let payload = {
-      clientId: client,
-      location: locate,
-      browser: req.headers["user-agent"],
-    };
-    return saveSubscriptionToDatabase(payload)
-      .then(function (subscriptionId) {
-        res.send(JSON.stringify({ data: { success: true, client: subscriptionId } }));
-      })
-      .catch(function (err) {
-        res.status(500);
-        res.send({
-          error: {
-            id: "unable-to-save-subscription",
-            message: "The subscription was received but we were unable to save it to our database.",
-          },
-        });
+  const geo = geoIp.lookup(clientIp);
+  const subscriptionRequest = req.body.data;
+  let locate = JSON.stringify(geo);
+  let client = JSON.stringify(subscriptionRequest);
+  let payload = {
+    clientId: client,
+    location: locate,
+    browser: req.headers["user-agent"],
+
+  };
+  return saveSubscriptionToDatabase(payload)
+    .then(function (subscriptionId) {
+      res.send(JSON.stringify({ data: { success: true, client: subscriptionId } }));
+    })
+    .catch(function (err) {
+      res.status(500);
+      res.send({
+        error: {
+          id: "unable-to-save-subscription",
+          message: "The subscription was received but we were unable to save it to our database.",
+        },
       });
-  }
+    });
 });
 router.post("/send/subscription", async (req, res) => {
   if (req.isAuthenticated()) {

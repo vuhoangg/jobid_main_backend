@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose = require("mongoose");
-const CurriculumVitaeSchema = new mongoose.Schema({
+const curriculumVitaeSchema = new mongoose.Schema({
     theme_id: {
         type: String,
         required: true,
@@ -134,6 +134,6 @@ const CurriculumVitaeSchema = new mongoose.Schema({
         default: "active",
     },
 }, { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } });
-const CurriculumVitae = mongoose.model("CurriculumVitae", CurriculumVitaeSchema);
+const CurriculumVitae = mongoose.model("CurriculumVitae", curriculumVitaeSchema);
 exports.default = CurriculumVitae;
 //# sourceMappingURL=CurriculumVitae.js.map
