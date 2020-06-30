@@ -21,6 +21,7 @@ import companyFeatureMutations from "./company_feature/mutations";
 import groupPermissionMutations from "./group_permission/mutations";
 import clientSubcriberMutations from "./client_subcriber/mutations";
 import serviceWorkerNotificationMutations from "./service_notification/mutations";
+import curriculumVitaeMutations from "./curriculum_vitae/mutations";
 
 const Mutation = new GraphQLObjectType({
   fields: {
@@ -48,7 +49,8 @@ const Mutation = new GraphQLObjectType({
     ...companyFeatureMutations,
     ...groupPermissionMutations,
     ...clientSubcriberMutations,
-    ...serviceWorkerNotificationMutations
+    ...serviceWorkerNotificationMutations,
+    ...curriculumVitaeMutations,
   },
   name: "Mutation",
 });

@@ -24,6 +24,7 @@ import websiteRoleQueries from "./website_role/queries";
 import logoutQueries from "./logout/queries";
 import clientSubcriberQueries from "./client_subcriber/queries"
 import serviceWorkerNotificationQueries from "./service_notification/queries";
+import curriculumVitaeQueries from "./curriculum_vitae/queries";
 
 const QueryRoot = new GraphQLObjectType({
   fields: {
@@ -54,7 +55,8 @@ const QueryRoot = new GraphQLObjectType({
     ...websiteRoleQueries,
     ...logoutQueries,
     ...clientSubcriberQueries,
-    ...serviceWorkerNotificationQueries
+    ...serviceWorkerNotificationQueries,
+    ...curriculumVitaeQueries,
   },
   name: "QueryRoot",
 });
