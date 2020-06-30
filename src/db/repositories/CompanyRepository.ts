@@ -27,14 +27,14 @@ function getCondition(filter: IFilter) {
   let condition = {};
   if (filter.name) {
     condition = Object.assign(condition, {
-      $or: [{vi_name: new RegExp(filter.name, "i")}, {en_name: new RegExp(filter.name, "i")}],
+      $or: [{ vi_name: new RegExp(filter.name, "i") }, { en_name: new RegExp(filter.name, "i") }],
     });
   }
   if (filter.verify_status) {
-    condition = Object.assign(condition, {verify_status: filter.verify_status});
+    condition = Object.assign(condition, { verify_status: filter.verify_status });
   }
   if (filter.premium_status) {
-    condition = Object.assign(condition, {premium_status: filter.premium_status});
+    condition = Object.assign(condition, { premium_status: filter.premium_status });
   }
   if (filter.job_category) {
     condition = Object.assign(condition, { job_category: filter.job_category });
@@ -51,7 +51,7 @@ function getCondition(filter: IFilter) {
 function getSort(sortBy: ISort) {
   let sort = {};
   if (sortBy.created) {
-    sort = Object.assign(sort, {_id: sortBy.created === "newest" ? "desc" : "asc"});
+    sort = Object.assign(sort, { _id: sortBy.created === "newest" ? "desc" : "asc" });
   }
   if (sortBy.updated) {
     sort = Object.assign(sort, { updated_at: sortBy.updated === "newest" ? "desc" : "asc" });
@@ -200,7 +200,7 @@ class CompanyRepository implements CrudContract {
 
   updateUserPermission(data) {
     try {
-      return Company.findByIdAndUpdate(data._id, {$addToSet: {users: data.users}});
+      return Company.findByIdAndUpdate(data._id, { $addToSet: { users: data.users } });
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -209,7 +209,7 @@ class CompanyRepository implements CrudContract {
 
   verify(_id, status = true) {
     try {
-      return Company.findByIdAndUpdate(_id, {verify_status: status}, {new: true});
+      return Company.findByIdAndUpdate(_id, { verify_status: status }, { new: true });
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -218,7 +218,7 @@ class CompanyRepository implements CrudContract {
 
   premium(_id, status = true) {
     try {
-      return Company.findByIdAndUpdate(_id, {premium_status: status}, {new: true});
+      return Company.findByIdAndUpdate(_id, { premium_status: status }, { new: true });
     } catch (e) {
       errorLog(e);
       return promiseNull();

@@ -11,11 +11,12 @@ import graphqlHTTP from "express-graphql";
 import { Connection } from "./db/connection";
 import { AuthRouter } from "./modules/auth/router";
 import { UploadRouter } from "./modules/upload/router";
+import { ServiceNotificationRouter } from "./modules/clientRegistration";
 import AppSchema from "./schema";
 import { isExistingEmailUser, isExistingIdUser, saveNewFacebookUser, saveNewGoogleUser } from "./modules/auth/handles";
-
 Connection.connect();
 const app = express();
+
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(
@@ -40,6 +41,8 @@ app.use(
     ],
   })
 );
+
+
 
 passport.serializeUser((user: any, done) => {
   // console.log("serializeUser", user);
@@ -114,7 +117,7 @@ passport.use(
 
 app.use("/upload", UploadRouter);
 app.use("/auth", AuthRouter);
-
+app.use("/", ServiceNotificationRouter)
 app.use(
   "/graphql",
   graphqlHTTP({
