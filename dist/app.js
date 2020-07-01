@@ -10,9 +10,8 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const passport_1 = __importDefault(require("passport"));
 const passport_google_oauth20_1 = __importDefault(require("passport-google-oauth20"));
 const passport_facebook_1 = __importDefault(require("passport-facebook"));
-const cookieSession = require("cookie-session");
-// tslint:disable-next-line:no-var-requires
-const cookieParser = require("cookie-parser");
+const cookie_session_1 = __importDefault(require("cookie-session"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const express_graphql_1 = __importDefault(require("express-graphql"));
 const connection_1 = require("./db/connection");
 const router_1 = require("./modules/auth/router");
@@ -24,11 +23,11 @@ connection_1.Connection.connect();
 const app = express_1.default();
 app.use(body_parser_1.default.json({ limit: "50mb" }));
 app.use(body_parser_1.default.urlencoded({ limit: "50mb", extended: true }));
-app.use(cookieSession({
+app.use(cookie_session_1.default({
     keys: [process.env.COOKIE_KEY],
     maxAge: parseInt(process.env.COOKIE_AGE),
 }));
-app.use(cookieParser());
+app.use(cookie_parser_1.default());
 app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
 app.use(cors_1.default({
