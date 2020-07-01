@@ -15,6 +15,12 @@ const ServiceNotificationSchema = new mongoose.Schema({
     tag: {
         type: String,
     },
+    icon: {
+        type: String,
+    },
+    badge: {
+        type: String,
+    },
     image: {
         type: String,
     },
