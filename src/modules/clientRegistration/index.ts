@@ -8,42 +8,42 @@ const router = express.Router();
 webpush.setVapidDetails(process.env.MAILTO_WEBPUSH, process.env.PUBLIC_WEBPUSH_KEY, process.env.PRIVATE_WEBPUSH_KEY);
 router.post("/subscription", (req, res) => {
   const clientIp = requestIp.getClientIp(req);
-  const geo = geoIp.lookup(clientIp);
-  const subscriptionRequest = req.body.data;
-  let locate = JSON.stringify(geo);
-  let client = JSON.stringify(subscriptionRequest);
-  let payload = {
-    clientId: client,
-    location: locate,
-    browser: req.headers["user-agent"],
-
-  };
-  return saveSubscriptionToDatabase(payload)
-    .then(function (subscriptionId) {
-      res.send(JSON.stringify({ data: { success: true, client: subscriptionId } }));
-    })
-    .catch(function (err) {
-      res.status(500);
-      res.send({
-        error: {
-          id: "unable-to-save-subscription",
-          message: "The subscription was received but we were unable to save it to our database.",
-        },
+  const blackListIp = ["127.0.0.1", "::1", "::ffff:127.0.0.1"];
+  if (blackListIp.includes(clientIp)) {
+    const geo = geoIp.lookup("42.113.204.212");
+    const subscriptionRequest = req.body.data;
+    let locate = JSON.stringify(geo);
+    let client = JSON.stringify(subscriptionRequest);
+    let payload = {
+      clientId: client,
+      location: locate,
+      browser: req.headers["user-agent"],
+    };
+    return saveSubscriptionToDatabase(payload)
+      .then(function (subscriptionId) {
+        res.send(JSON.stringify({ data: { success: true, client: subscriptionId } }));
+      })
+      .catch(function (err) {
+        res.status(500);
+        res.send({
+          error: {
+            id: "unable-to-save-subscription",
+            message: "The subscription was received but we were unable to save it to our database.",
+          },
+        });
       });
-    });
+  }
 });
 router.post("/send/subscription", async (req, res) => {
   if (req.isAuthenticated()) {
     const payload = {
       title: req.body.data.title,
-      text: req.body.data.text,
+      body: req.body.data.text,
       url: req.body.data.href,
       tag: req.body.data.tag,
-      icon: "https://ketnoiviec.net/favicon.png",
-      vibrate: [200, 100, 200, 100, 200, 100, 200],
-      image: "https://ketnoiviec.net/favicon.png",
-      badge: "https://ketnoiviec.net/favicon.png",
-      actions: [{ action: "Chi tiết", title: "Xem chi tiết", icon: "https://ketnoiviec.net/favicon.png" }],
+      icon: req.body.data.icon,
+      image: req.body.data.image,
+      badge: "https://cdn.pushcrew.com/img/logos/b442c2c99cbec7867748e39cbc71f0ea/356807e4-c6a8-4be0-ac6f-1fc7075866b0.png",
     };
     return getSubscriptionsFromDatabase().then(function (subscriptions) {
       let promiseChain = Promise.resolve();
@@ -51,7 +51,11 @@ router.post("/send/subscription", async (req, res) => {
       for (let i = 0; i < subscriptions.length; i++) {
         const subscription = subscriptions[i];
         promiseChain = promiseChain.then(() => {
-          return triggerPushMsg(JSON.parse(subscription.clientId), JSON.stringify(payload));
+          const sub = {
+            _id: subscription._id,
+            clientId: subscription.clientId,
+          };
+          return triggerPushMsg(sub, JSON.stringify(payload));
         });
       }
       return promiseChain
@@ -68,8 +72,8 @@ router.post("/send/subscription", async (req, res) => {
           });
         });
     });
-  }else {
-    res.status(403).json("Permission denied, you must login first")
+  } else {
+    res.status(403).json("Permission denied, you must login first");
   }
 });
 
@@ -84,15 +88,12 @@ async function getSubscriptionsFromDatabase() {
 }
 
 function triggerPushMsg(subscription, dataToSend) {
-  return webpush.sendNotification(subscription, dataToSend).catch((err) => {
+  return webpush.sendNotification(JSON.parse(subscription.clientId), dataToSend).catch((err) => {
     if (err.statusCode === 404 || err.statusCode === 410) {
-      console.log("Subscription has expired or is no longer valid: ", err);
       return deleteSubscriptionFromDatabase(subscription._id);
     } else {
       throw err;
     }
   });
 }
-export {
-  router as ServiceNotificationRouter
-};
+export { router as ServiceNotificationRouter };
