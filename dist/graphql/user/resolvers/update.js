@@ -10,6 +10,9 @@ function updateUser(source, args, context, info) {
     if (context.isAuthenticated()) {
         let loggedUser = context.user;
         let input = args.input;
+        if (input && input.customize_info && input.customize_info.first_name && input.customize_info.last_name) {
+            input.customize_info.full_name = `${input.customize_info.first_name.trim()} ${input.customize_info.last_name.trim()}`;
+        }
         input = Object.assign(input, { _id: loggedUser._id });
         return UserRepository_1.default.update(input);
     }

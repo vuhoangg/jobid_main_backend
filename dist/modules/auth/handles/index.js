@@ -18,6 +18,7 @@ function saveNewGoogleUser(profile) {
     let payload = {
         first_name: profile.name.familyName,
         last_name: profile.name.givenName,
+        full_name: `${profile.name.familyName.trim()} ${profile.name.givenName.trim()}`,
         email: profile.emails[0].value,
         avatar: profile.photos[0].value,
         login_type: "google",
@@ -30,6 +31,7 @@ exports.saveNewFacebookUser = (profile) => {
     let payload = {
         first_name: profile.name.familyName,
         last_name: profile.name.givenName,
+        full_name: `${profile.name.familyName.trim()} ${profile.name.givenName.trim()}`,
         avatar: profile.photos[0].value,
         // facebook_link: profile.profileUrl,
         // gender: profile.gender,

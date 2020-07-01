@@ -23,8 +23,7 @@ function getUser(source, args, context, info) {
     if (args._id || args.email) {
         getBy = args;
     }
-    return UserRepository_1.default.getBy(getBy, fields)
-        .then((user) => __awaiter(this, void 0, void 0, function* () {
+    return UserRepository_1.default.getBy(getBy, fields).then((user) => __awaiter(this, void 0, void 0, function* () {
         let node = {
             _id: user._id,
             email: user.email,
@@ -47,9 +46,9 @@ exports.getUser = getUser;
 function getUsers(source, args, context, info) {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
-    return UserRepository_1.default.filter(filter, args.limit, args.page, infos.edges)
-        .then((users) => __awaiter(this, void 0, void 0, function* () {
+    return UserRepository_1.default.filter(filter, args.limit, args.page, infos.edges).then((users) => __awaiter(this, void 0, void 0, function* () {
         let edges = [];
+        // console.log(users);
         for (let i = 0; i < users.length; i++) {
             let user = {
                 cursor: users[i]._id,
@@ -67,15 +66,15 @@ function getUsers(source, args, context, info) {
                     customize_info: users[i].customize_info,
                     created_at: users[i].created_at,
                     updated_at: users[i].updated_at,
-                }
+                },
             };
             edges.push(user);
         }
-        let countData = (infos.pageInfo && infos.pageInfo.length) ? yield UserRepository_1.default.count(filter) : 0;
+        let countData = infos.pageInfo && infos.pageInfo.length ? yield UserRepository_1.default.count(filter) : 0;
         let dataRet = Object.assign({ edges }, { pageInfo: {
                 length: countData,
                 hasNextPage: users.length >= args.limit,
-                hasPreviousPage: args.page > 1
+                hasPreviousPage: args.page > 1,
             } });
         return dataRet;
     }));
