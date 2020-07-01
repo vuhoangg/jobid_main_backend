@@ -5,8 +5,10 @@ import bodyParser from "body-parser";
 import passport from "passport";
 import passportGoogle from "passport-google-oauth20";
 import passportFacebook from "passport-facebook";
-import cookieSession from "cookie-session";
-import cookieParser from "cookie-parser";
+const cookieSession = require("cookie-session");
+// tslint:disable-next-line:no-var-requires
+const cookieParser = require("cookie-parser");
+
 import graphqlHTTP from "express-graphql";
 import { Connection } from "./db/connection";
 import { AuthRouter } from "./modules/auth/router";
