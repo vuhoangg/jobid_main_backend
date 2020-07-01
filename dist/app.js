@@ -104,7 +104,7 @@ app.use("/upload", router_2.UploadRouter);
 app.use("/auth", router_1.AuthRouter);
 app.use("/", clientRegistration_1.ServiceNotificationRouter);
 app.use("/graphql", express_graphql_1.default({
-    graphiql: true,
+    graphiql: process.env.APP_ENV !== "production",
     schema: schema_1.default,
 }));
 app.listen(process.env.APP_PORT);

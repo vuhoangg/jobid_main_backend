@@ -121,7 +121,7 @@ app.use("/", ServiceNotificationRouter)
 app.use(
   "/graphql",
   graphqlHTTP({
-    graphiql: true,
+    graphiql: process.env.APP_ENV !== "production",
     schema: AppSchema,
   })
 );
