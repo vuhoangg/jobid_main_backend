@@ -7,13 +7,54 @@ const User_1 = __importDefault(require("../schemas/User"));
 const log_1 = require("../../helpers/log");
 const promise_1 = require("../../helpers/promise");
 const flattenNestedObject_1 = require("../../helpers/flattenNestedObject");
+const moment_1 = __importDefault(require("moment"));
 function getCondition(filter) {
     let condition = {};
     if (filter.name) {
-        condition = Object.assign(condition, { "$or": [{ first_name: new RegExp(filter.name, "i") }, { last_name: new RegExp(filter.name, "i") }] });
+        condition = Object.assign(condition, {
+            $or: [{ first_name: new RegExp(filter.name, "i") }, { last_name: new RegExp(filter.name, "i") }],
+        });
     }
     if (filter.spam != undefined) {
-        condition = Object.assign(condition, { spam: { "$gt": Number(filter.spam) } });
+        condition = Object.assign(condition, { spam: { $gt: Number(filter.spam) } });
+    }
+    if (filter.keyword) {
+        condition = Object.assign(Object.assign({}, condition), { $or: [
+                { "customize_info.full_name": new RegExp(filter.keyword, "i") },
+                { full_name: new RegExp(filter.keyword, "i") },
+            ] });
+    }
+    if (filter.job) {
+        condition = Object.assign(Object.assign({}, condition), { "customize_info.work_preference": Object.assign(Object.assign({}, condition.job_category), { job_category: filter.job }) });
+    }
+    if (filter.location) {
+        condition = Object.assign(Object.assign({}, condition), { "customize_info.work_preference": Object.assign(Object.assign({}, condition.work_preference), { job_location: filter.location }) });
+    }
+    if (filter.experience_from || filter.experience_to) {
+        condition = Object.assign(Object.assign({}, condition), { "customize_info.current_experience_number": { $gte: filter.experience_from, $lte: filter.experience_to } });
+    }
+    if (filter.salary_from || filter.salary_to) {
+        condition = Object.assign(Object.assign({}, condition), { "customize_info.work_preference.salary": { $gte: filter.salary_from, $lte: filter.salary_to } });
+    }
+    if (filter.level) {
+        condition = Object.assign(Object.assign({}, condition), { "customize_info.current_job_level": filter.level });
+    }
+    if (filter.language) {
+        condition = Object.assign(Object.assign({}, condition), { "customize_info.language.lang": filter.language });
+    }
+    if (filter.education) {
+        condition = Object.assign(Object.assign({}, condition), { "customize_info.education_history": { $elemMatch: { qualification: filter.education } } });
+    }
+    if (filter.nation) {
+        condition = Object.assign(Object.assign({}, condition), { "customize_info.nation": filter.nation });
+    }
+    if (filter.age_from || filter.age_to) {
+        const from = moment_1.default().subtract(parseInt(filter.age_from), "years").toISOString();
+        const to = moment_1.default().subtract(parseInt(filter.age_to), "years").toISOString();
+        condition = Object.assign(Object.assign({}, condition), { "customize_info.birthday": { $gte: to, $lte: from } });
+    }
+    if (filter.gender) {
+        condition = Object.assign(Object.assign({}, condition), { "customize_info.gender": filter.gender });
     }
     return condition;
 }
@@ -104,7 +145,6 @@ class UserRepository {
                     .populate("customize_info.work_preference.job_category")
                     .populate("customize_info.work_preference.job_level")
                     .populate("customize_info.work_preference.benefit");
-                ;
             }
             else if (getBy.email) {
                 return User_1.default.findOne({ email: getBy.email }, projection)
@@ -115,7 +155,6 @@ class UserRepository {
                     .populate("customize_info.work_preference.job_category")
                     .populate("customize_info.work_preference.job_level")
                     .populate("customize_info.work_preference.benefit");
-                ;
             }
             else {
                 return promise_1.promiseNull();

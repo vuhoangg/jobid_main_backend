@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema({
         default: "",
         type: String,
     },
+    full_name: {
+        default: "",
+        type: String,
+    },
     birth_day: {
         default: "",
         type: Date,
@@ -63,6 +67,7 @@ const userSchema = new mongoose.Schema({
         files: [String],
         first_name: String,
         last_name: String,
+        full_name: String,
         current_job_title: String,
         current_job_company: String,
         current_job_level: {
