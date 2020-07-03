@@ -30,22 +30,25 @@ function updateJobApply(source, args, context, info) {
                 subject: "user_apply_job",
                 target: {
                     object_type: "user",
-                    ref: target.ref
+                    ref: target.ref,
                 },
                 message: `${loggedUser.first_name} ${loggedUser.last_name} đã ứng tuyển tin tuyển dụng ${jobPost.title}`,
                 href: jobPost.slug,
                 read: false,
-                created_at: jobPost.created_at,
-                updated_at: jobPost.updated_at,
             };
-            yield NotificationRepository_1.default.create(notification);
-            const params = {
-                token: process.env.SOCKET_TOKEN,
-            };
-            api_1.api("POST", `${process.env.SOCKET_SERVER_URL}/socket/notify/${target.ref}`, params, {
-                data: notification
-            }).then(res => console.log(res))
-                .catch(e => console.log(e));
+            yield NotificationRepository_1.default.create(notification).then((r) => {
+                if (target.ref.toString() !== loggedUser._id.toString()) {
+                    const params = {
+                        token: process.env.SOCKET_TOKEN,
+                    };
+                    api_1.api("POST", `${process.env.SOCKET_SERVER_URL}/socket/notify/${target.ref}`, params, {
+                        data: Object.assign(Object.assign({}, r.toObject()), { created_at: new Date(r.created_at).getTime().toString(), updated_at: new Date(r.updated_at).getTime().toString() }),
+                        type: "studio",
+                    })
+                        .then((res) => console.log(res))
+                        .catch((e) => console.log(e));
+                }
+            });
             return data;
         }));
     }

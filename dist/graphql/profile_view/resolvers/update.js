@@ -23,7 +23,6 @@ function updateProfileView(source, args, context, info) {
         let input = args.input;
         input = Object.assign(input, { user_hunter: loggedUser._id });
         return ProfileViewRepository_1.default.profileView(input).then((data) => __awaiter(this, void 0, void 0, function* () {
-            console.log("updateProfileView -> data", data);
             let notification = {
                 type: "user",
                 subject: "user_apply_job",
@@ -34,28 +33,30 @@ function updateProfileView(source, args, context, info) {
                 message: `${loggedUser.first_name} ${loggedUser.last_name} đã xem hồ sơ của bạn`,
                 href: "",
                 read: false,
-                created_at: data.created_at,
-                updated_at: data.updated_at,
             };
-            yield NotificationRepository_1.default.create(notification);
-            const params = {
-                token: process.env.SOCKET_TOKEN,
-            };
-            api_1.api("POST", `${process.env.SOCKET_SERVER_URL}/socket/notify/${data.user_profile}`, params, {
-                data: notification,
-            })
-                .then((data) => console.log(data))
-                .catch((e) => console.log(e));
-            UserRepository_1.default.get(data.user_profile, {}).then(r => {
-                if (r && r.psid) {
-                    api_1.api("POST", `${process.env.BOT_URL}/send_notification`, null, {
-                        psid: r.psid,
-                        message_type: "profile_view",
-                        message_text: `${loggedUser.first_name} ${loggedUser.last_name} đã xem hồ sơ của bạn`,
+            yield NotificationRepository_1.default.create(notification).then((r) => {
+                if (data.user_profile.toString() !== loggedUser._id.toString()) {
+                    const params = {
+                        token: process.env.SOCKET_TOKEN,
+                    };
+                    api_1.api("POST", `${process.env.SOCKET_SERVER_URL}/socket/notify/${data.user_profile}`, params, {
+                        data: Object.assign(Object.assign({}, r.toObject()), { created_at: new Date(r.created_at).getTime().toString(), updated_at: new Date(r.updated_at).getTime().toString() }),
+                        type: "main",
                     })
                         .then((data) => console.log(data))
                         .catch((e) => console.log(e));
                 }
+                UserRepository_1.default.get(data.user_profile, {}).then((r) => {
+                    if (r && r.psid) {
+                        api_1.api("POST", `${process.env.BOT_URL}/send_notification`, null, {
+                            psid: r.psid,
+                            message_type: "profile_view",
+                            message_text: `${loggedUser.first_name} ${loggedUser.last_name} đã xem hồ sơ của bạn`,
+                        })
+                            .then((data) => console.log(data))
+                            .catch((e) => console.log(e));
+                    }
+                });
             });
             return data;
         }));
