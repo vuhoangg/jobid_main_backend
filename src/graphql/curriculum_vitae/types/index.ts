@@ -317,10 +317,10 @@ export const CurriculumVitae = new GraphQLObjectType({
     theme_id: { type: new GraphQLNonNull(GraphQLString) },
     user_created: { type: new GraphQLNonNull(GraphQLString) },
     image_url: {
-      type: new GraphQLNonNull(GraphQLString),
+      type: GraphQLString,
     },
     pdf_url: {
-      type: new GraphQLNonNull(GraphQLString),
+      type: GraphQLString,
     },
     avatar: { type: GraphQLString },
     info: { type: Info },

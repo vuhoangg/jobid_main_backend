@@ -296,10 +296,10 @@ exports.CurriculumVitae = new graphql_1.GraphQLObjectType({
         theme_id: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         user_created: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         image_url: {
-            type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString),
+            type: graphql_1.GraphQLString,
         },
         pdf_url: {
-            type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString),
+            type: graphql_1.GraphQLString,
         },
         avatar: { type: graphql_1.GraphQLString },
         info: { type: exports.Info },
