@@ -87,6 +87,7 @@ const companySchema = new mongoose.Schema(
         media_link: String,
       },
     ],
+    office: [String],
     benefit: [
       {
         vi_content: String,

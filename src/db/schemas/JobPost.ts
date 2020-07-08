@@ -48,6 +48,7 @@ const jobPostSchema = new mongoose.Schema({
       ref: 'JobPreferLanguage',
     }
   ],
+  
   email_for_application: {
     type: String,
     required: true,
@@ -90,6 +91,8 @@ const jobPostSchema = new mongoose.Schema({
       ref: 'User'
     }
   },
+  latitude: Number,
+  longitude: Number,
   status: {
     type: String,
     enum: ['active', 'trash', 'draft'],

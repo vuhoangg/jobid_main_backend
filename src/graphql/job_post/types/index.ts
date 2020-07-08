@@ -108,6 +108,8 @@ export const JobPost = new GraphQLObjectType({
     job_location: {type: new GraphQLList(JobLocation)},
     salary: {type: JobSalary},
     job_skill: {type: new GraphQLList(JobSkill)},
+    latitude: { type: GraphQLInt },
+    longitude: {type: GraphQLInt},
     job_prefer_language: {type: new GraphQLList(JobPreferLanguage)},
     email_for_application: {type: new GraphQLNonNull(GraphQLString)},
     company: {type: new GraphQLNonNull(JobCompany)},
@@ -160,6 +162,8 @@ export const JobPostInput = new GraphQLInputObjectType({
     job_prefer_language: {type: new GraphQLList(GraphQLString)},
     email_for_application: {type: GraphQLString}, // create
     company: {type: JobCompanyInput}, // create
+    latitude: { type: GraphQLInt },
+    longitude: {type: GraphQLInt},
     status: {type: GraphQLString},
   },
   name: "JobPostInput",
