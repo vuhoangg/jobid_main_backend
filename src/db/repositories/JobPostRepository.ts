@@ -148,6 +148,7 @@ class JobPostRepository implements CrudContract {
           .populate('company.ref')
           .populate('user.ref');
       } else if (getBy.slug) {
+        console.log(getBy)
         return JobPost.findOne({slug: getBy.slug}, projection)
           .populate('job_level')
           .populate('job_category')
