@@ -91,6 +91,7 @@ const jobPostSchema = new mongoose.Schema({
       ref: 'User'
     }
   },
+  experience: Number,
   latitude: Number,
   longitude: Number,
   status: {
