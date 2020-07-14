@@ -9,6 +9,7 @@ export function getJobApply(source, args, context, info) {
         _id: jobApply._id,
         job_post: jobApply.job_post,
         user: jobApply.user,
+        status: jobApply.status,
         created_at: jobApply.created_at,
         updated_at: jobApply.updated_at,
       };
@@ -30,6 +31,7 @@ export function getJobApplys(source, args, context, info) {
             _id: jobApplys[i]._id,
             job_post: jobApplys[i].job_post,
             user: jobApplys[i].user,
+            status: jobApplys[i].status,
             created_at: jobApplys[i].created_at,
             updated_at: jobApplys[i].updated_at,
           }

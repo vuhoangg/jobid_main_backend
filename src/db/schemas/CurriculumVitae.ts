@@ -21,6 +21,10 @@ const curriculumVitaeSchema = new mongoose.Schema(
     avatar: {
       type: String,
     },
+    default: {
+      type: Boolean,
+      default: false,
+    },
     info: {
       info_resumeTitle: {
         type: String,

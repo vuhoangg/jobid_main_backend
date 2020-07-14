@@ -120,7 +120,7 @@ class JobApplyRepository implements CrudContract {
 
   applyJob(data) {
     try {
-      return JobApply.findOneAndUpdate({job_post: data.job_post, user: data.user}, data, {upsert: true, new: true});
+      return JobApply.findOneAndUpdate({job_post: data.job_post, user: data.user, status: data.status}, data, {upsert: true, new: true});
     } catch (e) {
       errorLog(e);
       return promiseNull();

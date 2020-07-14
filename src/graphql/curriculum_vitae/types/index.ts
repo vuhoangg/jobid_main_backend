@@ -285,6 +285,7 @@ export const CurriculumVitaeInput = new GraphQLInputObjectType({
     pdf_url: {
       type: GraphQLString,
     },
+    default: {type: GraphQLBoolean},
     avatar: { type: GraphQLString },
     info: { type: InfoInput },
     education: {
@@ -322,6 +323,7 @@ export const CurriculumVitae = new GraphQLObjectType({
     pdf_url: {
       type: new GraphQLNonNull(GraphQLString),
     },
+    default: {type: GraphQLBoolean},
     avatar: { type: GraphQLString },
     info: { type: Info },
     education: {

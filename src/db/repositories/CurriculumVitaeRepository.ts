@@ -14,10 +14,14 @@ interface IFilter {
   sort_by?: ISort;
   user?: string;
   company?: string;
+  default?: boolean;
 }
 
 function getCondition(filter: IFilter) {
   let condition = {};
+  if(filter.default){
+    condition = Object.assign(condition, { default: filter.default });
+  }
   return condition;
 }
 
