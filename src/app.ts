@@ -11,6 +11,7 @@ import graphqlHTTP from "express-graphql";
 import { Connection } from "./db/connection";
 import { AuthRouter } from "./modules/auth/router";
 import { UploadRouter } from "./modules/upload/router";
+import { MailRouter } from "./modules/mail";
 import { ServiceNotificationRouter } from "./modules/clientRegistration";
 import AppSchema from "./schema";
 import { isExistingEmailUser, isExistingIdUser, saveNewFacebookUser, saveNewGoogleUser } from "./modules/auth/handles";
@@ -117,7 +118,8 @@ passport.use(
 
 app.use("/upload", UploadRouter);
 app.use("/auth", AuthRouter);
-app.use("/", ServiceNotificationRouter)
+app.use("/", ServiceNotificationRouter);
+app.use("/noreply", MailRouter);
 app.use(
   "/graphql",
   graphqlHTTP({

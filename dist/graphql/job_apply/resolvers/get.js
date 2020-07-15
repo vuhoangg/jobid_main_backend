@@ -17,12 +17,15 @@ const JobApplyRepository_1 = __importDefault(require("../../../db/repositories/J
 const helpers_1 = require("../../helpers");
 function getJobApply(source, args, context, info) {
     const fields = helpers_1.rootField(info);
-    return JobApplyRepository_1.default.get(args._id, fields)
-        .then((jobApply) => __awaiter(this, void 0, void 0, function* () {
+    return JobApplyRepository_1.default.get(args._id, fields).then((jobApply) => __awaiter(this, void 0, void 0, function* () {
         let node = {
             _id: jobApply._id,
             job_post: jobApply.job_post,
             user: jobApply.user,
+            status: jobApply.status,
+            file: jobApply.file,
+            email: jobApply.email,
+            description: jobApply.description,
             created_at: jobApply.created_at,
             updated_at: jobApply.updated_at,
         };
@@ -34,8 +37,7 @@ function getJobApplys(source, args, context, info) {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
     let page = args.page > 50 ? 10 : args.page;
-    return JobApplyRepository_1.default.filter(filter, args.limit, page, infos.edges)
-        .then((jobApplys) => __awaiter(this, void 0, void 0, function* () {
+    return JobApplyRepository_1.default.filter(filter, args.limit, page, infos.edges).then((jobApplys) => __awaiter(this, void 0, void 0, function* () {
         let edges = [];
         for (let i = 0; i < jobApplys.length; i++) {
             let jobApply = {
@@ -44,17 +46,21 @@ function getJobApplys(source, args, context, info) {
                     _id: jobApplys[i]._id,
                     job_post: jobApplys[i].job_post,
                     user: jobApplys[i].user,
+                    status: jobApplys[i].status,
+                    file: jobApplys[i].file,
+                    email: jobApplys[i].email,
+                    description: jobApplys[i].description,
                     created_at: jobApplys[i].created_at,
                     updated_at: jobApplys[i].updated_at,
-                }
+                },
             };
             edges.push(jobApply);
         }
-        let countData = (infos.pageInfo && infos.pageInfo.length) ? yield JobApplyRepository_1.default.count(filter) : 0;
+        let countData = infos.pageInfo && infos.pageInfo.length ? yield JobApplyRepository_1.default.count(filter) : 0;
         let dataRet = Object.assign({ edges }, { pageInfo: {
                 length: countData,
                 hasNextPage: jobApplys.length >= args.limit,
-                hasPreviousPage: page > 1
+                hasPreviousPage: page > 1,
             } });
         return dataRet;
     }));

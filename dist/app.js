@@ -16,6 +16,7 @@ const express_graphql_1 = __importDefault(require("express-graphql"));
 const connection_1 = require("./db/connection");
 const router_1 = require("./modules/auth/router");
 const router_2 = require("./modules/upload/router");
+const mail_1 = require("./modules/mail");
 const clientRegistration_1 = require("./modules/clientRegistration");
 const schema_1 = __importDefault(require("./schema"));
 const handles_1 = require("./modules/auth/handles");
@@ -103,6 +104,7 @@ passport_1.default.use(new FacebookStrategy({
 app.use("/upload", router_2.UploadRouter);
 app.use("/auth", router_1.AuthRouter);
 app.use("/", clientRegistration_1.ServiceNotificationRouter);
+app.use("/noreply", mail_1.MailRouter);
 app.use("/graphql", express_graphql_1.default({
     graphiql: process.env.APP_ENV !== "production",
     schema: schema_1.default,

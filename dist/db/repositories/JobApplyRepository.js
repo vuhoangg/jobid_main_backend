@@ -22,10 +22,10 @@ function getCondition(filter) {
 function getSort(sortBy) {
     let sort = {};
     if (sortBy.created) {
-        sort = Object.assign(sort, { _id: (sortBy.created === "newest" ? "desc" : "asc") });
+        sort = Object.assign(sort, { _id: sortBy.created === "newest" ? "desc" : "asc" });
     }
     if (sortBy.updated) {
-        sort = Object.assign(sort, { updated_at: (sortBy.updated === "newest" ? "desc" : "asc") });
+        sort = Object.assign(sort, { updated_at: sortBy.updated === "newest" ? "desc" : "asc" });
     }
     return sort;
 }
@@ -72,9 +72,11 @@ class JobApplyRepository {
             let condition = getCondition(filter);
             let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
             return JobApply_1.default.find(condition, projection)
-                .populate('user')
-                .populate({ path: 'job_post', populate: { path: 'job_location' } })
-                .sort(sort).skip(limit * (page - 1)).limit(limit);
+                .populate("user")
+                .populate({ path: "job_post", populate: { path: "job_location" } })
+                .sort(sort)
+                .skip(limit * (page - 1))
+                .limit(limit);
         }
         catch (e) {
             log_1.errorLog(e);
@@ -106,7 +108,14 @@ class JobApplyRepository {
     }
     applyJob(data) {
         try {
-            return JobApply_1.default.findOneAndUpdate({ job_post: data.job_post, user: data.user }, data, { upsert: true, new: true });
+            return JobApply_1.default.findOneAndUpdate({
+                job_post: data.job_post,
+                user: data.user,
+                status: data.status,
+                file: data.file,
+                email: data.email,
+                description: data.description,
+            }, data, { upsert: true, new: true });
         }
         catch (e) {
             log_1.errorLog(e);

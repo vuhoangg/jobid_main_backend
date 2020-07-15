@@ -60,6 +60,7 @@ const jobPostSchema = new mongoose.Schema({
     },
     name: String,
     size: String,
+    email: String,
     address: String,
     description: String,
     benefit: [

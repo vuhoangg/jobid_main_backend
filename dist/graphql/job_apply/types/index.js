@@ -11,6 +11,10 @@ exports.JobApply = new graphql_1.GraphQLObjectType({
         _id: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         job_post: { type: types_3.JobPost },
         user: { type: types_2.User },
+        status: { type: graphql_1.GraphQLString },
+        email: { type: graphql_1.GraphQLString },
+        file: { type: graphql_1.GraphQLString },
+        description: { type: graphql_1.GraphQLString },
         created_at: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         updated_at: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
     },
@@ -42,6 +46,9 @@ exports.JobApplyConnection = new graphql_1.GraphQLObjectType({
 exports.JobApplyInput = new graphql_1.GraphQLInputObjectType({
     fields: {
         job_post: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
+        email: { type: graphql_1.GraphQLString },
+        file: { type: graphql_1.GraphQLString },
+        description: { type: graphql_1.GraphQLString },
     },
     name: "JobApplyInput",
     description: "The updated properties for a job apply.",

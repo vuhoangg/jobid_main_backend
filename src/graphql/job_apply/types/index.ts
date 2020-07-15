@@ -15,6 +15,10 @@ export const JobApply = new GraphQLObjectType({
     _id: {type: new GraphQLNonNull(GraphQLString)},
     job_post: {type: JobPost},
     user: {type: User},
+    status: {type: GraphQLString},
+    email: {type: GraphQLString},
+    file: {type: GraphQLString},
+    description: {type: GraphQLString},
     created_at: {type: new GraphQLNonNull(GraphQLString)},
     updated_at: {type: new GraphQLNonNull(GraphQLString)},
   },
@@ -47,6 +51,9 @@ export const JobApplyConnection = new GraphQLObjectType({
 export const JobApplyInput = new GraphQLInputObjectType({
   fields: {
     job_post: {type: new GraphQLNonNull(GraphQLString)},
+    email: {type: GraphQLString},
+    file: {type: GraphQLString},
+    description: {type: GraphQLString},
   },
   name: "JobApplyInput",
   description: "The updated properties for a job apply.",

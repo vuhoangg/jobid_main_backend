@@ -53,7 +53,6 @@ class CompanyRepository {
     }
     create(data) {
         try {
-            console.log("data", data);
             return Company_1.default.create(data);
         }
         catch (e) {

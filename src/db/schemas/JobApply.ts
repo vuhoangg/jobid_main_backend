@@ -9,10 +9,13 @@ const jobApplySchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
+  email: String,
+  description: String,
+  file: String,
   status: {
     type: String,
     enum: ['pending', 'approve', 'decline']
-  }
+  },
 }, {timestamps: {createdAt: 'created_at', updatedAt: 'updated_at'}});
 
 const JobApply = mongoose.model('JobApply', jobApplySchema);

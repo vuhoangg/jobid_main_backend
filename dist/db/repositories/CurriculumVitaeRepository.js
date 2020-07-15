@@ -8,6 +8,9 @@ const promise_1 = require("../../helpers/promise");
 const log_1 = require("../../helpers/log");
 function getCondition(filter) {
     let condition = {};
+    if (filter.default) {
+        condition = Object.assign(condition, { default: filter.default });
+    }
     return condition;
 }
 function getSort(sortBy) {
