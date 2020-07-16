@@ -16,6 +16,7 @@ exports.getJobApplys = exports.getJobApply = void 0;
 const JobApplyRepository_1 = __importDefault(require("../../../db/repositories/JobApplyRepository"));
 const helpers_1 = require("../../helpers");
 function getJobApply(source, args, context, info) {
+    console.log("getJobApply -> args", args);
     const fields = helpers_1.rootField(info);
     return JobApplyRepository_1.default.get(args._id, fields).then((jobApply) => __awaiter(this, void 0, void 0, function* () {
         let node = {

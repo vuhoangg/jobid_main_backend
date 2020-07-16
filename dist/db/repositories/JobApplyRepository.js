@@ -60,7 +60,9 @@ class JobApplyRepository {
     }
     get(id, projection) {
         try {
-            return JobApply_1.default.findById(id, projection);
+            return JobApply_1.default.findById(id, projection)
+                .populate("user")
+                .populate({ path: "job_post", populate: { path: "job_location" } });
         }
         catch (e) {
             log_1.errorLog(e);

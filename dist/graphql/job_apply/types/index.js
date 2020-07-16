@@ -45,7 +45,9 @@ exports.JobApplyConnection = new graphql_1.GraphQLObjectType({
 });
 exports.JobApplyInput = new graphql_1.GraphQLInputObjectType({
     fields: {
-        job_post: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
+        _id: { type: graphql_1.GraphQLString },
+        status: { type: graphql_1.GraphQLString },
+        job_post: { type: graphql_1.GraphQLString },
         email: { type: graphql_1.GraphQLString },
         file: { type: graphql_1.GraphQLString },
         description: { type: graphql_1.GraphQLString },
