@@ -44,3 +44,9 @@ export function updateJobApply(source, args, context, info) {
     });
   }
 }
+export function updateStatusJobApply(source, args, context, info) {
+  if (context.isAuthenticated()) {
+    let input = args.input;
+    return JobApplyService.update(input);
+}
+}

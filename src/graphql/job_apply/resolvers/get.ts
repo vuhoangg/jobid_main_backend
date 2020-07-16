@@ -2,6 +2,7 @@ import JobApplyService from "../../../db/repositories/JobApplyRepository";
 import { filterObject, rootField, rootInfo } from "../../helpers";
 
 export function getJobApply(source, args, context, info) {
+  console.log("getJobApply -> args", args)
   const fields = rootField(info);
   return JobApplyService.get(args._id, fields).then(async (jobApply) => {
     let node = {
