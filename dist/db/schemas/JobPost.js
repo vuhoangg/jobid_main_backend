@@ -4,11 +4,9 @@ const mongoose = require("mongoose");
 const jobPostSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true,
     },
     slug: {
         type: String,
-        required: true,
         unique: true,
     },
     job_level: {
@@ -51,7 +49,6 @@ const jobPostSchema = new mongoose.Schema({
     ],
     email_for_application: {
         type: String,
-        required: true,
     },
     company: {
         ref: {
@@ -60,6 +57,7 @@ const jobPostSchema = new mongoose.Schema({
         },
         name: String,
         size: String,
+        email: String,
         address: String,
         description: String,
         benefit: [
@@ -91,6 +89,9 @@ const jobPostSchema = new mongoose.Schema({
             ref: 'User'
         }
     },
+    experience: Number,
+    latitude: Number,
+    longitude: Number,
     status: {
         type: String,
         enum: ['active', 'trash', 'draft'],

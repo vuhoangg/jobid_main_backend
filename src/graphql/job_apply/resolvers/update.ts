@@ -7,7 +7,7 @@ export function updateJobApply(source, args, context, info) {
   if (context.isAuthenticated()) {
     let loggedUser = context.user;
     let input = args.input;
-    input = Object.assign(input, { user: loggedUser._id });
+    input = Object.assign(input, { user: loggedUser._id, status: 'pending' });
     return JobApplyService.applyJob(input).then(async (data) => {
       let jobPost = await JobPostService.get(input.job_post, {});
       let target = jobPost.user;
@@ -22,25 +22,31 @@ export function updateJobApply(source, args, context, info) {
         href: jobPost.slug,
         read: false,
       };
-      await NotificationService.create(notification).then((r) => {
-        if (target.ref.toString() !== loggedUser._id.toString()) {
-          const params = {
-            token: process.env.SOCKET_TOKEN as string,
-          };
-          api("POST", `${process.env.SOCKET_SERVER_URL}/socket/notify/${target.ref}`, params, {
-            data: {
-              ...r.toObject(),
-              created_at: new Date(r.created_at).getTime().toString(),
-              updated_at: new Date(r.updated_at).getTime().toString(),
-            },
-            type: "studio",
-          })
-            .then((res) => console.log(res))
-            .catch((e) => console.log(e));
-        }
-      });
+      // await NotificationService.create(notification).then((r) => {
+      //   if (target.ref.toString() !== loggedUser._id.toString()) {
+      //     const params = {
+      //       token: process.env.SOCKET_TOKEN as string,
+      //     };
+      //     api("POST", `${process.env.SOCKET_SERVER_URL}/socket/notify/${target.ref}`, params, {
+      //       data: {
+      //         ...r.toObject(),
+      //         created_at: new Date(r.created_at).getTime().toString(),
+      //         updated_at: new Date(r.updated_at).getTime().toString(),
+      //       },
+      //       type: "studio",
+      //     })
+      //       .then((res) => console.log(res))
+      //       .catch((e) => console.log(e));
+      //   }
+      // });
 
       return data;
     });
   }
+}
+export function updateStatusJobApply(source, args, context, info) {
+  if (context.isAuthenticated()) {
+    let input = args.input;
+    return JobApplyService.update(input);
+}
 }

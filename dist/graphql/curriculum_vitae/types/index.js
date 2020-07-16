@@ -265,6 +265,7 @@ exports.CurriculumVitaeInput = new graphql_1.GraphQLInputObjectType({
         pdf_url: {
             type: graphql_1.GraphQLString,
         },
+        default: { type: graphql_1.GraphQLBoolean },
         avatar: { type: graphql_1.GraphQLString },
         info: { type: exports.InfoInput },
         education: {
@@ -301,6 +302,7 @@ exports.CurriculumVitae = new graphql_1.GraphQLObjectType({
         pdf_url: {
             type: graphql_1.GraphQLString,
         },
+        default: { type: graphql_1.GraphQLBoolean },
         avatar: { type: graphql_1.GraphQLString },
         info: { type: exports.Info },
         education: {

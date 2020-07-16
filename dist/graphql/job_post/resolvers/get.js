@@ -22,8 +22,7 @@ function getJobPost(source, args, context, info) {
     if (context.isAuthenticated()) {
         loggedUser = context.user;
     }
-    return JobPostRepository_1.default.getBy(getBy, fields)
-        .then((jobPost) => __awaiter(this, void 0, void 0, function* () {
+    return JobPostRepository_1.default.getBy(getBy, fields).then((jobPost) => __awaiter(this, void 0, void 0, function* () {
         let node = {
             _id: jobPost._id,
             title: jobPost.title,
@@ -33,7 +32,9 @@ function getJobPost(source, args, context, info) {
             description: jobPost.description,
             requirement: jobPost.requirement,
             job_location: jobPost.job_location,
-            salary: (jobPost.salary.show || (loggedUser && loggedUser._id.toString() === jobPost.user.ref._id.toString())) ? jobPost.salary : null,
+            salary: jobPost.salary.show || (loggedUser && loggedUser._id.toString() === jobPost.user.ref._id.toString())
+                ? jobPost.salary
+                : null,
             job_skill: jobPost.job_skill,
             job_prefer_language: jobPost.job_prefer_language,
             email_for_application: jobPost.email_for_application,
@@ -43,6 +44,9 @@ function getJobPost(source, args, context, info) {
             status: jobPost.status,
             seo_title: jobPost.seo_title,
             seo_description: jobPost.seo_description,
+            experience: jobPost.experience,
+            latitude: jobPost.latitude,
+            longitude: jobPost.longitude,
             created_at: jobPost.created_at,
             updated_at: jobPost.updated_at,
         };
@@ -54,8 +58,7 @@ function getJobPosts(source, args, context, info) {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
     let limit = args.limit > 50 ? 10 : args.limit;
-    return JobPostRepository_1.default.filter(filter, limit, args.page, infos.edges)
-        .then((jobPosts) => __awaiter(this, void 0, void 0, function* () {
+    return JobPostRepository_1.default.filter(filter, limit, args.page, infos.edges).then((jobPosts) => __awaiter(this, void 0, void 0, function* () {
         let edges = [];
         for (let i = 0; i < jobPosts.length; i++) {
             let jobPost = {
@@ -76,20 +79,23 @@ function getJobPosts(source, args, context, info) {
                     company: jobPosts[i].company,
                     view_count: jobPosts[i].view_count ? jobPosts[i].view_count : 0,
                     user: jobPosts[i].user,
+                    latitude: jobPosts[i].latitude,
+                    longitude: jobPosts[i].longitude,
+                    experience: jobPosts[i].experience,
                     status: jobPosts[i].status,
                     seo_title: jobPosts[i].seo_title,
                     seo_description: jobPosts[i].seo_description,
                     created_at: jobPosts[i].created_at,
                     updated_at: jobPosts[i].updated_at,
-                }
+                },
             };
             edges.push(jobPost);
         }
-        let countData = (infos.pageInfo && infos.pageInfo.length) ? yield JobPostRepository_1.default.count(filter) : 0;
+        let countData = infos.pageInfo && infos.pageInfo.length ? yield JobPostRepository_1.default.count(filter) : 0;
         let dataRet = Object.assign({ edges }, { pageInfo: {
                 length: countData,
                 hasNextPage: jobPosts.length >= limit,
-                hasPreviousPage: args.page > 1
+                hasPreviousPage: args.page > 1,
             } });
         return dataRet;
     }));

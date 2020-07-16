@@ -50,6 +50,10 @@ const companySchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
+    email: {
+        type: String,
+        unique: true,
+    },
     region: String,
     phone: String,
     facebook: String,
@@ -86,6 +90,7 @@ const companySchema = new mongoose.Schema({
             media_link: String,
         },
     ],
+    office: [String],
     benefit: [
         {
             vi_content: String,
