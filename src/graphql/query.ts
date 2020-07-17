@@ -25,6 +25,8 @@ import logoutQueries from "./logout/queries";
 import clientSubcriberQueries from "./client_subcriber/queries"
 import serviceWorkerNotificationQueries from "./service_notification/queries";
 import curriculumVitaeQueries from "./curriculum_vitae/queries";
+import coordinateQueries from "./coordinate/queries";
+import distanceBoundQueries from "./geo_code/queries";
 
 const QueryRoot = new GraphQLObjectType({
   fields: {
@@ -57,6 +59,8 @@ const QueryRoot = new GraphQLObjectType({
     ...clientSubcriberQueries,
     ...serviceWorkerNotificationQueries,
     ...curriculumVitaeQueries,
+    ...coordinateQueries,
+    ...distanceBoundQueries,
   },
   name: "QueryRoot",
 });
