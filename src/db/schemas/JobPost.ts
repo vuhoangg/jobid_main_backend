@@ -90,8 +90,10 @@ const jobPostSchema = new mongoose.Schema({
     }
   },
   experience: Number,
-  latitude: Number,
-  longitude: Number,
+  location: {
+    lat: String,
+    lng: String,
+  },
   status: {
     type: String,
     enum: ['active', 'trash', 'draft'],
