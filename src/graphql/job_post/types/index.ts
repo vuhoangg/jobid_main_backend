@@ -104,6 +104,15 @@ export const JobLatLng = new GraphQLObjectType({
   },
   name: "JobLatLng",
 });
+
+export const JobLatLngInput = new GraphQLInputObjectType({
+  description: "Lat long Job Posts Input",
+  fields: {
+    lat: { type: GraphQLString },
+    lng: { type: GraphQLString },
+  },
+  name: "JobLatLngInput",
+});
 export const JobPost = new GraphQLObjectType({
   description: "Represents a job post.",
   fields: {
@@ -171,8 +180,7 @@ export const JobPostInput = new GraphQLInputObjectType({
     experience: { type: GraphQLInt },
     email_for_application: { type: GraphQLString }, // create
     company: { type: JobCompanyInput }, // create
-    location: { type: GraphQLFloat },
-    longitude: { type: GraphQLFloat },
+    location: { type: JobLatLngInput },
     status: { type: GraphQLString },
   },
   name: "JobPostInput",

@@ -33,8 +33,6 @@ export function getJobPost(source, args, context, info) {
       seo_description: jobPost.seo_description,
       experience: jobPost.experience,
       location: jobPost.location,
-      latitude: jobPost.latitude,
-      longitude: jobPost.longitude,
       created_at: jobPost.created_at,
       updated_at: jobPost.updated_at,
     };
@@ -68,8 +66,6 @@ export function getJobPosts(source, args, context, info) {
           view_count: jobPosts[i].view_count ? jobPosts[i].view_count : 0,
           user: jobPosts[i].user,
           location: jobPosts[i].location,
-          latitude: jobPosts[i].latitude,
-          longitude: jobPosts[i].longitude,
           experience: jobPosts[i].experience,
           status: jobPosts[i].status,
           seo_title: jobPosts[i].seo_title,
