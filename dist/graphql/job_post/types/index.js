@@ -1,21 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.JobPostArguments = exports.JobPostInput = exports.JobPostConnection = exports.JobPostEdge = exports.JobPost = exports.JobCompanyInput = exports.JobCompany = exports.JobBenefitInput = exports.JobBenefit = exports.JobSalaryInput = exports.JobSalary = exports.JobUser = void 0;
+exports.JobPostArguments = exports.JobPostInput = exports.JobPostConnection = exports.JobPostEdge = exports.JobPost = exports.JobLatLng = exports.JobCompanyInput = exports.JobCompany = exports.JobBenefitInput = exports.JobBenefit = exports.JobSalaryInput = exports.JobSalary = exports.JobUser = void 0;
 const graphql_1 = require("graphql");
 const types_1 = require("../../types");
-;
 const types_2 = require("../../job_level/types");
 const types_3 = require("../../job_category/types");
-const types_4 = require("../../job_location/types");
-const types_5 = require("../../job_skill/types");
-const types_6 = require("../../job_prefer_language/types");
-const types_7 = require("../../company/types");
-const types_8 = require("../../benefit/types");
-const types_9 = require("../../user/types");
+const types_4 = require("../../job_skill/types");
+const types_5 = require("../../job_prefer_language/types");
+const types_6 = require("../../company/types");
+const types_7 = require("../../benefit/types");
+const types_8 = require("../../user/types");
+const types_9 = require("../../job_location/types");
 exports.JobUser = new graphql_1.GraphQLObjectType({
     description: "Represents a job user.",
     fields: {
-        ref: { type: types_9.User },
+        ref: { type: types_8.User },
         in_company: { type: graphql_1.GraphQLBoolean },
     },
     name: "JobUser",
@@ -41,10 +40,10 @@ exports.JobSalaryInput = new graphql_1.GraphQLInputObjectType({
 exports.JobBenefit = new graphql_1.GraphQLObjectType({
     description: "Represents a job benefit.",
     fields: {
-        benefit_id: { type: types_8.Benefit },
+        benefit_id: { type: types_7.Benefit },
         content: { type: graphql_1.GraphQLString },
     },
-    name: "JobBenefit"
+    name: "JobBenefit",
 });
 exports.JobBenefitInput = new graphql_1.GraphQLInputObjectType({
     description: "The updated properties for a job benefit.",
@@ -52,12 +51,12 @@ exports.JobBenefitInput = new graphql_1.GraphQLInputObjectType({
         benefit_id: { type: graphql_1.GraphQLString },
         content: { type: graphql_1.GraphQLString },
     },
-    name: "JobBenefitInput"
+    name: "JobBenefitInput",
 });
 exports.JobCompany = new graphql_1.GraphQLObjectType({
     description: "Represents a job company.",
     fields: {
-        ref: { type: types_7.Company },
+        ref: { type: types_6.Company },
         name: { type: graphql_1.GraphQLString },
         size: { type: graphql_1.GraphQLString },
         address: { type: graphql_1.GraphQLString },
@@ -84,6 +83,14 @@ exports.JobCompanyInput = new graphql_1.GraphQLInputObjectType({
     },
     name: "JobCompanyInput",
 });
+exports.JobLatLng = new graphql_1.GraphQLObjectType({
+    description: "Lat long Job Posts",
+    fields: {
+        lat: { type: graphql_1.GraphQLString },
+        lng: { type: graphql_1.GraphQLString },
+    },
+    name: "JobLatLng",
+});
 exports.JobPost = new graphql_1.GraphQLObjectType({
     description: "Represents a job post.",
     fields: {
@@ -94,13 +101,12 @@ exports.JobPost = new graphql_1.GraphQLObjectType({
         job_category: { type: new graphql_1.GraphQLList(types_3.JobCategory) },
         description: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         requirement: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
-        job_location: { type: new graphql_1.GraphQLList(types_4.JobLocation) },
+        job_location: { type: new graphql_1.GraphQLList(types_9.JobLocation) },
         salary: { type: exports.JobSalary },
-        job_skill: { type: new graphql_1.GraphQLList(types_5.JobSkill) },
-        latitude: { type: graphql_1.GraphQLInt },
-        longitude: { type: graphql_1.GraphQLInt },
+        job_skill: { type: new graphql_1.GraphQLList(types_4.JobSkill) },
+        location: { type: exports.JobLatLng },
         experience: { type: graphql_1.GraphQLInt },
-        job_prefer_language: { type: new graphql_1.GraphQLList(types_6.JobPreferLanguage) },
+        job_prefer_language: { type: new graphql_1.GraphQLList(types_5.JobPreferLanguage) },
         email_for_application: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         company: { type: new graphql_1.GraphQLNonNull(exports.JobCompany) },
         view_count: { type: graphql_1.GraphQLInt },
@@ -151,8 +157,8 @@ exports.JobPostInput = new graphql_1.GraphQLInputObjectType({
         experience: { type: graphql_1.GraphQLInt },
         email_for_application: { type: graphql_1.GraphQLString },
         company: { type: exports.JobCompanyInput },
-        latitude: { type: graphql_1.GraphQLInt },
-        longitude: { type: graphql_1.GraphQLInt },
+        location: { type: graphql_1.GraphQLFloat },
+        longitude: { type: graphql_1.GraphQLFloat },
         status: { type: graphql_1.GraphQLString },
     },
     name: "JobPostInput",
