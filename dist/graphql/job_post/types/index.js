@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.JobPostArguments = exports.JobPostInput = exports.JobPostConnection = exports.JobPostEdge = exports.JobPost = exports.JobLatLng = exports.JobCompanyInput = exports.JobCompany = exports.JobBenefitInput = exports.JobBenefit = exports.JobSalaryInput = exports.JobSalary = exports.JobUser = void 0;
+exports.JobPostArguments = exports.JobPostInput = exports.JobPostConnection = exports.JobPostEdge = exports.JobPost = exports.JobLatLngInput = exports.JobLatLng = exports.JobCompanyInput = exports.JobCompany = exports.JobBenefitInput = exports.JobBenefit = exports.JobSalaryInput = exports.JobSalary = exports.JobUser = void 0;
 const graphql_1 = require("graphql");
 const types_1 = require("../../types");
 const types_2 = require("../../job_level/types");
@@ -91,6 +91,14 @@ exports.JobLatLng = new graphql_1.GraphQLObjectType({
     },
     name: "JobLatLng",
 });
+exports.JobLatLngInput = new graphql_1.GraphQLInputObjectType({
+    description: "Lat long Job Posts Input",
+    fields: {
+        lat: { type: graphql_1.GraphQLString },
+        lng: { type: graphql_1.GraphQLString },
+    },
+    name: "JobLatLngInput",
+});
 exports.JobPost = new graphql_1.GraphQLObjectType({
     description: "Represents a job post.",
     fields: {
@@ -157,8 +165,7 @@ exports.JobPostInput = new graphql_1.GraphQLInputObjectType({
         experience: { type: graphql_1.GraphQLInt },
         email_for_application: { type: graphql_1.GraphQLString },
         company: { type: exports.JobCompanyInput },
-        location: { type: graphql_1.GraphQLFloat },
-        longitude: { type: graphql_1.GraphQLFloat },
+        location: { type: exports.JobLatLngInput },
         status: { type: graphql_1.GraphQLString },
     },
     name: "JobPostInput",
