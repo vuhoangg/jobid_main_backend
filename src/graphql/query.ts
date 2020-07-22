@@ -27,6 +27,7 @@ import serviceWorkerNotificationQueries from "./service_notification/queries";
 import curriculumVitaeQueries from "./curriculum_vitae/queries";
 import coordinateQueries from "./coordinate/queries";
 import distanceBoundQueries from "./geo_code/queries";
+import jobCommentQueries from "./job_comment/queries";
 
 const QueryRoot = new GraphQLObjectType({
   fields: {
@@ -61,6 +62,7 @@ const QueryRoot = new GraphQLObjectType({
     ...curriculumVitaeQueries,
     ...coordinateQueries,
     ...distanceBoundQueries,
+    ...jobCommentQueries,
   },
   name: "QueryRoot",
 });
