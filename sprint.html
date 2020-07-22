@@ -1,0 +1,362 @@
+<html lang="vi">
+  <meta charset="utf-8"/>
+
+<!--
+The post that goes with this pen:
+https://codepen.io/k3no/post/learning-by-example-getting-started-with-chart-js
+-->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<div class="container">
+  <br />
+  <div class="row">
+    <div class="col-md-6">
+      <canvas id="estimateTime"></canvas>
+    </div>
+    <div class="col-md-6">
+      <canvas id="weekWorkTime"></canvas>
+    </div>
+
+    <div class="dropdown-divider"></div>
+
+    <div class="col-md-6">
+      <canvas id="outWorkTime"></canvas>
+    </div>
+    <div class="col-md-6">
+      <canvas id="doTime"></canvas>
+    </div>
+  </div>
+</div>
+
+<style>
+  body{
+    background-color: #fff;
+  }
+</style>
+<script>
+    var canvas = document.getElementById("estimateTime");
+    var ctx = canvas.getContext('2d');
+    // Global Options:
+    Chart.defaults.global.defaultFontColor = 'black';
+    Chart.defaults.global.defaultFontSize = 16;
+
+    var data = {
+        labels: ["Sprint#2", "Sprint#3", "Sprint#4", "Sprint#5"],
+        datasets: [{
+            label: "Việt",
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: "rgba(225,0,0,0.4)",
+            borderColor: "red", // The main line color
+            borderCapStyle: 'square',
+            borderDash: [], // try [5, 15] for instance
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "black",
+            pointBackgroundColor: "white",
+            pointBorderWidth: 1,
+            pointHoverRadius: 8,
+            pointHoverBackgroundColor: "yellow",
+            pointHoverBorderColor: "brown",
+            pointHoverBorderWidth: 2,
+            pointRadius: 4,
+            pointHitRadius: 10,
+            // notice the gap in the data and the spanGaps: true
+            data: [23, 24, 29, 25],
+            spanGaps: true,
+        }, {
+            label: "Nam",
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: "rgba(167,105,0,0.4)",
+            borderColor: "rgb(167, 105, 0)",
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "white",
+            pointBackgroundColor: "black",
+            pointBorderWidth: 1,
+            pointHoverRadius: 8,
+            pointHoverBackgroundColor: "brown",
+            pointHoverBorderColor: "yellow",
+            pointHoverBorderWidth: 2,
+            pointRadius: 4,
+            pointHitRadius: 10,
+            // notice the gap in the data and the spanGaps: false
+            data: [31, 44, 20, 25],
+            spanGaps: false,
+        }
+
+        ]
+    };
+
+    // Notice the scaleLabel at the same level as Ticks
+    var options = {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                },
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Tổng thời gian Estimate',
+                    fontSize: 20
+                }
+            }]
+        }
+    };
+
+    // Chart declaration:
+    var myBarChart = new Chart(ctx, {
+        type: 'line',
+        data: data,
+        options: options
+    });
+</script>
+  <script>
+      var canvas = document.getElementById("weekWorkTime");
+      var ctx = canvas.getContext('2d');
+      // Global Options:
+      Chart.defaults.global.defaultFontColor = 'black';
+      Chart.defaults.global.defaultFontSize = 16;
+
+      var data = {
+          labels: ["Sprint#2", "Sprint#3", "Sprint#4", "Sprint#5"],
+          datasets: [{
+              label: "Việt",
+              fill: false,
+              lineTension: 0.1,
+              backgroundColor: "rgba(225,0,0,0.4)",
+              borderColor: "red", // The main line color
+              borderCapStyle: 'square',
+              borderDash: [], // try [5, 15] for instance
+              borderDashOffset: 0.0,
+              borderJoinStyle: 'miter',
+              pointBorderColor: "black",
+              pointBackgroundColor: "white",
+              pointBorderWidth: 1,
+              pointHoverRadius: 8,
+              pointHoverBackgroundColor: "yellow",
+              pointHoverBorderColor: "brown",
+              pointHoverBorderWidth: 2,
+              pointRadius: 4,
+              pointHitRadius: 10,
+              // notice the gap in the data and the spanGaps: true
+              data: [67.5, 76, 30, 36],
+              spanGaps: true,
+          }, {
+              label: "Nam",
+              fill: false,
+              lineTension: 0.1,
+              backgroundColor: "rgba(167,105,0,0.4)",
+              borderColor: "rgb(167, 105, 0)",
+              borderCapStyle: 'butt',
+              borderDash: [],
+              borderDashOffset: 0.0,
+              borderJoinStyle: 'miter',
+              pointBorderColor: "white",
+              pointBackgroundColor: "black",
+              pointBorderWidth: 1,
+              pointHoverRadius: 8,
+              pointHoverBackgroundColor: "brown",
+              pointHoverBorderColor: "yellow",
+              pointHoverBorderWidth: 2,
+              pointRadius: 4,
+              pointHitRadius: 10,
+              // notice the gap in the data and the spanGaps: false
+              data: [48.75, 60, 20, 24],
+              spanGaps: false,
+          }
+
+          ]
+      };
+
+      // Notice the scaleLabel at the same level as Ticks
+      var options = {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero:true
+                  },
+                  scaleLabel: {
+                      display: true,
+                      labelString: 'Tổng thời gian làm việc',
+                      fontSize: 20
+                  }
+              }]
+          }
+      };
+
+      // Chart declaration:
+      var myBarChart = new Chart(ctx, {
+          type: 'line',
+          data: data,
+          options: options
+      });
+  </script>
+  <script>
+      var canvas = document.getElementById("outWorkTime");
+      var ctx = canvas.getContext('2d');
+      // Global Options:
+      Chart.defaults.global.defaultFontColor = 'black';
+      Chart.defaults.global.defaultFontSize = 16;
+
+      var data = {
+          labels: ["Sprint#2", "Sprint#3", "Sprint#4", "Sprint#5"],
+          datasets: [{
+              label: "Việt",
+              fill: false,
+              lineTension: 0.1,
+              backgroundColor: "rgba(225,0,0,0.4)",
+              borderColor: "red", // The main line color
+              borderCapStyle: 'square',
+              borderDash: [], // try [5, 15] for instance
+              borderDashOffset: 0.0,
+              borderJoinStyle: 'miter',
+              pointBorderColor: "black",
+              pointBackgroundColor: "white",
+              pointBorderWidth: 1,
+              pointHoverRadius: 8,
+              pointHoverBackgroundColor: "yellow",
+              pointHoverBorderColor: "brown",
+              pointHoverBorderWidth: 2,
+              pointRadius: 4,
+              pointHitRadius: 10,
+              // notice the gap in the data and the spanGaps: true
+              data: [44.5, 52, 1, 11],
+              spanGaps: true,
+          }, {
+              label: "Nam",
+              fill: false,
+              lineTension: 0.1,
+              backgroundColor: "rgba(167,105,0,0.4)",
+              borderColor: "rgb(167, 105, 0)",
+              borderCapStyle: 'butt',
+              borderDash: [],
+              borderDashOffset: 0.0,
+              borderJoinStyle: 'miter',
+              pointBorderColor: "white",
+              pointBackgroundColor: "black",
+              pointBorderWidth: 1,
+              pointHoverRadius: 8,
+              pointHoverBackgroundColor: "brown",
+              pointHoverBorderColor: "yellow",
+              pointHoverBorderWidth: 2,
+              pointRadius: 4,
+              pointHitRadius: 10,
+              // notice the gap in the data and the spanGaps: false
+              data: [17.75, 16, 0, -1],
+              spanGaps: false,
+          }
+
+          ]
+      };
+
+      // Notice the scaleLabel at the same level as Ticks
+      var options = {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero:true
+                  },
+                  scaleLabel: {
+                      display: true,
+                      labelString: 'Thời gian dư',
+                      fontSize: 20
+                  }
+              }]
+          }
+      };
+
+      // Chart declaration:
+      var myBarChart = new Chart(ctx, {
+          type: 'line',
+          data: data,
+          options: options
+      });
+  </script>
+  <script>
+      var canvas = document.getElementById("doTime");
+      var ctx = canvas.getContext('2d');
+      // Global Options:
+      Chart.defaults.global.defaultFontColor = 'black';
+      Chart.defaults.global.defaultFontSize = 16;
+
+      var data = {
+          labels: ["Sprint#2", "Sprint#3", "Sprint#4", "Sprint#5"],
+          datasets: [{
+              label: "Việt",
+              fill: false,
+              lineTension: 0.1,
+              backgroundColor: "rgba(225,0,0,0.4)",
+              borderColor: "red", // The main line color
+              borderCapStyle: 'square',
+              borderDash: [], // try [5, 15] for instance
+              borderDashOffset: 0.0,
+              borderJoinStyle: 'miter',
+              pointBorderColor: "black",
+              pointBackgroundColor: "white",
+              pointBorderWidth: 1,
+              pointHoverRadius: 8,
+              pointHoverBackgroundColor: "yellow",
+              pointHoverBorderColor: "brown",
+              pointHoverBorderWidth: 2,
+              pointRadius: 4,
+              pointHitRadius: 10,
+              // notice the gap in the data and the spanGaps: true
+              data: [34, 31, 97, 69],
+              spanGaps: true,
+          }, {
+              label: "Nam",
+              fill: false,
+              lineTension: 0.1,
+              backgroundColor: "rgba(167,105,0,0.4)",
+              borderColor: "rgb(167, 105, 0)",
+              borderCapStyle: 'butt',
+              borderDash: [],
+              borderDashOffset: 0.0,
+              borderJoinStyle: 'miter',
+              pointBorderColor: "white",
+              pointBackgroundColor: "black",
+              pointBorderWidth: 1,
+              pointHoverRadius: 8,
+              pointHoverBackgroundColor: "brown",
+              pointHoverBorderColor: "yellow",
+              pointHoverBorderWidth: 2,
+              pointRadius: 4,
+              pointHitRadius: 10,
+              // notice the gap in the data and the spanGaps: false
+              data: [64, 73, 100, 104],
+              spanGaps: false,
+          }
+
+          ]
+      };
+
+      // Notice the scaleLabel at the same level as Ticks
+      var options = {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero:true
+                  },
+                  scaleLabel: {
+                      display: true,
+                      labelString: 'Tỉ lệ làm task (%)',
+                      fontSize: 20
+                  }
+              }]
+          }
+      };
+
+      // Chart declaration:
+      var myBarChart = new Chart(ctx, {
+          type: 'line',
+          data: data,
+          options: options
+      });
+  </script>
+
+</html>
