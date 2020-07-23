@@ -8,6 +8,7 @@ export function updateJobComment(source, args, context, info) {
     });
   }
 }
+
 export function createJobComment(source, args, context, info) {
   if (context.isAuthenticated()) {
     let input = args.input;

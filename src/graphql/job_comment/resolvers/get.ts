@@ -1,5 +1,5 @@
 import JobCommentService from "../../../db/repositories/JobCommentRepository";
-import { filterObject, rootField, rootInfo } from "../../helpers";
+import {filterObject, rootField, rootInfo} from "../../helpers";
 
 export function getJobComment(source, args, context, info) {
   const fields = rootField(info);
@@ -40,7 +40,7 @@ export function getJobComments(source, args, context, info) {
     }
     let countData = infos.pageInfo && infos.pageInfo.length ? await JobCommentService.count(filter) : 0;
     let dataRet = {
-      ...{ edges },
+      ...{edges},
       pageInfo: {
         length: countData,
         hasNextPage: jobComments.length >= args.limit,

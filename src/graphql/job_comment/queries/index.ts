@@ -1,5 +1,5 @@
 import {GraphQLNonNull} from "graphql";
-import {PaginationArguments, SpecificArgument} from "../../types";
+import {PaginationArguments} from "../../types";
 import {getJobComment, getJobComments} from "../resolvers/get";
 import {JobComment, JobCommentArguments, JobCommentConnection} from "../types";
 
