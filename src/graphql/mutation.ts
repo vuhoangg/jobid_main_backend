@@ -23,6 +23,9 @@ import clientSubcriberMutations from "./client_subcriber/mutations";
 import serviceWorkerNotificationMutations from "./service_notification/mutations";
 import curriculumVitaeMutations from "./curriculum_vitae/mutations";
 import jobCommentMutations from "./job_comment/mutations";
+import jobReplyCommentMutations from "./job_comment_reply/mutations";
+import jobRatingMutations from "./job_rating/mutations";
+
 
 const Mutation = new GraphQLObjectType({
   fields: {
@@ -53,6 +56,8 @@ const Mutation = new GraphQLObjectType({
     ...serviceWorkerNotificationMutations,
     ...curriculumVitaeMutations,
     ...jobCommentMutations,
+    ...jobReplyCommentMutations,
+    ...jobRatingMutations,
   },
   name: "Mutation",
 });

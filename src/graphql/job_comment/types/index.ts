@@ -1,30 +1,15 @@
-import { GraphQLInputObjectType, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLString } from "graphql";
+import {
+  GraphQLInputObjectType,
+  GraphQLList,
+  GraphQLNonNull,
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLBoolean,
+  GraphQLInt,
+} from "graphql";
 import { PageInfo } from "../../types";
 import { User } from "../../user/types";
 import { JobPost } from "../../job_post/types";
-
-export const JobCommentReply = new GraphQLObjectType({
-  description: "Represents a job comment reply.",
-  fields: {
-    user: { type: User },
-    comment: {type: GraphQLString},
-    created_at: { type: GraphQLString },
-    updated_at: { type: GraphQLString },
-  },
-  name: "JobCommentReply",
-});
-
-export const JobCommentReplyInput = new GraphQLInputObjectType({
-  description: "Represents a job comment reply Input.",
-  fields: {
-    user: { type: GraphQLString },
-    comment: {type: GraphQLString},
-    created_at: { type: GraphQLString },
-    updated_at: { type: GraphQLString },
-  },
-  name: "JobCommentReply",
-});
-
 
 export const JobComment = new GraphQLObjectType({
   description: "Represents a job comment.",
@@ -33,7 +18,7 @@ export const JobComment = new GraphQLObjectType({
     comment: { type: GraphQLString },
     user: { type: User },
     job: { type: JobPost },
-    comment_reply: {type: new GraphQLList(JobCommentReply)},
+    children: { type: GraphQLBoolean },
     created_at: { type: GraphQLString },
     updated_at: { type: GraphQLString },
   },
@@ -69,7 +54,7 @@ export const JobCommentInput = new GraphQLInputObjectType({
     comment: { type: GraphQLString },
     user: { type: GraphQLString },
     job: { type: GraphQLString },
-    comment_reply: { type: new GraphQLList(GraphQLString) },
+    children: { type: GraphQLBoolean },
   },
   name: "JobCommentInput",
   description: "The updated properties for a job comment.",

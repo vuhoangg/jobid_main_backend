@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const jobCommentSchema = new mongoose.Schema(
+const jobCommentReplySchema = new mongoose.Schema(
   {
     comment: String,
     user: {
@@ -11,13 +11,13 @@ const jobCommentSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "JobPost",
     },
-    children: {
-      type: Boolean,
-      default: false,
+    parent: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "JobComment",
     },
   },
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );
 
-const JobComment = mongoose.model("JobComment", jobCommentSchema);
-export default JobComment;
+const JobCommentReply = mongoose.model("JobCommentReply", jobCommentReplySchema);
+export default JobCommentReply;
