@@ -22,7 +22,7 @@ import groupPermissionMutations from "./group_permission/mutations";
 import clientSubcriberMutations from "./client_subcriber/mutations";
 import serviceWorkerNotificationMutations from "./service_notification/mutations";
 import curriculumVitaeMutations from "./curriculum_vitae/mutations";
-
+// import jobCommentMutations from "./job_comment/mutations";
 
 const Mutation = new GraphQLObjectType({
   fields: {
