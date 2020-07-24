@@ -28,6 +28,8 @@ import curriculumVitaeQueries from "./curriculum_vitae/queries";
 import coordinateQueries from "./coordinate/queries";
 import distanceBoundQueries from "./geo_code/queries";
 import jobCommentQueries from "./job_comment/queries";
+import jobReplyCommentQueries from "./job_comment_reply/queries";
+import jobRatingQueries from "./job_rating/queries";
 
 const QueryRoot = new GraphQLObjectType({
   fields: {
@@ -63,6 +65,8 @@ const QueryRoot = new GraphQLObjectType({
     ...coordinateQueries,
     ...distanceBoundQueries,
     ...jobCommentQueries,
+    ...jobReplyCommentQueries,
+    ...jobRatingQueries,
   },
   name: "QueryRoot",
 });

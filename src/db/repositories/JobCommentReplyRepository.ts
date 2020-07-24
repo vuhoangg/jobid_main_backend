@@ -1,5 +1,5 @@
 import { CrudContract } from "../contracts/CrudContract";
-import JobComment from "../schemas/JobComment";
+import JobCommentReply from "../schemas/JobCommentReply";
 import { errorLog } from "../../helpers/log";
 import { promiseNull } from "../../helpers/promise";
 
@@ -11,6 +11,7 @@ interface ISort {
 interface IFilter {
   sort_by?: ISort;
   job_post?: string;
+  parent?: string;
 }
 
 interface IGetBy {
@@ -21,6 +22,8 @@ function getCondition(filter: IFilter) {
   let condition = {};
   if (filter.job_post) {
     condition = Object.assign(condition, { job: filter.job_post });
+  }else if (filter.parent) {
+    condition = Object.assign(condition, { parent: filter.parent });
   }
   return condition;
 }
@@ -36,11 +39,11 @@ function getSort(sortBy: ISort) {
   return sort;
 }
 
-class JobCommentRepository implements CrudContract {
+class JobCommentReplyRepository implements CrudContract {
   count(filter: IFilter) {
     try {
       let condition = getCondition(filter);
-      return JobComment.countDocuments(condition);
+      return JobCommentReply.countDocuments(condition);
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -49,7 +52,7 @@ class JobCommentRepository implements CrudContract {
 
   create(data) {
     try {
-      return JobComment.create(data);
+      return JobCommentReply.create(data);
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -58,7 +61,7 @@ class JobCommentRepository implements CrudContract {
 
   delete(id) {
     try {
-      return JobComment.findByIdAndRemove(id);
+      return JobCommentReply.findByIdAndRemove(id);
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -67,7 +70,7 @@ class JobCommentRepository implements CrudContract {
 
   get(id, projection) {
     try {
-      return JobComment.findById(id, projection);
+      return JobCommentReply.findById(id, projection);
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -78,7 +81,7 @@ class JobCommentRepository implements CrudContract {
     try {
       let condition = getCondition(filter);
       let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
-      return JobComment.find(condition, projection)
+      return JobCommentReply.find(condition, projection)
         .populate("user")
         .sort(sort)
         .skip(limit * (page - 1))
@@ -92,7 +95,7 @@ class JobCommentRepository implements CrudContract {
   getBy(getBy: IGetBy, projection) {
     try {
       if (getBy._id) {
-        return JobComment.findById(getBy._id, projection);
+        return JobCommentReply.findById(getBy._id, projection);
       } else {
         return promiseNull();
       }
@@ -104,7 +107,7 @@ class JobCommentRepository implements CrudContract {
 
   update(data) {
     try {
-      return JobComment.findByIdAndUpdate(data._id, data, { new: true });
+      return JobCommentReply.findByIdAndUpdate(data._id, data, { new: true });
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -112,5 +115,5 @@ class JobCommentRepository implements CrudContract {
   }
 }
 
-const JobCommentService = new JobCommentRepository();
-export default JobCommentService;
+const JobCommentReplyService = new JobCommentReplyRepository();
+export default JobCommentReplyService;
