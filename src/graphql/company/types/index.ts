@@ -1,7 +1,7 @@
 import {GroupPermission} from './../../group_permission/types';
 import {User} from './../../user/types';
 import {
-  GraphQLBoolean,
+  GraphQLBoolean, GraphQLFloat,
   GraphQLInputObjectType,
   GraphQLInt,
   GraphQLList,
@@ -13,6 +13,9 @@ import {PageInfo} from "../../types";
 import {JobCategory, JobCategoryInput} from "../../job_category/types";
 import {JobLocation} from "../../job_location/types";
 import {Benefit} from "../../benefit/types";
+import {CityType} from "../../city/types";
+import {DistrictType} from "../../district/types";
+import {WardType} from "../../ward/types";
 
 export const MediaStory = new GraphQLObjectType({
   description: "Represents a media story.",
@@ -118,6 +121,31 @@ export const BenefitContentInput = new GraphQLInputObjectType({
   },
   name: "BenefitContentInput",
 });
+export const Office = new GraphQLObjectType({
+  description: "Represents a office content.",
+  fields: {
+    city: {type: CityType},
+    district: {type: DistrictType},
+    ward: {type: WardType},
+    address: {type: GraphQLString},
+    lat: {type: GraphQLFloat},
+    lng: {type: GraphQLFloat},
+  },
+  name: "Office"
+});
+export const OfficeInput = new GraphQLInputObjectType({
+  description: "The updated properties for a office.",
+  fields: {
+    city: {type: GraphQLString},
+    district: {type: GraphQLString},
+    ward: {type: GraphQLString},
+    address: {type: GraphQLString},
+    lat: {type: GraphQLFloat},
+    lng: {type: GraphQLFloat},
+  },
+  name: "OfficeInput"
+});
+
 export const Company = new GraphQLObjectType({
   description: "Represents a company.",
   fields: {
@@ -147,7 +175,7 @@ export const Company = new GraphQLObjectType({
     list_user: {type: new GraphQLList(ListUser)},
     media_story: {type: new GraphQLList(MediaStory)},
     text_story: {type: new GraphQLList(TextStory)},
-    office: {type: new GraphQLList(GraphQLString)},
+    office: {type: new GraphQLList(Office)},
     people: {type: new GraphQLList(People)},
     benefit: {type: new GraphQLList(BenefitContent)},
     follow: {type: GraphQLInt},
@@ -213,7 +241,7 @@ export const CompanyInput = new GraphQLInputObjectType({
     address_contact: {type: GraphQLString},
     created_by: {type: GraphQLString},
     list_user: {type: new GraphQLList(ListUserInput)},
-    office: {type: new GraphQLList(GraphQLString)},
+    office: {type: new GraphQLList(OfficeInput)},
     media_story: {type: new GraphQLList(MediaStoryInput)},
     text_story: {type: new GraphQLList(TextStoryInput)},
     people: {type: new GraphQLList(PeopleInput)},

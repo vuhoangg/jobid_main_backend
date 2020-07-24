@@ -25,6 +25,9 @@ import curriculumVitaeMutations from "./curriculum_vitae/mutations";
 import jobCommentMutations from "./job_comment/mutations";
 import jobReplyCommentMutations from "./job_comment_reply/mutations";
 import jobRatingMutations from "./job_rating/mutations";
+import cityMutations from "./city/mutations";
+import districtMutations from "./district/mutations";
+import wardMutations from "./ward/mutations";
 
 
 const Mutation = new GraphQLObjectType({
@@ -58,6 +61,9 @@ const Mutation = new GraphQLObjectType({
     ...jobCommentMutations,
     ...jobReplyCommentMutations,
     ...jobRatingMutations,
+    ...cityMutations,
+    ...districtMutations,
+    ...wardMutations,
   },
   name: "Mutation",
 });

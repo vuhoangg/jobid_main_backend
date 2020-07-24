@@ -9,12 +9,12 @@ const permission_1 = require("../../../helpers/permission");
 const UserRepository_1 = __importDefault(require("../../../db/repositories/UserRepository"));
 const string_1 = require("../../../helpers/string");
 function updateCompany(source, args, context, info) {
-    // if (context.isAuthenticated()) {
-    //   let loggedUser = context.user;
-    //   if (isSuperUser(loggedUser.email)) {
-    return CompanyRepository_1.default.update(args.input);
-    //   }
-    // }
+    if (context.isAuthenticated()) {
+        let loggedUser = context.user;
+        if (permission_1.isSuperUser(loggedUser.email)) {
+            return CompanyRepository_1.default.update(args.input);
+        }
+    }
 }
 exports.updateCompany = updateCompany;
 function createCompany(source, args, context, info) {

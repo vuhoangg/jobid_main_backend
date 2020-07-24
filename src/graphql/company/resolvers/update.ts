@@ -4,12 +4,12 @@ import UserService from "../../../db/repositories/UserRepository";
 import {toSlug} from "../../../helpers/string";
 
 export function updateCompany(source, args, context, info) {
-  // if (context.isAuthenticated()) {
-  //   let loggedUser = context.user;
-  //   if (isSuperUser(loggedUser.email)) {
+  if (context.isAuthenticated()) {
+    let loggedUser = context.user;
+    if (isSuperUser(loggedUser.email)) {
       return CompanyService.update(args.input);
-  //   }
-  // }
+    }
+  }
 }
 
 export function createCompany(source, args, context, info) {

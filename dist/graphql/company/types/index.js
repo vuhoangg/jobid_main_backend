@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CompanyArguments = exports.AssignPermissionOnput = exports.AssignPermissionInput = exports.CompanyInput = exports.CompanyConnection = exports.CompanyEdge = exports.Company = exports.BenefitContentInput = exports.BenefitContent = exports.PeopleInput = exports.People = exports.TextStoryInput = exports.TextStory = exports.ListUserInput = exports.ListUser = exports.MediaStoryInput = exports.MediaStory = void 0;
+exports.CompanyArguments = exports.AssignPermissionOnput = exports.AssignPermissionInput = exports.CompanyInput = exports.CompanyConnection = exports.CompanyEdge = exports.Company = exports.OfficeInput = exports.Office = exports.BenefitContentInput = exports.BenefitContent = exports.PeopleInput = exports.People = exports.TextStoryInput = exports.TextStory = exports.ListUserInput = exports.ListUser = exports.MediaStoryInput = exports.MediaStory = void 0;
 const types_1 = require("./../../group_permission/types");
 const types_2 = require("./../../user/types");
 const graphql_1 = require("graphql");
@@ -8,6 +8,9 @@ const types_3 = require("../../types");
 const types_4 = require("../../job_category/types");
 const types_5 = require("../../job_location/types");
 const types_6 = require("../../benefit/types");
+const types_7 = require("../../city/types");
+const types_8 = require("../../district/types");
+const types_9 = require("../../ward/types");
 exports.MediaStory = new graphql_1.GraphQLObjectType({
     description: "Represents a media story.",
     fields: {
@@ -112,6 +115,30 @@ exports.BenefitContentInput = new graphql_1.GraphQLInputObjectType({
     },
     name: "BenefitContentInput",
 });
+exports.Office = new graphql_1.GraphQLObjectType({
+    description: "Represents a office content.",
+    fields: {
+        city: { type: types_7.CityType },
+        district: { type: types_8.DistrictType },
+        ward: { type: types_9.WardType },
+        address: { type: graphql_1.GraphQLString },
+        lat: { type: graphql_1.GraphQLFloat },
+        lng: { type: graphql_1.GraphQLFloat },
+    },
+    name: "Office"
+});
+exports.OfficeInput = new graphql_1.GraphQLInputObjectType({
+    description: "The updated properties for a office.",
+    fields: {
+        city: { type: graphql_1.GraphQLString },
+        district: { type: graphql_1.GraphQLString },
+        ward: { type: graphql_1.GraphQLString },
+        address: { type: graphql_1.GraphQLString },
+        lat: { type: graphql_1.GraphQLFloat },
+        lng: { type: graphql_1.GraphQLFloat },
+    },
+    name: "OfficeInput"
+});
 exports.Company = new graphql_1.GraphQLObjectType({
     description: "Represents a company.",
     fields: {
@@ -141,7 +168,7 @@ exports.Company = new graphql_1.GraphQLObjectType({
         list_user: { type: new graphql_1.GraphQLList(exports.ListUser) },
         media_story: { type: new graphql_1.GraphQLList(exports.MediaStory) },
         text_story: { type: new graphql_1.GraphQLList(exports.TextStory) },
-        office: { type: new graphql_1.GraphQLList(graphql_1.GraphQLString) },
+        office: { type: new graphql_1.GraphQLList(exports.Office) },
         people: { type: new graphql_1.GraphQLList(exports.People) },
         benefit: { type: new graphql_1.GraphQLList(exports.BenefitContent) },
         follow: { type: graphql_1.GraphQLInt },
@@ -205,7 +232,7 @@ exports.CompanyInput = new graphql_1.GraphQLInputObjectType({
         address_contact: { type: graphql_1.GraphQLString },
         created_by: { type: graphql_1.GraphQLString },
         list_user: { type: new graphql_1.GraphQLList(exports.ListUserInput) },
-        office: { type: new graphql_1.GraphQLList(graphql_1.GraphQLString) },
+        office: { type: new graphql_1.GraphQLList(exports.OfficeInput) },
         media_story: { type: new graphql_1.GraphQLList(exports.MediaStoryInput) },
         text_story: { type: new graphql_1.GraphQLList(exports.TextStoryInput) },
         people: { type: new graphql_1.GraphQLList(exports.PeopleInput) },

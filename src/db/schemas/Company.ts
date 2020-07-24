@@ -91,7 +91,25 @@ const companySchema = new mongoose.Schema(
         media_link: String,
       },
     ],
-    office: [String],
+    office: [
+      {
+        city: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "City",
+        },
+        district: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "District",
+        },
+        ward: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Ward",
+        },
+        address: String,
+        lat: Number,
+        lng: Number,
+      }
+    ],
     benefit: [
       {
         vi_content: String,

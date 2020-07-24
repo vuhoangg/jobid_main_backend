@@ -30,6 +30,9 @@ import distanceBoundQueries from "./geo_code/queries";
 import jobCommentQueries from "./job_comment/queries";
 import jobReplyCommentQueries from "./job_comment_reply/queries";
 import jobRatingQueries from "./job_rating/queries";
+import cityQueries from "./city/queries";
+import districtQueries from "./district/queries";
+import wardQueries from "./ward/queries";
 
 const QueryRoot = new GraphQLObjectType({
   fields: {
@@ -67,6 +70,9 @@ const QueryRoot = new GraphQLObjectType({
     ...jobCommentQueries,
     ...jobReplyCommentQueries,
     ...jobRatingQueries,
+    ...cityQueries,
+    ...districtQueries,
+    ...wardQueries,
   },
   name: "QueryRoot",
 });
