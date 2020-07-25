@@ -8,7 +8,7 @@ interface ICityFilterType {
 }
 
 interface IGetCityType {
-  id?: string;
+  _id?: string;
   slug?: string;
 }
 
@@ -33,9 +33,9 @@ class CityRepository implements CrudContract {
       return promiseNull();
     }
   };
-  public delete = (id: string) => {
+  public delete = (_id: string) => {
     try {
-      return City.findByIdAndRemove(id);
+      return City.findByIdAndRemove(_id);
     } catch (e) {
       errorLog(`City::delete ${e.message}`);
       return promiseNull();
@@ -43,8 +43,8 @@ class CityRepository implements CrudContract {
   };
   public get = (getBy: IGetCityType, projection = {}) => {
     try {
-      if (getBy.id) {
-        return City.findById(getBy.id, projection);
+      if (getBy._id) {
+        return City.findById(getBy._id, projection);
       } else {
         return City.findOne({ slug: getBy.slug }, projection);
       }
@@ -55,7 +55,7 @@ class CityRepository implements CrudContract {
   };
   public update = (data: any) => {
     try {
-      return City.findByIdAndUpdate(data.id, data, { new: true });
+      return City.findByIdAndUpdate(data._id, data, { new: true });
     } catch (e) {
       errorLog(`City::update ${e.message}`);
       return promiseNull();

@@ -9,7 +9,7 @@ interface IWardFilterType {
 }
 
 interface IGetWardType {
-  id?: string;
+  _id?: string;
   slug?: string;
 }
 
@@ -38,9 +38,9 @@ class WardRepository implements CrudContract {
       return promiseNull();
     }
   };
-  public delete = (id: string) => {
+  public delete = (_id: string) => {
     try {
-      return Ward.findByIdAndRemove(id);
+      return Ward.findByIdAndRemove(_id);
     } catch (e) {
       errorLog(`Ward::delete ${e.message}`);
       return promiseNull();
@@ -48,8 +48,8 @@ class WardRepository implements CrudContract {
   };
   public get = (getBy: IGetWardType, projection = {}) => {
     try {
-      if (getBy.id) {
-        return Ward.findById(getBy.id, projection);
+      if (getBy._id) {
+        return Ward.findById(getBy._id, projection);
       } else {
         return Ward.findOne({slug: getBy.slug}, projection);
       }
@@ -60,7 +60,7 @@ class WardRepository implements CrudContract {
   };
   public update = (data: any) => {
     try {
-      return Ward.findByIdAndUpdate(data.id, data, {new: true});
+      return Ward.findByIdAndUpdate(data._id, data, {new: true});
     } catch (e) {
       errorLog(`Ward::update ${e.message}`);
       return promiseNull();

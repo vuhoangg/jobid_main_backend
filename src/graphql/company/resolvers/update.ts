@@ -8,6 +8,15 @@ export function updateCompany(source, args, context, info) {
     let loggedUser = context.user;
     if (isSuperUser(loggedUser.email)) {
       return CompanyService.update(args.input);
+    } else {
+      let _id = args.input._id;
+      return CompanyService.get(_id, {}).then(r1 => {
+        if (r1 && r1.created_by.toString() == loggedUser._id.toString()) {
+          return CompanyService.update(args.input);
+        } else {
+          return r1
+        }
+      })
     }
   }
 }

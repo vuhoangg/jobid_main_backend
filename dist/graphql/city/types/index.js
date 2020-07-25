@@ -6,7 +6,7 @@ const types_1 = require("../../types");
 exports.CityType = new graphql_1.GraphQLObjectType({
     description: "Represents a city.",
     fields: {
-        id: { type: graphql_1.GraphQLString },
+        _id: { type: graphql_1.GraphQLString },
         name: { type: graphql_1.GraphQLString },
         title: { type: graphql_1.GraphQLString },
         description: { type: graphql_1.GraphQLString },
@@ -48,7 +48,7 @@ exports.CityConnection = new graphql_1.GraphQLObjectType({
 exports.CityInput = new graphql_1.GraphQLInputObjectType({
     description: "The updated properties for a city.",
     fields: {
-        id: { type: graphql_1.GraphQLString },
+        _id: { type: graphql_1.GraphQLString },
         name: { type: graphql_1.GraphQLString },
         title: { type: graphql_1.GraphQLString },
         description: { type: graphql_1.GraphQLString },

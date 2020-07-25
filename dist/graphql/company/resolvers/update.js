@@ -14,6 +14,17 @@ function updateCompany(source, args, context, info) {
         if (permission_1.isSuperUser(loggedUser.email)) {
             return CompanyRepository_1.default.update(args.input);
         }
+        else {
+            let _id = args.input._id;
+            return CompanyRepository_1.default.get(_id, {}).then(r1 => {
+                if (r1 && r1.created_by.toString() == loggedUser._id.toString()) {
+                    return CompanyRepository_1.default.update(args.input);
+                }
+                else {
+                    return r1;
+                }
+            });
+        }
     }
 }
 exports.updateCompany = updateCompany;

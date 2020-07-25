@@ -24,9 +24,9 @@ class CityRepository {
                 return promise_1.promiseNull();
             }
         };
-        this.delete = (id) => {
+        this.delete = (_id) => {
             try {
-                return City_1.default.findByIdAndRemove(id);
+                return City_1.default.findByIdAndRemove(_id);
             }
             catch (e) {
                 log_1.errorLog(`City::delete ${e.message}`);
@@ -35,8 +35,8 @@ class CityRepository {
         };
         this.get = (getBy, projection = {}) => {
             try {
-                if (getBy.id) {
-                    return City_1.default.findById(getBy.id, projection);
+                if (getBy._id) {
+                    return City_1.default.findById(getBy._id, projection);
                 }
                 else {
                     return City_1.default.findOne({ slug: getBy.slug }, projection);
@@ -49,7 +49,7 @@ class CityRepository {
         };
         this.update = (data) => {
             try {
-                return City_1.default.findByIdAndUpdate(data.id, data, { new: true });
+                return City_1.default.findByIdAndUpdate(data._id, data, { new: true });
             }
             catch (e) {
                 log_1.errorLog(`City::update ${e.message}`);

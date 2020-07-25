@@ -27,9 +27,9 @@ class DistrictRepository {
                 return promise_1.promiseNull();
             }
         };
-        this.delete = (id) => {
+        this.delete = (_id) => {
             try {
-                return District_1.default.findByIdAndRemove(id);
+                return District_1.default.findByIdAndRemove(_id);
             }
             catch (e) {
                 log_1.errorLog(`District::delete ${e.message}`);
@@ -38,8 +38,8 @@ class DistrictRepository {
         };
         this.get = (getBy, projection = {}) => {
             try {
-                if (getBy.id) {
-                    return District_1.default.findById(getBy.id, projection);
+                if (getBy._id) {
+                    return District_1.default.findById(getBy._id, projection);
                 }
                 else {
                     return District_1.default.findOne({ slug: getBy.slug }, projection);
@@ -52,7 +52,7 @@ class DistrictRepository {
         };
         this.update = (data) => {
             try {
-                return District_1.default.findByIdAndUpdate(data.id, data, { new: true });
+                return District_1.default.findByIdAndUpdate(data._id, data, { new: true });
             }
             catch (e) {
                 log_1.errorLog(`District::update ${e.message}`);

@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Company_1 = __importDefault(require("../schemas/Company"));
 const log_1 = require("../../helpers/log");
 const promise_1 = require("../../helpers/promise");
+const flattenNestedObject_1 = require("../../helpers/flattenNestedObject");
 function getCondition(filter) {
     let condition = {};
     if (filter.name) {
@@ -69,9 +70,9 @@ class CompanyRepository {
             return promise_1.promiseNull();
         }
     }
-    get(id, projection) {
+    get(_id, projection) {
         try {
-            return Company_1.default.findById(id, projection);
+            return Company_1.default.findById(_id, projection);
         }
         catch (e) {
             log_1.errorLog(e);
@@ -83,6 +84,9 @@ class CompanyRepository {
             let condition = getCondition(filter);
             let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
             return Company_1.default.find(condition, projection)
+                .populate("office.city")
+                .populate("office.district")
+                .populate("office.ward")
                 .populate("job_category")
                 .populate("job_location")
                 .populate({
@@ -112,6 +116,9 @@ class CompanyRepository {
         try {
             if (getBy._id) {
                 return Company_1.default.findById(getBy._id, projection)
+                    .populate("office.city")
+                    .populate("office.district")
+                    .populate("office.ward")
                     .populate("job_category")
                     .populate("job_location")
                     .populate({
@@ -131,6 +138,9 @@ class CompanyRepository {
             }
             else if (getBy.slug) {
                 return Company_1.default.findOne({ $or: [{ vi_slug: getBy.slug }, { en_slug: getBy.slug }] }, projection)
+                    .populate("office.city")
+                    .populate("office.district")
+                    .populate("office.ward")
                     .populate("job_category")
                     .populate("job_location")
                     .populate({
@@ -159,7 +169,12 @@ class CompanyRepository {
     }
     update(data) {
         try {
+            let dataUpdate = flattenNestedObject_1.processDataUpdate(data);
             return Company_1.default.findByIdAndUpdate(data._id, data, { new: true })
+                .populate("office.city")
+                .populate("office.district")
+                .populate("office.ward")
+                .populate("job_category")
                 .populate({
                 path: "list_user",
                 populate: {

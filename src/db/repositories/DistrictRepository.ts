@@ -9,7 +9,7 @@ interface IDistrictFilterType {
 }
 
 interface IGetDistrictType {
-  id?: string;
+  _id?: string;
   slug?: string;
 }
 
@@ -38,9 +38,9 @@ class DistrictRepository implements CrudContract {
       return promiseNull();
     }
   };
-  public delete = (id: string) => {
+  public delete = (_id: string) => {
     try {
-      return District.findByIdAndRemove(id);
+      return District.findByIdAndRemove(_id);
     } catch (e) {
       errorLog(`District::delete ${e.message}`);
       return promiseNull();
@@ -48,8 +48,8 @@ class DistrictRepository implements CrudContract {
   };
   public get = (getBy: IGetDistrictType, projection = {}) => {
     try {
-      if (getBy.id) {
-        return District.findById(getBy.id, projection);
+      if (getBy._id) {
+        return District.findById(getBy._id, projection);
       } else {
         return District.findOne({slug: getBy.slug}, projection);
       }
@@ -60,7 +60,7 @@ class DistrictRepository implements CrudContract {
   };
   public update = (data: any) => {
     try {
-      return District.findByIdAndUpdate(data.id, data, {new: true});
+      return District.findByIdAndUpdate(data._id, data, {new: true});
     } catch (e) {
       errorLog(`District::update ${e.message}`);
       return promiseNull();

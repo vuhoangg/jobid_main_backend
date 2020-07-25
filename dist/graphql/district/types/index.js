@@ -7,7 +7,7 @@ const types_2 = require("../../city/types");
 exports.DistrictType = new graphql_1.GraphQLObjectType({
     description: "Represents a district.",
     fields: {
-        id: { type: graphql_1.GraphQLString },
+        _id: { type: graphql_1.GraphQLString },
         city: { type: types_2.CityType },
         name: { type: graphql_1.GraphQLString },
         title: { type: graphql_1.GraphQLString },
@@ -50,7 +50,7 @@ exports.DistrictConnection = new graphql_1.GraphQLObjectType({
 exports.DistrictInput = new graphql_1.GraphQLInputObjectType({
     description: "The updated properties for a district.",
     fields: {
-        id: { type: graphql_1.GraphQLString },
+        _id: { type: graphql_1.GraphQLString },
         city: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         name: { type: graphql_1.GraphQLString },
         title: { type: graphql_1.GraphQLString },

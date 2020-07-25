@@ -5,7 +5,7 @@ import {PageInfo} from "../../types";
 export const CityType = new GraphQLObjectType({
   description: "Represents a city.",
   fields: {
-    id: {type: GraphQLString},
+    _id: {type: GraphQLString},
     name: {type: GraphQLString},
     title: {type: GraphQLString},
     description: {type: GraphQLString},
@@ -50,7 +50,7 @@ export const CityConnection = new GraphQLObjectType({
 export const CityInput = new GraphQLInputObjectType({
   description: "The updated properties for a city.",
   fields: {
-    id: {type: GraphQLString},
+    _id: {type: GraphQLString},
     name: {type: GraphQLString},
     title: {type: GraphQLString},
     description: {type: GraphQLString},

@@ -27,9 +27,9 @@ class WardRepository {
                 return promise_1.promiseNull();
             }
         };
-        this.delete = (id) => {
+        this.delete = (_id) => {
             try {
-                return Ward_1.default.findByIdAndRemove(id);
+                return Ward_1.default.findByIdAndRemove(_id);
             }
             catch (e) {
                 log_1.errorLog(`Ward::delete ${e.message}`);
@@ -38,8 +38,8 @@ class WardRepository {
         };
         this.get = (getBy, projection = {}) => {
             try {
-                if (getBy.id) {
-                    return Ward_1.default.findById(getBy.id, projection);
+                if (getBy._id) {
+                    return Ward_1.default.findById(getBy._id, projection);
                 }
                 else {
                     return Ward_1.default.findOne({ slug: getBy.slug }, projection);
@@ -52,7 +52,7 @@ class WardRepository {
         };
         this.update = (data) => {
             try {
-                return Ward_1.default.findByIdAndUpdate(data.id, data, { new: true });
+                return Ward_1.default.findByIdAndUpdate(data._id, data, { new: true });
             }
             catch (e) {
                 log_1.errorLog(`Ward::update ${e.message}`);

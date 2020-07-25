@@ -1,7 +1,8 @@
-import { CrudContract } from "../contracts/CrudContract";
+import {CrudContract} from "../contracts/CrudContract";
 import Company from "../schemas/Company";
-import { errorLog } from "../../helpers/log";
-import { promiseNull } from "../../helpers/promise";
+import {errorLog} from "../../helpers/log";
+import {promiseNull} from "../../helpers/promise";
+import {processDataUpdate} from "../../helpers/flattenNestedObject";
 
 interface ISort {
   created?: "newest" | "oldest";
@@ -27,23 +28,23 @@ function getCondition(filter: IFilter) {
   let condition = {};
   if (filter.name) {
     condition = Object.assign(condition, {
-      $or: [{ vi_name: new RegExp(filter.name, "i") }, { en_name: new RegExp(filter.name, "i") }],
+      $or: [{vi_name: new RegExp(filter.name, "i")}, {en_name: new RegExp(filter.name, "i")}],
     });
   }
   if (filter.verify_status) {
-    condition = Object.assign(condition, { verify_status: filter.verify_status });
+    condition = Object.assign(condition, {verify_status: filter.verify_status});
   }
   if (filter.premium_status) {
-    condition = Object.assign(condition, { premium_status: filter.premium_status });
+    condition = Object.assign(condition, {premium_status: filter.premium_status});
   }
   if (filter.job_category) {
-    condition = Object.assign(condition, { job_category: filter.job_category });
+    condition = Object.assign(condition, {job_category: filter.job_category});
   }
   if (filter.job_location) {
-    condition = Object.assign(condition, { job_location: filter.job_location });
+    condition = Object.assign(condition, {job_location: filter.job_location});
   }
   if (filter.created_by) {
-    condition = Object.assign(condition, { created_by: filter.created_by });
+    condition = Object.assign(condition, {created_by: filter.created_by});
   }
   return condition;
 }
@@ -51,10 +52,10 @@ function getCondition(filter: IFilter) {
 function getSort(sortBy: ISort) {
   let sort = {};
   if (sortBy.created) {
-    sort = Object.assign(sort, { _id: sortBy.created === "newest" ? "desc" : "asc" });
+    sort = Object.assign(sort, {_id: sortBy.created === "newest" ? "desc" : "asc"});
   }
   if (sortBy.updated) {
-    sort = Object.assign(sort, { updated_at: sortBy.updated === "newest" ? "desc" : "asc" });
+    sort = Object.assign(sort, {updated_at: sortBy.updated === "newest" ? "desc" : "asc"});
   }
   return sort;
 }
@@ -88,9 +89,9 @@ class CompanyRepository implements CrudContract {
     }
   }
 
-  get(id, projection) {
+  get(_id, projection) {
     try {
-      return Company.findById(id, projection);
+      return Company.findById(_id, projection);
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -100,8 +101,12 @@ class CompanyRepository implements CrudContract {
   filter(filter: IFilter, limit, page, projection) {
     try {
       let condition = getCondition(filter);
-      let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
+      let sort = filter.sort_by ? getSort(filter.sort_by) : {_id: "desc"};
       return Company.find(condition, projection)
+        .populate("office.city")
+        .populate("office.district")
+        .populate("office.ward")
+
         .populate("job_category")
         .populate("job_location")
         .populate({
@@ -131,7 +136,11 @@ class CompanyRepository implements CrudContract {
     try {
       if (getBy._id) {
         return Company.findById(getBy._id, projection)
+          .populate("office.city")
+          .populate("office.district")
+          .populate("office.ward")
           .populate("job_category")
+
           .populate("job_location")
           .populate({
             path: "list_user",
@@ -148,8 +157,12 @@ class CompanyRepository implements CrudContract {
             },
           });
       } else if (getBy.slug) {
-        return Company.findOne({ $or: [{ vi_slug: getBy.slug }, { en_slug: getBy.slug }] }, projection)
+        return Company.findOne({$or: [{vi_slug: getBy.slug}, {en_slug: getBy.slug}]}, projection)
+          .populate("office.city")
+          .populate("office.district")
+          .populate("office.ward")
           .populate("job_category")
+
           .populate("job_location")
           .populate({
             path: "list_user",
@@ -176,7 +189,13 @@ class CompanyRepository implements CrudContract {
 
   update(data) {
     try {
-      return Company.findByIdAndUpdate(data._id, data, { new: true })
+      let dataUpdate = processDataUpdate(data);
+      return Company.findByIdAndUpdate(data._id, data, {new: true})
+        .populate("office.city")
+        .populate("office.district")
+        .populate("office.ward")
+        .populate("job_category")
+
         .populate({
           path: "list_user",
           populate: {
@@ -199,7 +218,7 @@ class CompanyRepository implements CrudContract {
 
   updateUserPermission(data) {
     try {
-      return Company.findByIdAndUpdate(data._id, { $addToSet: { users: data.users } });
+      return Company.findByIdAndUpdate(data._id, {$addToSet: {users: data.users}});
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -208,7 +227,7 @@ class CompanyRepository implements CrudContract {
 
   verify(_id, status = true) {
     try {
-      return Company.findByIdAndUpdate(_id, { verify_status: status }, { new: true });
+      return Company.findByIdAndUpdate(_id, {verify_status: status}, {new: true});
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -217,7 +236,7 @@ class CompanyRepository implements CrudContract {
 
   premium(_id, status = true) {
     try {
-      return Company.findByIdAndUpdate(_id, { premium_status: status }, { new: true });
+      return Company.findByIdAndUpdate(_id, {premium_status: status}, {new: true});
     } catch (e) {
       errorLog(e);
       return promiseNull();

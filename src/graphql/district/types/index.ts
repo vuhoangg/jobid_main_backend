@@ -6,7 +6,7 @@ import {CityType} from "../../city/types";
 export const DistrictType = new GraphQLObjectType({
   description: "Represents a district.",
   fields: {
-    id: {type: GraphQLString},
+    _id: {type: GraphQLString},
     city: {type: CityType},
     name: {type: GraphQLString},
     title: {type: GraphQLString},
@@ -52,7 +52,7 @@ export const DistrictConnection = new GraphQLObjectType({
 export const DistrictInput = new GraphQLInputObjectType({
   description: "The updated properties for a district.",
   fields: {
-    id: {type: GraphQLString},
+    _id: {type: GraphQLString},
     city: {type: new GraphQLNonNull(GraphQLString)},
     name: {type: GraphQLString},
     title: {type: GraphQLString},
