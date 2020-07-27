@@ -30,7 +30,17 @@ const companySchema = new mongoose.Schema({
         default: false,
     },
     address: [String],
-    album: [String],
+    album: [
+        {
+            name: String,
+            images: [
+                {
+                    src: String,
+                    description: String,
+                }
+            ]
+        }
+    ],
     en_slug: {
         type: String,
         unique: true,
@@ -61,6 +71,14 @@ const companySchema = new mongoose.Schema({
     address_contact: String,
     description: String,
     slogan: String,
+    story: [
+        {
+            title: String,
+            content: String,
+            media_type: String,
+            media_link: String,
+        }
+    ],
     media_story: [
         {
             vi_title: String,
@@ -81,13 +99,10 @@ const companySchema = new mongoose.Schema({
     ],
     people: [
         {
-            vi_name: String,
-            en_name: String,
-            vi_content: [String],
-            en_content: [String],
-            vi_position: String,
-            en_position: String,
-            media_link: String,
+            name: String,
+            content: String,
+            position: String,
+            avatar: String,
         },
     ],
     office: [
@@ -111,8 +126,7 @@ const companySchema = new mongoose.Schema({
     ],
     benefit: [
         {
-            vi_content: String,
-            en_content: String,
+            content: String,
             id: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "Benefit",

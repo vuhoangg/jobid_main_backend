@@ -57,6 +57,29 @@ export const ListUserInput = new GraphQLInputObjectType({
   },
   name: "ListUserInput",
 });
+export const Story = new GraphQLObjectType({
+  description: "Represents a story.",
+  fields: {
+    title: {type: GraphQLString},
+    content: {type: GraphQLString},
+    media_type: {type: GraphQLString},
+    media_link: {type: GraphQLString},
+  },
+  name: "Story",
+});
+
+export const StoryInput = new GraphQLInputObjectType({
+  description: "The updated properties for a story.",
+  fields: {
+    title: {type: GraphQLString},
+    content: {type: GraphQLString},
+    media_type: {type: GraphQLString},
+    media_link: {type: GraphQLString},
+  },
+  name: "StoryInput",
+});
+
+
 export const TextStory = new GraphQLObjectType({
   description: "Represents a text story.",
   fields: {
@@ -80,34 +103,27 @@ export const TextStoryInput = new GraphQLInputObjectType({
 export const People = new GraphQLObjectType({
   description: "Represents a person.",
   fields: {
-    vi_name: {type: GraphQLString},
-    en_name: {type: GraphQLString},
-    vi_content: {type: new GraphQLList(GraphQLString)},
-    en_content: {type: new GraphQLList(GraphQLString)},
-    vi_position: {type: GraphQLString},
-    en_position: {type: GraphQLString},
-    media_link: {type: GraphQLString},
+    name: {type: GraphQLString},
+    content: {type: GraphQLString},
+    position: {type: GraphQLString},
+    avatar: {type: GraphQLString},
   },
   name: "People",
 });
 export const PeopleInput = new GraphQLInputObjectType({
   description: "The updated properties for a person.",
   fields: {
-    vi_name: {type: GraphQLString},
-    en_name: {type: GraphQLString},
-    vi_content: {type: new GraphQLList(GraphQLString)},
-    en_content: {type: new GraphQLList(GraphQLString)},
-    vi_position: {type: GraphQLString},
-    en_position: {type: GraphQLString},
-    media_link: {type: GraphQLString},
+    name: {type: GraphQLString},
+    content: {type: GraphQLString},
+    position: {type: GraphQLString},
+    avatar: {type: GraphQLString},
   },
   name: "PeopleInput",
 });
 export const BenefitContent = new GraphQLObjectType({
   description: "Represents a benefit content.",
   fields: {
-    vi_content: {type: GraphQLString},
-    en_content: {type: GraphQLString},
+    content: {type: GraphQLString},
     id: {type: Benefit},
   },
   name: "BenefitContent",
@@ -115,8 +131,7 @@ export const BenefitContent = new GraphQLObjectType({
 export const BenefitContentInput = new GraphQLInputObjectType({
   description: "The updated properties for a benefit content.",
   fields: {
-    vi_content: {type: GraphQLString},
-    en_content: {type: GraphQLString},
+    content: {type: GraphQLString},
     id: {type: GraphQLString},
   },
   name: "BenefitContentInput",
@@ -146,11 +161,49 @@ export const OfficeInput = new GraphQLInputObjectType({
   name: "OfficeInput"
 });
 
+export const AlbumImage = new GraphQLObjectType({
+  description: "Represents an album image",
+  fields: {
+    src: {type: GraphQLString},
+    description: {type: GraphQLString},
+  },
+  name: "AlbumImage",
+});
+
+export const AlbumImageInput = new GraphQLInputObjectType({
+  description: "The updated properties for an album image",
+  fields: {
+    src: {type: GraphQLString},
+    description: {type: GraphQLString},
+  },
+  name: "AlbumImageInput",
+});
+
+export const Album = new GraphQLObjectType({
+  description: "Represents an album",
+  fields: {
+    name: {type: GraphQLString},
+    images: {type: new GraphQLList(AlbumImage)}
+  },
+  name: "Album"
+});
+
+export const AlbumInput = new GraphQLInputObjectType({
+  description: "The updated properties for an album",
+  fields: {
+    name: {type: GraphQLString},
+    images: {type: new GraphQLList(AlbumImageInput)}
+  },
+  name: "AlbumInput"
+});
+
+
 export const Company = new GraphQLObjectType({
   description: "Represents a company.",
   fields: {
     _id: {type: new GraphQLNonNull(GraphQLString)},
     default_lang: {type: new GraphQLNonNull(GraphQLString)},
+    name: {type: GraphQLString},
     en_name: {type: GraphQLString},
     vi_name: {type: GraphQLString},
     job_category: {type: new GraphQLList(JobCategory)},
@@ -159,7 +212,7 @@ export const Company = new GraphQLObjectType({
     verify_status: {type: GraphQLBoolean},
     premium_status: {type: GraphQLBoolean},
     address: {type: new GraphQLList(GraphQLString)},
-    album: {type: new GraphQLList(GraphQLString)},
+    album: {type: new GraphQLList(Album)},
     en_slug: {type: GraphQLString},
     vi_slug: {type: GraphQLString},
     logo: {type: GraphQLString},
@@ -173,6 +226,7 @@ export const Company = new GraphQLObjectType({
     address_contact: {type: GraphQLString},
     created_by: {type: GraphQLString},
     list_user: {type: new GraphQLList(ListUser)},
+    story: {type: new GraphQLList(Story)},
     media_story: {type: new GraphQLList(MediaStory)},
     text_story: {type: new GraphQLList(TextStory)},
     office: {type: new GraphQLList(Office)},
@@ -219,6 +273,7 @@ export const CompanyInput = new GraphQLInputObjectType({
   fields: {
     _id: {type: GraphQLString},
     default_lang: {type: GraphQLString},
+    name: {type: GraphQLString},
     en_name: {type: GraphQLString},
     vi_name: {type: GraphQLString},
     job_category: {type: new GraphQLList(GraphQLString)},
@@ -227,7 +282,7 @@ export const CompanyInput = new GraphQLInputObjectType({
     verify_status: {type: GraphQLBoolean},
     premium_status: {type: GraphQLBoolean},
     address: {type: new GraphQLList(GraphQLString)},
-    album: {type: new GraphQLList(GraphQLString)},
+    album: {type: new GraphQLList(AlbumInput)},
     en_slug: {type: GraphQLString},
     vi_slug: {type: GraphQLString},
     logo: {type: GraphQLString},
@@ -242,6 +297,7 @@ export const CompanyInput = new GraphQLInputObjectType({
     created_by: {type: GraphQLString},
     list_user: {type: new GraphQLList(ListUserInput)},
     office: {type: new GraphQLList(OfficeInput)},
+    story: {type: new GraphQLList(StoryInput)},
     media_story: {type: new GraphQLList(MediaStoryInput)},
     text_story: {type: new GraphQLList(TextStoryInput)},
     people: {type: new GraphQLList(PeopleInput)},

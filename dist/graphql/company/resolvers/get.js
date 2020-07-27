@@ -22,6 +22,7 @@ function getCompany(source, args, context, info) {
         let node = {
             _id: company._id,
             default_lang: company.default_lang,
+            name: company.name,
             en_name: company.en_name,
             vi_name: company.vi_name,
             job_category: company.job_category,
@@ -47,6 +48,7 @@ function getCompany(source, args, context, info) {
             created_by: company.created_by,
             list_user: company.list_user,
             office: company.office,
+            story: company.story,
             media_story: company.media_story,
             text_story: company.text_story,
             people: company.people,
@@ -72,6 +74,7 @@ function getCompanys(source, args, context, info) {
                 node: {
                     _id: companys[i]._id,
                     default_lang: companys[i].default_lang,
+                    name: companys[i].name,
                     en_name: companys[i].en_name,
                     vi_name: companys[i].vi_name,
                     job_category: companys[i].job_category,
@@ -97,6 +100,7 @@ function getCompanys(source, args, context, info) {
                     created_by: companys[i].created_by,
                     list_user: companys[i].list_user,
                     office: companys[i].office,
+                    story: companys[i].story,
                     media_story: companys[i].media_story,
                     text_story: companys[i].text_story,
                     people: companys[i].people,

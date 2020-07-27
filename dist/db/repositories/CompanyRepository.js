@@ -120,6 +120,7 @@ class CompanyRepository {
                     .populate("office.district")
                     .populate("office.ward")
                     .populate("job_category")
+                    .populate("benefit.id")
                     .populate("job_location")
                     .populate({
                     path: "list_user",
@@ -142,6 +143,7 @@ class CompanyRepository {
                     .populate("office.district")
                     .populate("office.ward")
                     .populate("job_category")
+                    .populate("benefit.id")
                     .populate("job_location")
                     .populate({
                     path: "list_user",
@@ -175,6 +177,7 @@ class CompanyRepository {
                 .populate("office.district")
                 .populate("office.ward")
                 .populate("job_category")
+                .populate("benefit.id")
                 .populate({
                 path: "list_user",
                 populate: {

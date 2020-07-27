@@ -140,6 +140,7 @@ class CompanyRepository implements CrudContract {
           .populate("office.district")
           .populate("office.ward")
           .populate("job_category")
+          .populate("benefit.id")
 
           .populate("job_location")
           .populate({
@@ -162,6 +163,7 @@ class CompanyRepository implements CrudContract {
           .populate("office.district")
           .populate("office.ward")
           .populate("job_category")
+          .populate("benefit.id")
 
           .populate("job_location")
           .populate({
@@ -195,6 +197,7 @@ class CompanyRepository implements CrudContract {
         .populate("office.district")
         .populate("office.ward")
         .populate("job_category")
+        .populate("benefit.id")
 
         .populate({
           path: "list_user",
