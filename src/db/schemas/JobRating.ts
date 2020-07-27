@@ -2,17 +2,16 @@ const mongoose = require("mongoose");
 
 const jobRatingSchema = new mongoose.Schema(
   {
-    job: String,
-    rating: [
-      {
-        user: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
-        },
-        value: Number,
-        content: String,
-      },
-    ],
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+    job: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "JobPost",
+    },
+    rat_value: Number,
+    rat_comment: String,
   },
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );

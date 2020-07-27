@@ -53,7 +53,7 @@ class JobRatingRepository implements CrudContract {
       return JobRating.findOneAndUpdate(
         {
           job: data.job,
-          rating: data.rating,
+          user: data.user,
         },
         data,
         { upsert: true, new: true }
@@ -87,7 +87,7 @@ class JobRatingRepository implements CrudContract {
       let condition = getCondition(filter);
       let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
       return JobRating.find(condition, projection)
-        .populate("rating.user")
+        .populate("user")
         .sort(sort)
         .skip(limit * (page - 1))
         .limit(limit);
@@ -102,8 +102,7 @@ class JobRatingRepository implements CrudContract {
       if (getBy._id) {
         return JobRating.findById(getBy._id, projection);
       } else if (getBy.job_post) {
-        console.log(projection);
-        return JobRating.findOne({ job: getBy.job_post }, projection);
+        return JobRating.findOne({ job: getBy.job_post }, projection).populate("user");
       } else {
         return promiseNull();
       }

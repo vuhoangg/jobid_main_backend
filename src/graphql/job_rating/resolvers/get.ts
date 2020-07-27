@@ -8,8 +8,10 @@ export function getJobRating(source, args, context, info) {
   return JobRatingService.getBy(getBy, fields).then(async (jobRating) => {
     let node = {
       _id: jobRating._id,
+      user: jobRating.user,
       job: jobRating.job,
-      rating: jobRating.rating,
+      rat_value: jobRating.rat_value,
+      rat_comment: jobRating.rat_content,
       created_at: jobRating.created_at,
       updated_at: jobRating.updated_at,
     };
@@ -28,8 +30,10 @@ export function getJobRatings(source, args, context, info) {
         cursor: jobRatings[i]._id,
         node: {
           _id: jobRatings[i]._id,
+          user: jobRatings[i].user,
           job: jobRatings[i].job,
-          rating: jobRatings[i].rating,
+          rat_value: jobRatings[i].rat_value,
+          rat_comment: jobRatings[i].rat_comment,
           created_at: jobRatings[i].created_at,
           updated_at: jobRatings[i].updated_at,
         },
