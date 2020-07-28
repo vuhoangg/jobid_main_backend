@@ -47,10 +47,8 @@ export const JobCategoryConnection = new GraphQLObjectType({
 export const JobCategoryInput = new GraphQLInputObjectType({
   fields: {
     _id: {type: new GraphQLNonNull(GraphQLString)},
-    vi_title: {type: new GraphQLNonNull(GraphQLString)},
-    en_title: {type: new GraphQLNonNull(GraphQLString)},
-    vi_slug: {type: GraphQLString},
-    en_slug: {type: GraphQLString},
+    title: {type: new GraphQLNonNull(GraphQLString)},
+    slug: {type: GraphQLString},
     seo_title: {type: GraphQLString},
     seo_description: {type: GraphQLString},
   },
