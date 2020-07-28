@@ -91,8 +91,8 @@ const jobPostSchema = new mongoose.Schema({
   },
   experience: Number,
   location: {
-    lat: String,
-    lng: String,
+    lat: Number,
+    lng: Number,
   },
   status: {
     type: String,

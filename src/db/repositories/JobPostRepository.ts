@@ -21,6 +21,7 @@ interface IFilter {
   company_benefit?: string;
   status?: string;
   company?: string;
+  coordinate?: any;
 }
 
 interface IGetBy {

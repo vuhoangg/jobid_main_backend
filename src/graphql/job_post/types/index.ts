@@ -99,8 +99,8 @@ export const JobCompanyInput = new GraphQLInputObjectType({
 export const JobLatLng = new GraphQLObjectType({
   description: "Lat long Job Posts",
   fields: {
-    lat: { type: GraphQLString },
-    lng: { type: GraphQLString },
+    lat: { type: GraphQLFloat },
+    lng: { type: GraphQLFloat },
   },
   name: "JobLatLng",
 });
@@ -108,8 +108,8 @@ export const JobLatLng = new GraphQLObjectType({
 export const JobLatLngInput = new GraphQLInputObjectType({
   description: "Lat long Job Posts Input",
   fields: {
-    lat: { type: GraphQLString },
-    lng: { type: GraphQLString },
+    lat: { type: GraphQLFloat },
+    lng: { type: GraphQLFloat },
   },
   name: "JobLatLngInput",
 });

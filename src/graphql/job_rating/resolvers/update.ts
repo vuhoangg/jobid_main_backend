@@ -11,6 +11,7 @@ export function updateJobRating(source, args, context, info) {
 export function createJobRating(source, args, context, info) {
   if (context.isAuthenticated()) {
     let input = args.input;
+    console.log("createJobRating -> input", input)
     return JobRatingService.create(input).then(r => r);
   }
 }
