@@ -27,9 +27,7 @@ interface IGetBy {
 function getCondition(filter: IFilter) {
   let condition = {};
   if (filter.name) {
-    condition = Object.assign(condition, {
-      $or: [{vi_name: new RegExp(filter.name, "i")}, {en_name: new RegExp(filter.name, "i")}],
-    });
+    condition = Object.assign(condition, {name: new RegExp(filter.name, "i")});
   }
   if (filter.verify_status) {
     condition = Object.assign(condition, {verify_status: filter.verify_status});
@@ -158,7 +156,7 @@ class CompanyRepository implements CrudContract {
             },
           });
       } else if (getBy.slug) {
-        return Company.findOne({$or: [{vi_slug: getBy.slug}, {en_slug: getBy.slug}]}, projection)
+        return Company.findOne({slug: getBy.slug}, projection)
           .populate("office.city")
           .populate("office.district")
           .populate("office.ward")

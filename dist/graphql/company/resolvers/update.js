@@ -30,8 +30,7 @@ function updateCompany(source, args, context, info) {
 exports.updateCompany = updateCompany;
 function createCompany(source, args, context, info) {
     let input = args.input;
-    input.vi_slug = string_1.toSlug(input.vi_name || input.en_name, true).toLowerCase();
-    input.en_slug = string_1.toSlug(input.vi_name || input.en_name, true).toLowerCase();
+    input.slug = string_1.toSlug(input.name, true).toLowerCase();
     if (context.isAuthenticated()) {
         let loggedUser = context.user;
         input = Object.assign(input, { created_by: loggedUser._id });

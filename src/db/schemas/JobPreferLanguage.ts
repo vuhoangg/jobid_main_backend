@@ -1,20 +1,11 @@
 const mongoose = require("mongoose");
 
 const jobPreferLanguageSchema = new mongoose.Schema({
-  vi_title: {
+  title: {
     type: String,
     required: true,
   },
-  en_title: {
-    type: String,
-    required: true,
-  },
-  vi_slug: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  en_slug: {
+  slug: {
     type: String,
     required: true,
     unique: true,

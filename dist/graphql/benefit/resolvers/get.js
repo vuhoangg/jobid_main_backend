@@ -21,10 +21,8 @@ function getBenefit(source, args, context, info) {
         .then((benefit) => __awaiter(this, void 0, void 0, function* () {
         let node = {
             _id: benefit._id,
-            vi_title: benefit.vi_title,
-            en_title: benefit.en_title,
-            vi_slug: benefit.vi_slug,
-            en_slug: benefit.en_slug,
+            title: benefit.title,
+            slug: benefit.slug,
             seo_title: benefit.seo_title,
             seo_description: benefit.seo_description,
             created_at: benefit.created_at,
@@ -46,10 +44,8 @@ function getBenefits(source, args, context, info) {
                 cursor: benefits[i]._id,
                 node: {
                     _id: benefits[i]._id,
-                    vi_title: benefits[i].vi_title,
-                    en_title: benefits[i].en_title,
-                    vi_slug: benefits[i].vi_slug,
-                    en_slug: benefits[i].en_slug,
+                    title: benefits[i].title,
+                    slug: benefits[i].slug,
                     icon: benefits[i].icon,
                     seo_title: benefits[i].seo_title,
                     seo_description: benefits[i].seo_description,

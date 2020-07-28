@@ -22,10 +22,8 @@ function getJobLocation(source, args, context, info) {
         .then((jobLocation) => __awaiter(this, void 0, void 0, function* () {
         let node = {
             _id: jobLocation._id,
-            vi_title: jobLocation.vi_title,
-            en_title: jobLocation.en_title,
-            vi_slug: jobLocation.vi_slug,
-            en_slug: jobLocation.en_slug,
+            title: jobLocation.title,
+            slug: jobLocation.slug,
             seo_title: jobLocation.seo_title,
             seo_description: jobLocation.seo_description,
             created_at: jobLocation.created_at,

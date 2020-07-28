@@ -7,10 +7,8 @@ export function getJobPreferLanguage(source, args, context, info) {
     .then(async (jobPreferLanguage) => {
       let node = {
         _id: jobPreferLanguage._id,
-        vi_title: jobPreferLanguage.vi_title,
-        en_title: jobPreferLanguage.en_title,
-        vi_slug: jobPreferLanguage.vi_slug,
-        en_slug: jobPreferLanguage.en_slug,
+        title: jobPreferLanguage.title,
+        slug: jobPreferLanguage.slug,
         seo_title: jobPreferLanguage.seo_title,
         seo_description: jobPreferLanguage.seo_description,
         created_at: jobPreferLanguage.created_at,
@@ -31,10 +29,8 @@ export function getJobPreferLanguages(source, args, context, info) {
           cursor: jobPreferLanguages[i]._id,
           node: {
             _id: jobPreferLanguages[i]._id,
-            vi_title: jobPreferLanguages[i].vi_title,
-            en_title: jobPreferLanguages[i].en_title,
-            vi_slug: jobPreferLanguages[i].vi_slug,
-            en_slug: jobPreferLanguages[i].en_slug,
+            title: jobPreferLanguages[i].title,
+            slug: jobPreferLanguages[i].slug,
             seo_title: jobPreferLanguages[i].seo_title,
             seo_description: jobPreferLanguages[i].seo_description,
             created_at: jobPreferLanguages[i].created_at,

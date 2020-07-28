@@ -9,7 +9,7 @@ const promise_1 = require("../../helpers/promise");
 function getCondition(filter) {
     let condition = {};
     if (filter.title) {
-        condition = Object.assign(condition, { $or: [{ vi_title: new RegExp(filter.title, "i") }, { en_title: new RegExp(filter.title, "i") }] });
+        condition = Object.assign(condition, { title: new RegExp(filter.title, "i") });
     }
     return condition;
 }
@@ -78,7 +78,7 @@ class JobCategoryRepository {
                 return JobCategory_1.default.findById(getBy._id, projection);
             }
             else if (getBy.slug) {
-                return JobCategory_1.default.findOne({ $or: [{ vi_slug: getBy.slug }, { en_slug: getBy.slug }] }, projection);
+                return JobCategory_1.default.findOne({ slug: getBy.slug }, projection);
             }
             else {
                 return promise_1.promiseNull();

@@ -7,10 +7,8 @@ exports.Benefit = new graphql_1.GraphQLObjectType({
     description: "Represents a benefit.",
     fields: {
         _id: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
-        vi_title: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
-        en_title: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
-        vi_slug: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
-        en_slug: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
+        title: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
+        slug: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         icon: { type: graphql_1.GraphQLString },
         seo_title: { type: graphql_1.GraphQLString },
         seo_description: { type: graphql_1.GraphQLString },
@@ -45,10 +43,8 @@ exports.BenefitConnection = new graphql_1.GraphQLObjectType({
 exports.BenefitInput = new graphql_1.GraphQLInputObjectType({
     fields: {
         _id: { type: graphql_1.GraphQLString },
-        vi_title: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
-        en_title: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
-        vi_slug: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
-        en_slug: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
+        title: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
+        slug: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         icon: { type: graphql_1.GraphQLString },
         seo_title: { type: graphql_1.GraphQLString },
         seo_description: { type: graphql_1.GraphQLString },

@@ -61,6 +61,7 @@ const FacebookMapInput = new GraphQLInputObjectType({
 export const FacebookJob = new GraphQLObjectType({
   description: "Represents a facebook job.",
   fields: {
+    _id: {type: GraphQLString},
     employer: {type: FacebookEmployer},
     address: {type: FacebookAddress},
     long_description: {type: GraphQLString},
@@ -101,6 +102,7 @@ export const FacebookJobConnection = new GraphQLObjectType({
 export const FacebookJobInput = new GraphQLInputObjectType({
   description: "The updated properties for a facebook job.",
   fields: {
+    _id: {type: GraphQLString},
     employer: {type: FacebookEmployerInput},
     address: {type: FacebookAddressInput},
     long_description: {type: GraphQLString},

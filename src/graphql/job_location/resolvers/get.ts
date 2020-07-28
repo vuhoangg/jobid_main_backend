@@ -8,10 +8,8 @@ export function getJobLocation(source, args, context, info) {
     .then(async (jobLocation) => {
       let node = {
         _id: jobLocation._id,
-        vi_title: jobLocation.vi_title,
-        en_title: jobLocation.en_title,
-        vi_slug: jobLocation.vi_slug,
-        en_slug: jobLocation.en_slug,
+        title: jobLocation.title,
+        slug: jobLocation.slug,
         seo_title: jobLocation.seo_title,
         seo_description: jobLocation.seo_description,
         created_at: jobLocation.created_at,

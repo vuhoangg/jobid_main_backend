@@ -11,10 +11,8 @@ export const JobLocation = new GraphQLObjectType({
   description: "Represents a job location.",
   fields: {
     _id: {type: new GraphQLNonNull(GraphQLString)},
-    vi_title: {type: new GraphQLNonNull(GraphQLString)},
-    en_title: {type: new GraphQLNonNull(GraphQLString)},
-    vi_slug: {type: new GraphQLNonNull(GraphQLString)},
-    en_slug: {type: new GraphQLNonNull(GraphQLString)},
+    title: {type: new GraphQLNonNull(GraphQLString)},
+    slug: {type: new GraphQLNonNull(GraphQLString)},
     seo_title: {type: GraphQLString},
     seo_description: {type: GraphQLString},
     created_at: {type: new GraphQLNonNull(GraphQLString)},
@@ -49,10 +47,8 @@ export const JobLocationConnection = new GraphQLObjectType({
 export const JobLocationInput = new GraphQLInputObjectType({
   fields: {
     _id: {type: new GraphQLNonNull(GraphQLString)},
-    vi_title: {type: new GraphQLNonNull(GraphQLString)},
-    en_title: {type: new GraphQLNonNull(GraphQLString)},
-    vi_slug: {type: new GraphQLNonNull(GraphQLString)},
-    en_slug: {type: new GraphQLNonNull(GraphQLString)},
+    title: {type: new GraphQLNonNull(GraphQLString)},
+    slug: {type: new GraphQLNonNull(GraphQLString)},
     seo_title: {type: GraphQLString},
     seo_description: {type: GraphQLString},
   },

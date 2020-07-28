@@ -10,9 +10,7 @@ const flattenNestedObject_1 = require("../../helpers/flattenNestedObject");
 function getCondition(filter) {
     let condition = {};
     if (filter.name) {
-        condition = Object.assign(condition, {
-            $or: [{ vi_name: new RegExp(filter.name, "i") }, { en_name: new RegExp(filter.name, "i") }],
-        });
+        condition = Object.assign(condition, { name: new RegExp(filter.name, "i") });
     }
     if (filter.verify_status) {
         condition = Object.assign(condition, { verify_status: filter.verify_status });
@@ -138,7 +136,7 @@ class CompanyRepository {
                 });
             }
             else if (getBy.slug) {
-                return Company_1.default.findOne({ $or: [{ vi_slug: getBy.slug }, { en_slug: getBy.slug }] }, projection)
+                return Company_1.default.findOne({ slug: getBy.slug }, projection)
                     .populate("office.city")
                     .populate("office.district")
                     .populate("office.ward")

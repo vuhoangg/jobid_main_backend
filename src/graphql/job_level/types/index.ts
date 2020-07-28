@@ -11,10 +11,8 @@ export const JobLevel = new GraphQLObjectType({
   description: "Represents a job level.",
   fields: {
     _id: {type: new GraphQLNonNull(GraphQLString)},
-    vi_title: {type: new GraphQLNonNull(GraphQLString)},
-    en_title: {type: new GraphQLNonNull(GraphQLString)},
-    vi_slug: {type: new GraphQLNonNull(GraphQLString)},
-    en_slug: {type: new GraphQLNonNull(GraphQLString)},
+    title: {type: new GraphQLNonNull(GraphQLString)},
+    slug: {type: new GraphQLNonNull(GraphQLString)},
     seo_title: {type: GraphQLString},
     seo_description: {type: GraphQLString},
     created_at: {type: new GraphQLNonNull(GraphQLString)},
@@ -49,10 +47,8 @@ export const JobLevelConnection = new GraphQLObjectType({
 export const JobLevelInput = new GraphQLInputObjectType({
   fields: {
     _id: {type: new GraphQLNonNull(GraphQLString)},
-    vi_title: {type: new GraphQLNonNull(GraphQLString)},
-    en_title: {type: new GraphQLNonNull(GraphQLString)},
-    vi_slug: {type: new GraphQLNonNull(GraphQLString)},
-    en_slug: {type: new GraphQLNonNull(GraphQLString)},
+    title: {type: new GraphQLNonNull(GraphQLString)},
+    slug: {type: new GraphQLNonNull(GraphQLString)},
     seo_title: {type: GraphQLString},
     seo_description: {type: GraphQLString},
   },

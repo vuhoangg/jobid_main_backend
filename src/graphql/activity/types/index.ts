@@ -11,8 +11,7 @@ export const Activity = new GraphQLObjectType({
   fields: {
     _id: {type: new GraphQLNonNull(GraphQLString)},
     name: {type: new GraphQLNonNull(GraphQLString)},
-    vi_message: {type: GraphQLString},
-    en_message: {type: GraphQLString},
+    message: {type: GraphQLString},
     href_type: {type: GraphQLString},
     href_url: {type: GraphQLString},
     created_at: {type: new GraphQLNonNull(GraphQLString)},

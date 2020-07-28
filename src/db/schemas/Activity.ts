@@ -5,8 +5,7 @@ const activitySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  vi_message: String,
-  en_message: String,
+  message: String,
   href_type: String,
   href_url: String,
 }, {timestamps: {createdAt: 'created_at', updatedAt: 'updated_at'}});

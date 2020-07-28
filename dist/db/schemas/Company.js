@@ -2,23 +2,21 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose = require("mongoose");
 const companySchema = new mongoose.Schema({
-    default_lang: {
-        type: String,
-        required: true,
-    },
-    en_name: String,
-    vi_name: String,
+    name: String,
+    slogan: String,
+    logo: String,
+    cover: String,
+    website: String,
+    email: String,
+    phone: String,
+    facebook: String,
+    youtube: String,
+    description: String,
+    company_type: String,
     job_category: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "JobCategory",
-        },
-    ],
-    company_type: String,
-    job_location: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "JobLocation",
         },
     ],
     verify_status: {
@@ -29,7 +27,6 @@ const companySchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
-    address: [String],
     album: [
         {
             name: String,
@@ -41,36 +38,20 @@ const companySchema = new mongoose.Schema({
             ]
         }
     ],
-    en_slug: {
+    slug: {
         type: String,
         unique: true,
     },
-    vi_slug: {
-        type: String,
-        unique: true,
+    size: {
+        from: {
+            type: Number,
+            default: 0,
+        },
+        to: {
+            type: Number,
+            default: 0,
+        }
     },
-    logo: String,
-    cover: String,
-    website: String,
-    min_size: {
-        type: Number,
-        default: 0,
-    },
-    max_size: {
-        type: Number,
-        default: 0,
-    },
-    email: {
-        type: String,
-        unique: true,
-    },
-    region: String,
-    phone: String,
-    facebook: String,
-    youtube: String,
-    address_contact: String,
-    description: String,
-    slogan: String,
     story: [
         {
             title: String,
@@ -78,24 +59,6 @@ const companySchema = new mongoose.Schema({
             media_type: String,
             media_link: String,
         }
-    ],
-    media_story: [
-        {
-            vi_title: String,
-            en_title: String,
-            vi_content: [String],
-            en_content: [String],
-            media_type: String,
-            media_link: String,
-        },
-    ],
-    text_story: [
-        {
-            vi_title: String,
-            en_title: String,
-            vi_content: [String],
-            en_content: [String],
-        },
     ],
     people: [
         {
@@ -141,18 +104,6 @@ const companySchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
     },
-    list_user: [
-        {
-            user: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User",
-            },
-            target_permission: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "GroupPermission",
-            },
-        },
-    ],
     seo_title: String,
     seo_description: String,
 }, { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } });
