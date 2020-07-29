@@ -85,22 +85,9 @@ class CompanyRepository {
                 .populate("office.city")
                 .populate("office.district")
                 .populate("office.ward")
+                .populate("created_by")
                 .populate("job_category")
                 .populate("job_location")
-                .populate({
-                path: "list_user",
-                populate: {
-                    path: "user",
-                    model: "User",
-                },
-            })
-                .populate({
-                path: "list_user",
-                populate: {
-                    path: "target_permission",
-                    model: "GroupPermission",
-                },
-            })
                 .sort(sort)
                 .skip(limit * (page - 1))
                 .limit(limit);
@@ -119,21 +106,8 @@ class CompanyRepository {
                     .populate("office.ward")
                     .populate("job_category")
                     .populate("benefit.id")
-                    .populate("job_location")
-                    .populate({
-                    path: "list_user",
-                    populate: {
-                        path: "user",
-                        model: "User",
-                    },
-                })
-                    .populate({
-                    path: "list_user",
-                    populate: {
-                        path: "target_permission",
-                        model: "GroupPermission",
-                    },
-                });
+                    .populate("created_by")
+                    .populate("job_location");
             }
             else if (getBy.slug) {
                 return Company_1.default.findOne({ slug: getBy.slug }, projection)
@@ -142,21 +116,8 @@ class CompanyRepository {
                     .populate("office.ward")
                     .populate("job_category")
                     .populate("benefit.id")
-                    .populate("job_location")
-                    .populate({
-                    path: "list_user",
-                    populate: {
-                        path: "user",
-                        model: "User",
-                    },
-                })
-                    .populate({
-                    path: "list_user",
-                    populate: {
-                        path: "target_permission",
-                        model: "GroupPermission",
-                    },
-                });
+                    .populate("created_by")
+                    .populate("job_location");
             }
             else {
                 return promise_1.promiseNull();
@@ -176,20 +137,7 @@ class CompanyRepository {
                 .populate("office.ward")
                 .populate("job_category")
                 .populate("benefit.id")
-                .populate({
-                path: "list_user",
-                populate: {
-                    path: "user",
-                    model: "User",
-                },
-            })
-                .populate({
-                path: "list_user",
-                populate: {
-                    path: "target_permission",
-                    model: "GroupPermission",
-                },
-            });
+                .populate("created_by");
         }
         catch (e) {
             log_1.errorLog(e);

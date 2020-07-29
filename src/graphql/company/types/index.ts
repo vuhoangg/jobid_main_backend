@@ -180,7 +180,7 @@ export const Company = new GraphQLObjectType({
     slug: {type: GraphQLString},
 
 
-    created_by: {type: GraphQLString},
+    created_by: {type: User},
     story: {type: new GraphQLList(Story)},
     office: {type: new GraphQLList(Office)},
     people: {type: new GraphQLList(People)},

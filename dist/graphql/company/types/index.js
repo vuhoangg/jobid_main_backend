@@ -1,13 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CompanyArguments = exports.AssignPermissionOnput = exports.AssignPermissionInput = exports.CompanyInput = exports.CompanyConnection = exports.CompanyEdge = exports.Company = exports.CompanySizeInput = exports.CompanySize = exports.AlbumInput = exports.Album = exports.AlbumImageInput = exports.AlbumImage = exports.OfficeInput = exports.Office = exports.BenefitContentInput = exports.BenefitContent = exports.PeopleInput = exports.People = exports.StoryInput = exports.Story = void 0;
+const types_1 = require("./../../user/types");
 const graphql_1 = require("graphql");
-const types_1 = require("../../types");
-const types_2 = require("../../job_category/types");
-const types_3 = require("../../benefit/types");
-const types_4 = require("../../city/types");
-const types_5 = require("../../district/types");
-const types_6 = require("../../ward/types");
+const types_2 = require("../../types");
+const types_3 = require("../../job_category/types");
+const types_4 = require("../../benefit/types");
+const types_5 = require("../../city/types");
+const types_6 = require("../../district/types");
+const types_7 = require("../../ward/types");
 exports.Story = new graphql_1.GraphQLObjectType({
     description: "Represents a story.",
     fields: {
@@ -52,7 +53,7 @@ exports.BenefitContent = new graphql_1.GraphQLObjectType({
     description: "Represents a benefit content.",
     fields: {
         content: { type: graphql_1.GraphQLString },
-        id: { type: types_3.Benefit },
+        id: { type: types_4.Benefit },
     },
     name: "BenefitContent",
 });
@@ -67,9 +68,9 @@ exports.BenefitContentInput = new graphql_1.GraphQLInputObjectType({
 exports.Office = new graphql_1.GraphQLObjectType({
     description: "Represents a office content.",
     fields: {
-        city: { type: types_4.CityType },
-        district: { type: types_5.DistrictType },
-        ward: { type: types_6.WardType },
+        city: { type: types_5.CityType },
+        district: { type: types_6.DistrictType },
+        ward: { type: types_7.WardType },
         address: { type: graphql_1.GraphQLString },
         lat: { type: graphql_1.GraphQLFloat },
         lng: { type: graphql_1.GraphQLFloat },
@@ -151,12 +152,12 @@ exports.Company = new graphql_1.GraphQLObjectType({
         youtube: { type: graphql_1.GraphQLString },
         description: { type: graphql_1.GraphQLString },
         company_type: { type: graphql_1.GraphQLString },
-        job_category: { type: new graphql_1.GraphQLList(types_2.JobCategory) },
+        job_category: { type: new graphql_1.GraphQLList(types_3.JobCategory) },
         verify_status: { type: graphql_1.GraphQLBoolean },
         premium_status: { type: graphql_1.GraphQLBoolean },
         album: { type: new graphql_1.GraphQLList(exports.Album) },
         slug: { type: graphql_1.GraphQLString },
-        created_by: { type: graphql_1.GraphQLString },
+        created_by: { type: types_1.User },
         story: { type: new graphql_1.GraphQLList(exports.Story) },
         office: { type: new graphql_1.GraphQLList(exports.Office) },
         people: { type: new graphql_1.GraphQLList(exports.People) },
@@ -189,7 +190,7 @@ exports.CompanyConnection = new graphql_1.GraphQLObjectType({
             resolve: (parent) => parent.edges,
             type: new graphql_1.GraphQLNonNull(new graphql_1.GraphQLList(exports.CompanyEdge)),
         },
-        pageInfo: { type: new graphql_1.GraphQLNonNull(types_1.PageInfo) },
+        pageInfo: { type: new graphql_1.GraphQLNonNull(types_2.PageInfo) },
     },
     name: "CompanyConnection",
 });

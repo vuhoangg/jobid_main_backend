@@ -104,23 +104,11 @@ class CompanyRepository implements CrudContract {
         .populate("office.city")
         .populate("office.district")
         .populate("office.ward")
+        .populate("created_by")
 
         .populate("job_category")
         .populate("job_location")
-        .populate({
-          path: "list_user",
-          populate: {
-            path: "user",
-            model: "User",
-          },
-        })
-        .populate({
-          path: "list_user",
-          populate: {
-            path: "target_permission",
-            model: "GroupPermission",
-          },
-        })
+
         .sort(sort)
         .skip(limit * (page - 1))
         .limit(limit);
@@ -139,22 +127,10 @@ class CompanyRepository implements CrudContract {
           .populate("office.ward")
           .populate("job_category")
           .populate("benefit.id")
+          .populate("created_by")
 
           .populate("job_location")
-          .populate({
-            path: "list_user",
-            populate: {
-              path: "user",
-              model: "User",
-            },
-          })
-          .populate({
-            path: "list_user",
-            populate: {
-              path: "target_permission",
-              model: "GroupPermission",
-            },
-          });
+
       } else if (getBy.slug) {
         return Company.findOne({slug: getBy.slug}, projection)
           .populate("office.city")
@@ -162,22 +138,10 @@ class CompanyRepository implements CrudContract {
           .populate("office.ward")
           .populate("job_category")
           .populate("benefit.id")
+          .populate("created_by")
 
           .populate("job_location")
-          .populate({
-            path: "list_user",
-            populate: {
-              path: "user",
-              model: "User",
-            },
-          })
-          .populate({
-            path: "list_user",
-            populate: {
-              path: "target_permission",
-              model: "GroupPermission",
-            },
-          });
+
       } else {
         return promiseNull();
       }
@@ -196,21 +160,8 @@ class CompanyRepository implements CrudContract {
         .populate("office.ward")
         .populate("job_category")
         .populate("benefit.id")
+        .populate("created_by")
 
-        .populate({
-          path: "list_user",
-          populate: {
-            path: "user",
-            model: "User",
-          },
-        })
-        .populate({
-          path: "list_user",
-          populate: {
-            path: "target_permission",
-            model: "GroupPermission",
-          },
-        });
     } catch (e) {
       errorLog(e);
       return promiseNull();
