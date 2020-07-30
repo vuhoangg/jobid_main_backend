@@ -1,14 +1,14 @@
-import JobRatingService from "../../../db/repositories/JobRatingRepository";
+import CompanyRatingService from "../../../db/repositories/CompanyRatingRepository";
 
 export function updateJobRating(source, args, context, info) {
   if (context.isAuthenticated()) {
     let input = args.input;
-    return JobRatingService.update(input).then(data => data);
+    return CompanyRatingService.update(input).then(async (data) => data);
   }
 }
 export function createJobRating(source, args, context, info) {
   if (context.isAuthenticated()) {
     let input = args.input;
-    return JobRatingService.create(input).then(r => r);
+    return CompanyRatingService.create(input).then(r => r);
   }
 }

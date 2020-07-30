@@ -21,6 +21,7 @@ interface IFilter {
   company_benefit?: string;
   status?: string;
   company?: string;
+  coordinate?: any;
 }
 
 interface IGetBy {
@@ -56,6 +57,13 @@ function getCondition(filter: IFilter) {
   }
   if (filter.user) {
     condition = Object.assign(condition, {"user.ref": filter.user});
+  }
+  if (filter.coordinate) {
+    condition = Object.assign(
+      condition,
+      { "location.lat": { $gte: filter.coordinate.minLat, $lte: filter.coordinate.maxLat } },
+      { "location.lng": { $gte: filter.coordinate.minLng, $lte: filter.coordinate.maxLng } }
+    );
   }
   if (filter.status) {
     condition = Object.assign(condition, {"status": filter.status});

@@ -34,6 +34,8 @@ import cityQueries from "./city/queries";
 import districtQueries from "./district/queries";
 import wardQueries from "./ward/queries";
 import facebookJobQueries from "./facebook_job/queries";
+import companyRatingQueries from "./company_rating/queries";
+
 
 const QueryRoot = new GraphQLObjectType({
   fields: {
@@ -75,6 +77,7 @@ const QueryRoot = new GraphQLObjectType({
     ...districtQueries,
     ...wardQueries,
     ...facebookJobQueries,
+    ...companyRatingQueries,
   },
   name: "QueryRoot",
 });

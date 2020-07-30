@@ -1,5 +1,5 @@
 import { CrudContract } from "../contracts/CrudContract";
-import JobRating from "../schemas/JobRating";
+import CompanyRating from "../schemas/CompanyRating";
 import { errorLog } from "../../helpers/log";
 import { promiseNull } from "../../helpers/promise";
 
@@ -37,11 +37,11 @@ function getSort(sortBy: ISort) {
   return sort;
 }
 
-class JobRatingRepository implements CrudContract {
+class CompanyRatingRepository implements CrudContract {
   count(filter: IFilter) {
     try {
       let condition = getCondition(filter);
-      return JobRating.countDocuments(condition);
+      return CompanyRating.countDocuments(condition);
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -50,9 +50,9 @@ class JobRatingRepository implements CrudContract {
 
   create(data) {
     try {
-      return JobRating.findOneAndUpdate(
+      return CompanyRating.findOneAndUpdate(
         {
-          job: data.job,
+          company: data.company,
           user: data.user,
         },
         data,
@@ -66,7 +66,7 @@ class JobRatingRepository implements CrudContract {
 
   delete(id) {
     try {
-      return JobRating.findByIdAndRemove(id);
+      return CompanyRating.findByIdAndRemove(id);
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -75,7 +75,7 @@ class JobRatingRepository implements CrudContract {
 
   get(job_post, projection) {
     try {
-      return JobRating.findById(job_post, projection);
+      return CompanyRating.findById(job_post, projection);
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -86,7 +86,7 @@ class JobRatingRepository implements CrudContract {
     try {
       let condition = getCondition(filter);
       let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
-      return JobRating.find(condition, projection)
+      return CompanyRating.find(condition, projection)
         .populate("user")
         .sort(sort)
         .skip(limit * (page - 1))
@@ -100,9 +100,9 @@ class JobRatingRepository implements CrudContract {
   getBy(getBy: IGetBy, projection) {
     try {
       if (getBy._id) {
-        return JobRating.findById(getBy._id, projection);
+        return CompanyRating.findById(getBy._id, projection);
       } else if (getBy.job_post) {
-        return JobRating.findOne({ job: getBy.job_post }, projection).populate("user");
+        return CompanyRating.findOne({ job: getBy.job_post }, projection).populate("user");
       } else {
         return promiseNull();
       }
@@ -114,7 +114,7 @@ class JobRatingRepository implements CrudContract {
 
   update(data) {
     try {
-      return JobRating.findByIdAndUpdate(data._id, data, { new: true });
+      return CompanyRating.findByIdAndUpdate(data._id, data, { new: true });
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -122,5 +122,5 @@ class JobRatingRepository implements CrudContract {
   }
 }
 
-const JobRatingService = new JobRatingRepository();
-export default JobRatingService;
+const CompanyRatingService = new CompanyRatingRepository();
+export default CompanyRatingService;
