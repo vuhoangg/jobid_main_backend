@@ -86,16 +86,16 @@ exports.JobCompanyInput = new graphql_1.GraphQLInputObjectType({
 exports.JobLatLng = new graphql_1.GraphQLObjectType({
     description: "Lat long Job Posts",
     fields: {
-        lat: { type: graphql_1.GraphQLString },
-        lng: { type: graphql_1.GraphQLString },
+        lat: { type: graphql_1.GraphQLFloat },
+        lng: { type: graphql_1.GraphQLFloat },
     },
     name: "JobLatLng",
 });
 exports.JobLatLngInput = new graphql_1.GraphQLInputObjectType({
     description: "Lat long Job Posts Input",
     fields: {
-        lat: { type: graphql_1.GraphQLString },
-        lng: { type: graphql_1.GraphQLString },
+        lat: { type: graphql_1.GraphQLFloat },
+        lng: { type: graphql_1.GraphQLFloat },
     },
     name: "JobLatLngInput",
 });

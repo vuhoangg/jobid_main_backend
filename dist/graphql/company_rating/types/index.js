@@ -1,58 +1,58 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.JobRatingArguments = exports.JobRatingInput = exports.JobRatingConnection = exports.JobRatingEdge = exports.JobRating = void 0;
+exports.CompanyRatingArguments = exports.CompanyRatingInput = exports.CompanyRatingConnection = exports.CompanyRatingEdge = exports.CompanyRating = void 0;
 const graphql_1 = require("graphql");
 const types_1 = require("../../types");
 const types_2 = require("../../user/types");
-exports.JobRating = new graphql_1.GraphQLObjectType({
-    description: "Represents a job rating reply.",
+exports.CompanyRating = new graphql_1.GraphQLObjectType({
+    description: "Represents a company rating reply.",
     fields: {
         _id: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         user: { type: types_2.User },
-        job: { type: graphql_1.GraphQLString },
+        company: { type: graphql_1.GraphQLString },
         rat_value: { type: graphql_1.GraphQLInt },
         rat_comment: { type: graphql_1.GraphQLString },
         created_at: { type: graphql_1.GraphQLString },
         updated_at: { type: graphql_1.GraphQLString },
     },
-    name: "JobRating",
+    name: "CompanyRating",
 });
-exports.JobRatingEdge = new graphql_1.GraphQLObjectType({
+exports.CompanyRatingEdge = new graphql_1.GraphQLObjectType({
     description: "A list of edges.",
     fields: {
         cursor: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         node: {
-            description: "The item at the end of JobRatingEdge.",
+            description: "The item at the end of CompanyRatingEdge.",
             resolve: (parent) => parent.node,
-            type: new graphql_1.GraphQLNonNull(exports.JobRating),
+            type: new graphql_1.GraphQLNonNull(exports.CompanyRating),
         },
     },
-    name: "JobRatingEdge",
+    name: "CompanyRatingEdge",
 });
-exports.JobRatingConnection = new graphql_1.GraphQLObjectType({
-    description: "List of job ratings.",
+exports.CompanyRatingConnection = new graphql_1.GraphQLObjectType({
+    description: "List of company ratings.",
     fields: {
         edges: {
             resolve: (parent) => parent.edges,
-            type: new graphql_1.GraphQLNonNull(new graphql_1.GraphQLList(exports.JobRatingEdge)),
+            type: new graphql_1.GraphQLNonNull(new graphql_1.GraphQLList(exports.CompanyRatingEdge)),
         },
         pageInfo: { type: new graphql_1.GraphQLNonNull(types_1.PageInfo) },
     },
-    name: "JobRatingConnection",
+    name: "CompanyRatingConnection",
 });
-exports.JobRatingInput = new graphql_1.GraphQLInputObjectType({
+exports.CompanyRatingInput = new graphql_1.GraphQLInputObjectType({
     fields: {
         _id: { type: graphql_1.GraphQLString },
         user: { type: graphql_1.GraphQLString },
-        job: { type: graphql_1.GraphQLString },
+        company: { type: graphql_1.GraphQLString },
         rat_value: { type: graphql_1.GraphQLInt },
         rat_comment: { type: graphql_1.GraphQLString },
     },
-    name: "JobRatingInput",
-    description: "The updated properties for a job rating input.",
+    name: "CompanyRatingInput",
+    description: "The updated properties for a company rating input.",
 });
-exports.JobRatingArguments = {
+exports.CompanyRatingArguments = {
     _id: { type: graphql_1.GraphQLString },
-    job_post: { type: graphql_1.GraphQLString },
+    company: { type: graphql_1.GraphQLString },
 };
 //# sourceMappingURL=index.js.map

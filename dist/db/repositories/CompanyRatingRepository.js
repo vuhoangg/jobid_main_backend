@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const JobRating_1 = __importDefault(require("../schemas/JobRating"));
+const CompanyRating_1 = __importDefault(require("../schemas/CompanyRating"));
 const log_1 = require("../../helpers/log");
 const promise_1 = require("../../helpers/promise");
 function getCondition(filter) {
@@ -23,11 +23,11 @@ function getSort(sortBy) {
     }
     return sort;
 }
-class JobRatingRepository {
+class CompanyRatingRepository {
     count(filter) {
         try {
             let condition = getCondition(filter);
-            return JobRating_1.default.countDocuments(condition);
+            return CompanyRating_1.default.countDocuments(condition);
         }
         catch (e) {
             log_1.errorLog(e);
@@ -36,8 +36,8 @@ class JobRatingRepository {
     }
     create(data) {
         try {
-            return JobRating_1.default.findOneAndUpdate({
-                job: data.job,
+            return CompanyRating_1.default.findOneAndUpdate({
+                company: data.company,
                 user: data.user,
             }, data, { upsert: true, new: true });
         }
@@ -48,7 +48,7 @@ class JobRatingRepository {
     }
     delete(id) {
         try {
-            return JobRating_1.default.findByIdAndRemove(id);
+            return CompanyRating_1.default.findByIdAndRemove(id);
         }
         catch (e) {
             log_1.errorLog(e);
@@ -57,7 +57,7 @@ class JobRatingRepository {
     }
     get(job_post, projection) {
         try {
-            return JobRating_1.default.findById(job_post, projection);
+            return CompanyRating_1.default.findById(job_post, projection);
         }
         catch (e) {
             log_1.errorLog(e);
@@ -68,7 +68,7 @@ class JobRatingRepository {
         try {
             let condition = getCondition(filter);
             let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
-            return JobRating_1.default.find(condition, projection)
+            return CompanyRating_1.default.find(condition, projection)
                 .populate("user")
                 .sort(sort)
                 .skip(limit * (page - 1))
@@ -82,10 +82,10 @@ class JobRatingRepository {
     getBy(getBy, projection) {
         try {
             if (getBy._id) {
-                return JobRating_1.default.findById(getBy._id, projection);
+                return CompanyRating_1.default.findById(getBy._id, projection);
             }
             else if (getBy.job_post) {
-                return JobRating_1.default.findOne({ job: getBy.job_post }, projection).populate("user");
+                return CompanyRating_1.default.findOne({ job: getBy.job_post }, projection).populate("user");
             }
             else {
                 return promise_1.promiseNull();
@@ -98,7 +98,7 @@ class JobRatingRepository {
     }
     update(data) {
         try {
-            return JobRating_1.default.findByIdAndUpdate(data._id, data, { new: true });
+            return CompanyRating_1.default.findByIdAndUpdate(data._id, data, { new: true });
         }
         catch (e) {
             log_1.errorLog(e);
@@ -106,6 +106,6 @@ class JobRatingRepository {
         }
     }
 }
-const JobRatingService = new JobRatingRepository();
-exports.default = JobRatingService;
-//# sourceMappingURL=JobRatingRepository.js.map
+const CompanyRatingService = new CompanyRatingRepository();
+exports.default = CompanyRatingService;
+//# sourceMappingURL=CompanyRatingRepository.js.map

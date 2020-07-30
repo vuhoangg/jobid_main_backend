@@ -71,12 +71,12 @@ export const NotificationConnection = new GraphQLObjectType({
 export const NotificationInput = new GraphQLInputObjectType({
   fields: {
     _id: {type: GraphQLString},
-    // type: {type: GraphQLString},
-    // subject: {type: GraphQLString},
-    // target: {type: NotificationTargetInput},
-    // message: {type: GraphQLString},
-    // href: {type: GraphQLString},
-    // read: {type: GraphQLBoolean},
+    type: {type: GraphQLString},
+    subject: {type: GraphQLString},
+    target: {type: NotificationTargetInput},
+    message: {type: GraphQLString},
+    href: {type: GraphQLString},
+    read: {type: GraphQLBoolean},
   },
   name: "NotificationInput",
   description: "The updated properties for a notification.",
@@ -85,3 +85,11 @@ export const NotificationInput = new GraphQLInputObjectType({
 export const NotificationArguments = {
   _id: {type: new GraphQLNonNull(GraphQLString)},
 };
+
+export const NotificationRead = new GraphQLObjectType({
+  fields: {
+    status: {type: GraphQLBoolean},
+  },
+  name: "NotificationRead",
+  description: "Represents a notification read status.",
+});

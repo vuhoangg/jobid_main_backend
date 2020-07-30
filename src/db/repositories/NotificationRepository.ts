@@ -16,6 +16,7 @@ interface IFilter {
   subject?: string;
   target_object_type?: string;
   target_ref?: string;
+  read?: boolean;
 }
 
 interface IGetBy {
@@ -35,6 +36,9 @@ function getCondition(filter: IFilter) {
   }
   if (filter.target_ref) {
     condition = Object.assign(condition, {"target.ref": filter.target_ref});
+  }
+  if (filter.read) {
+    condition = Object.assign(condition, {read: filter.read});
   }
   return condition;
 }
@@ -114,17 +118,25 @@ class NotificationRepository implements CrudContract {
 
   update(data) {
     try {
-      let dataUpdate = processDataUpdate(data);
-      return Notification.findByIdAndUpdate(data._id, dataUpdate, {new: true});
+      return Notification.findByIdAndUpdate(data._id, data, {new: true});
     } catch (e) {
       errorLog(e);
       return promiseNull();
     }
   }
 
-  readNotification(_id) {
+  readNotification(data) {
     try {
-      return Notification.findByIdAndUpdate(_id, {read: true}, {new: true});
+      return Notification.findOneAndUpdate({_id: data._id, target: data.target, read: false}, {read: true}, {new: true});
+    } catch (e) {
+      errorLog(e);
+      return promiseNull();
+    }
+  }
+
+  readAllNotification(data) {
+    try {
+      return Notification.updateMany({target: data.target, read: false}, {read: true}, {new: true});
     } catch (e) {
       errorLog(e);
       return promiseNull();
