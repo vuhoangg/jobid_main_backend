@@ -8,6 +8,10 @@ const jobPostSchema = new mongoose.Schema({
     type: String,
     unique: true,
   },
+  job_type: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'JobType',
+  },
   job_level: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'JobLevel',
@@ -20,12 +24,6 @@ const jobPostSchema = new mongoose.Schema({
   ],
   description: String,
   requirement: String,
-  job_location: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'JobLocation',
-    }
-  ],
   salary: {
     min: Number,
     max: Number,
@@ -46,7 +44,6 @@ const jobPostSchema = new mongoose.Schema({
       ref: 'JobPreferLanguage',
     }
   ],
-  
   email_for_application: {
     type: String,
   },

@@ -30,6 +30,7 @@ import districtMutations from "./district/mutations";
 import wardMutations from "./ward/mutations";
 import facebookJobMutations from "./facebook_job/mutations";
 import companyRatingMutations from "./company_rating/mutations";
+import jobTypeMutations from "./job_type/mutations";
 
 
 const Mutation = new GraphQLObjectType({
@@ -68,6 +69,7 @@ const Mutation = new GraphQLObjectType({
     ...wardMutations,
     ...facebookJobMutations,
     ...companyRatingMutations,
+    ...jobTypeMutations,
   },
   name: "Mutation",
 });
