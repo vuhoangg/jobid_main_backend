@@ -8,7 +8,7 @@ const wardQueries = {
     ward: {
         args: types_2.WardArguments,
         resolve: (source, args, context, info) => get_1.getWard(source, args, context, info),
-        type: new graphql_1.GraphQLNonNull(types_2.WardType),
+        type: new graphql_1.GraphQLNonNull(types_2.Ward),
     },
     wards: {
         args: types_1.PaginationArguments,

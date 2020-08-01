@@ -22,14 +22,12 @@ function updateJobPost(source, args, context, info) {
     if (context.isAuthenticated()) {
         let loggedUser = context.user;
         let input = args.input;
-        // TODO in_company
         if (permission_1.isSuperUser(loggedUser.email)) {
             return JobPostRepository_1.default.update(input);
         }
         else {
             return JobPostRepository_1.default.get(input._id, {}).then(r1 => {
-                if (r1 && r1.user.ref.toString() == loggedUser._id.toString()) {
-                    input = Object.assign(input, { user: { ref: loggedUser._id, in_company: 0 } });
+                if (r1 && r1.user.toString() == loggedUser._id.toString()) {
                     return JobPostRepository_1.default.update(input);
                 }
                 else {
@@ -47,8 +45,7 @@ function createJobPost(source, args, context, info) {
         let slug = string_1.toSlug(input.title, true);
         let activity = {
             name: `${loggedUser.first_name} ${loggedUser.last_name}`,
-            vi_message: input.title,
-            en_message: input.title,
+            message: input.title,
             href_type: "job_post",
             href_url: slug,
         };
@@ -64,9 +61,7 @@ function createJobPost(source, args, context, info) {
             read: false,
         };
         input = Object.assign(input, { slug: slug });
-        // TODO in_company check post from company internal
-        // TODO validate input create
-        input = Object.assign(input, { user: { ref: loggedUser._id, in_company: 0 } });
+        input = Object.assign(input, { user: loggedUser._id });
         return JobPostRepository_1.default.create(input).then((r) => __awaiter(this, void 0, void 0, function* () {
             yield ActivityRepository_1.default.create(activity);
             yield NotificationRepository_1.default.create(notification);

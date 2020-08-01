@@ -1,13 +1,13 @@
 import {GraphQLInputObjectType, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLString} from "graphql";
 
 import {PageInfo} from "../../types";
-import {CityType} from "../../city/types";
+import {City} from "../../city/types";
 
-export const DistrictType = new GraphQLObjectType({
+export const District = new GraphQLObjectType({
   description: "Represents a district.",
   fields: {
     _id: {type: GraphQLString},
-    city: {type: CityType},
+    city: {type: City},
     name: {type: GraphQLString},
     title: {type: GraphQLString},
     description: {type: GraphQLString},
@@ -30,7 +30,7 @@ export const DistrictEdge = new GraphQLObjectType({
     node: {
       description: "DistrictEdge node",
       resolve: (parent) => parent.node,
-      type: new GraphQLNonNull(DistrictType),
+      type: new GraphQLNonNull(District),
     },
   },
   name: "DistrictEdge",

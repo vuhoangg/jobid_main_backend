@@ -1,13 +1,13 @@
 import {GraphQLNonNull} from "graphql";
 import {PaginationArguments} from "../../types";
 import {getWard, getWards} from "../resolvers/get";
-import {WardArguments, WardConnection, WardType} from "../types";
+import {WardArguments, WardConnection, Ward} from "../types";
 
 const wardQueries = {
   ward: {
     args: WardArguments,
     resolve: (source, args, context, info) => getWard(source, args, context, info),
-    type: new GraphQLNonNull(WardType),
+    type: new GraphQLNonNull(Ward),
   },
   wards: {
     args: PaginationArguments,

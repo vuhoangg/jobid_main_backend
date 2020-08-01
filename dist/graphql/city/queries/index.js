@@ -8,7 +8,7 @@ const cityQueries = {
     city: {
         args: types_2.CityArguments,
         resolve: (source, args, context, info) => get_1.getCity(source, args, context, info),
-        type: new graphql_1.GraphQLNonNull(types_2.CityType),
+        type: new graphql_1.GraphQLNonNull(types_2.City),
     },
     citys: {
         args: types_1.PaginationArguments,

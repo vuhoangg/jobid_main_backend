@@ -68,9 +68,9 @@ exports.BenefitContentInput = new graphql_1.GraphQLInputObjectType({
 exports.Office = new graphql_1.GraphQLObjectType({
     description: "Represents a office content.",
     fields: {
-        city: { type: types_5.CityType },
-        district: { type: types_6.DistrictType },
-        ward: { type: types_7.WardType },
+        city: { type: types_5.City },
+        district: { type: types_6.District },
+        ward: { type: types_7.Ward },
         address: { type: graphql_1.GraphQLString },
         lat: { type: graphql_1.GraphQLFloat },
         lng: { type: graphql_1.GraphQLFloat },

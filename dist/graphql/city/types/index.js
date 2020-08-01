@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CityArguments = exports.CityInput = exports.CityConnection = exports.CityEdge = exports.CityType = void 0;
+exports.CityArguments = exports.CityInput = exports.CityConnection = exports.CityEdge = exports.City = void 0;
 const graphql_1 = require("graphql");
 const types_1 = require("../../types");
-exports.CityType = new graphql_1.GraphQLObjectType({
+exports.City = new graphql_1.GraphQLObjectType({
     description: "Represents a city.",
     fields: {
         _id: { type: graphql_1.GraphQLString },
@@ -28,7 +28,7 @@ exports.CityEdge = new graphql_1.GraphQLObjectType({
         node: {
             description: "CityEdge node",
             resolve: (parent) => parent.node,
-            type: new graphql_1.GraphQLNonNull(exports.CityType),
+            type: new graphql_1.GraphQLNonNull(exports.City),
         },
     },
     name: "CityEdge",

@@ -1,14 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DistrictArguments = exports.DistrictInput = exports.DistrictConnection = exports.DistrictEdge = exports.DistrictType = void 0;
+exports.DistrictArguments = exports.DistrictInput = exports.DistrictConnection = exports.DistrictEdge = exports.District = void 0;
 const graphql_1 = require("graphql");
 const types_1 = require("../../types");
 const types_2 = require("../../city/types");
-exports.DistrictType = new graphql_1.GraphQLObjectType({
+exports.District = new graphql_1.GraphQLObjectType({
     description: "Represents a district.",
     fields: {
         _id: { type: graphql_1.GraphQLString },
-        city: { type: types_2.CityType },
+        city: { type: types_2.City },
         name: { type: graphql_1.GraphQLString },
         title: { type: graphql_1.GraphQLString },
         description: { type: graphql_1.GraphQLString },
@@ -30,7 +30,7 @@ exports.DistrictEdge = new graphql_1.GraphQLObjectType({
         node: {
             description: "DistrictEdge node",
             resolve: (parent) => parent.node,
-            type: new graphql_1.GraphQLNonNull(exports.DistrictType),
+            type: new graphql_1.GraphQLNonNull(exports.District),
         },
     },
     name: "DistrictEdge",

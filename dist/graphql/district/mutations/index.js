@@ -7,7 +7,7 @@ const districtMutations = {
     district: {
         args: { input: { type: graphql_1.GraphQLNonNull(types_1.DistrictInput) } },
         resolve: (source, args, context) => update_1.updateDistrict(args, context),
-        type: new graphql_1.GraphQLNonNull(types_1.DistrictType),
+        type: new graphql_1.GraphQLNonNull(types_1.District),
     },
 };
 exports.default = districtMutations;

@@ -2,7 +2,7 @@ import {GraphQLInputObjectType, GraphQLList, GraphQLNonNull, GraphQLObjectType, 
 
 import {PageInfo} from "../../types";
 
-export const CityType = new GraphQLObjectType({
+export const City = new GraphQLObjectType({
   description: "Represents a city.",
   fields: {
     _id: {type: GraphQLString},
@@ -28,7 +28,7 @@ export const CityEdge = new GraphQLObjectType({
     node: {
       description: "CityEdge node",
       resolve: (parent) => parent.node,
-      type: new GraphQLNonNull(CityType),
+      type: new GraphQLNonNull(City),
     },
   },
   name: "CityEdge",

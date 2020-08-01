@@ -13,9 +13,9 @@ import {
 import {PageInfo} from "../../types";
 import {JobCategory} from "../../job_category/types";
 import {Benefit} from "../../benefit/types";
-import {CityType} from "../../city/types";
-import {DistrictType} from "../../district/types";
-import {WardType} from "../../ward/types";
+import {City} from "../../city/types";
+import {District} from "../../district/types";
+import {Ward} from "../../ward/types";
 
 
 export const Story = new GraphQLObjectType({
@@ -79,9 +79,9 @@ export const BenefitContentInput = new GraphQLInputObjectType({
 export const Office = new GraphQLObjectType({
   description: "Represents a office content.",
   fields: {
-    city: {type: CityType},
-    district: {type: DistrictType},
-    ward: {type: WardType},
+    city: {type: City},
+    district: {type: District},
+    ward: {type: Ward},
     address: {type: GraphQLString},
     lat: {type: GraphQLFloat},
     lng: {type: GraphQLFloat},

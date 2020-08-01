@@ -7,7 +7,7 @@ const cityMutations = {
     city: {
         args: { input: { type: graphql_1.GraphQLNonNull(types_1.CityInput) } },
         resolve: (source, args, context) => update_1.updateCity(args, context),
-        type: new graphql_1.GraphQLNonNull(types_1.CityType),
+        type: new graphql_1.GraphQLNonNull(types_1.City),
     },
 };
 exports.default = cityMutations;

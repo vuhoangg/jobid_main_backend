@@ -7,7 +7,7 @@ const wardMutations = {
     ward: {
         args: { input: { type: graphql_1.GraphQLNonNull(types_1.WardInput) } },
         resolve: (source, args, context) => update_1.updateWard(args, context),
-        type: new graphql_1.GraphQLNonNull(types_1.WardType),
+        type: new graphql_1.GraphQLNonNull(types_1.Ward),
     },
 };
 exports.default = wardMutations;

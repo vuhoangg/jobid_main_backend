@@ -1,14 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.WardArguments = exports.WardInput = exports.WardConnection = exports.WardEdge = exports.WardType = void 0;
+exports.WardArguments = exports.WardInput = exports.WardConnection = exports.WardEdge = exports.Ward = void 0;
 const graphql_1 = require("graphql");
 const types_1 = require("../../types");
 const types_2 = require("../../district/types");
-exports.WardType = new graphql_1.GraphQLObjectType({
+exports.Ward = new graphql_1.GraphQLObjectType({
     description: "Represents a ward.",
     fields: {
         _id: { type: graphql_1.GraphQLString },
-        district: { type: types_2.DistrictType },
+        district: { type: types_2.District },
         name: { type: graphql_1.GraphQLString },
         title: { type: graphql_1.GraphQLString },
         description: { type: graphql_1.GraphQLString },
@@ -30,7 +30,7 @@ exports.WardEdge = new graphql_1.GraphQLObjectType({
         node: {
             description: "WardEdge node",
             resolve: (parent) => parent.node,
-            type: new graphql_1.GraphQLNonNull(exports.WardType),
+            type: new graphql_1.GraphQLNonNull(exports.Ward),
         },
     },
     name: "WardEdge",

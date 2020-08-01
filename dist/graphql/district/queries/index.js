@@ -8,7 +8,7 @@ const districtQueries = {
     district: {
         args: types_2.DistrictArguments,
         resolve: (source, args, context, info) => get_1.getDistrict(source, args, context, info),
-        type: new graphql_1.GraphQLNonNull(types_2.DistrictType),
+        type: new graphql_1.GraphQLNonNull(types_2.District),
     },
     districts: {
         args: types_1.PaginationArguments,
