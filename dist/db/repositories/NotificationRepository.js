@@ -20,7 +20,7 @@ function getCondition(filter) {
     if (filter.target_ref) {
         condition = Object.assign(condition, { "target.ref": filter.target_ref });
     }
-    if (filter.read) {
+    if (filter.read != undefined) {
         condition = Object.assign(condition, { read: filter.read });
     }
     return condition;
@@ -109,7 +109,7 @@ class NotificationRepository {
     }
     readNotification(data) {
         try {
-            return Notification_1.default.findOneAndUpdate({ _id: data._id, target: data.target, read: false }, { read: true }, { new: true });
+            return Notification_1.default.findOneAndUpdate({ _id: data._id, "target.ref": data.target, read: false }, { read: true }, { new: true });
         }
         catch (e) {
             log_1.errorLog(e);
@@ -118,7 +118,7 @@ class NotificationRepository {
     }
     readAllNotification(data) {
         try {
-            return Notification_1.default.updateMany({ target: data.target, read: false }, { read: true }, { new: true });
+            return Notification_1.default.updateMany({ "target.ref": data.target, read: false }, { read: true }, { new: true });
         }
         catch (e) {
             log_1.errorLog(e);

@@ -20,29 +20,28 @@ function getCondition(filter) {
     if (filter.job_category) {
         condition = Object.assign(condition, { job_category: filter.job_category });
     }
-    if (filter.job_location) {
-        condition = Object.assign(condition, { job_location: filter.job_location });
-    }
-    if (filter.job_skill) {
-        condition = Object.assign(condition, { job_skill: filter.job_skill });
-    }
-    if (filter.company_benefit) {
-        condition = Object.assign(condition, { "company.benefit.id": filter.company_benefit });
+    if (filter.benefit) {
+        condition = Object.assign(condition, { "benefit.benefit_id": filter.benefit });
     }
     if (filter.company) {
         condition = Object.assign(condition, { "company.ref": filter.company });
     }
     if (filter.user) {
-        condition = Object.assign(condition, { "user.ref": filter.user });
+        condition = Object.assign(condition, { "user": filter.user });
     }
     if (filter.coordinate) {
         condition = Object.assign(condition, { "location.lat": { $gte: filter.coordinate.minLat, $lte: filter.coordinate.maxLat } }, { "location.lng": { $gte: filter.coordinate.minLng, $lte: filter.coordinate.maxLng } });
     }
     if (filter.status) {
-        condition = Object.assign(condition, { "status": filter.status });
+        condition = Object.assign(condition, { status: filter.status });
     }
-    else {
-        condition = Object.assign(condition, { "status": "active" });
+    if (filter.expire != undefined) {
+        if (Boolean(filter.expire)) {
+            condition = Object.assign(condition, { end_date: { $lte: new Date() } });
+        }
+        else {
+            condition = Object.assign(condition, { end_date: { $gte: new Date() } });
+        }
     }
     return condition;
 }
@@ -102,12 +101,15 @@ class JobPostRepository {
             let condition = getCondition(filter);
             let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
             return JobPost_1.default.find(condition, projection)
-                .populate('job_level').populate('job_category').populate('job_location').populate('job_skill')
-                .populate('job_prefer_language')
-                .populate('company.benefit.benefit_id')
+                .sort(sort)
+                .skip(limit * (page - 1))
+                .limit(limit)
+                .populate('job_category')
+                .populate('job_level')
+                .populate('job_type')
+                .populate('benefit.benefit_id')
                 .populate('company.ref')
-                .populate('user.ref')
-                .sort(sort).skip(limit * (page - 1)).limit(limit);
+                .populate('user');
         }
         catch (e) {
             log_1.errorLog(e);
@@ -125,7 +127,7 @@ class JobPostRepository {
                     .populate('job_prefer_language')
                     .populate('company.benefit.benefit_id')
                     .populate('company.ref')
-                    .populate('user.ref');
+                    .populate('user');
             }
             else if (getBy.slug) {
                 return JobPost_1.default.findOne({ slug: getBy.slug }, projection)
@@ -136,7 +138,7 @@ class JobPostRepository {
                     .populate('job_prefer_language')
                     .populate('company.benefit.benefit_id')
                     .populate('company.ref')
-                    .populate('user.ref');
+                    .populate('user');
             }
             else {
                 return promise_1.promiseNull();

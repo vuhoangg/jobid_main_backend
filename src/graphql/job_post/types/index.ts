@@ -109,6 +109,7 @@ export const JobPost = new GraphQLObjectType({
     job_type: {type: JobType},
     job_level: {type: JobLevel},
     job_category: {type: JobCategory},
+    number: {type: GraphQLInt},
     description: {type: GraphQLString},
     requirement: {type: GraphQLString},
     salary: {type: JobSalary},
@@ -160,9 +161,9 @@ export const JobPostInput = new GraphQLInputObjectType({
     job_type: {type: GraphQLString},
     job_level: {type: GraphQLString},
     job_category: {type: GraphQLString},
+    number: {type: GraphQLInt},
     description: {type: GraphQLString},
     requirement: {type: GraphQLString},
-
     salary: {type: JobSalaryInput},
     address: {type: JobAddressInput},
     company: {type: JobCompanyInput},

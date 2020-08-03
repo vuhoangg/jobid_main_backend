@@ -21,6 +21,7 @@ const jobPostSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'JobCategory',
     },
+    number: Number,
     description: String,
     requirement: String,
     salary: {

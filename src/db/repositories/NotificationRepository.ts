@@ -37,7 +37,7 @@ function getCondition(filter: IFilter) {
   if (filter.target_ref) {
     condition = Object.assign(condition, {"target.ref": filter.target_ref});
   }
-  if (filter.read) {
+  if (filter.read != undefined) {
     condition = Object.assign(condition, {read: filter.read});
   }
   return condition;
@@ -127,7 +127,7 @@ class NotificationRepository implements CrudContract {
 
   readNotification(data) {
     try {
-      return Notification.findOneAndUpdate({_id: data._id, target: data.target, read: false}, {read: true}, {new: true});
+      return Notification.findOneAndUpdate({_id: data._id, "target.ref": data.target, read: false}, {read: true}, {new: true});
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -136,7 +136,7 @@ class NotificationRepository implements CrudContract {
 
   readAllNotification(data) {
     try {
-      return Notification.updateMany({target: data.target, read: false}, {read: true}, {new: true});
+      return Notification.updateMany({"target.ref": data.target, read: false}, {read: true}, {new: true});
     } catch (e) {
       errorLog(e);
       return promiseNull();
