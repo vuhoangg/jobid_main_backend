@@ -20,8 +20,9 @@ const candidateSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
     },
-    cv: String,
+    avatar: String,
     photos: [String],
+    cv: String,
     files: [
         {
             name: String,
