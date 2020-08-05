@@ -134,6 +134,9 @@ class JobPostRepository implements CrudContract {
         .limit(limit)
         .populate('job_category')
         .populate('job_level')
+        .populate('address.city')
+        .populate('address.district')
+        .populate('address.ward')
         .populate('job_type')
         .populate('benefit.benefit_id')
         .populate('company.ref')
@@ -148,22 +151,24 @@ class JobPostRepository implements CrudContract {
     try {
       if (getBy._id) {
         return JobPost.findById(getBy._id, projection)
-          .populate('job_level')
           .populate('job_category')
-          .populate('job_location')
-          .populate('job_skill')
-          .populate('job_prefer_language')
-          .populate('company.benefit.benefit_id')
+          .populate('job_level')
+          .populate('job_type')
+          .populate('address.city')
+          .populate('address.district')
+          .populate('address.ward')
+          .populate('benefit.benefit_id')
           .populate('company.ref')
           .populate('user');
       } else if (getBy.slug) {
         return JobPost.findOne({slug: getBy.slug}, projection)
-          .populate('job_level')
           .populate('job_category')
-          .populate('job_location')
-          .populate('job_skill')
-          .populate('job_prefer_language')
-          .populate('company.benefit.benefit_id')
+          .populate('job_level')
+          .populate('job_type')
+          .populate('address.city')
+          .populate('address.district')
+          .populate('address.ward')
+          .populate('benefit.benefit_id')
           .populate('company.ref')
           .populate('user');
       } else {
@@ -177,7 +182,16 @@ class JobPostRepository implements CrudContract {
 
   update(data) {
     try {
-      return JobPost.findByIdAndUpdate(data._id, data, {new: true});
+      return JobPost.findByIdAndUpdate(data._id, data, {new: true})
+        .populate('job_category')
+        .populate('job_level')
+        .populate('job_type')
+        .populate('address.city')
+        .populate('address.district')
+        .populate('address.ward')
+        .populate('benefit.benefit_id')
+        .populate('company.ref')
+        .populate('user');
     } catch (e) {
       errorLog(e);
       return promiseNull();

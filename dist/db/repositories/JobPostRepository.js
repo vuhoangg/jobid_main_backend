@@ -106,6 +106,9 @@ class JobPostRepository {
                 .limit(limit)
                 .populate('job_category')
                 .populate('job_level')
+                .populate('address.city')
+                .populate('address.district')
+                .populate('address.ward')
                 .populate('job_type')
                 .populate('benefit.benefit_id')
                 .populate('company.ref')
@@ -120,23 +123,25 @@ class JobPostRepository {
         try {
             if (getBy._id) {
                 return JobPost_1.default.findById(getBy._id, projection)
-                    .populate('job_level')
                     .populate('job_category')
-                    .populate('job_location')
-                    .populate('job_skill')
-                    .populate('job_prefer_language')
-                    .populate('company.benefit.benefit_id')
+                    .populate('job_level')
+                    .populate('job_type')
+                    .populate('address.city')
+                    .populate('address.district')
+                    .populate('address.ward')
+                    .populate('benefit.benefit_id')
                     .populate('company.ref')
                     .populate('user');
             }
             else if (getBy.slug) {
                 return JobPost_1.default.findOne({ slug: getBy.slug }, projection)
-                    .populate('job_level')
                     .populate('job_category')
-                    .populate('job_location')
-                    .populate('job_skill')
-                    .populate('job_prefer_language')
-                    .populate('company.benefit.benefit_id')
+                    .populate('job_level')
+                    .populate('job_type')
+                    .populate('address.city')
+                    .populate('address.district')
+                    .populate('address.ward')
+                    .populate('benefit.benefit_id')
                     .populate('company.ref')
                     .populate('user');
             }
@@ -151,7 +156,16 @@ class JobPostRepository {
     }
     update(data) {
         try {
-            return JobPost_1.default.findByIdAndUpdate(data._id, data, { new: true });
+            return JobPost_1.default.findByIdAndUpdate(data._id, data, { new: true })
+                .populate('job_category')
+                .populate('job_level')
+                .populate('job_type')
+                .populate('address.city')
+                .populate('address.district')
+                .populate('address.ward')
+                .populate('benefit.benefit_id')
+                .populate('company.ref')
+                .populate('user');
         }
         catch (e) {
             log_1.errorLog(e);
