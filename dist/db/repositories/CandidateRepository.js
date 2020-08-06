@@ -11,6 +11,9 @@ function getCondition(filter) {
     if (filter.interest) {
         condition = Object.assign(condition, { interest: new RegExp(filter.interest, "i") });
     }
+    if (filter.except) {
+        condition = Object.assign(condition, { _id: { $ne: filter.except } });
+    }
     return condition;
 }
 function getSort(sortBy) {

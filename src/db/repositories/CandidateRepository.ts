@@ -11,6 +11,7 @@ interface ISort {
 interface IFilter {
   sort_by?: ISort;
   interest?: string;
+  except?: string;
 }
 
 interface IGetBy {
@@ -21,6 +22,9 @@ function getCondition(filter: IFilter) {
   let condition = {};
   if (filter.interest) {
     condition = Object.assign(condition, {interest: new RegExp(filter.interest, "i")});
+  }
+  if (filter.except) {
+    condition = Object.assign(condition, {_id: {$ne: filter.except}});
   }
   return condition;
 }
