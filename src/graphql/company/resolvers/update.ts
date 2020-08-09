@@ -4,18 +4,26 @@ import UserService from "../../../db/repositories/UserRepository";
 import {toSlug} from "../../../helpers/string";
 
 export function updateCompany(source, args, context, info) {
-  // if (context.isAuthenticated()) {
-  //   let loggedUser = context.user;
-  //   if (isSuperUser(loggedUser.email)) {
+  if (context.isAuthenticated()) {
+    let loggedUser = context.user;
+    if (isSuperUser(loggedUser.email)) {
       return CompanyService.update(args.input);
-  //   }
-  // }
+    } else {
+      let _id = args.input._id;
+      return CompanyService.get(_id, {}).then(r1 => {
+        if (r1 && r1.created_by.toString() == loggedUser._id.toString()) {
+          return CompanyService.update(args.input);
+        } else {
+          return r1
+        }
+      })
+    }
+  }
 }
 
 export function createCompany(source, args, context, info) {
   let input = args.input;
-  input.vi_slug = toSlug(input.vi_name || input.en_name, true).toLowerCase();
-  input.en_slug = toSlug(input.vi_name || input.en_name, true).toLowerCase();
+  input.slug = toSlug(input.name, true).toLowerCase();
   if (context.isAuthenticated()) {
     let loggedUser = context.user;
     input = Object.assign(input, {created_by: loggedUser._id});

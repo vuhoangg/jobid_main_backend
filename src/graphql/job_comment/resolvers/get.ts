@@ -1,5 +1,5 @@
 import JobCommentService from "../../../db/repositories/JobCommentRepository";
-import {filterObject, rootField, rootInfo} from "../../helpers";
+import { filterObject, rootField, rootInfo } from "../../helpers";
 
 export function getJobComment(source, args, context, info) {
   const fields = rootField(info);
@@ -9,7 +9,7 @@ export function getJobComment(source, args, context, info) {
       job: jobComment.job,
       user: jobComment.user,
       comment: jobComment.comment,
-      comment_reply: jobComment.comment_reply,
+      count: jobComment.count,
       created_at: jobComment.created_at,
       updated_at: jobComment.updated_at,
     };
@@ -31,7 +31,7 @@ export function getJobComments(source, args, context, info) {
           job: jobComments[i].job,
           user: jobComments[i].user,
           comment: jobComments[i].comment,
-          comment_reply: jobComments[i].comment_reply,
+          children: jobComments[i].children,
           created_at: jobComments[i].created_at,
           updated_at: jobComments[i].updated_at,
         },
@@ -40,7 +40,7 @@ export function getJobComments(source, args, context, info) {
     }
     let countData = infos.pageInfo && infos.pageInfo.length ? await JobCommentService.count(filter) : 0;
     let dataRet = {
-      ...{edges},
+      ...{ edges },
       pageInfo: {
         length: countData,
         hasNextPage: jobComments.length >= args.limit,

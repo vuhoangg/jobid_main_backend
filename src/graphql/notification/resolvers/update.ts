@@ -1,17 +1,28 @@
 import NotificationService from "../../../db/repositories/NotificationRepository";
+import {isSuperUser} from "../../../helpers/permission";
 
 export function updateNotification(source, args, context, info) {
   if (context.isAuthenticated()) {
     let loggedUser = context.user;
     let input = args.input;
-    return NotificationService.get(input._id, {}).then(r1 => {
-      if (r1.target.ref == loggedUser._id) {
-        input = Object.assign(input, {user: loggedUser._id});
-        return NotificationService.readNotification(input);
-      } else {
-        return r1;
-      }
-    });
+    if (isSuperUser(loggedUser.email)) {
+      return NotificationService.update(input);
+    }
+  }
+}
+export function updateReadNotification(source, args, context, info) {
+  if (context.isAuthenticated()) {
+    let input = args.input;
+    let loggedUser = context.user;
+    input = Object.assign(input, {target: loggedUser._id});
+    return NotificationService.readNotification(input).then(r => ({status: true}));
+  }
+}
 
+export function updateReadAllNotification(source, args, context, info) {
+  if (context.isAuthenticated()) {
+    let loggedUser = context.user;
+    let input = {target: loggedUser._id};
+    return NotificationService.readAllNotification(input).then(r => ({status: true}));
   }
 }

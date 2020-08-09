@@ -23,7 +23,7 @@ function getJobComment(source, args, context, info) {
             job: jobComment.job,
             user: jobComment.user,
             comment: jobComment.comment,
-            comment_reply: jobComment.comment_reply,
+            count: jobComment.count,
             created_at: jobComment.created_at,
             updated_at: jobComment.updated_at,
         };
@@ -45,7 +45,7 @@ function getJobComments(source, args, context, info) {
                     job: jobComments[i].job,
                     user: jobComments[i].user,
                     comment: jobComments[i].comment,
-                    comment_reply: jobComments[i].comment_reply,
+                    children: jobComments[i].children,
                     created_at: jobComments[i].created_at,
                     updated_at: jobComments[i].updated_at,
                 },

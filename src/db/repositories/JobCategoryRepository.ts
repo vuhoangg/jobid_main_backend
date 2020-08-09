@@ -21,7 +21,7 @@ interface IGetBy {
 function getCondition(filter: IFilter) {
   let condition = {};
   if (filter.title) {
-    condition = Object.assign(condition, {$or: [{vi_title: new RegExp(filter.title, "i")}, {en_title: new RegExp(filter.title, "i")}]});
+    condition = Object.assign(condition, {title: new RegExp(filter.title, "i")});
   }
   return condition;
 }
@@ -91,7 +91,7 @@ class JobCategoryRepository implements CrudContract {
       if (getBy._id) {
         return JobCategory.findById(getBy._id, projection);
       } else if (getBy.slug) {
-        return JobCategory.findOne({$or: [{vi_slug: getBy.slug}, {en_slug: getBy.slug}]}, projection);
+        return JobCategory.findOne({slug: getBy.slug}, projection);
       } else {
         return promiseNull();
       }

@@ -11,10 +11,8 @@ export const JobCategory = new GraphQLObjectType({
   description: "Represents a job category.",
   fields: {
     _id: {type: new GraphQLNonNull(GraphQLString)},
-    vi_title: {type: new GraphQLNonNull(GraphQLString)},
-    en_title: {type: new GraphQLNonNull(GraphQLString)},
-    vi_slug: {type: new GraphQLNonNull(GraphQLString)},
-    en_slug: {type: new GraphQLNonNull(GraphQLString)},
+    title: {type: new GraphQLNonNull(GraphQLString)},
+    slug: {type: new GraphQLNonNull(GraphQLString)},
     seo_title: {type: GraphQLString},
     seo_description: {type: GraphQLString},
     created_at: {type: GraphQLString},
@@ -49,10 +47,8 @@ export const JobCategoryConnection = new GraphQLObjectType({
 export const JobCategoryInput = new GraphQLInputObjectType({
   fields: {
     _id: {type: new GraphQLNonNull(GraphQLString)},
-    vi_title: {type: new GraphQLNonNull(GraphQLString)},
-    en_title: {type: new GraphQLNonNull(GraphQLString)},
-    vi_slug: {type: GraphQLString},
-    en_slug: {type: GraphQLString},
+    title: {type: new GraphQLNonNull(GraphQLString)},
+    slug: {type: GraphQLString},
     seo_title: {type: GraphQLString},
     seo_description: {type: GraphQLString},
   },

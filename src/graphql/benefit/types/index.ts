@@ -11,10 +11,8 @@ export const Benefit = new GraphQLObjectType({
   description: "Represents a benefit.",
   fields: {
     _id: {type: new GraphQLNonNull(GraphQLString)},
-    vi_title: {type: new GraphQLNonNull(GraphQLString)},
-    en_title: {type: new GraphQLNonNull(GraphQLString)},
-    vi_slug: {type: new GraphQLNonNull(GraphQLString)},
-    en_slug: {type: new GraphQLNonNull(GraphQLString)},
+    title: {type: new GraphQLNonNull(GraphQLString)},
+    slug: {type: new GraphQLNonNull(GraphQLString)},
     icon: {type: GraphQLString},
     seo_title: {type: GraphQLString},
     seo_description: {type: GraphQLString},
@@ -50,10 +48,8 @@ export const BenefitConnection = new GraphQLObjectType({
 export const BenefitInput = new GraphQLInputObjectType({
   fields: {
     _id: {type: GraphQLString},
-    vi_title: {type: new GraphQLNonNull(GraphQLString)},
-    en_title: {type: new GraphQLNonNull(GraphQLString)},
-    vi_slug: {type: new GraphQLNonNull(GraphQLString)},
-    en_slug: {type: new GraphQLNonNull(GraphQLString)},
+    title: {type: new GraphQLNonNull(GraphQLString)},
+    slug: {type: new GraphQLNonNull(GraphQLString)},
     icon: {type: GraphQLString},
     seo_title: {type: GraphQLString},
     seo_description: {type: GraphQLString},

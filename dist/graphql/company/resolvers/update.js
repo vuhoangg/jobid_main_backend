@@ -9,18 +9,28 @@ const permission_1 = require("../../../helpers/permission");
 const UserRepository_1 = __importDefault(require("../../../db/repositories/UserRepository"));
 const string_1 = require("../../../helpers/string");
 function updateCompany(source, args, context, info) {
-    // if (context.isAuthenticated()) {
-    //   let loggedUser = context.user;
-    //   if (isSuperUser(loggedUser.email)) {
-    return CompanyRepository_1.default.update(args.input);
-    //   }
-    // }
+    if (context.isAuthenticated()) {
+        let loggedUser = context.user;
+        if (permission_1.isSuperUser(loggedUser.email)) {
+            return CompanyRepository_1.default.update(args.input);
+        }
+        else {
+            let _id = args.input._id;
+            return CompanyRepository_1.default.get(_id, {}).then(r1 => {
+                if (r1 && r1.created_by.toString() == loggedUser._id.toString()) {
+                    return CompanyRepository_1.default.update(args.input);
+                }
+                else {
+                    return r1;
+                }
+            });
+        }
+    }
 }
 exports.updateCompany = updateCompany;
 function createCompany(source, args, context, info) {
     let input = args.input;
-    input.vi_slug = string_1.toSlug(input.vi_name || input.en_name, true).toLowerCase();
-    input.en_slug = string_1.toSlug(input.vi_name || input.en_name, true).toLowerCase();
+    input.slug = string_1.toSlug(input.name, true).toLowerCase();
     if (context.isAuthenticated()) {
         let loggedUser = context.user;
         input = Object.assign(input, { created_by: loggedUser._id });

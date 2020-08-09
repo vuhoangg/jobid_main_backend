@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.NotificationArguments = exports.NotificationInput = exports.NotificationConnection = exports.NotificationEdge = exports.Notification = exports.NotificationTargetInput = exports.NotificationTarget = void 0;
+exports.NotificationRead = exports.NotificationArguments = exports.NotificationInput = exports.NotificationConnection = exports.NotificationEdge = exports.Notification = exports.NotificationTargetInput = exports.NotificationTarget = void 0;
 const graphql_1 = require("graphql");
 const types_1 = require("../../types");
 exports.NotificationTarget = new graphql_1.GraphQLObjectType({
@@ -60,6 +60,12 @@ exports.NotificationConnection = new graphql_1.GraphQLObjectType({
 exports.NotificationInput = new graphql_1.GraphQLInputObjectType({
     fields: {
         _id: { type: graphql_1.GraphQLString },
+        type: { type: graphql_1.GraphQLString },
+        subject: { type: graphql_1.GraphQLString },
+        target: { type: exports.NotificationTargetInput },
+        message: { type: graphql_1.GraphQLString },
+        href: { type: graphql_1.GraphQLString },
+        read: { type: graphql_1.GraphQLBoolean },
     },
     name: "NotificationInput",
     description: "The updated properties for a notification.",
@@ -67,4 +73,11 @@ exports.NotificationInput = new graphql_1.GraphQLInputObjectType({
 exports.NotificationArguments = {
     _id: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
 };
+exports.NotificationRead = new graphql_1.GraphQLObjectType({
+    fields: {
+        status: { type: graphql_1.GraphQLBoolean },
+    },
+    name: "NotificationRead",
+    description: "Represents a notification read status.",
+});
 //# sourceMappingURL=index.js.map

@@ -86,8 +86,13 @@ const userSchema = new mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: "JobLocation",
       },
+      level_desired: String,
       specific_address: String,
       intro: String,
+      education: String,
+      form_of_work: String,
+      work_of_location: String,
+      career_goals: String,
       skill: [
         {
           type: mongoose.Schema.Types.ObjectId,
@@ -99,6 +104,14 @@ const userSchema = new mongoose.Schema(
           lang: String,
           level: String,
         },
+      ],
+      reference_person: [
+        {
+          name: String,
+          company: String,
+          phone: String,
+          email: String,
+        }
       ],
       employment_history: [
         {
@@ -135,12 +148,7 @@ const userSchema = new mongoose.Schema(
         },
       ],
       work_preference: {
-        job_location: [
-          {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "JobLocation",
-          },
-        ],
+       
         job_category: [
           {
             type: mongoose.Schema.Types.ObjectId,

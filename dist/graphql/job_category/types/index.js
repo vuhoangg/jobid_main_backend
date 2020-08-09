@@ -7,10 +7,8 @@ exports.JobCategory = new graphql_1.GraphQLObjectType({
     description: "Represents a job category.",
     fields: {
         _id: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
-        vi_title: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
-        en_title: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
-        vi_slug: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
-        en_slug: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
+        title: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
+        slug: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         seo_title: { type: graphql_1.GraphQLString },
         seo_description: { type: graphql_1.GraphQLString },
         created_at: { type: graphql_1.GraphQLString },
@@ -44,10 +42,8 @@ exports.JobCategoryConnection = new graphql_1.GraphQLObjectType({
 exports.JobCategoryInput = new graphql_1.GraphQLInputObjectType({
     fields: {
         _id: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
-        vi_title: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
-        en_title: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
-        vi_slug: { type: graphql_1.GraphQLString },
-        en_slug: { type: graphql_1.GraphQLString },
+        title: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
+        slug: { type: graphql_1.GraphQLString },
         seo_title: { type: graphql_1.GraphQLString },
         seo_description: { type: graphql_1.GraphQLString },
     },

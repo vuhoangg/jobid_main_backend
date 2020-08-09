@@ -14,7 +14,7 @@ const notificationQueries = {
         args: types_1.PaginationArguments,
         resolve: (source, args, context, info) => get_1.getNotifications(source, args, context, info),
         type: new graphql_1.GraphQLNonNull(types_2.NotificationConnection),
-    }
+    },
 };
 exports.default = notificationQueries;
 //# sourceMappingURL=index.js.map

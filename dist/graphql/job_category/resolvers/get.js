@@ -22,10 +22,8 @@ function getJobCategory(source, args, context, info) {
         .then((jobCategory) => __awaiter(this, void 0, void 0, function* () {
         let node = {
             _id: jobCategory._id,
-            vi_title: jobCategory.vi_title,
-            en_title: jobCategory.en_title,
-            vi_slug: jobCategory.vi_slug,
-            en_slug: jobCategory.en_slug,
+            title: jobCategory.title,
+            slug: jobCategory.slug,
             seo_title: jobCategory.seo_title,
             seo_description: jobCategory.seo_description,
             created_at: jobCategory.created_at,
@@ -46,10 +44,8 @@ function getJobCategorys(source, args, context, info) {
                 cursor: jobCategorys[i]._id,
                 node: {
                     _id: jobCategorys[i]._id,
-                    vi_title: jobCategorys[i].vi_title,
-                    en_title: jobCategorys[i].en_title,
-                    vi_slug: jobCategorys[i].vi_slug,
-                    en_slug: jobCategorys[i].en_slug,
+                    title: jobCategorys[i].title,
+                    slug: jobCategorys[i].slug,
                     seo_title: jobCategorys[i].seo_title,
                     seo_description: jobCategorys[i].seo_description,
                     created_at: jobCategorys[i].created_at,

@@ -2,15 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose = require("mongoose");
 const jobLevelSchema = new mongoose.Schema({
-    vi_title: {
+    title: {
         type: String,
         required: true,
     },
-    en_title: {
-        type: String,
-        required: true,
-    },
-    vi_slug: {
+    slug: {
         type: String,
         required: true,
         unique: true,

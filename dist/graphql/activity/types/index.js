@@ -8,8 +8,7 @@ exports.Activity = new graphql_1.GraphQLObjectType({
     fields: {
         _id: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         name: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
-        vi_message: { type: graphql_1.GraphQLString },
-        en_message: { type: graphql_1.GraphQLString },
+        message: { type: graphql_1.GraphQLString },
         href_type: { type: graphql_1.GraphQLString },
         href_url: { type: graphql_1.GraphQLString },
         created_at: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },

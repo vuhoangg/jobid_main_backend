@@ -6,12 +6,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Company_1 = __importDefault(require("../schemas/Company"));
 const log_1 = require("../../helpers/log");
 const promise_1 = require("../../helpers/promise");
+const flattenNestedObject_1 = require("../../helpers/flattenNestedObject");
 function getCondition(filter) {
     let condition = {};
     if (filter.name) {
-        condition = Object.assign(condition, {
-            $or: [{ vi_name: new RegExp(filter.name, "i") }, { en_name: new RegExp(filter.name, "i") }],
-        });
+        condition = Object.assign(condition, { name: new RegExp(filter.name, "i") });
     }
     if (filter.verify_status) {
         condition = Object.assign(condition, { verify_status: filter.verify_status });
@@ -69,9 +68,9 @@ class CompanyRepository {
             return promise_1.promiseNull();
         }
     }
-    get(id, projection) {
+    get(_id, projection) {
         try {
-            return Company_1.default.findById(id, projection);
+            return Company_1.default.findById(_id, projection);
         }
         catch (e) {
             log_1.errorLog(e);
@@ -83,22 +82,12 @@ class CompanyRepository {
             let condition = getCondition(filter);
             let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
             return Company_1.default.find(condition, projection)
+                .populate("office.city")
+                .populate("office.district")
+                .populate("office.ward")
+                .populate("created_by")
                 .populate("job_category")
                 .populate("job_location")
-                .populate({
-                path: "list_user",
-                populate: {
-                    path: "user",
-                    model: "User",
-                },
-            })
-                .populate({
-                path: "list_user",
-                populate: {
-                    path: "target_permission",
-                    model: "GroupPermission",
-                },
-            })
                 .sort(sort)
                 .skip(limit * (page - 1))
                 .limit(limit);
@@ -112,41 +101,23 @@ class CompanyRepository {
         try {
             if (getBy._id) {
                 return Company_1.default.findById(getBy._id, projection)
+                    .populate("office.city")
+                    .populate("office.district")
+                    .populate("office.ward")
                     .populate("job_category")
-                    .populate("job_location")
-                    .populate({
-                    path: "list_user",
-                    populate: {
-                        path: "user",
-                        model: "User",
-                    },
-                })
-                    .populate({
-                    path: "list_user",
-                    populate: {
-                        path: "target_permission",
-                        model: "GroupPermission",
-                    },
-                });
+                    .populate("benefit.id")
+                    .populate("created_by")
+                    .populate("job_location");
             }
             else if (getBy.slug) {
-                return Company_1.default.findOne({ $or: [{ vi_slug: getBy.slug }, { en_slug: getBy.slug }] }, projection)
+                return Company_1.default.findOne({ slug: getBy.slug }, projection)
+                    .populate("office.city")
+                    .populate("office.district")
+                    .populate("office.ward")
                     .populate("job_category")
-                    .populate("job_location")
-                    .populate({
-                    path: "list_user",
-                    populate: {
-                        path: "user",
-                        model: "User",
-                    },
-                })
-                    .populate({
-                    path: "list_user",
-                    populate: {
-                        path: "target_permission",
-                        model: "GroupPermission",
-                    },
-                });
+                    .populate("benefit.id")
+                    .populate("created_by")
+                    .populate("job_location");
             }
             else {
                 return promise_1.promiseNull();
@@ -159,21 +130,14 @@ class CompanyRepository {
     }
     update(data) {
         try {
+            let dataUpdate = flattenNestedObject_1.processDataUpdate(data);
             return Company_1.default.findByIdAndUpdate(data._id, data, { new: true })
-                .populate({
-                path: "list_user",
-                populate: {
-                    path: "user",
-                    model: "User",
-                },
-            })
-                .populate({
-                path: "list_user",
-                populate: {
-                    path: "target_permission",
-                    model: "GroupPermission",
-                },
-            });
+                .populate("office.city")
+                .populate("office.district")
+                .populate("office.ward")
+                .populate("job_category")
+                .populate("benefit.id")
+                .populate("created_by");
         }
         catch (e) {
             log_1.errorLog(e);

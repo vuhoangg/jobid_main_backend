@@ -79,9 +79,7 @@ class JobCommentRepository implements CrudContract {
       let condition = getCondition(filter);
       let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
       return JobComment.find(condition, projection)
-        .populate("job_post")
         .populate("user")
-        .populate("comment_reply.user")
         .sort(sort)
         .skip(limit * (page - 1))
         .limit(limit);

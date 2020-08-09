@@ -1,5 +1,5 @@
 import {GraphQLNonNull} from "graphql";
-import {PaginationArguments, SpecificArgument} from "../../types";
+import {PaginationArguments} from "../../types";
 import {getNotification, getNotifications} from "../resolvers/get";
 import {Notification, NotificationArguments, NotificationConnection} from "../types";
 
@@ -13,6 +13,6 @@ const notificationQueries = {
     args: PaginationArguments,
     resolve: (source, args, context, info) => getNotifications(source, args, context, info),
     type: new GraphQLNonNull(NotificationConnection),
-  }
+  },
 };
 export default notificationQueries;

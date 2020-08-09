@@ -14,8 +14,7 @@ export function getActivitys(source, args, context, info) {
           node: {
             _id: activitys[i]._id,
             name: activitys[i].name,
-            vi_message: activitys[i].vi_message,
-            en_message: activitys[i].en_message,
+            message: activitys[i].message,
             href_type: activitys[i].href_type,
             href_url: activitys[i].href_url,
             created_at: activitys[i].created_at,

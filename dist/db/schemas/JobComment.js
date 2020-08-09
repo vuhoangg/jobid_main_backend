@@ -11,23 +11,10 @@ const jobCommentSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "JobPost",
     },
-    comment_reply: [
-        {
-            user: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User",
-            },
-            comment: String,
-            created_at: {
-                type: Date,
-                required: true,
-            },
-            updated_at: {
-                type: Date,
-                required: true,
-            },
-        },
-    ],
+    children: {
+        type: Boolean,
+        default: false,
+    },
 }, { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } });
 const JobComment = mongoose.model("JobComment", jobCommentSchema);
 exports.default = JobComment;

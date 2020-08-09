@@ -21,10 +21,8 @@ function getJobLevel(source, args, context, info) {
         .then((jobLevel) => __awaiter(this, void 0, void 0, function* () {
         let node = {
             _id: jobLevel._id,
-            vi_title: jobLevel.vi_title,
-            en_title: jobLevel.en_title,
-            vi_slug: jobLevel.vi_slug,
-            en_slug: jobLevel.en_slug,
+            title: jobLevel.title,
+            slug: jobLevel.slug,
             seo_title: jobLevel.seo_title,
             seo_description: jobLevel.seo_description,
             created_at: jobLevel.created_at,
@@ -45,10 +43,8 @@ function getJobLevels(source, args, context, info) {
                 cursor: jobLevels[i]._id,
                 node: {
                     _id: jobLevels[i]._id,
-                    vi_title: jobLevels[i].vi_title,
-                    en_title: jobLevels[i].en_title,
-                    vi_slug: jobLevels[i].vi_slug,
-                    en_slug: jobLevels[i].en_slug,
+                    title: jobLevels[i].title,
+                    slug: jobLevels[i].slug,
                     seo_title: jobLevels[i].seo_title,
                     seo_description: jobLevels[i].seo_description,
                     created_at: jobLevels[i].created_at,

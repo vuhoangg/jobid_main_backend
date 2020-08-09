@@ -28,7 +28,15 @@ import curriculumVitaeQueries from "./curriculum_vitae/queries";
 import coordinateQueries from "./coordinate/queries";
 import distanceBoundQueries from "./geo_code/queries";
 import jobCommentQueries from "./job_comment/queries";
-// import jobCommentQueries from "./job_comment/queries";
+import jobReplyCommentQueries from "./job_comment_reply/queries";
+import jobRatingQueries from "./job_rating/queries";
+import cityQueries from "./city/queries";
+import districtQueries from "./district/queries";
+import wardQueries from "./ward/queries";
+import facebookJobQueries from "./facebook_job/queries";
+import companyRatingQueries from "./company_rating/queries";
+import jobTypeQueries from "./job_type/queries";
+import candidateQueries from "./candidate/queries";
 
 const QueryRoot = new GraphQLObjectType({
   fields: {
@@ -64,6 +72,15 @@ const QueryRoot = new GraphQLObjectType({
     ...coordinateQueries,
     ...distanceBoundQueries,
     ...jobCommentQueries,
+    ...jobReplyCommentQueries,
+    ...jobRatingQueries,
+    ...cityQueries,
+    ...districtQueries,
+    ...wardQueries,
+    ...facebookJobQueries,
+    ...companyRatingQueries,
+    ...jobTypeQueries,
+    ...candidateQueries,
   },
   name: "QueryRoot",
 });

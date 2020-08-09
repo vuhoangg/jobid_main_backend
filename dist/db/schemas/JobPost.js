@@ -9,24 +9,21 @@ const jobPostSchema = new mongoose.Schema({
         type: String,
         unique: true,
     },
+    job_type: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'JobType',
+    },
     job_level: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'JobLevel',
     },
-    job_category: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'JobCategory',
-        }
-    ],
+    job_category: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'JobCategory',
+    },
+    number: Number,
     description: String,
     requirement: String,
-    job_location: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'JobLocation',
-        }
-    ],
     salary: {
         min: Number,
         max: Number,
@@ -35,20 +32,22 @@ const jobPostSchema = new mongoose.Schema({
             default: true
         }
     },
-    job_skill: [
-        {
+    address: {
+        city: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'JobSkill',
-        }
-    ],
-    job_prefer_language: [
-        {
+            ref: 'City',
+        },
+        district: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'JobPreferLanguage',
-        }
-    ],
-    email_for_application: {
-        type: String,
+            ref: 'District',
+        },
+        ward: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Ward',
+        },
+        text: String,
+        lat: Number,
+        lng: Number,
     },
     company: {
         ref: {
@@ -56,22 +55,23 @@ const jobPostSchema = new mongoose.Schema({
             ref: 'Company',
         },
         name: String,
-        size: String,
-        email: String,
-        address: String,
-        description: String,
-        benefit: [
-            {
-                benefit_id: {
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: 'Benefit',
-                },
-                content: String,
-            }
-        ],
-        logo: String,
-        photos: [String],
-        video: String,
+    },
+    image: String,
+    photos: [String],
+    video: String,
+    benefit: [
+        {
+            benefit_id: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Benefit',
+            },
+            content: String,
+        },
+    ],
+    end_date: Date,
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     },
     view_count: {
         type: Number,
@@ -79,21 +79,6 @@ const jobPostSchema = new mongoose.Schema({
     },
     seo_title: String,
     seo_description: String,
-    user: {
-        in_company: {
-            type: Number,
-            default: 0,
-        },
-        ref: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        }
-    },
-    experience: Number,
-    location: {
-        lat: String,
-        lng: String,
-    },
     status: {
         type: String,
         enum: ['active', 'trash', 'draft'],

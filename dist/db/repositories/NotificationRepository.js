@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const log_1 = require("../../helpers/log");
 const promise_1 = require("../../helpers/promise");
 const Notification_1 = __importDefault(require("../schemas/Notification"));
-const flattenNestedObject_1 = require("../../helpers/flattenNestedObject");
 function getCondition(filter) {
     let condition = {};
     if (filter.type) {
@@ -20,6 +19,9 @@ function getCondition(filter) {
     }
     if (filter.target_ref) {
         condition = Object.assign(condition, { "target.ref": filter.target_ref });
+    }
+    if (filter.read != undefined) {
+        condition = Object.assign(condition, { read: filter.read });
     }
     return condition;
 }
@@ -98,17 +100,25 @@ class NotificationRepository {
     }
     update(data) {
         try {
-            let dataUpdate = flattenNestedObject_1.processDataUpdate(data);
-            return Notification_1.default.findByIdAndUpdate(data._id, dataUpdate, { new: true });
+            return Notification_1.default.findByIdAndUpdate(data._id, data, { new: true });
         }
         catch (e) {
             log_1.errorLog(e);
             return promise_1.promiseNull();
         }
     }
-    readNotification(_id) {
+    readNotification(data) {
         try {
-            return Notification_1.default.findByIdAndUpdate(_id, { read: true }, { new: true });
+            return Notification_1.default.findOneAndUpdate({ _id: data._id, "target.ref": data.target, read: false }, { read: true }, { new: true });
+        }
+        catch (e) {
+            log_1.errorLog(e);
+            return promise_1.promiseNull();
+        }
+    }
+    readAllNotification(data) {
+        try {
+            return Notification_1.default.updateMany({ "target.ref": data.target, read: false }, { read: true }, { new: true });
         }
         catch (e) {
             log_1.errorLog(e);

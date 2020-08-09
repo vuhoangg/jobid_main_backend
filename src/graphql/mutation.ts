@@ -23,6 +23,16 @@ import clientSubcriberMutations from "./client_subcriber/mutations";
 import serviceWorkerNotificationMutations from "./service_notification/mutations";
 import curriculumVitaeMutations from "./curriculum_vitae/mutations";
 import jobCommentMutations from "./job_comment/mutations";
+import jobReplyCommentMutations from "./job_comment_reply/mutations";
+import jobRatingMutations from "./job_rating/mutations";
+import cityMutations from "./city/mutations";
+import districtMutations from "./district/mutations";
+import wardMutations from "./ward/mutations";
+import facebookJobMutations from "./facebook_job/mutations";
+import companyRatingMutations from "./company_rating/mutations";
+import jobTypeMutations from "./job_type/mutations";
+import candidateMutations from "./candidate/mutations";
+
 
 const Mutation = new GraphQLObjectType({
   fields: {
@@ -52,7 +62,16 @@ const Mutation = new GraphQLObjectType({
     ...clientSubcriberMutations,
     ...serviceWorkerNotificationMutations,
     ...curriculumVitaeMutations,
-    ...jobCommentMutations
+    ...jobCommentMutations,
+    ...jobReplyCommentMutations,
+    ...jobRatingMutations,
+    ...cityMutations,
+    ...districtMutations,
+    ...wardMutations,
+    ...facebookJobMutations,
+    ...companyRatingMutations,
+    ...jobTypeMutations,
+    ...candidateMutations,
   },
   name: "Mutation",
 });
