@@ -12,6 +12,9 @@ interface ISort {
 interface IFilter {
   sort_by?: ISort;
   title?: string;
+  city?: string;
+  district?: string;
+  ward?: string;
   slug?: string;
   user?: string;
   job_level?: string;
@@ -33,17 +36,23 @@ function getCondition(filter: IFilter) {
   if (filter.title) {
     condition = Object.assign(condition, {title: new RegExp(filter.title, "i")});
   }
+  if (filter.city) {
+    condition = Object.assign(condition, {"address.city": filter.city});
+  }
+  if (filter.district) {
+    condition = Object.assign(condition, {"address.district": filter.district});
+  }
+  if (filter.ward) {
+    condition = Object.assign(condition, {"address.ward": filter.ward});
+  }
   if (filter.slug) {
     condition = Object.assign(condition, {slug: filter.slug});
-  }
-  if (filter.job_level) {
-    condition = Object.assign(condition, {job_level: filter.job_level});
   }
   if (filter.job_category) {
     condition = Object.assign(condition, {job_category: filter.job_category});
   }
   if (filter.benefit) {
-    condition = Object.assign(condition, {"benefit.benefit_id": filter.benefit});
+    condition = Object.assign(condition, {"benefit.id": filter.benefit});
   }
   if (filter.company) {
     condition = Object.assign(condition, {"company.ref": filter.company});
