@@ -52,7 +52,7 @@ function getCondition(filter: IFilter) {
     condition = Object.assign(condition, {job_category: filter.job_category});
   }
   if (filter.benefit) {
-    condition = Object.assign(condition, {"benefit.id": filter.benefit});
+    condition = Object.assign(condition, {"benefit.benefit_id": filter.benefit});
   }
   if (filter.company) {
     condition = Object.assign(condition, {"company.ref": filter.company});
