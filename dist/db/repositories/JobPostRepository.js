@@ -11,11 +11,17 @@ function getCondition(filter) {
     if (filter.title) {
         condition = Object.assign(condition, { title: new RegExp(filter.title, "i") });
     }
+    if (filter.city) {
+        condition = Object.assign(condition, { "address.city": filter.city });
+    }
+    if (filter.district) {
+        condition = Object.assign(condition, { "address.district": filter.district });
+    }
+    if (filter.ward) {
+        condition = Object.assign(condition, { "address.ward": filter.ward });
+    }
     if (filter.slug) {
         condition = Object.assign(condition, { slug: filter.slug });
-    }
-    if (filter.job_level) {
-        condition = Object.assign(condition, { job_level: filter.job_level });
     }
     if (filter.job_category) {
         condition = Object.assign(condition, { job_category: filter.job_category });
