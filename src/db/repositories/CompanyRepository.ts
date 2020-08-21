@@ -7,6 +7,7 @@ import {processDataUpdate} from "../../helpers/flattenNestedObject";
 interface ISort {
   created?: "newest" | "oldest";
   updated?: "newest" | "oldest";
+  follow?: "high_to_low" | "low_to_high"
 }
 
 interface IFilter {
@@ -54,6 +55,9 @@ function getSort(sortBy: ISort) {
   }
   if (sortBy.updated) {
     sort = Object.assign(sort, {updated_at: sortBy.updated === "newest" ? "desc" : "asc"});
+  }
+  if (sortBy.follow) {
+    sort = Object.assign(sort, {follow: sortBy.follow === "high_to_low" ? "desc" : "asc"});
   }
   return sort;
 }
