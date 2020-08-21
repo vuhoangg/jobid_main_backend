@@ -142,6 +142,7 @@ exports.Company = new graphql_1.GraphQLObjectType({
     fields: {
         _id: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         name: { type: graphql_1.GraphQLString },
+        business_code: { type: graphql_1.GraphQLString },
         slogan: { type: graphql_1.GraphQLString },
         logo: { type: graphql_1.GraphQLString },
         cover: { type: graphql_1.GraphQLString },
@@ -150,6 +151,7 @@ exports.Company = new graphql_1.GraphQLObjectType({
         phone: { type: graphql_1.GraphQLString },
         facebook: { type: graphql_1.GraphQLString },
         youtube: { type: graphql_1.GraphQLString },
+        video: { type: graphql_1.GraphQLList(graphql_1.GraphQLString) },
         description: { type: graphql_1.GraphQLString },
         company_type: { type: graphql_1.GraphQLString },
         job_category: { type: new graphql_1.GraphQLList(types_3.JobCategory) },
@@ -198,6 +200,7 @@ exports.CompanyInput = new graphql_1.GraphQLInputObjectType({
     fields: {
         _id: { type: graphql_1.GraphQLString },
         name: { type: graphql_1.GraphQLString },
+        business_code: { type: graphql_1.GraphQLString },
         slogan: { type: graphql_1.GraphQLString },
         logo: { type: graphql_1.GraphQLString },
         cover: { type: graphql_1.GraphQLString },
@@ -206,6 +209,7 @@ exports.CompanyInput = new graphql_1.GraphQLInputObjectType({
         phone: { type: graphql_1.GraphQLString },
         facebook: { type: graphql_1.GraphQLString },
         youtube: { type: graphql_1.GraphQLString },
+        video: { type: graphql_1.GraphQLList(graphql_1.GraphQLString) },
         description: { type: graphql_1.GraphQLString },
         company_type: { type: graphql_1.GraphQLString },
         job_category: { type: new graphql_1.GraphQLList(graphql_1.GraphQLString) },

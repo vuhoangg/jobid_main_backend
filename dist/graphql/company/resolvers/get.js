@@ -22,6 +22,7 @@ function getCompany(source, args, context, info) {
         let node = {
             _id: company._id,
             name: company.name,
+            business_code: company.business_code,
             job_category: company.job_category,
             company_type: company.company_type,
             verify_status: company.verify_status,
@@ -35,6 +36,7 @@ function getCompany(source, args, context, info) {
             phone: company.phone,
             facebook: company.facebook,
             youtube: company.youtube,
+            video: company.video,
             description: company.description,
             slogan: company.slogan,
             created_by: company.created_by,
@@ -64,6 +66,7 @@ function getCompanys(source, args, context, info) {
                 node: {
                     _id: companys[i]._id,
                     name: companys[i].name,
+                    business_code: companys[i].business_code,
                     job_category: companys[i].job_category,
                     company_type: companys[i].company_type,
                     verify_status: companys[i].verify_status,
@@ -77,6 +80,7 @@ function getCompanys(source, args, context, info) {
                     phone: companys[i].phone,
                     facebook: companys[i].facebook,
                     youtube: companys[i].youtube,
+                    video: companys[i].video,
                     description: companys[i].description,
                     slogan: companys[i].slogan,
                     created_by: companys[i].created_by,

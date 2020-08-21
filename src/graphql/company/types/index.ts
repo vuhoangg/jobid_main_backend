@@ -160,6 +160,7 @@ export const Company = new GraphQLObjectType({
   fields: {
     _id: {type: new GraphQLNonNull(GraphQLString)},
     name: {type: GraphQLString},
+    business_code: {type: GraphQLString},
     slogan: {type: GraphQLString},
     logo: {type: GraphQLString},
     cover: {type: GraphQLString},
@@ -168,6 +169,7 @@ export const Company = new GraphQLObjectType({
     phone: {type: GraphQLString},
     facebook: {type: GraphQLString},
     youtube: {type: GraphQLString},
+    video: {type: GraphQLList(GraphQLString)},
     description: {type: GraphQLString},
 
     company_type: {type: GraphQLString},
@@ -224,6 +226,7 @@ export const CompanyInput = new GraphQLInputObjectType({
   fields: {
     _id: {type: GraphQLString},
     name: {type: GraphQLString},
+    business_code: {type: GraphQLString},
     slogan: {type: GraphQLString},
     logo: {type: GraphQLString},
     cover: {type: GraphQLString},
@@ -232,6 +235,7 @@ export const CompanyInput = new GraphQLInputObjectType({
     phone: {type: GraphQLString},
     facebook: {type: GraphQLString},
     youtube: {type: GraphQLString},
+    video: {type: GraphQLList(GraphQLString)},
     description: {type: GraphQLString},
 
     company_type: {type: GraphQLString},

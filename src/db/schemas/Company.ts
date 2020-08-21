@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const companySchema = new mongoose.Schema(
   {
     name: String,
+    business_code: String,
     slogan: String,
     logo: String,
     cover: String,
@@ -13,7 +14,7 @@ const companySchema = new mongoose.Schema(
     youtube: String,
     description: String,
     company_type: String,
-
+    video: [String],
     job_category: [
       {
         type: mongoose.Schema.Types.ObjectId,
