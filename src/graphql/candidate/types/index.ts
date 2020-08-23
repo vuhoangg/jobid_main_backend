@@ -1,6 +1,6 @@
 import {
   GraphQLBoolean,
-  GraphQLInputObjectType,
+  GraphQLInputObjectType, GraphQLInt,
   GraphQLList,
   GraphQLNonNull,
   GraphQLObjectType,
@@ -27,6 +27,67 @@ export const CandidateFileInput = new GraphQLInputObjectType({
   description: "The updated properties for a candidate file.",
 });
 
+export const CandidateStudy = new GraphQLObjectType({
+  name: "CandidateStudy",
+  fields: {
+    timeline: {type: GraphQLString},
+    position: {type: GraphQLString},
+    description: {type: GraphQLString},
+  },
+  description: "Represents a candidate study."
+});
+export const CandidateStudyInput = new GraphQLInputObjectType({
+  name: "CandidateStudyInput",
+  fields: {
+    timeline: {type: GraphQLString},
+    position: {type: GraphQLString},
+    description: {type: GraphQLString},
+  },
+  description: "The updated properties for a candidate study."
+});
+
+export const CandidateExp = new GraphQLObjectType({
+  name: "CandidateExp",
+  fields: {
+    timeline: {type: GraphQLString},
+    position: {type: GraphQLString},
+    description: {type: GraphQLString},
+  },
+  description: "Represents a candidate exp."
+});
+export const CandidateExpInput = new GraphQLInputObjectType({
+  name: "CandidateExpInput",
+  fields: {
+    timeline: {type: GraphQLString},
+    position: {type: GraphQLString},
+    description: {type: GraphQLString},
+  },
+  description: "The updated properties for a candidate exp."
+});
+
+export const CandidateProject = new GraphQLObjectType({
+  name: "CandidateProject",
+  fields: {
+    name: {type: GraphQLString},
+    url: {type: GraphQLString},
+    member: {type: GraphQLInt},
+    position: {type: GraphQLString},
+    description: {type: GraphQLString},
+  },
+  description: "Represents a candidate project."
+});
+export const CandidateProjectInput = new GraphQLInputObjectType({
+  name: "CandidateProjectInput",
+  fields: {
+    name: {type: GraphQLString},
+    url: {type: GraphQLString},
+    member: {type: GraphQLInt},
+    position: {type: GraphQLString},
+    description: {type: GraphQLString},
+  },
+  description: "The updated properties for a candidate project."
+});
+
 export const Candidate = new GraphQLObjectType({
   description: "Represents a candidate.",
   fields: {
@@ -40,6 +101,21 @@ export const Candidate = new GraphQLObjectType({
     cv: {type: GraphQLString},
     photos: {type: new GraphQLList(GraphQLString)},
     files: {type: new GraphQLList(CandidateFile)},
+
+    birthday: {type: GraphQLString},
+    gender: {type: GraphQLString},
+    phone: {type: GraphQLString},
+    email: {type: GraphQLString},
+    address: {type: GraphQLString},
+    website: {type: GraphQLString},
+    target: {type: GraphQLString},
+    study: {type: new GraphQLList(CandidateStudy)},
+    exp: {type: new GraphQLList(CandidateExp)},
+    project: {type: new GraphQLList(CandidateProject)},
+    public: {type: GraphQLBoolean},
+    upload_by: {type: GraphQLString},
+    note: {type: new GraphQLList(GraphQLString)},
+
     created_at: {type: new GraphQLNonNull(GraphQLString)},
     updated_at: {type: new GraphQLNonNull(GraphQLString)},
   },
@@ -81,6 +157,19 @@ export const CandidateInput = new GraphQLInputObjectType({
     cv: {type: GraphQLString},
     photos: {type: new GraphQLList(GraphQLString)},
     files: {type: new GraphQLList(CandidateFileInput)},
+
+    birthday: {type: GraphQLString},
+    gender: {type: GraphQLString},
+    phone: {type: GraphQLString},
+    email: {type: GraphQLString},
+    address: {type: GraphQLString},
+    website: {type: GraphQLString},
+    target: {type: GraphQLString},
+    study: {type: new GraphQLList(CandidateStudyInput)},
+    exp: {type: new GraphQLList(CandidateExpInput)},
+    project: {type: new GraphQLList(CandidateProjectInput)},
+    public: {type: GraphQLBoolean},
+    note: {type: new GraphQLList(GraphQLString)},
   },
   name: "CandidateInput",
   description: "The updated properties for a candidate.",

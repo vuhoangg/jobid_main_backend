@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UploadRouter = void 0;
 const express_1 = __importDefault(require("express"));
 const s3_1 = require("../../../aws/s3");
+const axios_1 = __importDefault(require("axios"));
 const router = express_1.default.Router();
 exports.UploadRouter = router;
 router.post("/upload_image", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -59,5 +60,26 @@ router.post("/private_upload_image_app", (req, res) => __awaiter(void 0, void 0,
     let typeUpload = req.body.typeUpload;
     let url = yield s3_1.s3UploadImage(base64, fileName, typeUpload);
     res.send({ location: url });
+}));
+router.post("/detect_upload_file", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (req.isAuthenticated()) {
+        let loggedInUser = req.user;
+        let timestamp = (new Date()).getTime();
+        let base64 = req.body.base64;
+        let fileName = `${loggedInUser._id}_${timestamp}_${req.body.fileName}`;
+        let typeUpload = req.body.typeUpload;
+        let url = yield s3_1.s3UploadPdf(base64, fileName, typeUpload);
+        let apiDetect = process.env.APP_ENV === "production" ? process.env.DETECT_URL : process.env.LOCAL_DETECT;
+        let detected = yield axios_1.default.post(`${apiDetect}/pdf_detect`, {
+            url: url
+        });
+        res.send({
+            location: url,
+            detected: detected ? detected.data : null
+        });
+    }
+    else {
+        res.send("fail");
+    }
 }));
 //# sourceMappingURL=index.js.map

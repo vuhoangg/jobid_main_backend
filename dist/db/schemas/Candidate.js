@@ -4,12 +4,9 @@ const mongoose = require("mongoose");
 const candidateSchema = new mongoose.Schema({
     first_name: {
         type: String,
-        required: true,
     },
     last_name: {
         type: String,
-        required: true,
-        unique: true,
     },
     interest: [String],
     job_open: {
@@ -29,6 +26,39 @@ const candidateSchema = new mongoose.Schema({
             url: String,
         }
     ],
+    birthday: Date,
+    gender: String,
+    phone: String,
+    email: String,
+    address: String,
+    website: String,
+    target: String,
+    study: [{
+            timeline: String,
+            position: String,
+            description: String,
+        }],
+    exp: [{
+            timeline: String,
+            position: String,
+            description: String,
+        }],
+    project: [{
+            name: String,
+            url: String,
+            member: Number,
+            position: String,
+            description: String,
+        }],
+    public: {
+        type: Boolean,
+        default: false,
+    },
+    note: [String],
+    upload_by: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+    }
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
 const Candidate = mongoose.model('Candidate', candidateSchema);
 exports.default = Candidate;
