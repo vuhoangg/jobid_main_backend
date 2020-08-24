@@ -113,7 +113,7 @@ export const Candidate = new GraphQLObjectType({
     exp: {type: new GraphQLList(CandidateExp)},
     project: {type: new GraphQLList(CandidateProject)},
     public: {type: GraphQLBoolean},
-    upload_by: {type: GraphQLString},
+    upload_by: {type: User},
     note: {type: new GraphQLList(GraphQLString)},
 
     created_at: {type: new GraphQLNonNull(GraphQLString)},

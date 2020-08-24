@@ -29,7 +29,10 @@ const candidateSchema = new mongoose.Schema({
   birthday: Date,
   gender: String,
   phone: String,
-  email: String,
+  email: {
+    type: String,
+    required: true,
+  },
   address: String,
   website: String,
   target: String,

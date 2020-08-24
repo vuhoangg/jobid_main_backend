@@ -10,7 +10,7 @@ function updateCandidate(source, args, context, info) {
         let loggedUser = context.user;
         let input = args.input;
         return CandidateRepository_1.default.get(input._id, {}).then(r => {
-            if (r && r.upload_by.toString() == loggedUser._id.toString()) {
+            if (r && r.upload_by._id.toString() == loggedUser._id.toString()) {
                 return CandidateRepository_1.default.update(args.input);
             }
             else {

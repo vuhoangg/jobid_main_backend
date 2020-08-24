@@ -102,7 +102,7 @@ exports.Candidate = new graphql_1.GraphQLObjectType({
         exp: { type: new graphql_1.GraphQLList(exports.CandidateExp) },
         project: { type: new graphql_1.GraphQLList(exports.CandidateProject) },
         public: { type: graphql_1.GraphQLBoolean },
-        upload_by: { type: graphql_1.GraphQLString },
+        upload_by: { type: types_2.User },
         note: { type: new graphql_1.GraphQLList(graphql_1.GraphQLString) },
         created_at: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         updated_at: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
