@@ -7,7 +7,7 @@ const companyFollowMutations = {
     companyFollowUpdate: {
         args: { input: { type: graphql_1.GraphQLNonNull(types_1.CompanyFollowInput) } },
         resolve: (source, args, context, info) => update_1.updateCompanyFollow(source, args, context, info),
-        type: new graphql_1.GraphQLNonNull(types_1.CompanyFollow),
+        type: types_1.CompanyFollow,
     },
 };
 exports.default = companyFollowMutations;

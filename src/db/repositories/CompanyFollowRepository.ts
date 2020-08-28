@@ -82,17 +82,19 @@ class CompanyFollowRepository implements CrudContract {
     try {
       let condition = getCondition(filter);
       let sort = filter.sort_by ? getSort(filter.sort_by) : {_id: "desc"};
-      return CompanyFollow.find(condition, projection).sort(sort).skip(limit * (page - 1)).limit(limit);
+      return CompanyFollow.find(condition, projection).sort(sort).skip(limit * (page - 1)).limit(limit).populate('user').populate('company');
     } catch (e) {
       errorLog(e);
       return promiseNull();
     }
   }
 
-  getBy(getBy: IGetBy, projection) {
+  getBy(getBy, projection) {
     try {
       if (getBy._id) {
         return CompanyFollow.findById(getBy._id, projection);
+      } else if (getBy.company) {
+        return CompanyFollow.findOne({company: getBy.company, user: getBy.user}, projection).populate('user').populate('company');
       } else {
         return promiseNull();
       }
@@ -104,7 +106,15 @@ class CompanyFollowRepository implements CrudContract {
 
   update(data) {
     try {
-      return CompanyFollow.findByIdAndUpdate(data._id, data, {new: true});
+      return CompanyFollow.findOne({company: data.company, user: data.user}).then(r1 => {
+        if (r1) {
+          return CompanyFollow.findByIdAndRemove(r1._id).then(r2 => {
+            return null
+          });
+        } else {
+          return CompanyFollow.create({user: data.user, company: data.company});
+        }
+      });
     } catch (e) {
       errorLog(e);
       return promiseNull();

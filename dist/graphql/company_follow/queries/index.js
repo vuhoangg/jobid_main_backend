@@ -8,7 +8,7 @@ const companyFollowQueries = {
     companyFollow: {
         args: types_2.CompanyFollowArguments,
         resolve: (source, args, context, info) => get_1.getCompanyFollow(source, args, context, info),
-        type: new graphql_1.GraphQLNonNull(types_2.CompanyFollow),
+        type: types_2.CompanyFollow,
     },
     companyFollows: {
         args: types_1.PaginationArguments,

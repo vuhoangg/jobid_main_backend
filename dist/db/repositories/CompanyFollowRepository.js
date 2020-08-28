@@ -68,7 +68,7 @@ class CompanyFollowRepository {
         try {
             let condition = getCondition(filter);
             let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
-            return CompanyFollow_1.default.find(condition, projection).sort(sort).skip(limit * (page - 1)).limit(limit);
+            return CompanyFollow_1.default.find(condition, projection).sort(sort).skip(limit * (page - 1)).limit(limit).populate('user').populate('company');
         }
         catch (e) {
             log_1.errorLog(e);
@@ -79,6 +79,9 @@ class CompanyFollowRepository {
         try {
             if (getBy._id) {
                 return CompanyFollow_1.default.findById(getBy._id, projection);
+            }
+            else if (getBy.company) {
+                return CompanyFollow_1.default.findOne({ company: getBy.company, user: getBy.user }, projection).populate('user').populate('company');
             }
             else {
                 return promise_1.promiseNull();
@@ -91,7 +94,16 @@ class CompanyFollowRepository {
     }
     update(data) {
         try {
-            return CompanyFollow_1.default.findByIdAndUpdate(data._id, data, { new: true });
+            return CompanyFollow_1.default.findOne({ company: data.company, user: data.user }).then(r1 => {
+                if (r1) {
+                    return CompanyFollow_1.default.findByIdAndRemove(r1._id).then(r2 => {
+                        return null;
+                    });
+                }
+                else {
+                    return CompanyFollow_1.default.create({ user: data.user, company: data.company });
+                }
+            });
         }
         catch (e) {
             log_1.errorLog(e);

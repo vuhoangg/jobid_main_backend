@@ -4,16 +4,18 @@ import {
   GraphQLNonNull,
   GraphQLObjectType,
   GraphQLString,
+  GraphQLBoolean
 } from "graphql";
 import {PageInfo} from "../../types";
 import {User} from "../../user/types";
 import {JobPost} from "../../job_post/types";
+import {Company} from "../../company/types";
 
 export const CompanyFollow = new GraphQLObjectType({
   description: "Represents a company follow.",
   fields: {
     _id: {type: new GraphQLNonNull(GraphQLString)},
-    job_post: {type: JobPost},
+    company: {type: Company},
     user: {type: User},
     created_at: {type: new GraphQLNonNull(GraphQLString)},
     updated_at: {type: new GraphQLNonNull(GraphQLString)},
@@ -46,12 +48,13 @@ export const CompanyFollowConnection = new GraphQLObjectType({
 
 export const CompanyFollowInput = new GraphQLInputObjectType({
   fields: {
-    job_post: {type: new GraphQLNonNull(GraphQLString)},
+    company: {type: new GraphQLNonNull(GraphQLString)},
   },
   name: "CompanyFollowInput",
   description: "The updated properties for a company follow.",
 });
 
 export const CompanyFollowArguments = {
-  _id: {type: new GraphQLNonNull(GraphQLString)},
+  _id: {type: GraphQLString},
+  company: {type: GraphQLString}
 };

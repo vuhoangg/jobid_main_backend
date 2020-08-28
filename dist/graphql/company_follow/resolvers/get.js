@@ -17,16 +17,26 @@ const CompanyFollowRepository_1 = __importDefault(require("../../../db/repositor
 const helpers_1 = require("../../helpers");
 function getCompanyFollow(source, args, context, info) {
     const fields = helpers_1.rootField(info);
-    return CompanyFollowRepository_1.default.get(args._id, fields)
+    let getBy = args._id ? { _id: args._id } : { company: args.company };
+    if (context.isAuthenticated()) {
+        let loggedUser = context.user;
+        getBy = Object.assign(getBy, { user: loggedUser._id });
+    }
+    return CompanyFollowRepository_1.default.getBy(getBy, fields)
         .then((companyFollow) => __awaiter(this, void 0, void 0, function* () {
-        let node = {
-            _id: companyFollow._id,
-            job_post: companyFollow.job_post,
-            user: companyFollow.user,
-            created_at: companyFollow.created_at,
-            updated_at: companyFollow.updated_at,
-        };
-        return node;
+        if (companyFollow) {
+            let node = {
+                _id: companyFollow._id,
+                company: companyFollow.company,
+                user: companyFollow.user,
+                created_at: companyFollow.created_at,
+                updated_at: companyFollow.updated_at,
+            };
+            return node;
+        }
+        else {
+            return null;
+        }
     }));
 }
 exports.getCompanyFollow = getCompanyFollow;
@@ -42,7 +52,7 @@ function getCompanyFollows(source, args, context, info) {
                 cursor: companyFollows[i]._id,
                 node: {
                     _id: companyFollows[i]._id,
-                    job_post: companyFollows[i].job_post,
+                    company: companyFollows[i].company,
                     user: companyFollows[i].user,
                     created_at: companyFollows[i].created_at,
                     updated_at: companyFollows[i].updated_at,

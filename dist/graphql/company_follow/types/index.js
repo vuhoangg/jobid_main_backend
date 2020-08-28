@@ -4,12 +4,12 @@ exports.CompanyFollowArguments = exports.CompanyFollowInput = exports.CompanyFol
 const graphql_1 = require("graphql");
 const types_1 = require("../../types");
 const types_2 = require("../../user/types");
-const types_3 = require("../../job_post/types");
+const types_3 = require("../../company/types");
 exports.CompanyFollow = new graphql_1.GraphQLObjectType({
     description: "Represents a company follow.",
     fields: {
         _id: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
-        job_post: { type: types_3.JobPost },
+        company: { type: types_3.Company },
         user: { type: types_2.User },
         created_at: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         updated_at: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
@@ -41,12 +41,13 @@ exports.CompanyFollowConnection = new graphql_1.GraphQLObjectType({
 });
 exports.CompanyFollowInput = new graphql_1.GraphQLInputObjectType({
     fields: {
-        job_post: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
+        company: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
     },
     name: "CompanyFollowInput",
     description: "The updated properties for a company follow.",
 });
 exports.CompanyFollowArguments = {
-    _id: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
+    _id: { type: graphql_1.GraphQLString },
+    company: { type: graphql_1.GraphQLString }
 };
 //# sourceMappingURL=index.js.map

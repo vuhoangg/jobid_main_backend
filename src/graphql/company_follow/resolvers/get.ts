@@ -3,16 +3,26 @@ import {filterObject, rootField, rootInfo} from "../../helpers";
 
 export function getCompanyFollow(source, args, context, info) {
   const fields = rootField(info);
-  return CompanyFollowService.get(args._id, fields)
+  let getBy = args._id ? { _id: args._id } : { company: args.company };
+  if (context.isAuthenticated()) {
+    let loggedUser = context.user;
+    getBy = Object.assign(getBy, {user: loggedUser._id});
+  }
+
+  return CompanyFollowService.getBy(getBy, fields)
     .then(async (companyFollow) => {
-      let node = {
-        _id: companyFollow._id,
-        job_post: companyFollow.job_post,
-        user: companyFollow.user,
-        created_at: companyFollow.created_at,
-        updated_at: companyFollow.updated_at,
-      };
-      return node;
+      if (companyFollow) {
+        let node = {
+          _id: companyFollow._id,
+          company: companyFollow.company,
+          user: companyFollow.user,
+          created_at: companyFollow.created_at,
+          updated_at: companyFollow.updated_at,
+        };
+        return node;
+      } else {
+        return null
+      }
     });
 }
 
@@ -28,7 +38,7 @@ export function getCompanyFollows(source, args, context, info) {
           cursor: companyFollows[i]._id,
           node: {
             _id: companyFollows[i]._id,
-            job_post: companyFollows[i].job_post,
+            company: companyFollows[i].company,
             user: companyFollows[i].user,
             created_at: companyFollows[i].created_at,
             updated_at: companyFollows[i].updated_at,
