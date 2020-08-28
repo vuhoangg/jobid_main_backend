@@ -61,6 +61,110 @@ const userSchema = new mongoose.Schema({
             },
         },
     ],
+    info: {
+        job_open: Boolean,
+        avatar: String,
+        name: String,
+        birthday: Date,
+        gender: {
+            type: String,
+            enum: ["male", "female"],
+        },
+        date: {
+            type: String,
+            enum: ["married", "alone"],
+        },
+        phone: String,
+        website: String,
+        address: {
+            city: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "City",
+            },
+            district: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "District",
+            },
+            ward: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Ward",
+            },
+            lat: Number,
+            lng: Number,
+            text: String,
+        },
+        intro: String,
+        experience: [
+            {
+                time: {
+                    from: Date,
+                    to: Date,
+                },
+                company: String,
+                position: String,
+                level: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "JobLevel",
+                },
+                description: String,
+                projects: [
+                    {
+                        name: String,
+                        url: String,
+                        position: String,
+                        member: Number,
+                        description: String,
+                    }
+                ]
+            }
+        ],
+        education: [
+            {
+                time: {
+                    from: Date,
+                    to: Date,
+                },
+                school: String,
+                major: String,
+                description: String,
+            }
+        ],
+        favorite_job: [
+            {
+                job_type: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "JobType"
+                },
+                target: String,
+                job_category: [
+                    {
+                        type: mongoose.Schema.Types.ObjectId,
+                        ref: "JobCategory"
+                    }
+                ],
+                job_location: [
+                    {
+                        city: {
+                            type: mongoose.Schema.Types.ObjectId,
+                            ref: "City"
+                        },
+                        district: {
+                            type: mongoose.Schema.Types.ObjectId,
+                            ref: "District"
+                        },
+                        ward: {
+                            type: mongoose.Schema.Types.ObjectId,
+                            ref: "Ward"
+                        }
+                    }
+                ],
+                salary: {
+                    from: Number,
+                    to: Number,
+                }
+            }
+        ]
+    },
     customize_info: {
         cover: String,
         avatar: String,
