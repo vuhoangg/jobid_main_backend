@@ -36,6 +36,7 @@ function getUser(source, args, context, info) {
             login_type: user.login_type,
             spam: user.spam,
             customize_info: user.customize_info,
+            info: user.info,
             created_at: user.created_at,
             updated_at: user.updated_at,
         };
@@ -64,6 +65,7 @@ function getUsers(source, args, context, info) {
                     login_type: users[i].login_type,
                     spam: users[i].spam,
                     customize_info: users[i].customize_info,
+                    info: users[i].info,
                     created_at: users[i].created_at,
                     updated_at: users[i].updated_at,
                 },

@@ -227,14 +227,14 @@ exports.UserInfoExperience = new graphql_1.GraphQLObjectType({
     description: "Represents an user info experience."
 });
 exports.UserInfoExperienceInput = new graphql_1.GraphQLInputObjectType({
-    name: "UserInfoAddressInput",
+    name: "UserInfoExperienceInput",
     fields: {
         time: { type: exports.UserInfoTimelineInput },
         company: { type: graphql_1.GraphQLString },
         position: { type: graphql_1.GraphQLString },
         level: { type: graphql_1.GraphQLString },
         description: { type: graphql_1.GraphQLString },
-        projects: { type: new graphql_1.GraphQLList(exports.UserInfoExperienceProject) },
+        projects: { type: new graphql_1.GraphQLList(exports.UserInfoExperienceProjectInput) },
     },
     description: "The updated properties for an user info experience."
 });
@@ -350,6 +350,7 @@ exports.User = new graphql_1.GraphQLObjectType({
         login_type: { type: graphql_1.GraphQLString },
         spam: { type: graphql_1.GraphQLInt },
         customize_info: { type: exports.UserCustomizeInfo },
+        info: { type: exports.UserInfo },
         created_at: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         updated_at: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
     },
@@ -390,6 +391,7 @@ exports.UserInput = new graphql_1.GraphQLInputObjectType({
         login_type: { type: graphql_1.GraphQLString },
         spam: { type: graphql_1.GraphQLInt },
         customize_info: { type: exports.UserCustomizeInfoInput },
+        info: { type: exports.UserInfoInput },
     },
     name: "UserInput",
     description: "The updated properties for an user.",

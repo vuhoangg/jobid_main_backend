@@ -252,14 +252,14 @@ export const UserInfoExperience = new GraphQLObjectType({
 });
 
 export const UserInfoExperienceInput = new GraphQLInputObjectType({
-  name: "UserInfoAddressInput",
+  name: "UserInfoExperienceInput",
   fields: {
     time: {type: UserInfoTimelineInput},
     company: {type: GraphQLString},
     position: {type: GraphQLString},
     level: {type: GraphQLString},
     description: {type: GraphQLString},
-    projects: {type: new GraphQLList(UserInfoExperienceProject)},
+    projects: {type: new GraphQLList(UserInfoExperienceProjectInput)},
   },
   description: "The updated properties for an user info experience."
 });
@@ -384,6 +384,7 @@ export const User = new GraphQLObjectType({
     login_type: {type: GraphQLString},
     spam: {type: GraphQLInt},
     customize_info: {type: UserCustomizeInfo},
+    info: {type: UserInfo},
 
     created_at: {type: new GraphQLNonNull(GraphQLString)},
     updated_at: {type: new GraphQLNonNull(GraphQLString)},
@@ -426,6 +427,7 @@ export const UserInput = new GraphQLInputObjectType({
     login_type: {type: GraphQLString},
     spam: {type: GraphQLInt},
     customize_info: {type: UserCustomizeInfoInput},
+    info: {type: UserInfoInput},
   },
   name: "UserInput",
   description: "The updated properties for an user.",
