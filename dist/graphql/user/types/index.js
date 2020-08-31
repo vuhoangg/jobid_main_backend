@@ -22,7 +22,7 @@ const UserEducationHistory = new graphql_1.GraphQLObjectType({
         to_month: { type: graphql_1.GraphQLString },
         achievement: { type: graphql_1.GraphQLString },
     },
-    name: "UserEducationHistory"
+    name: "UserEducationHistory",
 });
 const UserEducationHistoryInput = new graphql_1.GraphQLInputObjectType({
     description: "The updated properties for an user education history",
@@ -34,7 +34,7 @@ const UserEducationHistoryInput = new graphql_1.GraphQLInputObjectType({
         to_month: { type: graphql_1.GraphQLString },
         achievement: { type: graphql_1.GraphQLString },
     },
-    name: "UserEducationHistoryInput"
+    name: "UserEducationHistoryInput",
 });
 const UserEmploymentHistory = new graphql_1.GraphQLObjectType({
     description: "Represents an user employment history",
@@ -45,7 +45,7 @@ const UserEmploymentHistory = new graphql_1.GraphQLObjectType({
         to_month: { type: graphql_1.GraphQLString },
         description: { type: graphql_1.GraphQLString },
     },
-    name: "UserEmploymentHistory"
+    name: "UserEmploymentHistory",
 });
 const UserEmploymentHistoryInput = new graphql_1.GraphQLInputObjectType({
     description: "The updated properties for an user employment history",
@@ -56,7 +56,7 @@ const UserEmploymentHistoryInput = new graphql_1.GraphQLInputObjectType({
         to_month: { type: graphql_1.GraphQLString },
         description: { type: graphql_1.GraphQLString },
     },
-    name: "UserEmploymentHistoryInput"
+    name: "UserEmploymentHistoryInput",
 });
 const UserLanguage = new graphql_1.GraphQLObjectType({
     description: "Represents an user language",
@@ -64,7 +64,7 @@ const UserLanguage = new graphql_1.GraphQLObjectType({
         lang: { type: graphql_1.GraphQLString },
         level: { type: graphql_1.GraphQLString },
     },
-    name: "UserLanguage"
+    name: "UserLanguage",
 });
 const UserLanguageInput = new graphql_1.GraphQLInputObjectType({
     description: "The updated properties for an user language",
@@ -72,7 +72,7 @@ const UserLanguageInput = new graphql_1.GraphQLInputObjectType({
         lang: { type: graphql_1.GraphQLString },
         level: { type: graphql_1.GraphQLString },
     },
-    name: "UserLanguageInput"
+    name: "UserLanguageInput",
 });
 const UserWorkPreference = new graphql_1.GraphQLObjectType({
     description: "Represents an user work preference",
@@ -83,7 +83,7 @@ const UserWorkPreference = new graphql_1.GraphQLObjectType({
         salary: { type: graphql_1.GraphQLString },
         benefit: { type: new graphql_1.GraphQLList(types_6.Benefit) },
     },
-    name: "UserWorkPreference"
+    name: "UserWorkPreference",
 });
 const UserWorkPreferenceInput = new graphql_1.GraphQLInputObjectType({
     description: "The updated properties for an user work preference",
@@ -94,7 +94,7 @@ const UserWorkPreferenceInput = new graphql_1.GraphQLInputObjectType({
         salary: { type: graphql_1.GraphQLString },
         benefit: { type: new graphql_1.GraphQLList(graphql_1.GraphQLString) },
     },
-    name: "UserWorkPreferenceInput"
+    name: "UserWorkPreferenceInput",
 });
 exports.UserCustomizeInfo = new graphql_1.GraphQLObjectType({
     description: "Represents an user customize info.",
@@ -160,9 +160,9 @@ exports.UserInfoAddress = new graphql_1.GraphQLObjectType({
         ward: { type: types_9.Ward },
         lat: { type: graphql_1.GraphQLFloat },
         lng: { type: graphql_1.GraphQLFloat },
-        text: { type: graphql_1.GraphQLString }
+        text: { type: graphql_1.GraphQLString },
     },
-    description: "Represents an user info address."
+    description: "Represents an user info address.",
 });
 exports.UserInfoAddressInput = new graphql_1.GraphQLInputObjectType({
     name: "UserInfoAddressInput",
@@ -172,9 +172,9 @@ exports.UserInfoAddressInput = new graphql_1.GraphQLInputObjectType({
         ward: { type: graphql_1.GraphQLString },
         lat: { type: graphql_1.GraphQLFloat },
         lng: { type: graphql_1.GraphQLFloat },
-        text: { type: graphql_1.GraphQLString }
+        text: { type: graphql_1.GraphQLString },
     },
-    description: "The updated properties for an user info address."
+    description: "The updated properties for an user info address.",
 });
 exports.UserInfoTimeline = new graphql_1.GraphQLObjectType({
     name: "UserInputTimeline",
@@ -182,7 +182,7 @@ exports.UserInfoTimeline = new graphql_1.GraphQLObjectType({
         from: { type: graphql_1.GraphQLString },
         to: { type: graphql_1.GraphQLString },
     },
-    description: "Represents an user info timeline"
+    description: "Represents an user info timeline",
 });
 exports.UserInfoTimelineInput = new graphql_1.GraphQLInputObjectType({
     name: "UserInfoTimelineInput",
@@ -190,7 +190,7 @@ exports.UserInfoTimelineInput = new graphql_1.GraphQLInputObjectType({
         from: { type: graphql_1.GraphQLString },
         to: { type: graphql_1.GraphQLString },
     },
-    description: "The updated properties for an user info timeline"
+    description: "The updated properties for an user info timeline",
 });
 exports.UserInfoExperienceProject = new graphql_1.GraphQLObjectType({
     name: "UserInfoExperienceProject",
@@ -202,19 +202,19 @@ exports.UserInfoExperienceProject = new graphql_1.GraphQLObjectType({
         member: { type: graphql_1.GraphQLInt },
         description: { type: graphql_1.GraphQLString },
     },
-    description: "Represents an user info experience project."
+    description: "Represents an user info experience project.",
 });
 exports.UserInfoExperienceProjectInput = new graphql_1.GraphQLInputObjectType({
     name: "UserInfoExperienceProjectInput",
     fields: {
-        tume: { type: exports.UserInfoTimelineInput },
+        time: { type: exports.UserInfoTimelineInput },
         name: { type: graphql_1.GraphQLString },
         url: { type: graphql_1.GraphQLString },
         position: { type: graphql_1.GraphQLString },
         member: { type: graphql_1.GraphQLInt },
         description: { type: graphql_1.GraphQLString },
     },
-    description: "The updated properties for an user info experience project."
+    description: "The updated properties for an user info experience project.",
 });
 exports.UserInfoExperience = new graphql_1.GraphQLObjectType({
     name: "UserInfoExperience",
@@ -226,7 +226,7 @@ exports.UserInfoExperience = new graphql_1.GraphQLObjectType({
         description: { type: graphql_1.GraphQLString },
         projects: { type: new graphql_1.GraphQLList(exports.UserInfoExperienceProject) },
     },
-    description: "Represents an user info experience."
+    description: "Represents an user info experience.",
 });
 exports.UserInfoExperienceInput = new graphql_1.GraphQLInputObjectType({
     name: "UserInfoExperienceInput",
@@ -238,7 +238,7 @@ exports.UserInfoExperienceInput = new graphql_1.GraphQLInputObjectType({
         description: { type: graphql_1.GraphQLString },
         projects: { type: new graphql_1.GraphQLList(exports.UserInfoExperienceProjectInput) },
     },
-    description: "The updated properties for an user info experience."
+    description: "The updated properties for an user info experience.",
 });
 exports.UserInfoEducation = new graphql_1.GraphQLObjectType({
     description: "Represents an user info education.",
@@ -248,7 +248,7 @@ exports.UserInfoEducation = new graphql_1.GraphQLObjectType({
         major: { type: graphql_1.GraphQLString },
         description: { type: graphql_1.GraphQLString },
     },
-    name: "UserInfoEducation"
+    name: "UserInfoEducation",
 });
 exports.UserInfoFavoriteLocation = new graphql_1.GraphQLObjectType({
     name: "UserInfoFavoriteLocation",
@@ -257,7 +257,7 @@ exports.UserInfoFavoriteLocation = new graphql_1.GraphQLObjectType({
         district: { type: types_8.District },
         ward: { type: types_9.Ward },
     },
-    description: "Represents an user info favorite location."
+    description: "Represents an user info favorite location.",
 });
 exports.UserInfoFavoriteLocationInput = new graphql_1.GraphQLInputObjectType({
     name: "UserInfoFavoriteLocationInput",
@@ -266,7 +266,7 @@ exports.UserInfoFavoriteLocationInput = new graphql_1.GraphQLInputObjectType({
         district: { type: graphql_1.GraphQLString },
         ward: { type: graphql_1.GraphQLString },
     },
-    description: "The updated properties for an user info favorite location."
+    description: "The updated properties for an user info favorite location.",
 });
 exports.UserInfoEducationInput = new graphql_1.GraphQLInputObjectType({
     description: "The updated properties for an user info education.",
@@ -276,7 +276,7 @@ exports.UserInfoEducationInput = new graphql_1.GraphQLInputObjectType({
         major: { type: graphql_1.GraphQLString },
         description: { type: graphql_1.GraphQLString },
     },
-    name: "UserInfoEducationInput"
+    name: "UserInfoEducationInput",
 });
 exports.UserInfoFavorite = new graphql_1.GraphQLObjectType({
     name: "UserInfoFavorite",
@@ -287,7 +287,7 @@ exports.UserInfoFavorite = new graphql_1.GraphQLObjectType({
         job_location: { type: new graphql_1.GraphQLList(exports.UserInfoFavoriteLocation) },
         salary: { type: graphql_1.GraphQLInt },
     },
-    description: "Represents an user info favorite."
+    description: "Represents an user info favorite.",
 });
 exports.UserInfoFavoriteInput = new graphql_1.GraphQLInputObjectType({
     name: "UserInfoFavoriteInput",
@@ -298,7 +298,7 @@ exports.UserInfoFavoriteInput = new graphql_1.GraphQLInputObjectType({
         job_location: { type: new graphql_1.GraphQLList(exports.UserInfoFavoriteLocationInput) },
         salary: { type: graphql_1.GraphQLInt },
     },
-    description: "The updated properties for an user info favorite."
+    description: "The updated properties for an user info favorite.",
 });
 exports.UserInfo = new graphql_1.GraphQLObjectType({
     description: "Represents an user info.",
@@ -317,7 +317,7 @@ exports.UserInfo = new graphql_1.GraphQLObjectType({
         education: { type: new graphql_1.GraphQLList(exports.UserInfoEducation) },
         favorite_job: { type: new graphql_1.GraphQLList(exports.UserInfoFavorite) },
     },
-    name: "UserInfo"
+    name: "UserInfo",
 });
 exports.UserInfoInput = new graphql_1.GraphQLInputObjectType({
     description: "The updated properties for an user info.",
@@ -336,7 +336,7 @@ exports.UserInfoInput = new graphql_1.GraphQLInputObjectType({
         education: { type: new graphql_1.GraphQLList(exports.UserInfoEducationInput) },
         favorite_job: { type: new graphql_1.GraphQLList(exports.UserInfoFavoriteInput) },
     },
-    name: "UserInfoInput"
+    name: "UserInfoInput",
 });
 exports.User = new graphql_1.GraphQLObjectType({
     description: "Represents an user.",
