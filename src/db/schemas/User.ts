@@ -112,6 +112,10 @@ const userSchema = new mongoose.Schema(
           description: String,
           projects: [
             {
+              time: {
+                from: Date,
+                to: Date
+              },
               name: String,
               url: String,
               position: String,

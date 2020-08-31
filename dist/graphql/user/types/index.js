@@ -195,6 +195,7 @@ exports.UserInfoTimelineInput = new graphql_1.GraphQLInputObjectType({
 exports.UserInfoExperienceProject = new graphql_1.GraphQLObjectType({
     name: "UserInfoExperienceProject",
     fields: {
+        time: { type: exports.UserInfoTimeline },
         name: { type: graphql_1.GraphQLString },
         url: { type: graphql_1.GraphQLString },
         position: { type: graphql_1.GraphQLString },
@@ -206,6 +207,7 @@ exports.UserInfoExperienceProject = new graphql_1.GraphQLObjectType({
 exports.UserInfoExperienceProjectInput = new graphql_1.GraphQLInputObjectType({
     name: "UserInfoExperienceProjectInput",
     fields: {
+        tume: { type: exports.UserInfoTimelineInput },
         name: { type: graphql_1.GraphQLString },
         url: { type: graphql_1.GraphQLString },
         position: { type: graphql_1.GraphQLString },
