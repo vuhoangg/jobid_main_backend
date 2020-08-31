@@ -230,7 +230,7 @@ export const UserInfoExperienceProject = new GraphQLObjectType({
 export const UserInfoExperienceProjectInput = new GraphQLInputObjectType({
   name: "UserInfoExperienceProjectInput",
   fields: {
-    tume: {type: UserInfoTimelineInput},
+    time: {type: UserInfoTimelineInput},
     name: {type: GraphQLString},
     url: {type: GraphQLString},
     position: {type: GraphQLString},
