@@ -114,16 +114,16 @@ const userSchema = new mongoose.Schema(
             {
               time: {
                 from: Date,
-                to: Date
+                to: Date,
               },
               name: String,
               url: String,
               position: String,
               member: Number,
               description: String,
-            }
-          ]
-        }
+            },
+          ],
+        },
       ],
       education: [
         {
@@ -134,43 +134,41 @@ const userSchema = new mongoose.Schema(
           school: String,
           major: String,
           description: String,
-        }
+        },
       ],
       favorite_job: [
         {
           job_type: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "JobType"
+            ref: "JobType",
           },
           target: String,
-          job_category: [
-            {
-              type: mongoose.Schema.Types.ObjectId,
-              ref: "JobCategory"
-            }
-          ],
+          job_category: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "JobCategory",
+          },
           job_location: [
             {
               city: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "City"
+                ref: "City",
               },
               district: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "District"
+                ref: "District",
               },
               ward: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "Ward"
-              }
-            }
+                ref: "Ward",
+              },
+            },
           ],
           salary: {
             from: Number,
             to: Number,
-          }
-        }
-      ]
+          },
+        },
+      ],
     },
 
     customize_info: {
@@ -221,7 +219,7 @@ const userSchema = new mongoose.Schema(
           company: String,
           phone: String,
           email: String,
-        }
+        },
       ],
       employment_history: [
         {
@@ -258,7 +256,6 @@ const userSchema = new mongoose.Schema(
         },
       ],
       work_preference: {
-
         job_category: [
           {
             type: mongoose.Schema.Types.ObjectId,

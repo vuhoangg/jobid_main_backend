@@ -111,6 +111,24 @@ const UserWorkPreferenceInput = new GraphQLInputObjectType({
   name: "UserWorkPreferenceInput",
 });
 
+const UserInfoFavoriteSalary = new GraphQLObjectType({
+  description: "The updated properties for an user favorit salary",
+  fields: {
+    from: { type: GraphQLInt },
+    to: { type: GraphQLInt },
+  },
+  name: "UserInfoFavoriteSalary",
+});
+
+const UserInfoFavoriteSalaryInput = new GraphQLInputObjectType({
+  description: "The updated properties for an user favorit salary",
+  fields: {
+    from: { type: GraphQLInt },
+    to: { type: GraphQLInt },
+  },
+  name: "UserInfoFavoriteSalaryInput",
+});
+
 export const UserCustomizeInfo = new GraphQLObjectType({
   description: "Represents an user customize info.",
   fields: {
@@ -128,7 +146,6 @@ export const UserCustomizeInfo = new GraphQLObjectType({
     nation: { type: GraphQLString },
     gender: { type: GraphQLString },
     status: { type: GraphQLString },
-
     location: { type: JobLocation },
     specific_address: { type: GraphQLString },
     intro: { type: GraphQLString },
@@ -313,9 +330,9 @@ export const UserInfoFavorite = new GraphQLObjectType({
   fields: {
     job_type: { type: JobType },
     target: { type: GraphQLString },
-    job_category: { type: new GraphQLList(JobCategory) },
+    job_category: { type: JobCategory },
     job_location: { type: new GraphQLList(UserInfoFavoriteLocation) },
-    salary: { type: GraphQLInt },
+    salary: { type: UserInfoFavoriteSalary },
   },
   description: "Represents an user info favorite.",
 });
@@ -325,9 +342,9 @@ export const UserInfoFavoriteInput = new GraphQLInputObjectType({
   fields: {
     job_type: { type: GraphQLString },
     target: { type: GraphQLString },
-    job_category: { type: new GraphQLList(GraphQLString) },
+    job_category: { type: GraphQLString },
     job_location: { type: new GraphQLList(UserInfoFavoriteLocationInput) },
-    salary: { type: GraphQLInt },
+    salary: { type: UserInfoFavoriteSalaryInput },
   },
   description: "The updated properties for an user info favorite.",
 });

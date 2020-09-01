@@ -96,6 +96,22 @@ const UserWorkPreferenceInput = new graphql_1.GraphQLInputObjectType({
     },
     name: "UserWorkPreferenceInput",
 });
+const UserInfoFavoriteSalary = new graphql_1.GraphQLObjectType({
+    description: "The updated properties for an user favorit salary",
+    fields: {
+        from: { type: graphql_1.GraphQLInt },
+        to: { type: graphql_1.GraphQLInt },
+    },
+    name: "UserInfoFavoriteSalary",
+});
+const UserInfoFavoriteSalaryInput = new graphql_1.GraphQLInputObjectType({
+    description: "The updated properties for an user favorit salary",
+    fields: {
+        from: { type: graphql_1.GraphQLInt },
+        to: { type: graphql_1.GraphQLInt },
+    },
+    name: "UserInfoFavoriteSalaryInput",
+});
 exports.UserCustomizeInfo = new graphql_1.GraphQLObjectType({
     description: "Represents an user customize info.",
     fields: {
@@ -283,9 +299,9 @@ exports.UserInfoFavorite = new graphql_1.GraphQLObjectType({
     fields: {
         job_type: { type: types_10.JobType },
         target: { type: graphql_1.GraphQLString },
-        job_category: { type: new graphql_1.GraphQLList(types_5.JobCategory) },
+        job_category: { type: types_5.JobCategory },
         job_location: { type: new graphql_1.GraphQLList(exports.UserInfoFavoriteLocation) },
-        salary: { type: graphql_1.GraphQLInt },
+        salary: { type: UserInfoFavoriteSalary },
     },
     description: "Represents an user info favorite.",
 });
@@ -294,9 +310,9 @@ exports.UserInfoFavoriteInput = new graphql_1.GraphQLInputObjectType({
     fields: {
         job_type: { type: graphql_1.GraphQLString },
         target: { type: graphql_1.GraphQLString },
-        job_category: { type: new graphql_1.GraphQLList(graphql_1.GraphQLString) },
+        job_category: { type: graphql_1.GraphQLString },
         job_location: { type: new graphql_1.GraphQLList(exports.UserInfoFavoriteLocationInput) },
-        salary: { type: graphql_1.GraphQLInt },
+        salary: { type: UserInfoFavoriteSalaryInput },
     },
     description: "The updated properties for an user info favorite.",
 });
