@@ -11,7 +11,7 @@ export const s3UploadImage = (fileContent, fileName, typeUpload) => {
   return new Promise((resolve) => {
     const params = {
       Bucket: `${process.env.S3_BUCKET_NAME}/${typeUpload}`,
-      Key: fileName, // File name you want to save as in S3
+      Key: `${fileName}`, // File name you want to save as in S3
       Body: base64Data,
       ContentType: `image/${type}`,
       ACL: process.env.S3_FILE_PERMISSION,
