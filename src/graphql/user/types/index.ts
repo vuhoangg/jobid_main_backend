@@ -5,7 +5,8 @@ import {
   GraphQLNonNull,
   GraphQLObjectType,
   GraphQLString,
-  GraphQLBoolean, GraphQLFloat
+  GraphQLBoolean,
+  GraphQLFloat,
 } from "graphql";
 import {PageInfo} from "../../types";
 import {JobLevel} from "../../job_level/types";
@@ -28,7 +29,7 @@ const UserEducationHistory = new GraphQLObjectType({
     to_month: {type: GraphQLString},
     achievement: {type: GraphQLString},
   },
-  name: "UserEducationHistory"
+  name: "UserEducationHistory",
 });
 
 const UserEducationHistoryInput = new GraphQLInputObjectType({
@@ -41,7 +42,7 @@ const UserEducationHistoryInput = new GraphQLInputObjectType({
     to_month: {type: GraphQLString},
     achievement: {type: GraphQLString},
   },
-  name: "UserEducationHistoryInput"
+  name: "UserEducationHistoryInput",
 });
 
 const UserEmploymentHistory = new GraphQLObjectType({
@@ -53,7 +54,7 @@ const UserEmploymentHistory = new GraphQLObjectType({
     to_month: {type: GraphQLString},
     description: {type: GraphQLString},
   },
-  name: "UserEmploymentHistory"
+  name: "UserEmploymentHistory",
 });
 
 const UserEmploymentHistoryInput = new GraphQLInputObjectType({
@@ -65,7 +66,7 @@ const UserEmploymentHistoryInput = new GraphQLInputObjectType({
     to_month: {type: GraphQLString},
     description: {type: GraphQLString},
   },
-  name: "UserEmploymentHistoryInput"
+  name: "UserEmploymentHistoryInput",
 });
 
 const UserLanguage = new GraphQLObjectType({
@@ -74,7 +75,7 @@ const UserLanguage = new GraphQLObjectType({
     lang: {type: GraphQLString},
     level: {type: GraphQLString},
   },
-  name: "UserLanguage"
+  name: "UserLanguage",
 });
 
 const UserLanguageInput = new GraphQLInputObjectType({
@@ -83,7 +84,7 @@ const UserLanguageInput = new GraphQLInputObjectType({
     lang: {type: GraphQLString},
     level: {type: GraphQLString},
   },
-  name: "UserLanguageInput"
+  name: "UserLanguageInput",
 });
 
 const UserWorkPreference = new GraphQLObjectType({
@@ -95,7 +96,7 @@ const UserWorkPreference = new GraphQLObjectType({
     salary: {type: GraphQLString},
     benefit: {type: new GraphQLList(Benefit)},
   },
-  name: "UserWorkPreference"
+  name: "UserWorkPreference",
 });
 
 const UserWorkPreferenceInput = new GraphQLInputObjectType({
@@ -107,7 +108,25 @@ const UserWorkPreferenceInput = new GraphQLInputObjectType({
     salary: {type: GraphQLString},
     benefit: {type: new GraphQLList(GraphQLString)},
   },
-  name: "UserWorkPreferenceInput"
+  name: "UserWorkPreferenceInput",
+});
+
+const UserInfoFavoriteSalary = new GraphQLObjectType({
+  description: "The updated properties for an user favorit salary",
+  fields: {
+    from: {type: GraphQLInt},
+    to: {type: GraphQLInt},
+  },
+  name: "UserInfoFavoriteSalary",
+});
+
+const UserInfoFavoriteSalaryInput = new GraphQLInputObjectType({
+  description: "The updated properties for an user favorit salary",
+  fields: {
+    from: {type: GraphQLInt},
+    to: {type: GraphQLInt},
+  },
+  name: "UserInfoFavoriteSalaryInput",
 });
 
 export const UserCustomizeInfo = new GraphQLObjectType({
@@ -127,7 +146,6 @@ export const UserCustomizeInfo = new GraphQLObjectType({
     nation: {type: GraphQLString},
     gender: {type: GraphQLString},
     status: {type: GraphQLString},
-
     location: {type: JobLocation},
     specific_address: {type: GraphQLString},
     intro: {type: GraphQLString},
@@ -170,7 +188,6 @@ export const UserCustomizeInfoInput = new GraphQLInputObjectType({
   name: "UserCustomizeInfoInput",
 });
 
-
 export const UserInfoAddress = new GraphQLObjectType({
   name: "UserInfoAddress",
   fields: {
@@ -179,9 +196,9 @@ export const UserInfoAddress = new GraphQLObjectType({
     ward: {type: Ward},
     lat: {type: GraphQLFloat},
     lng: {type: GraphQLFloat},
-    text: {type: GraphQLString}
+    text: {type: GraphQLString},
   },
-  description: "Represents an user info address."
+  description: "Represents an user info address.",
 });
 
 export const UserInfoAddressInput = new GraphQLInputObjectType({
@@ -192,9 +209,9 @@ export const UserInfoAddressInput = new GraphQLInputObjectType({
     ward: {type: GraphQLString},
     lat: {type: GraphQLFloat},
     lng: {type: GraphQLFloat},
-    text: {type: GraphQLString}
+    text: {type: GraphQLString},
   },
-  description: "The updated properties for an user info address."
+  description: "The updated properties for an user info address.",
 });
 
 export const UserInfoTimeline = new GraphQLObjectType({
@@ -203,7 +220,7 @@ export const UserInfoTimeline = new GraphQLObjectType({
     from: {type: GraphQLString},
     to: {type: GraphQLString},
   },
-  description: "Represents an user info timeline"
+  description: "Represents an user info timeline",
 });
 export const UserInfoTimelineInput = new GraphQLInputObjectType({
   name: "UserInfoTimelineInput",
@@ -211,7 +228,7 @@ export const UserInfoTimelineInput = new GraphQLInputObjectType({
     from: {type: GraphQLString},
     to: {type: GraphQLString},
   },
-  description: "The updated properties for an user info timeline"
+  description: "The updated properties for an user info timeline",
 });
 
 export const UserInfoExperienceProject = new GraphQLObjectType({
@@ -224,7 +241,7 @@ export const UserInfoExperienceProject = new GraphQLObjectType({
     member: {type: GraphQLInt},
     description: {type: GraphQLString},
   },
-   description: "Represents an user info experience project."
+  description: "Represents an user info experience project.",
 });
 
 export const UserInfoExperienceProjectInput = new GraphQLInputObjectType({
@@ -237,7 +254,7 @@ export const UserInfoExperienceProjectInput = new GraphQLInputObjectType({
     member: {type: GraphQLInt},
     description: {type: GraphQLString},
   },
-  description: "The updated properties for an user info experience project."
+  description: "The updated properties for an user info experience project.",
 });
 
 export const UserInfoExperience = new GraphQLObjectType({
@@ -250,7 +267,7 @@ export const UserInfoExperience = new GraphQLObjectType({
     description: {type: GraphQLString},
     projects: {type: new GraphQLList(UserInfoExperienceProject)},
   },
-  description: "Represents an user info experience."
+  description: "Represents an user info experience.",
 });
 
 export const UserInfoExperienceInput = new GraphQLInputObjectType({
@@ -263,7 +280,7 @@ export const UserInfoExperienceInput = new GraphQLInputObjectType({
     description: {type: GraphQLString},
     projects: {type: new GraphQLList(UserInfoExperienceProjectInput)},
   },
-  description: "The updated properties for an user info experience."
+  description: "The updated properties for an user info experience.",
 });
 
 export const UserInfoEducation = new GraphQLObjectType({
@@ -274,7 +291,7 @@ export const UserInfoEducation = new GraphQLObjectType({
     major: {type: GraphQLString},
     description: {type: GraphQLString},
   },
-  name: "UserInfoEducation"
+  name: "UserInfoEducation",
 });
 
 export const UserInfoFavoriteLocation = new GraphQLObjectType({
@@ -284,7 +301,7 @@ export const UserInfoFavoriteLocation = new GraphQLObjectType({
     district: {type: District},
     ward: {type: Ward},
   },
-  description: "Represents an user info favorite location."
+  description: "Represents an user info favorite location.",
 });
 
 export const UserInfoFavoriteLocationInput = new GraphQLInputObjectType({
@@ -294,7 +311,7 @@ export const UserInfoFavoriteLocationInput = new GraphQLInputObjectType({
     district: {type: GraphQLString},
     ward: {type: GraphQLString},
   },
-  description: "The updated properties for an user info favorite location."
+  description: "The updated properties for an user info favorite location.",
 });
 
 export const UserInfoEducationInput = new GraphQLInputObjectType({
@@ -305,7 +322,7 @@ export const UserInfoEducationInput = new GraphQLInputObjectType({
     major: {type: GraphQLString},
     description: {type: GraphQLString},
   },
-  name: "UserInfoEducationInput"
+  name: "UserInfoEducationInput",
 });
 
 export const UserInfoFavorite = new GraphQLObjectType({
@@ -313,11 +330,11 @@ export const UserInfoFavorite = new GraphQLObjectType({
   fields: {
     job_type: {type: JobType},
     target: {type: GraphQLString},
-    job_category: {type: new GraphQLList(JobCategory)},
+    job_category: {type: JobCategory},
     job_location: {type: new GraphQLList(UserInfoFavoriteLocation)},
-    salary: {type: GraphQLInt},
+    salary: {type: UserInfoFavoriteSalary},
   },
-  description: "Represents an user info favorite."
+  description: "Represents an user info favorite.",
 });
 
 export const UserInfoFavoriteInput = new GraphQLInputObjectType({
@@ -325,11 +342,11 @@ export const UserInfoFavoriteInput = new GraphQLInputObjectType({
   fields: {
     job_type: {type: GraphQLString},
     target: {type: GraphQLString},
-    job_category: {type: new GraphQLList(GraphQLString)},
+    job_category: {type: GraphQLString},
     job_location: {type: new GraphQLList(UserInfoFavoriteLocationInput)},
-    salary: {type: GraphQLInt},
+    salary: {type: UserInfoFavoriteSalaryInput},
   },
-  description: "The updated properties for an user info favorite."
+  description: "The updated properties for an user info favorite.",
 });
 
 export const UserInfo = new GraphQLObjectType({
@@ -349,7 +366,7 @@ export const UserInfo = new GraphQLObjectType({
     education: {type: new GraphQLList(UserInfoEducation)},
     favorite_job: {type: new GraphQLList(UserInfoFavorite)},
   },
-  name: "UserInfo"
+  name: "UserInfo",
 });
 
 export const UserInfoInput = new GraphQLInputObjectType({
@@ -369,7 +386,7 @@ export const UserInfoInput = new GraphQLInputObjectType({
     education: {type: new GraphQLList(UserInfoEducationInput)},
     favorite_job: {type: new GraphQLList(UserInfoFavoriteInput)},
   },
-  name: "UserInfoInput"
+  name: "UserInfoInput",
 });
 
 export const User = new GraphQLObjectType({

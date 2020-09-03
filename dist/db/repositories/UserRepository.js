@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const User_1 = __importDefault(require("../schemas/User"));
 const log_1 = require("../../helpers/log");
 const promise_1 = require("../../helpers/promise");
-const flattenNestedObject_1 = require("../../helpers/flattenNestedObject");
 const moment_1 = __importDefault(require("moment"));
 function getCondition(filter) {
     let condition = {};
@@ -203,8 +202,7 @@ class UserRepository {
     }
     update(data) {
         try {
-            let dataUpdate = flattenNestedObject_1.processDataUpdate(data);
-            return User_1.default.findByIdAndUpdate(data._id, dataUpdate, { new: true });
+            return User_1.default.findByIdAndUpdate(data._id, data, { new: true });
         }
         catch (e) {
             log_1.errorLog(e);
