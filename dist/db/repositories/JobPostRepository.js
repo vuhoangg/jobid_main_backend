@@ -33,7 +33,7 @@ function getCondition(filter) {
         condition = Object.assign(condition, { "company.ref": filter.company });
     }
     if (filter.user) {
-        condition = Object.assign(condition, { "user": filter.user });
+        condition = Object.assign(condition, { user: filter.user });
     }
     if (filter.coordinate) {
         condition = Object.assign(condition, { "location.lat": { $gte: filter.coordinate.minLat, $lte: filter.coordinate.maxLat } }, { "location.lng": { $gte: filter.coordinate.minLng, $lte: filter.coordinate.maxLng } });
@@ -54,10 +54,10 @@ function getCondition(filter) {
 function getSort(sortBy) {
     let sort = {};
     if (sortBy.created) {
-        sort = Object.assign(sort, { _id: (sortBy.created === "newest" ? "desc" : "asc") });
+        sort = Object.assign(sort, { _id: sortBy.created === "newest" ? "desc" : "asc" });
     }
     if (sortBy.updated) {
-        sort = Object.assign(sort, { updated_at: (sortBy.updated === "newest" ? "desc" : "asc") });
+        sort = Object.assign(sort, { updated_at: sortBy.updated === "newest" ? "desc" : "asc" });
     }
     if (sortBy.view_count) {
         sort = Object.assign(sort, { view_count: sortBy.view_count === "high_to_low" ? "desc" : "asc" });
@@ -110,15 +110,15 @@ class JobPostRepository {
                 .sort(sort)
                 .skip(limit * (page - 1))
                 .limit(limit)
-                .populate('job_category')
-                .populate('job_level')
-                .populate('address.city')
-                .populate('address.district')
-                .populate('address.ward')
-                .populate('job_type')
-                .populate('benefit.benefit_id')
-                .populate('company.ref')
-                .populate('user');
+                .populate("job_category")
+                .populate("job_level")
+                .populate("address.city")
+                .populate("address.district")
+                .populate("address.ward")
+                .populate("job_type")
+                .populate("benefit.benefit_id")
+                .populate("company.ref")
+                .populate("user");
         }
         catch (e) {
             log_1.errorLog(e);
@@ -129,27 +129,27 @@ class JobPostRepository {
         try {
             if (getBy._id) {
                 return JobPost_1.default.findById(getBy._id, projection)
-                    .populate('job_category')
-                    .populate('job_level')
-                    .populate('job_type')
-                    .populate('address.city')
-                    .populate('address.district')
-                    .populate('address.ward')
-                    .populate('benefit.benefit_id')
-                    .populate('company.ref')
-                    .populate('user');
+                    .populate("job_category")
+                    .populate("job_level")
+                    .populate("job_type")
+                    .populate("address.city")
+                    .populate("address.district")
+                    .populate("address.ward")
+                    .populate("benefit.benefit_id")
+                    .populate("company.ref")
+                    .populate("user");
             }
             else if (getBy.slug) {
                 return JobPost_1.default.findOne({ slug: getBy.slug }, projection)
-                    .populate('job_category')
-                    .populate('job_level')
-                    .populate('job_type')
-                    .populate('address.city')
-                    .populate('address.district')
-                    .populate('address.ward')
-                    .populate('benefit.benefit_id')
-                    .populate('company.ref')
-                    .populate('user');
+                    .populate("job_category")
+                    .populate("job_level")
+                    .populate("job_type")
+                    .populate("address.city")
+                    .populate("address.district")
+                    .populate("address.ward")
+                    .populate("benefit.benefit_id")
+                    .populate("company.ref")
+                    .populate("user");
             }
             else {
                 return promise_1.promiseNull();
@@ -163,15 +163,15 @@ class JobPostRepository {
     update(data) {
         try {
             return JobPost_1.default.findByIdAndUpdate(data._id, data, { new: true })
-                .populate('job_category')
-                .populate('job_level')
-                .populate('job_type')
-                .populate('address.city')
-                .populate('address.district')
-                .populate('address.ward')
-                .populate('benefit.benefit_id')
-                .populate('company.ref')
-                .populate('user');
+                .populate("job_category")
+                .populate("job_level")
+                .populate("job_type")
+                .populate("address.city")
+                .populate("address.district")
+                .populate("address.ward")
+                .populate("benefit.benefit_id")
+                .populate("company.ref")
+                .populate("user");
         }
         catch (e) {
             log_1.errorLog(e);

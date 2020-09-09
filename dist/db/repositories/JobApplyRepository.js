@@ -17,6 +17,22 @@ function getCondition(filter) {
     if (filter.status) {
         condition = Object.assign(condition, { status: filter.status });
     }
+    if (filter.createdAt) {
+        condition = Object.assign(condition, {
+            created_at: {
+                $gte: new Date(filter.createdAt.from),
+                $lte: new Date(filter.createdAt.to),
+            },
+        });
+    }
+    if (filter.updatedAt) {
+        condition = Object.assign(condition, {
+            updated_at: {
+                $gte: new Date(filter.updatedAt.from),
+                $lte: new Date(filter.updatedAt.to),
+            },
+        });
+    }
     return condition;
 }
 function getSort(sortBy) {
