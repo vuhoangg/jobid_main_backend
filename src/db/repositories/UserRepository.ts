@@ -269,6 +269,14 @@ class UserRepository implements CrudContract {
     }
   }
 
+  async findUserRefreshToken(accessToken: string) {
+    return User.findOne({ accessToken }, { accessToken: true, refreshToken: true });
+  }
+
+  async refreshToken(_id: string, accessToken: string, refreshToken: string) {
+    return User.updateOne({ _id }, { accessToken, refreshToken });
+  }
+
   updateCompanyPermission(data) {
     try {
       return User.findByIdAndUpdate(data._id, { $addToSet: { company_role: data.company_role } }, { new: true });

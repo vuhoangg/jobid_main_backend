@@ -1,12 +1,13 @@
 import GroupPermissionService from "../../../db/repositories/GroupPermissionRepository";
+import { authenticate } from "../../../middlewares/authenticate";
 
-export function updateGroupPermission(source, args, context, info) {
-  // if (context.isAuthenticated()) {
-    return GroupPermissionService.update(args.input);
+export const updateGroupPermission = async (source, args, context, info) => {
+  // if (await authenticate(context, context.res)) {
+  return GroupPermissionService.update(args.input);
   // }
-}
-export function createGroupPermission(source, args, context, info) {
-  // if (context.isAuthenticated()) {
-    return GroupPermissionService.create(args.input);
+};
+export const createGroupPermission = async (source, args, context, info) => {
+  // if (await authenticate(context, context.res)) {
+  return GroupPermissionService.create(args.input);
   // }
-}
+};

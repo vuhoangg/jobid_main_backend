@@ -1,28 +1,29 @@
 import NotificationService from "../../../db/repositories/NotificationRepository";
-import {isSuperUser} from "../../../helpers/permission";
+import { isSuperUser } from "../../../helpers/permission";
+import { authenticate } from "../../../middlewares/authenticate";
 
-export function updateNotification(source, args, context, info) {
-  if (context.isAuthenticated()) {
+export const updateNotification = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
     let loggedUser = context.user;
     let input = args.input;
     if (isSuperUser(loggedUser.email)) {
       return NotificationService.update(input);
     }
   }
-}
-export function updateReadNotification(source, args, context, info) {
-  if (context.isAuthenticated()) {
+};
+export const updateReadNotification = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
     let input = args.input;
     let loggedUser = context.user;
-    input = Object.assign(input, {target: loggedUser._id});
-    return NotificationService.readNotification(input).then(r => ({status: true}));
+    input = Object.assign(input, { target: loggedUser._id });
+    return NotificationService.readNotification(input).then((r) => ({ status: true }));
   }
-}
+};
 
-export function updateReadAllNotification(source, args, context, info) {
-  if (context.isAuthenticated()) {
+export const updateReadAllNotification = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
     let loggedUser = context.user;
-    let input = {target: loggedUser._id};
-    return NotificationService.readAllNotification(input).then(r => ({status: true}));
+    let input = { target: loggedUser._id };
+    return NotificationService.readAllNotification(input).then((r) => ({ status: true }));
   }
-}
+};

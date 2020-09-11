@@ -1,10 +1,12 @@
-export const logout = (args, context) => {
-  let expired = new Date();
-  expired.setDate(expired.getDate() - 30);
-  context.res.cookie("user", null, {expires: expired, domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: false});
-  if (context.isAuthenticated()) {
+import userService from "../../../db/repositories/UserRepository";
+import { authenticate } from "../../../middlewares/authenticate";
+
+export const logout = async (args, context) => {
+  const user = context.user;
+  if (await authenticate(context, context.res)) {
     context.logout();
   }
+  await userService.update({ _id: user._id, accessToken: "", refreshToken: "" });
   let ret = {
     status: true,
   };

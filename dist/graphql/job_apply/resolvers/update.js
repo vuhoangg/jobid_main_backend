@@ -15,12 +15,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateStatusJobApply = exports.updateJobApply = void 0;
 const JobApplyRepository_1 = __importDefault(require("../../../db/repositories/JobApplyRepository"));
 const JobPostRepository_1 = __importDefault(require("../../../db/repositories/JobPostRepository"));
-function updateJobApply(source, args, context, info) {
-    if (context.isAuthenticated()) {
+const authenticate_1 = require("../../../middlewares/authenticate");
+exports.updateJobApply = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield authenticate_1.authenticate(context, context.res)) {
         let loggedUser = context.user;
         let input = args.input;
-        input = Object.assign(input, { user: loggedUser._id, status: 'pending' });
-        return JobApplyRepository_1.default.applyJob(input).then((data) => __awaiter(this, void 0, void 0, function* () {
+        input = Object.assign(input, { user: loggedUser._id, status: "pending" });
+        return JobApplyRepository_1.default.applyJob(input).then((data) => __awaiter(void 0, void 0, void 0, function* () {
             let jobPost = yield JobPostRepository_1.default.get(input.job_post, {});
             let target = jobPost.user;
             let notification = {
@@ -54,13 +55,11 @@ function updateJobApply(source, args, context, info) {
             return data;
         }));
     }
-}
-exports.updateJobApply = updateJobApply;
-function updateStatusJobApply(source, args, context, info) {
-    if (context.isAuthenticated()) {
+});
+exports.updateStatusJobApply = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield authenticate_1.authenticate(context, context.res)) {
         let input = args.input;
         return JobApplyRepository_1.default.update(input);
     }
-}
-exports.updateStatusJobApply = updateStatusJobApply;
+});
 //# sourceMappingURL=update.js.map

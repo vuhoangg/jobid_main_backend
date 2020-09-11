@@ -1,8 +1,9 @@
 import { filterObject, rootField, rootInfo } from "../../helpers";
 import CurriculumVitaeService from "../../../db/repositories/CurriculumVitaeRepository";
+import { authenticate } from "../../../middlewares/authenticate";
 
-export function getCurriculumVitae(source, args, context, info) {
-  if (context.isAuthenticated()) {
+export const getCurriculumVitae = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
     const fields = rootField(info);
     return CurriculumVitaeService.get({ _id: args._id, user_created: context.user._id, status: "active" }, fields).then(
       async (curriculumVitae) => {
@@ -10,10 +11,10 @@ export function getCurriculumVitae(source, args, context, info) {
       }
     );
   }
-}
+};
 
-export function getCurriculumVitaes(source, args, context, info) {
-  if (context.isAuthenticated()) {
+export const getCurriculumVitaes = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
     let infos = rootInfo(info);
     let filter = { user_created: context.user._id, status: "active", ...filterObject(args.filter) };
     let page = args.page > 50 ? 10 : args.page;
@@ -33,4 +34,4 @@ export function getCurriculumVitaes(source, args, context, info) {
       return dataRet;
     });
   }
-}
+};

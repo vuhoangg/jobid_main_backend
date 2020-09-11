@@ -2,9 +2,10 @@ import ProfileViewService from "../../../db/repositories/ProfileViewRepository";
 import NotificationService from "../../../db/repositories/NotificationRepository";
 import { api } from "../../../utils/api";
 import UserService from "../../../db/repositories/UserRepository";
+import { authenticate } from "../../../middlewares/authenticate";
 
-export function updateProfileView(source, args, context, info) {
-  if (context.isAuthenticated()) {
+export const updateProfileView = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
     let loggedUser = context.user;
     let input = args.input;
     input = Object.assign(input, { user_hunter: loggedUser._id });
@@ -53,4 +54,4 @@ export function updateProfileView(source, args, context, info) {
       return data;
     });
   }
-}
+};

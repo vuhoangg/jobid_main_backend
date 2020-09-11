@@ -1,11 +1,12 @@
 import JobPostService from "../../../db/repositories/JobPostRepository";
 import { filterObject, rootField, rootInfo } from "../../helpers";
+import { authenticate } from "../../../middlewares/authenticate";
 
-export function getJobPost(source, args, context, info) {
+export const getJobPost = async (source, args, context, info) => {
   const fields = rootField(info);
   let getBy = args._id ? { _id: args._id } : { slug: args.slug };
   let loggedUser = null;
-  if (context.isAuthenticated()) {
+  if (await authenticate(context, context.res)) {
     loggedUser = context.user;
   }
   return JobPostService.getBy(getBy, fields).then(async (jobPost) => {
@@ -37,7 +38,7 @@ export function getJobPost(source, args, context, info) {
     };
     return node;
   });
-}
+};
 
 export function getJobPosts(source, args, context, info) {
   let infos = rootInfo(info);

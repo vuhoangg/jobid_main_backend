@@ -15,15 +15,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCompanyFollows = exports.getCompanyFollow = void 0;
 const CompanyFollowRepository_1 = __importDefault(require("../../../db/repositories/CompanyFollowRepository"));
 const helpers_1 = require("../../helpers");
-function getCompanyFollow(source, args, context, info) {
+const authenticate_1 = require("../../../middlewares/authenticate");
+exports.getCompanyFollow = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     const fields = helpers_1.rootField(info);
     let getBy = args._id ? { _id: args._id } : { company: args.company };
-    if (context.isAuthenticated()) {
+    if (yield authenticate_1.authenticate(context, context.res)) {
         let loggedUser = context.user;
         getBy = Object.assign(getBy, { user: loggedUser._id });
     }
-    return CompanyFollowRepository_1.default.getBy(getBy, fields)
-        .then((companyFollow) => __awaiter(this, void 0, void 0, function* () {
+    return CompanyFollowRepository_1.default.getBy(getBy, fields).then((companyFollow) => __awaiter(void 0, void 0, void 0, function* () {
         if (companyFollow) {
             let node = {
                 _id: companyFollow._id,
@@ -38,14 +38,12 @@ function getCompanyFollow(source, args, context, info) {
             return null;
         }
     }));
-}
-exports.getCompanyFollow = getCompanyFollow;
+});
 function getCompanyFollows(source, args, context, info) {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
     let page = args.page > 50 ? 10 : args.page;
-    return CompanyFollowRepository_1.default.filter(filter, args.limit, page, infos.edges)
-        .then((companyFollows) => __awaiter(this, void 0, void 0, function* () {
+    return CompanyFollowRepository_1.default.filter(filter, args.limit, page, infos.edges).then((companyFollows) => __awaiter(this, void 0, void 0, function* () {
         let edges = [];
         for (let i = 0; i < companyFollows.length; i++) {
             let companyFollow = {
@@ -56,15 +54,15 @@ function getCompanyFollows(source, args, context, info) {
                     user: companyFollows[i].user,
                     created_at: companyFollows[i].created_at,
                     updated_at: companyFollows[i].updated_at,
-                }
+                },
             };
             edges.push(companyFollow);
         }
-        let countData = (infos.pageInfo && infos.pageInfo.length) ? yield CompanyFollowRepository_1.default.count(filter) : 0;
+        let countData = infos.pageInfo && infos.pageInfo.length ? yield CompanyFollowRepository_1.default.count(filter) : 0;
         let dataRet = Object.assign({ edges }, { pageInfo: {
                 length: countData,
                 hasNextPage: companyFollows.length >= args.limit,
-                hasPreviousPage: page > 1
+                hasPreviousPage: page > 1,
             } });
         return dataRet;
     }));

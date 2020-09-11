@@ -15,14 +15,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getJobPosts = exports.getJobPost = void 0;
 const JobPostRepository_1 = __importDefault(require("../../../db/repositories/JobPostRepository"));
 const helpers_1 = require("../../helpers");
-function getJobPost(source, args, context, info) {
+const authenticate_1 = require("../../../middlewares/authenticate");
+exports.getJobPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     const fields = helpers_1.rootField(info);
     let getBy = args._id ? { _id: args._id } : { slug: args.slug };
     let loggedUser = null;
-    if (context.isAuthenticated()) {
+    if (yield authenticate_1.authenticate(context, context.res)) {
         loggedUser = context.user;
     }
-    return JobPostRepository_1.default.getBy(getBy, fields).then((jobPost) => __awaiter(this, void 0, void 0, function* () {
+    return JobPostRepository_1.default.getBy(getBy, fields).then((jobPost) => __awaiter(void 0, void 0, void 0, function* () {
         let node = {
             _id: jobPost._id,
             title: jobPost.title,
@@ -51,8 +52,7 @@ function getJobPost(source, args, context, info) {
         };
         return node;
     }));
-}
-exports.getJobPost = getJobPost;
+});
 function getJobPosts(source, args, context, info) {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);

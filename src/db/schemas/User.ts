@@ -40,6 +40,12 @@ const userSchema = new mongoose.Schema(
       default: 0,
       type: Number,
     },
+    accessToken: {
+      type: String,
+    },
+    refreshToken: {
+      type: String,
+    },
     // -- company role
     company_role: [
       {
