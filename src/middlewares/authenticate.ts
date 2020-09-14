@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 
 import userService from "../db/repositories/UserRepository";
-import { use } from "passport";
 
 export const authenticate = async (req, res) => {
   const accessToken = req.cookies.knv_accessToken;
@@ -49,7 +48,6 @@ export const handleRefreshToken = async (res: any, user: any) => {
       domain: process.env.DOMAIN_CLIENT_COOKIE,
       expires: new Date(Date.now() + parseInt(process.env.EXPIRES_COOKIE)),
       httpOnly: false,
-      path: "/",
     });
     res.locals.user = decoded.data;
     return true;

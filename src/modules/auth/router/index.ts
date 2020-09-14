@@ -23,13 +23,11 @@ router.get(
       domain: process.env.COOKIE_SHARE_DOMAIN,
       maxAge: parseInt(process.env.COOKIE_AGE),
       httpOnly: false,
-      path: "/",
     });
     res.cookie("knv_accessToken", accessToken, {
       domain: process.env.COOKIE_SHARE_DOMAIN,
       maxAge: parseInt(process.env.COOKIE_AGE),
       httpOnly: false,
-      path: "/",
     });
     res.redirect(`${process.env.SITE_URL}/auth/redirect`);
   }
@@ -49,13 +47,11 @@ router.get(
         domain: process.env.COOKIE_SHARE_DOMAIN,
         maxAge: parseInt(process.env.COOKIE_AGE),
         httpOnly: false,
-        path: "/",
       });
       res.cookie("knv_accessToken", accessToken, {
         domain: process.env.COOKIE_SHARE_DOMAIN,
         maxAge: parseInt(process.env.COOKIE_AGE),
         httpOnly: false,
-        path: "/",
       });
     }
     res.redirect(`${process.env.SITE_URL}/auth/redirect`);

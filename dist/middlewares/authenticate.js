@@ -53,7 +53,6 @@ exports.handleRefreshToken = (res, user) => __awaiter(void 0, void 0, void 0, fu
             domain: process.env.DOMAIN_CLIENT_COOKIE,
             expires: new Date(Date.now() + parseInt(process.env.EXPIRES_COOKIE)),
             httpOnly: false,
-            path: "/",
         });
         res.locals.user = decoded.data;
         return true;

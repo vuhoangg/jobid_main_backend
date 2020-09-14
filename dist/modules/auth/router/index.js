@@ -31,13 +31,11 @@ router.get("/google/callback", passport_1.default.authenticate("google", { failu
         domain: process.env.COOKIE_SHARE_DOMAIN,
         maxAge: parseInt(process.env.COOKIE_AGE),
         httpOnly: false,
-        path: "/",
     });
     res.cookie("knv_accessToken", accessToken, {
         domain: process.env.COOKIE_SHARE_DOMAIN,
         maxAge: parseInt(process.env.COOKIE_AGE),
         httpOnly: false,
-        path: "/",
     });
     res.redirect(`${process.env.SITE_URL}/auth/redirect`);
 }));
@@ -52,13 +50,11 @@ router.get("/facebook/callback", passport_1.default.authenticate("facebook", { f
             domain: process.env.COOKIE_SHARE_DOMAIN,
             maxAge: parseInt(process.env.COOKIE_AGE),
             httpOnly: false,
-            path: "/",
         });
         res.cookie("knv_accessToken", accessToken, {
             domain: process.env.COOKIE_SHARE_DOMAIN,
             maxAge: parseInt(process.env.COOKIE_AGE),
             httpOnly: false,
-            path: "/",
         });
     }
     res.redirect(`${process.env.SITE_URL}/auth/redirect`);
