@@ -45,7 +45,7 @@ export const handleRefreshToken = async (res: any, user: any) => {
     await userService.refreshToken(user._id, accessToken, refreshToken);
 
     res.cookie("knv_accessToken", accessToken, {
-      domain: process.env.DOMAIN_CLIENT_COOKIE,
+      domain: process.env.COOKIE_SHARE_DOMAIN,
       expires: new Date(Date.now() + parseInt(process.env.EXPIRES_COOKIE)),
       httpOnly: false,
     });
