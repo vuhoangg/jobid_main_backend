@@ -19,10 +19,12 @@ exports.authenticate = (req, res) => __awaiter(void 0, void 0, void 0, function*
     const accessToken = req.cookies.knv_accessToken;
     if (!accessToken) {
         res.clearCookie("knv_accessToken", { path: "/" });
+        return false;
     }
     else {
         try {
             const decoded = jsonwebtoken_1.default.verify(accessToken, process.env.JWT_SECRET);
+            res.locals.user = decoded.data;
             return true;
         }
         catch (err) {
@@ -53,6 +55,7 @@ exports.handleRefreshToken = (res, user) => __awaiter(void 0, void 0, void 0, fu
             httpOnly: false,
             path: "/",
         });
+        res.locals.user = decoded.data;
         return true;
     }
     catch (err) {

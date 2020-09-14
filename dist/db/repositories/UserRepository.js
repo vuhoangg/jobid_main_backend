@@ -255,6 +255,31 @@ class UserRepository {
             return promise_1.promiseNull();
         }
     }
+    getById(_id) {
+        try {
+            return User_1.default.findById(_id)
+                .populate("customize_info.current_job_level")
+                .populate("customize_info.location")
+                .populate("customize_info.skill")
+                .populate("customize_info.work_preference.job_location")
+                .populate("customize_info.work_preference.job_category")
+                .populate("customize_info.work_preference.job_level")
+                .populate("customize_info.work_preference.benefit")
+                .populate("info.address.city")
+                .populate("info.address.district")
+                .populate("info.address.ward")
+                .populate("info.experience.level")
+                .populate("info.favorite_job.job_type")
+                .populate("info.favorite_job.job_category")
+                .populate("info.favorite_job.job_location.city")
+                .populate("info.favorite_job.job_location.district")
+                .populate("info.favorite_job.job_location.ward");
+        }
+        catch (e) {
+            log_1.errorLog(e);
+            return promise_1.promiseNull();
+        }
+    }
 }
 const UserService = new UserRepository();
 exports.default = UserService;

@@ -14,6 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthRouter = void 0;
 const express_1 = __importDefault(require("express"));
+const UserRepository_1 = __importDefault(require("../../../db/repositories/UserRepository"));
+const authenticate_1 = require("../../../middlewares/authenticate");
 const router = express_1.default.Router();
 exports.AuthRouter = router;
 const passport_1 = __importDefault(require("passport"));
@@ -70,8 +72,21 @@ router.get("/zalo/callback", passport_1.default.authenticate("zalo", { failureRe
     });
     res.redirect(process.env.SITE_URL);
 }));
-router.get("/login", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("ok");
-    res.end();
+router.post("/login", (req, res, next) => {
+    if (!req.cookies.knv_accessToken) {
+        res.status(200).json({});
+    }
+    else {
+        next();
+    }
+}, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield authenticate_1.authenticate(req, res)) {
+        const user_id = res.locals.user;
+        const user = yield UserRepository_1.default.getById(user_id);
+        res.json({ user });
+    }
+    else {
+        res.json({});
+    }
 }));
 //# sourceMappingURL=index.js.map

@@ -1,4 +1,6 @@
 import express from "express";
+import userService from "../../../db/repositories/UserRepository";
+import { authenticate } from "../../../middlewares/authenticate";
 
 const router = express.Router();
 import passport from "passport";
@@ -70,9 +72,24 @@ router.get("/zalo/callback", passport.authenticate("zalo", { failureRedirect: "/
   res.redirect(process.env.SITE_URL);
 });
 
-router.get("/login", async (req, res, next) => {
-  console.log("ok");
-  res.end();
-});
+router.post(
+  "/login",
+  (req, res, next) => {
+    if (!req.cookies.knv_accessToken) {
+      res.status(200).json({});
+    } else {
+      next();
+    }
+  },
+  async (req, res) => {
+    if (await authenticate(req, res)) {
+      const user_id = res.locals.user;
+      const user = await userService.getById(user_id);
+      res.json({ user });
+    } else {
+      res.json({});
+    }
+  }
+);
 
 export { router as AuthRouter };

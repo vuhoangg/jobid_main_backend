@@ -7,9 +7,11 @@ export const authenticate = async (req, res) => {
   const accessToken = req.cookies.knv_accessToken;
   if (!accessToken) {
     res.clearCookie("knv_accessToken", { path: "/" });
+    return false;
   } else {
     try {
       const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
+      res.locals.user = decoded.data;
       return true;
     } catch (err) {
       if (err.name === "JsonWebTokenError") {
@@ -49,6 +51,7 @@ export const handleRefreshToken = async (res: any, user: any) => {
       httpOnly: false,
       path: "/",
     });
+    res.locals.user = decoded.data;
     return true;
   } catch (err) {
     res.clearCookie("knv_accessToken", { path: "/" });
