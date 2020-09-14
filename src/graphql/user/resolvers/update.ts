@@ -1,8 +1,9 @@
 import UserService from "../../../db/repositories/UserRepository";
 import { isSuperUser } from "../../../helpers/permission";
+import { authenticate } from "../../../middlewares/authenticate";
 
-export function updateUser(source, args, context, info) {
-  if (context.isAuthenticated()) {
+export const updateUser = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
     let loggedUser = context.user;
     let input = args.input;
     if (input && input.customize_info && input.customize_info.first_name && input.customize_info.last_name) {
@@ -11,24 +12,24 @@ export function updateUser(source, args, context, info) {
     input = Object.assign(input, { _id: loggedUser._id });
     return UserService.update(input);
   }
-}
+};
 
-export function markSpam(source, args, context, info) {
-  if (context.isAuthenticated()) {
+export const markSpam = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
     let loggedUser = context.user;
     let input = args.input;
     if (isSuperUser(loggedUser.email)) {
       return UserService.markSpam(input._id);
     }
   }
-}
+};
 
-export function removeSpam(source, args, context, info) {
-  if (context.isAuthenticated()) {
+export const removeSpam = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
     let loggedUser = context.user;
     let input = args.input;
     if (isSuperUser(loggedUser.email)) {
       return UserService.removeSpam(input._id);
     }
   }
-}
+};

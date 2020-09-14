@@ -1,20 +1,21 @@
 import JobPreferLanguageService from "../../../db/repositories/JobPreferLanguageRepository";
-import {isSuperUser} from "../../../helpers/permission";
+import { isSuperUser } from "../../../helpers/permission";
+import { authenticate } from "../../../middlewares/authenticate";
 
-export function updateJobPreferLanguage(source, args, context, info) {
-  if (context.isAuthenticated()) {
+export const updateJobPreferLanguage = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
     let loggedUser = context.user;
     if (isSuperUser(loggedUser.email)) {
       return JobPreferLanguageService.update(args.input);
     }
   }
-}
+};
 
-export function createJobPreferLanguage(source, args, context, info) {
-  if (context.isAuthenticated()) {
+export const createJobPreferLanguage = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
     let loggedUser = context.user;
     if (isSuperUser(loggedUser.email)) {
       return JobPreferLanguageService.create(args.input);
     }
   }
-}
+};

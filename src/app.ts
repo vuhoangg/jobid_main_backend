@@ -14,7 +14,13 @@ import { UploadRouter } from "./modules/upload/router";
 import { MailRouter } from "./modules/mail";
 import { ServiceNotificationRouter } from "./modules/clientRegistration";
 import AppSchema from "./schema";
-import { isExistingEmailUser, isExistingIdUser, saveNewFacebookUser, saveNewGoogleUser } from "./modules/auth/handles";
+import {
+  isExistingEmailUser,
+  isExistingIdUser,
+  saveNewFacebookUser,
+  saveNewGoogleUser,
+  handleTokenAuth,
+} from "./modules/auth/handles";
 Connection.connect();
 const app = express();
 
@@ -43,11 +49,9 @@ app.use(
   })
 );
 
-
-
 passport.serializeUser((user: any, done) => {
-  // console.log("serializeUser", user);
-  done(null, user._id);
+  // console.log("serializeUser", user.user);
+  done(null, user.user._id || user);
 });
 
 passport.deserializeUser((_id: string, done) => {
@@ -57,7 +61,7 @@ passport.deserializeUser((_id: string, done) => {
       done(null, user);
     })
     .catch(function (err) {
-      console.log(err);
+      done(null, {});
     });
 });
 
@@ -69,16 +73,16 @@ passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     },
-    (accessToken, refreshToken, profile, cb) => {
-      isExistingEmailUser(profile.emails[0].value).then((r1) => {
-        if (r1) {
-          cb(null, r1);
-        } else {
-          saveNewGoogleUser(profile).then((r2) => {
-            cb(null, r2);
-          });
-        }
-      });
+    async (accessToken, refreshToken, profile, cb) => {
+      const r1 = await isExistingEmailUser(profile.emails[0].value);
+      if (r1) {
+        const accessToken = await handleTokenAuth(r1);
+        cb(null, { user: r1, accessToken });
+      } else {
+        const r2 = await saveNewGoogleUser(profile);
+        const accessToken = await handleTokenAuth(r2);
+        cb(null, { user: r2, accessToken });
+      }
     }
   )
 );
@@ -92,26 +96,30 @@ passport.use(
       callbackURL: `${process.env.API_URL}/auth/facebook/callback`,
       profileFields: [
         "id",
-        "email",
+        "emails",
         "last_name",
         "first_name",
-        "middle_name",
         "gender",
         "is_verified",
         "profileUrl",
         "picture",
+        "displayName",
       ],
     },
-    function (accessToken, refreshToken, profile, cb) {
-      isExistingEmailUser(profile.emails[0].value).then((r1) => {
+    async function (accessToken, refreshToken, profile, cb) {
+      if (profile.emails) {
+        const r1 = await isExistingEmailUser(profile.emails[0].value);
         if (r1) {
-          cb(null, r1);
+          const accessToken = await handleTokenAuth(r1);
+          cb(null, { user: r1, accessToken });
         } else {
-          saveNewFacebookUser(profile).then((r2) => {
-            cb(null, r2);
-          });
+          const r2 = await saveNewGoogleUser(profile);
+          const accessToken = await handleTokenAuth(r2);
+          cb(null, { user: r2, accessToken });
         }
-      });
+      } else {
+        cb(null, { user: { _id: "" } });
+      }
     }
   )
 );

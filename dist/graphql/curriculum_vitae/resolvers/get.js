@@ -15,21 +15,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCurriculumVitaes = exports.getCurriculumVitae = void 0;
 const helpers_1 = require("../../helpers");
 const CurriculumVitaeRepository_1 = __importDefault(require("../../../db/repositories/CurriculumVitaeRepository"));
-function getCurriculumVitae(source, args, context, info) {
-    if (context.isAuthenticated()) {
+const authenticate_1 = require("../../../middlewares/authenticate");
+exports.getCurriculumVitae = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield authenticate_1.authenticate(context, context.res)) {
         const fields = helpers_1.rootField(info);
-        return CurriculumVitaeRepository_1.default.get({ _id: args._id, user_created: context.user._id, status: "active" }, fields).then((curriculumVitae) => __awaiter(this, void 0, void 0, function* () {
+        return CurriculumVitaeRepository_1.default.get({ _id: args._id, user_created: context.user._id, status: "active" }, fields).then((curriculumVitae) => __awaiter(void 0, void 0, void 0, function* () {
             return curriculumVitae;
         }));
     }
-}
-exports.getCurriculumVitae = getCurriculumVitae;
-function getCurriculumVitaes(source, args, context, info) {
-    if (context.isAuthenticated()) {
+});
+exports.getCurriculumVitaes = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield authenticate_1.authenticate(context, context.res)) {
         let infos = helpers_1.rootInfo(info);
         let filter = Object.assign({ user_created: context.user._id, status: "active" }, helpers_1.filterObject(args.filter));
         let page = args.page > 50 ? 10 : args.page;
-        return CurriculumVitaeRepository_1.default.filter(filter, args.limit, page, infos.edges).then((curriculumVitae) => __awaiter(this, void 0, void 0, function* () {
+        return CurriculumVitaeRepository_1.default.filter(filter, args.limit, page, infos.edges).then((curriculumVitae) => __awaiter(void 0, void 0, void 0, function* () {
             let countData = infos.pageInfo && infos.pageInfo.length ? yield CurriculumVitaeRepository_1.default.count(filter) : 0;
             let dataRet = {
                 edges: curriculumVitae.map((item) => ({
@@ -45,6 +45,5 @@ function getCurriculumVitaes(source, args, context, info) {
             return dataRet;
         }));
     }
-}
-exports.getCurriculumVitaes = getCurriculumVitaes;
+});
 //# sourceMappingURL=get.js.map

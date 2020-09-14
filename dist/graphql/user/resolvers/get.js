@@ -15,15 +15,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUsers = exports.getUser = void 0;
 const UserRepository_1 = __importDefault(require("../../../db/repositories/UserRepository"));
 const helpers_1 = require("../../helpers");
-function getUser(source, args, context, info) {
+const authenticate_1 = require("../../../middlewares/authenticate");
+exports.getUser = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     const fields = helpers_1.rootField(info);
     let getBy = {
-        _id: context.isAuthenticated() ? context.user._id : "",
+        _id: (yield authenticate_1.authenticate(context, context.res)) ? context.user._id : "",
     };
     if (args._id || args.email) {
         getBy = args;
     }
-    return UserRepository_1.default.getBy(getBy, fields).then((user) => __awaiter(this, void 0, void 0, function* () {
+    return UserRepository_1.default.getBy(getBy, fields).then((user) => __awaiter(void 0, void 0, void 0, function* () {
         let node = {
             _id: user._id,
             email: user.email,
@@ -42,12 +43,11 @@ function getUser(source, args, context, info) {
         };
         return node;
     }));
-}
-exports.getUser = getUser;
-function getUsers(source, args, context, info) {
+});
+exports.getUsers = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
-    return UserRepository_1.default.filter(filter, args.limit, args.page, infos.edges).then((users) => __awaiter(this, void 0, void 0, function* () {
+    return UserRepository_1.default.filter(filter, args.limit, args.page, infos.edges).then((users) => __awaiter(void 0, void 0, void 0, function* () {
         let edges = [];
         // console.log(users);
         for (let i = 0; i < users.length; i++) {
@@ -80,6 +80,5 @@ function getUsers(source, args, context, info) {
             } });
         return dataRet;
     }));
-}
-exports.getUsers = getUsers;
+});
 //# sourceMappingURL=get.js.map

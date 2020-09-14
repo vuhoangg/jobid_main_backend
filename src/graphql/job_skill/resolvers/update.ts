@@ -1,19 +1,20 @@
 import JobSkillService from "../../../db/repositories/JobSkillRepository";
-import {isSuperUser} from "../../../helpers/permission";
+import { isSuperUser } from "../../../helpers/permission";
+import { authenticate } from "../../../middlewares/authenticate";
 
-export function updateJobSkill (source, args, context, info) {
-    if (context.isAuthenticated()) {
-        let loggedUser = context.user;
-        if (isSuperUser(loggedUser.email)) {
-            return JobSkillService.update(args.input);
-        }
+export const updateJobSkill = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
+    let loggedUser = context.user;
+    if (isSuperUser(loggedUser.email)) {
+      return JobSkillService.update(args.input);
     }
-}
-export function createJobSkill (source, args, context, info) {
-    if (context.isAuthenticated()) {
-        let loggedUser = context.user;
-        if (isSuperUser(loggedUser.email)) {
-            return JobSkillService.create(args.input);
-        }
+  }
+};
+export const createJobSkill = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
+    let loggedUser = context.user;
+    if (isSuperUser(loggedUser.email)) {
+      return JobSkillService.create(args.input);
     }
-}
+  }
+};

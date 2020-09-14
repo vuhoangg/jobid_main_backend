@@ -2,12 +2,13 @@ import JobApplyService from "../../../db/repositories/JobApplyRepository";
 import JobPostService from "../../../db/repositories/JobPostRepository";
 import NotificationService from "../../../db/repositories/NotificationRepository";
 import { api } from "../../../utils/api";
+import { authenticate } from "../../../middlewares/authenticate";
 
-export function updateJobApply(source, args, context, info) {
-  if (context.isAuthenticated()) {
+export const updateJobApply = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
     let loggedUser = context.user;
     let input = args.input;
-    input = Object.assign(input, { user: loggedUser._id, status: 'pending' });
+    input = Object.assign(input, { user: loggedUser._id, status: "pending" });
     return JobApplyService.applyJob(input).then(async (data) => {
       let jobPost = await JobPostService.get(input.job_post, {});
       let target = jobPost.user;
@@ -43,10 +44,10 @@ export function updateJobApply(source, args, context, info) {
       return data;
     });
   }
-}
-export function updateStatusJobApply(source, args, context, info) {
-  if (context.isAuthenticated()) {
+};
+export const updateStatusJobApply = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
     let input = args.input;
     return JobApplyService.update(input);
-}
-}
+  }
+};

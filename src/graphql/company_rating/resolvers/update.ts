@@ -1,14 +1,15 @@
 import CompanyRatingService from "../../../db/repositories/CompanyRatingRepository";
+import { authenticate } from "../../../middlewares/authenticate";
 
-export function updateJobRating(source, args, context, info) {
-  if (context.isAuthenticated()) {
+export const updateJobRating = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
     let input = args.input;
     return CompanyRatingService.update(input).then(async (data) => data);
   }
-}
-export function createJobRating(source, args, context, info) {
-  if (context.isAuthenticated()) {
+};
+export const createJobRating = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
     let input = args.input;
-    return CompanyRatingService.create(input).then(r => r);
+    return CompanyRatingService.create(input).then((r) => r);
   }
-}
+};

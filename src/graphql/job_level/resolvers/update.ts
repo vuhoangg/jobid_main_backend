@@ -1,20 +1,21 @@
 import JobLevelService from "../../../db/repositories/JobLevelRepository";
-import {isSuperUser} from "../../../helpers/permission";
+import { isSuperUser } from "../../../helpers/permission";
+import { authenticate } from "../../../middlewares/authenticate";
 
-export function updateJobLevel(source, args, context, info) {
-  if (context.isAuthenticated()) {
+export const updateJobLevel = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
     let loggedUser = context.user;
     if (isSuperUser(loggedUser.email)) {
       return JobLevelService.update(args.input);
     }
   }
-}
+};
 
-export function createJobLevel(source, args, context, info) {
-  if (context.isAuthenticated()) {
+export const createJobLevel = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
     let loggedUser = context.user;
     if (isSuperUser(loggedUser.email)) {
       return JobLevelService.create(args.input);
     }
   }
-}
+};

@@ -18,15 +18,16 @@ const ActivityRepository_1 = __importDefault(require("../../../db/repositories/A
 const string_1 = require("../../../helpers/string");
 const NotificationRepository_1 = __importDefault(require("../../../db/repositories/NotificationRepository"));
 const permission_1 = require("../../../helpers/permission");
-function updateJobPost(source, args, context, info) {
-    if (context.isAuthenticated()) {
+const authenticate_1 = require("../../../middlewares/authenticate");
+exports.updateJobPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield authenticate_1.authenticate(context, context.res)) {
         let loggedUser = context.user;
         let input = args.input;
         if (permission_1.isSuperUser(loggedUser.email)) {
             return JobPostRepository_1.default.update(input);
         }
         else {
-            return JobPostRepository_1.default.get(input._id, {}).then(r1 => {
+            return JobPostRepository_1.default.get(input._id, {}).then((r1) => {
                 if (r1 && r1.user.toString() == loggedUser._id.toString()) {
                     return JobPostRepository_1.default.update(input);
                 }
@@ -36,10 +37,9 @@ function updateJobPost(source, args, context, info) {
             });
         }
     }
-}
-exports.updateJobPost = updateJobPost;
-function createJobPost(source, args, context, info) {
-    if (context.isAuthenticated()) {
+});
+exports.createJobPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield authenticate_1.authenticate(context, context.res)) {
         let loggedUser = context.user;
         let input = args.input;
         let slug = string_1.toSlug(input.title, true);
@@ -54,7 +54,7 @@ function createJobPost(source, args, context, info) {
             subject: "user_post_job",
             target: {
                 object_type: "user",
-                ref: loggedUser._id
+                ref: loggedUser._id,
             },
             message: "Tin tuyển dụng của bạn đã được đăng tải. Cảm ơn bạn đã sử dụng Kết Nối Việc!",
             href: slug,
@@ -62,12 +62,11 @@ function createJobPost(source, args, context, info) {
         };
         input = Object.assign(input, { slug: slug });
         input = Object.assign(input, { user: loggedUser._id });
-        return JobPostRepository_1.default.create(input).then((r) => __awaiter(this, void 0, void 0, function* () {
+        return JobPostRepository_1.default.create(input).then((r) => __awaiter(void 0, void 0, void 0, function* () {
             yield ActivityRepository_1.default.create(activity);
             yield NotificationRepository_1.default.create(notification);
             return r;
         }));
     }
-}
-exports.createJobPost = createJobPost;
+});
 //# sourceMappingURL=update.js.map

@@ -1,13 +1,14 @@
 import UserService from "../../../db/repositories/UserRepository";
 import { sendWelcome } from "../../../mail";
+import jwt from "jsonwebtoken";
 
-export function isExistingIdUser(_id: string) {
+export const isExistingIdUser = async (_id: string) => {
   return UserService.getBy({ _id }, { password: 0 });
-}
+};
 export function isExistingEmailUser(email: string) {
   return UserService.getBy({ email }, { password: 0 });
 }
-export function saveNewGoogleUser(profile) {
+export const saveNewGoogleUser = async (profile) => {
   let payload = {
     first_name: profile.name.familyName,
     last_name: profile.name.givenName,
@@ -18,7 +19,7 @@ export function saveNewGoogleUser(profile) {
   };
   sendWelcome(payload.email);
   return UserService.create(payload);
-}
+};
 
 export const saveNewFacebookUser = (profile: any) => {
   let payload = {
@@ -33,4 +34,27 @@ export const saveNewFacebookUser = (profile: any) => {
   };
   sendWelcome(profile.emails[0].value);
   return UserService.create(payload);
+};
+
+export const handleTokenAuth = async (user: any) => {
+  const accessToken = jwt.sign(
+    {
+      data: user._id,
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: process.env.EXPIRES_ACCESS_TOKEN }
+  );
+  const refreshToken = jwt.sign(
+    {
+      data: user._id,
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: process.env.EXPIRES_REFRESH_TOKEN }
+  );
+  await UserService.update({
+    _id: user._id,
+    accessToken,
+    refreshToken,
+  });
+  return accessToken;
 };

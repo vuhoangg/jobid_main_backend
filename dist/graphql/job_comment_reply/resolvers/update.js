@@ -14,20 +14,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createJobReplyComment = exports.updateJobReplyComment = void 0;
 const JobCommentReplyRepository_1 = __importDefault(require("../../../db/repositories/JobCommentReplyRepository"));
-function updateJobReplyComment(source, args, context, info) {
-    if (context.isAuthenticated()) {
+const authenticate_1 = require("../../../middlewares/authenticate");
+exports.updateJobReplyComment = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield authenticate_1.authenticate(context, context.res)) {
         let input = args.input;
-        return JobCommentReplyRepository_1.default.update(input).then((data) => __awaiter(this, void 0, void 0, function* () {
+        return JobCommentReplyRepository_1.default.update(input).then((data) => __awaiter(void 0, void 0, void 0, function* () {
             return JobCommentReplyRepository_1.default.update(input);
         }));
     }
-}
-exports.updateJobReplyComment = updateJobReplyComment;
-function createJobReplyComment(source, args, context, info) {
-    if (context.isAuthenticated()) {
+});
+exports.createJobReplyComment = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield authenticate_1.authenticate(context, context.res)) {
         let input = args.input;
-        return JobCommentReplyRepository_1.default.create(input).then(r => r);
+        return JobCommentReplyRepository_1.default.create(input).then((r) => r);
     }
-}
-exports.createJobReplyComment = createJobReplyComment;
+});
 //# sourceMappingURL=update.js.map
