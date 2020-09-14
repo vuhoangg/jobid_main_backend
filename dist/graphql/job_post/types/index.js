@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.JobPostArguments = exports.JobPostInput = exports.JobPostConnection = exports.JobPostEdge = exports.JobPost = exports.JobAddressInput = exports.JobAddress = exports.JobCompanyInput = exports.JobCompany = exports.JobBenefitInput = exports.JobBenefit = exports.JobSalaryInput = exports.JobSalary = void 0;
+exports.JobPostArguments = exports.JobPostInput = exports.JobPostConnection = exports.JobPostEdge = exports.JobPost = exports.JobContactInput = exports.JobContact = exports.JobAddressInput = exports.JobAddress = exports.JobCompanyInput = exports.JobCompany = exports.JobBenefitInput = exports.JobBenefit = exports.JobSalaryInput = exports.JobSalary = void 0;
 const graphql_1 = require("graphql");
 const types_1 = require("../../types");
 const types_2 = require("../../job_level/types");
@@ -86,6 +86,24 @@ exports.JobAddressInput = new graphql_1.GraphQLInputObjectType({
     },
     name: "JobAddressInput",
 });
+exports.JobContact = new graphql_1.GraphQLObjectType({
+    description: "Represents a job contact.",
+    fields: {
+        name: { type: graphql_1.GraphQLString },
+        email: { type: graphql_1.GraphQLString },
+        phone: { type: graphql_1.GraphQLString },
+    },
+    name: "JobContact",
+});
+exports.JobContactInput = new graphql_1.GraphQLInputObjectType({
+    description: "The updated properties for a job contact.",
+    fields: {
+        name: { type: graphql_1.GraphQLString },
+        email: { type: graphql_1.GraphQLString },
+        phone: { type: graphql_1.GraphQLString },
+    },
+    name: "JobContactInput",
+});
 exports.JobPost = new graphql_1.GraphQLObjectType({
     description: "Represents a job post.",
     fields: {
@@ -101,6 +119,7 @@ exports.JobPost = new graphql_1.GraphQLObjectType({
         salary: { type: exports.JobSalary },
         address: { type: exports.JobAddress },
         company: { type: exports.JobCompany },
+        contact: { type: exports.JobContact },
         image: { type: graphql_1.GraphQLString },
         photos: { type: new graphql_1.GraphQLList(graphql_1.GraphQLString) },
         video: { type: graphql_1.GraphQLString },
@@ -152,6 +171,7 @@ exports.JobPostInput = new graphql_1.GraphQLInputObjectType({
         salary: { type: exports.JobSalaryInput },
         address: { type: exports.JobAddressInput },
         company: { type: exports.JobCompanyInput },
+        contact: { type: exports.JobContactInput },
         image: { type: graphql_1.GraphQLString },
         photos: { type: new graphql_1.GraphQLList(graphql_1.GraphQLString) },
         video: { type: graphql_1.GraphQLString },

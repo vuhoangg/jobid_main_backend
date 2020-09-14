@@ -56,6 +56,11 @@ const jobPostSchema = new mongoose.Schema({
         },
         name: String,
     },
+    contact: {
+        name: String,
+        email: String,
+        phone: String,
+    },
     image: String,
     photos: [String],
     video: String,

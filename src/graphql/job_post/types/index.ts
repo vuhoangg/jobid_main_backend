@@ -100,6 +100,26 @@ export const JobAddressInput = new GraphQLInputObjectType({
   name: "JobAddressInput",
 });
 
+export const JobContact = new GraphQLObjectType({
+  description: "Represents a job contact.",
+  fields: {
+    name: {type: GraphQLString},
+    email: {type: GraphQLString},
+    phone: {type: GraphQLString},
+  },
+  name: "JobContact",
+});
+
+export const JobContactInput = new GraphQLInputObjectType({
+  description: "The updated properties for a job contact.",
+  fields: {
+    name: {type: GraphQLString},
+    email: {type: GraphQLString},
+    phone: {type: GraphQLString},
+  },
+  name: "JobContactInput",
+});
+
 export const JobPost = new GraphQLObjectType({
   description: "Represents a job post.",
   fields: {
@@ -115,6 +135,7 @@ export const JobPost = new GraphQLObjectType({
     salary: {type: JobSalary},
     address: {type: JobAddress},
     company: {type: JobCompany},
+    contact: {type: JobContact},
     image: {type: GraphQLString},
     photos: {type: new GraphQLList(GraphQLString)},
     video: {type: GraphQLString},
@@ -167,6 +188,7 @@ export const JobPostInput = new GraphQLInputObjectType({
     salary: {type: JobSalaryInput},
     address: {type: JobAddressInput},
     company: {type: JobCompanyInput},
+    contact: {type: JobContactInput},
     image: {type: GraphQLString},
     photos: {type: new GraphQLList(GraphQLString)},
     video: {type: GraphQLString},
