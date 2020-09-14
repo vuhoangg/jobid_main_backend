@@ -50,7 +50,7 @@ exports.handleRefreshToken = (res, user) => __awaiter(void 0, void 0, void 0, fu
         }, process.env.JWT_SECRET, { expiresIn: process.env.EXPIRES_REFRESH_TOKEN });
         yield UserRepository_1.default.refreshToken(user._id, accessToken, refreshToken);
         res.cookie("knv_accessToken", accessToken, {
-            domain: process.env.DOMAIN_CLIENT_COOKIE,
+            domain: process.env.COOKIE_SHARE_DOMAIN,
             expires: new Date(Date.now() + parseInt(process.env.EXPIRES_COOKIE)),
             httpOnly: false,
         });
