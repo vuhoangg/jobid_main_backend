@@ -46,7 +46,7 @@ export const JobLevelConnection = new GraphQLObjectType({
 
 export const JobLevelInput = new GraphQLInputObjectType({
   fields: {
-    _id: {type: new GraphQLNonNull(GraphQLString)},
+    _id: {type: GraphQLString},
     title: {type: new GraphQLNonNull(GraphQLString)},
     slug: {type: new GraphQLNonNull(GraphQLString)},
     seo_title: {type: GraphQLString},

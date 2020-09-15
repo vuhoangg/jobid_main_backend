@@ -41,7 +41,7 @@ exports.JobLevelConnection = new graphql_1.GraphQLObjectType({
 });
 exports.JobLevelInput = new graphql_1.GraphQLInputObjectType({
     fields: {
-        _id: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
+        _id: { type: graphql_1.GraphQLString },
         title: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         slug: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         seo_title: { type: graphql_1.GraphQLString },
