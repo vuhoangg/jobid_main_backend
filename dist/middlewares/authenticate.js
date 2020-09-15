@@ -43,10 +43,10 @@ exports.handleRefreshToken = (res, user) => __awaiter(void 0, void 0, void 0, fu
     try {
         const decoded = jsonwebtoken_1.default.verify(user.refreshToken, process.env.JWT_SECRET);
         const accessToken = jsonwebtoken_1.default.sign({
-            data: user._id,
+            data: user,
         }, process.env.JWT_SECRET, { expiresIn: process.env.EXPIRES_ACCESS_TOKEN });
         const refreshToken = jsonwebtoken_1.default.sign({
-            data: user._id,
+            data: user,
         }, process.env.JWT_SECRET, { expiresIn: process.env.EXPIRES_REFRESH_TOKEN });
         yield UserRepository_1.default.refreshToken(user._id, accessToken, refreshToken);
         res.cookie("knv_accessToken", accessToken, {

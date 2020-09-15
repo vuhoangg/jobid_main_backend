@@ -30,14 +30,14 @@ export const handleRefreshToken = async (res: any, user: any) => {
 
     const accessToken = jwt.sign(
       {
-        data: user._id,
+        data: user,
       },
       process.env.JWT_SECRET,
       { expiresIn: process.env.EXPIRES_ACCESS_TOKEN }
     );
     const refreshToken = jwt.sign(
       {
-        data: user._id,
+        data: user,
       },
       process.env.JWT_SECRET,
       { expiresIn: process.env.EXPIRES_REFRESH_TOKEN }

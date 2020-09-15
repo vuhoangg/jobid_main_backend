@@ -17,13 +17,6 @@ router.get(
   async (req: any, res) => {
     const user = req.user.user;
     const accessToken = req.user.accessToken;
-    user.accessToken = "";
-    user.refreshToken = "";
-    res.cookie("user", user, {
-      domain: process.env.COOKIE_SHARE_DOMAIN,
-      maxAge: parseInt(process.env.COOKIE_AGE),
-      httpOnly: false,
-    });
     res.cookie("knv_accessToken", accessToken, {
       domain: process.env.COOKIE_SHARE_DOMAIN,
       maxAge: parseInt(process.env.COOKIE_AGE),
@@ -41,13 +34,6 @@ router.get(
     const user = req.user.user;
     if (user._id) {
       const accessToken = req.user.accessToken;
-      user.accessToken = "";
-      user.refreshToken = "";
-      res.cookie("user", user, {
-        domain: process.env.COOKIE_SHARE_DOMAIN,
-        maxAge: parseInt(process.env.COOKIE_AGE),
-        httpOnly: false,
-      });
       res.cookie("knv_accessToken", accessToken, {
         domain: process.env.COOKIE_SHARE_DOMAIN,
         maxAge: parseInt(process.env.COOKIE_AGE),
@@ -70,6 +56,34 @@ router.get("/zalo/callback", passport.authenticate("zalo", { failureRedirect: "/
 
 router.post(
   "/login",
+  (req, res, next) => {
+    if (!req.cookies.knv_accessToken) {
+      res.status(200).json({});
+    } else {
+      next();
+    }
+  },
+  async (req, res) => {
+    if (await authenticate(req, res)) {
+      const user_id = res.locals.user;
+      const user = await userService.getById(user_id);
+      res.json({ user });
+    } else {
+      res.json({});
+    }
+  }
+);
+
+router.post("/logout", async (req, res) => {
+  if (await authenticate(req, res)) {
+    const user_id = res.locals.user;
+    await userService.logout(user_id);
+    res.status(200).end();
+  }
+});
+
+router.post(
+  "/refresh-token",
   (req, res, next) => {
     if (!req.cookies.knv_accessToken) {
       res.status(200).json({});
