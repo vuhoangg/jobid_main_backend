@@ -260,7 +260,7 @@ class UserRepository implements CrudContract {
 
   update(data) {
     try {
-      return User.findByIdAndUpdate(data._id, {}, { new: true });
+      return User.findByIdAndUpdate(data._id, data, { new: true });
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -277,7 +277,7 @@ class UserRepository implements CrudContract {
   }
 
   async findUserRefreshToken(accessToken: string) {
-    return User.findOne({ accessToken }, { accessToken: true, refreshToken: true });
+    return User.findOne({ accessToken });
   }
 
   async refreshToken(_id: string, accessToken: string, refreshToken: string) {

@@ -18,10 +18,10 @@ const mail_1 = require("../../../mail");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const mongoose_1 = __importDefault(require("mongoose"));
 exports.isExistingIdUser = (_id) => __awaiter(void 0, void 0, void 0, function* () {
-    return UserRepository_1.default.getBy({ _id }, { email: 1, first_name: 1, last_name: 1, full_name: 1, avatar: 1, user_chiase: 1 });
+    return UserRepository_1.default.getBy({ _id }, { accessToken: 0, refreshToken: 0 });
 });
 function isExistingEmailUser(email) {
-    return UserRepository_1.default.getBy({ email }, { email: 1, first_name: 1, last_name: 1, full_name: 1, avatar: 1, user_chiase: 1 });
+    return UserRepository_1.default.getBy({ email }, { accessToken: 0, refreshToken: 0 });
 }
 exports.isExistingEmailUser = isExistingEmailUser;
 exports.saveNewGoogleUser = (profile) => __awaiter(void 0, void 0, void 0, function* () {

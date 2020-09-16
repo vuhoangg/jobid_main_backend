@@ -10,7 +10,7 @@ export const authenticate = async (req, res) => {
   } else {
     try {
       const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
-      res.locals.user = decoded.data;
+      res.locals.user = decoded.data._id;
       return true;
     } catch (err) {
       if (err.name === "JsonWebTokenError") {
@@ -27,17 +27,16 @@ export const authenticate = async (req, res) => {
 export const handleRefreshToken = async (res: any, user: any) => {
   try {
     const decoded = jwt.verify(user.refreshToken, process.env.JWT_SECRET);
-
     const accessToken = jwt.sign(
       {
-        data: user,
+        data: { ...user.toObject(), accessToken: "", refreshToken: "" },
       },
       process.env.JWT_SECRET,
       { expiresIn: process.env.EXPIRES_ACCESS_TOKEN }
     );
     const refreshToken = jwt.sign(
       {
-        data: user,
+        data: { ...user.toObject(), accessToken: "", refreshToken: "" },
       },
       process.env.JWT_SECRET,
       { expiresIn: process.env.EXPIRES_REFRESH_TOKEN }
@@ -46,10 +45,9 @@ export const handleRefreshToken = async (res: any, user: any) => {
 
     res.cookie("knv_accessToken", accessToken, {
       domain: process.env.COOKIE_SHARE_DOMAIN,
-      expires: new Date(Date.now() + parseInt(process.env.EXPIRES_COOKIE)),
       httpOnly: false,
     });
-    res.locals.user = decoded.data;
+    res.locals.user = decoded.data._id;
     return true;
   } catch (err) {
     res.clearCookie("knv_accessToken", { path: "/" });

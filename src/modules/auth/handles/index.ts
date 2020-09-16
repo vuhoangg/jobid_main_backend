@@ -4,13 +4,10 @@ import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 
 export const isExistingIdUser = async (_id: string) => {
-  return UserService.getBy({ _id }, { email: 1, first_name: 1, last_name: 1, full_name: 1, avatar: 1, user_chiase: 1 });
+  return UserService.getBy({ _id }, { accessToken: 0, refreshToken: 0 });
 };
 export function isExistingEmailUser(email: string) {
-  return UserService.getBy(
-    { email },
-    { email: 1, first_name: 1, last_name: 1, full_name: 1, avatar: 1, user_chiase: 1 }
-  );
+  return UserService.getBy({ email }, { accessToken: 0, refreshToken: 0 });
 }
 export const saveNewGoogleUser = async (profile) => {
   let payload = {

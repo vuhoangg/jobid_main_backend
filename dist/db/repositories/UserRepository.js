@@ -211,7 +211,7 @@ class UserRepository {
     }
     update(data) {
         try {
-            return User_1.default.findByIdAndUpdate(data._id, {}, { new: true });
+            return User_1.default.findByIdAndUpdate(data._id, data, { new: true });
         }
         catch (e) {
             log_1.errorLog(e);
@@ -231,7 +231,7 @@ class UserRepository {
     }
     findUserRefreshToken(accessToken) {
         return __awaiter(this, void 0, void 0, function* () {
-            return User_1.default.findOne({ accessToken }, { accessToken: true, refreshToken: true });
+            return User_1.default.findOne({ accessToken });
         });
     }
     refreshToken(_id, accessToken, refreshToken) {
