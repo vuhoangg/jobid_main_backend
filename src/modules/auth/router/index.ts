@@ -21,6 +21,7 @@ router.get(
     res.cookie("knv_accessToken", accessToken, {
       domain: process.env.COOKIE_SHARE_DOMAIN,
       httpOnly: false,
+      path: "/",
     });
     res.redirect(`${process.env.SITE_URL}/auth/redirect`);
   }
@@ -37,6 +38,7 @@ router.get(
       res.cookie("knv_accessToken", accessToken, {
         domain: process.env.COOKIE_SHARE_DOMAIN,
         httpOnly: false,
+        path: "/",
       });
     }
     res.redirect(`${process.env.SITE_URL}/auth/redirect`);
@@ -77,7 +79,7 @@ router.post("/logout", async (req, res) => {
   if (await authenticate(req, res)) {
     const user_id = res.locals.user;
     await userService.logout(user_id);
-    res.clearCookie("knv_accessToken", { path: "/" });
+    res.clearCookie("knv_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: false });
     res.status(200).json("ok");
   }
 });
@@ -85,15 +87,7 @@ router.post("/logout", async (req, res) => {
 router.post("/refresh-token", async (req, res) => {
   const user = await userService.findUserRefreshToken(req.body.accessToken);
   if (user) {
-    const accessToken = await handleTokenAuth({
-      ...user.toObject(),
-      accessToken: "",
-      refreshToken: "",
-      info: {},
-      company_role: [],
-      manager_cv: [],
-      customize_info: {},
-    });
+    const accessToken = await handleTokenAuth(user);
     res.json({ user_id: user.user_chiase, accessToken });
   } else {
     res.end();

@@ -18,7 +18,7 @@ const UserRepository_1 = __importDefault(require("../db/repositories/UserReposit
 exports.authenticate = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const accessToken = req.cookies.knv_accessToken;
     if (!accessToken) {
-        res.clearCookie("knv_accessToken", { path: "/" });
+        res.clearCookie("knv_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: false });
         return false;
     }
     else {
@@ -29,7 +29,7 @@ exports.authenticate = (req, res) => __awaiter(void 0, void 0, void 0, function*
         }
         catch (err) {
             if (err.name === "JsonWebTokenError") {
-                res.clearCookie("knv_accessToken", { path: "/" });
+                res.clearCookie("knv_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: false });
                 return false;
             }
             else if (err.name === "TokenExpiredError") {
@@ -52,12 +52,13 @@ exports.handleRefreshToken = (res, user) => __awaiter(void 0, void 0, void 0, fu
         res.cookie("knv_accessToken", accessToken, {
             domain: process.env.COOKIE_SHARE_DOMAIN,
             httpOnly: false,
+            path: "/",
         });
         res.locals.user = decoded.data._id;
         return true;
     }
     catch (err) {
-        res.clearCookie("knv_accessToken", { path: "/" });
+        res.clearCookie("knv_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: false });
         return false;
     }
 });
