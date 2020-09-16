@@ -24,7 +24,6 @@ router.get("/google", passport_1.default.authenticate("google", {
     scope: ["profile", "email"],
 }));
 router.get("/google/callback", passport_1.default.authenticate("google", { failureRedirect: "/login" }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = req.user.user;
     const accessToken = req.user.accessToken;
     res.cookie("knv_accessToken", accessToken, {
         domain: process.env.COOKIE_SHARE_DOMAIN,
@@ -81,7 +80,7 @@ router.post("/logout", (req, res) => __awaiter(void 0, void 0, void 0, function*
 router.post("/refresh-token", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield UserRepository_1.default.findUserRefreshToken(req.body.accessToken);
     if (user) {
-        const accessToken = yield handles_1.handleTokenAuth(Object.assign(Object.assign({}, user.toObject()), { accessToken: "", refreshToken: "" }));
+        const accessToken = yield handles_1.handleTokenAuth(Object.assign(Object.assign({}, user.toObject()), { accessToken: "", refreshToken: "", info: {}, company_role: [], manager_cv: [], customize_info: {} }));
         res.json({ user_id: user.user_chiase, accessToken });
     }
     else {

@@ -29,14 +29,30 @@ export const handleRefreshToken = async (res: any, user: any) => {
     const decoded = jwt.verify(user.refreshToken, process.env.JWT_SECRET);
     const accessToken = jwt.sign(
       {
-        data: { ...user.toObject(), accessToken: "", refreshToken: "" },
+        data: {
+          ...user.toObject(),
+          accessToken: "",
+          refreshToken: "",
+          info: {},
+          company_role: [],
+          manager_cv: [],
+          customize_info: {},
+        },
       },
       process.env.JWT_SECRET,
       { expiresIn: process.env.EXPIRES_ACCESS_TOKEN }
     );
     const refreshToken = jwt.sign(
       {
-        data: { ...user.toObject(), accessToken: "", refreshToken: "" },
+        data: {
+          ...user.toObject(),
+          accessToken: "",
+          refreshToken: "",
+          info: {},
+          company_role: [],
+          manager_cv: [],
+          customize_info: {},
+        },
       },
       process.env.JWT_SECRET,
       { expiresIn: process.env.EXPIRES_REFRESH_TOKEN }
