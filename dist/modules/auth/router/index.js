@@ -28,6 +28,7 @@ router.get("/google/callback", passport_1.default.authenticate("google", { failu
     res.cookie("knv_accessToken", accessToken, {
         domain: process.env.COOKIE_SHARE_DOMAIN,
         httpOnly: false,
+        path: "/",
     });
     res.redirect(`${process.env.SITE_URL}/auth/redirect`);
 }));
@@ -39,6 +40,7 @@ router.get("/facebook/callback", passport_1.default.authenticate("facebook", { f
         res.cookie("knv_accessToken", accessToken, {
             domain: process.env.COOKIE_SHARE_DOMAIN,
             httpOnly: false,
+            path: "/",
         });
     }
     res.redirect(`${process.env.SITE_URL}/auth/redirect`);
@@ -73,14 +75,14 @@ router.post("/logout", (req, res) => __awaiter(void 0, void 0, void 0, function*
     if (yield authenticate_1.authenticate(req, res)) {
         const user_id = res.locals.user;
         yield UserRepository_1.default.logout(user_id);
-        res.clearCookie("knv_accessToken", { path: "/" });
+        res.clearCookie("knv_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: false });
         res.status(200).json("ok");
     }
 }));
 router.post("/refresh-token", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield UserRepository_1.default.findUserRefreshToken(req.body.accessToken);
     if (user) {
-        const accessToken = yield handles_1.handleTokenAuth(Object.assign(Object.assign({}, user.toObject()), { accessToken: "", refreshToken: "", info: {}, company_role: [], manager_cv: [], customize_info: {} }));
+        const accessToken = yield handles_1.handleTokenAuth(user);
         res.json({ user_id: user.user_chiase, accessToken });
     }
     else {

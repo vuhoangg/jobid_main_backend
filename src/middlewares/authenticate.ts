@@ -5,7 +5,7 @@ import userService from "../db/repositories/UserRepository";
 export const authenticate = async (req, res) => {
   const accessToken = req.cookies.knv_accessToken;
   if (!accessToken) {
-    res.clearCookie("knv_accessToken", { path: "/" });
+    res.clearCookie("knv_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: false });
     return false;
   } else {
     try {
@@ -14,7 +14,7 @@ export const authenticate = async (req, res) => {
       return true;
     } catch (err) {
       if (err.name === "JsonWebTokenError") {
-        res.clearCookie("knv_accessToken", { path: "/" });
+        res.clearCookie("knv_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: false });
         return false;
       } else if (err.name === "TokenExpiredError") {
         const user = await userService.findUserRefreshToken(accessToken);
@@ -62,11 +62,12 @@ export const handleRefreshToken = async (res: any, user: any) => {
     res.cookie("knv_accessToken", accessToken, {
       domain: process.env.COOKIE_SHARE_DOMAIN,
       httpOnly: false,
+      path: "/",
     });
     res.locals.user = decoded.data._id;
     return true;
   } catch (err) {
-    res.clearCookie("knv_accessToken", { path: "/" });
+    res.clearCookie("knv_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: false });
     return false;
   }
 };
