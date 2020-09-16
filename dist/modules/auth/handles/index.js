@@ -54,10 +54,10 @@ exports.saveNewFacebookUser = (profile) => {
 };
 exports.handleTokenAuth = (user) => __awaiter(void 0, void 0, void 0, function* () {
     const accessToken = jsonwebtoken_1.default.sign({
-        data: user,
+        data: Object.assign(Object.assign({}, user.toObject()), { accessToken: "", refreshToken: "", info: {}, company_role: [], manager_cv: [], customize_info: {} }),
     }, process.env.JWT_SECRET, { expiresIn: process.env.EXPIRES_ACCESS_TOKEN });
     const refreshToken = jsonwebtoken_1.default.sign({
-        data: user,
+        data: Object.assign(Object.assign({}, user.toObject()), { accessToken: "", refreshToken: "", info: {}, company_role: [], manager_cv: [], customize_info: {} }),
     }, process.env.JWT_SECRET, { expiresIn: process.env.EXPIRES_REFRESH_TOKEN });
     yield UserRepository_1.default.update({
         _id: user._id,

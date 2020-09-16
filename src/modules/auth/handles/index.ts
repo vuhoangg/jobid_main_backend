@@ -42,14 +42,30 @@ export const saveNewFacebookUser = (profile: any) => {
 export const handleTokenAuth = async (user: any) => {
   const accessToken = jwt.sign(
     {
-      data: user,
+      data: {
+        ...user.toObject(),
+        accessToken: "",
+        refreshToken: "",
+        info: {},
+        company_role: [],
+        manager_cv: [],
+        customize_info: {},
+      },
     },
     process.env.JWT_SECRET,
     { expiresIn: process.env.EXPIRES_ACCESS_TOKEN }
   );
   const refreshToken = jwt.sign(
     {
-      data: user,
+      data: {
+        ...user.toObject(),
+        accessToken: "",
+        refreshToken: "",
+        info: {},
+        company_role: [],
+        manager_cv: [],
+        customize_info: {},
+      },
     },
     process.env.JWT_SECRET,
     { expiresIn: process.env.EXPIRES_REFRESH_TOKEN }
