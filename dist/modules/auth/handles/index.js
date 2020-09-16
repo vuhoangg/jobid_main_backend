@@ -16,11 +16,12 @@ exports.handleTokenAuth = exports.saveNewFacebookUser = exports.saveNewGoogleUse
 const UserRepository_1 = __importDefault(require("../../../db/repositories/UserRepository"));
 const mail_1 = require("../../../mail");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const mongoose_1 = __importDefault(require("mongoose"));
 exports.isExistingIdUser = (_id) => __awaiter(void 0, void 0, void 0, function* () {
-    return UserRepository_1.default.getBy({ _id }, { password: 0 });
+    return UserRepository_1.default.getBy({ _id }, { accessToken: 0, refreshToken: 0 });
 });
 function isExistingEmailUser(email) {
-    return UserRepository_1.default.getBy({ email }, { password: 0 });
+    return UserRepository_1.default.getBy({ email }, { accessToken: 0, refreshToken: 0 });
 }
 exports.isExistingEmailUser = isExistingEmailUser;
 exports.saveNewGoogleUser = (profile) => __awaiter(void 0, void 0, void 0, function* () {
@@ -31,6 +32,7 @@ exports.saveNewGoogleUser = (profile) => __awaiter(void 0, void 0, void 0, funct
         email: profile.emails[0].value,
         avatar: profile.photos[0].value,
         login_type: "google",
+        user_chiase: mongoose_1.default.Types.ObjectId(),
     };
     mail_1.sendWelcome(payload.email);
     return UserRepository_1.default.create(payload);
@@ -45,16 +47,17 @@ exports.saveNewFacebookUser = (profile) => {
         // gender: profile.gender,
         email: profile.emails[0].value,
         login_type: "facebook",
+        user_chiaser: mongoose_1.default.Types.ObjectId(),
     };
     mail_1.sendWelcome(profile.emails[0].value);
     return UserRepository_1.default.create(payload);
 };
 exports.handleTokenAuth = (user) => __awaiter(void 0, void 0, void 0, function* () {
     const accessToken = jsonwebtoken_1.default.sign({
-        data: user._id,
+        data: user,
     }, process.env.JWT_SECRET, { expiresIn: process.env.EXPIRES_ACCESS_TOKEN });
     const refreshToken = jsonwebtoken_1.default.sign({
-        data: user._id,
+        data: user,
     }, process.env.JWT_SECRET, { expiresIn: process.env.EXPIRES_REFRESH_TOKEN });
     yield UserRepository_1.default.update({
         _id: user._id,

@@ -267,8 +267,17 @@ class UserRepository implements CrudContract {
     }
   }
 
+  async logout(_id) {
+    try {
+      return User.findByIdAndUpdate(_id, { accessToken: "", refreshToken: "" });
+    } catch (e) {
+      errorLog(e);
+      return promiseNull();
+    }
+  }
+
   async findUserRefreshToken(accessToken: string) {
-    return User.findOne({ accessToken }, { accessToken: true, refreshToken: true });
+    return User.findOne({ accessToken });
   }
 
   async refreshToken(_id: string, accessToken: string, refreshToken: string) {

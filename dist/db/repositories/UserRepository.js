@@ -218,9 +218,20 @@ class UserRepository {
             return promise_1.promiseNull();
         }
     }
+    logout(_id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return User_1.default.findByIdAndUpdate(_id, { accessToken: "", refreshToken: "" });
+            }
+            catch (e) {
+                log_1.errorLog(e);
+                return promise_1.promiseNull();
+            }
+        });
+    }
     findUserRefreshToken(accessToken) {
         return __awaiter(this, void 0, void 0, function* () {
-            return User_1.default.findOne({ accessToken }, { accessToken: true, refreshToken: true });
+            return User_1.default.findOne({ accessToken });
         });
     }
     refreshToken(_id, accessToken, refreshToken) {

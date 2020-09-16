@@ -24,7 +24,7 @@ exports.authenticate = (req, res) => __awaiter(void 0, void 0, void 0, function*
     else {
         try {
             const decoded = jsonwebtoken_1.default.verify(accessToken, process.env.JWT_SECRET);
-            res.locals.user = decoded.data;
+            res.locals.user = decoded.data._id;
             return true;
         }
         catch (err) {
@@ -43,18 +43,17 @@ exports.handleRefreshToken = (res, user) => __awaiter(void 0, void 0, void 0, fu
     try {
         const decoded = jsonwebtoken_1.default.verify(user.refreshToken, process.env.JWT_SECRET);
         const accessToken = jsonwebtoken_1.default.sign({
-            data: user._id,
+            data: Object.assign(Object.assign({}, user.toObject()), { accessToken: "", refreshToken: "" }),
         }, process.env.JWT_SECRET, { expiresIn: process.env.EXPIRES_ACCESS_TOKEN });
         const refreshToken = jsonwebtoken_1.default.sign({
-            data: user._id,
+            data: Object.assign(Object.assign({}, user.toObject()), { accessToken: "", refreshToken: "" }),
         }, process.env.JWT_SECRET, { expiresIn: process.env.EXPIRES_REFRESH_TOKEN });
         yield UserRepository_1.default.refreshToken(user._id, accessToken, refreshToken);
         res.cookie("knv_accessToken", accessToken, {
             domain: process.env.COOKIE_SHARE_DOMAIN,
-            expires: new Date(Date.now() + parseInt(process.env.EXPIRES_COOKIE)),
             httpOnly: false,
         });
-        res.locals.user = decoded.data;
+        res.locals.user = decoded.data._id;
         return true;
     }
     catch (err) {

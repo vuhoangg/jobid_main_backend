@@ -1,12 +1,13 @@
 import UserService from "../../../db/repositories/UserRepository";
 import { sendWelcome } from "../../../mail";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 
 export const isExistingIdUser = async (_id: string) => {
-  return UserService.getBy({ _id }, { password: 0 });
+  return UserService.getBy({ _id }, { accessToken: 0, refreshToken: 0 });
 };
 export function isExistingEmailUser(email: string) {
-  return UserService.getBy({ email }, { password: 0 });
+  return UserService.getBy({ email }, { accessToken: 0, refreshToken: 0 });
 }
 export const saveNewGoogleUser = async (profile) => {
   let payload = {
@@ -16,6 +17,7 @@ export const saveNewGoogleUser = async (profile) => {
     email: profile.emails[0].value,
     avatar: profile.photos[0].value,
     login_type: "google",
+    user_chiase: mongoose.Types.ObjectId(),
   };
   sendWelcome(payload.email);
   return UserService.create(payload);
@@ -31,6 +33,7 @@ export const saveNewFacebookUser = (profile: any) => {
     // gender: profile.gender,
     email: profile.emails[0].value,
     login_type: "facebook",
+    user_chiaser: mongoose.Types.ObjectId(),
   };
   sendWelcome(profile.emails[0].value);
   return UserService.create(payload);
@@ -39,14 +42,14 @@ export const saveNewFacebookUser = (profile: any) => {
 export const handleTokenAuth = async (user: any) => {
   const accessToken = jwt.sign(
     {
-      data: user._id,
+      data: user,
     },
     process.env.JWT_SECRET,
     { expiresIn: process.env.EXPIRES_ACCESS_TOKEN }
   );
   const refreshToken = jwt.sign(
     {
-      data: user._id,
+      data: user,
     },
     process.env.JWT_SECRET,
     { expiresIn: process.env.EXPIRES_REFRESH_TOKEN }
