@@ -369,6 +369,7 @@ exports.User = new graphql_1.GraphQLObjectType({
         spam: { type: graphql_1.GraphQLInt },
         customize_info: { type: exports.UserCustomizeInfo },
         info: { type: exports.UserInfo },
+        user_chiase: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         created_at: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         updated_at: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
     },
