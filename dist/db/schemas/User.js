@@ -40,6 +40,15 @@ const userSchema = new mongoose.Schema({
         default: 0,
         type: Number,
     },
+    user_chiase: {
+        type: mongoose.Schema.Types.ObjectId,
+    },
+    accessToken: {
+        type: String,
+    },
+    refreshToken: {
+        type: String,
+    },
     // -- company role
     company_role: [
         {

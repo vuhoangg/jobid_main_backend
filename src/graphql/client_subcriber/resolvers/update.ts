@@ -1,19 +1,20 @@
 import ClientSubscriberService from "../../../db/repositories/ClientSubcriberRepository";
 import { isSuperUser } from "../../../helpers/permission";
+import { authenticate } from "../../../middlewares/authenticate";
 
-export function updateClientSubcriber(source, args, context, info) {
-  if (context.isAuthenticated()) {
+export const updateClientSubcriber = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
     let loggedUser = context.user;
     if (isSuperUser(loggedUser.email)) {
       return ClientSubscriberService.update(args.input);
     }
   }
-}
-export function createClientSubcriber(source, args, context, info) {
-  // if (context.isAuthenticated()) {
+};
+export const createClientSubcriber = async (source, args, context, info) => {
+  // if (await authenticate(context, context.res)) {
   //   let loggedUser = context.user;
   //   if (isSuperUser(loggedUser.email)) {
-      return ClientSubscriberService.create(args.input);
+  return ClientSubscriberService.create(args.input);
   //   }
   // }
-}
+};

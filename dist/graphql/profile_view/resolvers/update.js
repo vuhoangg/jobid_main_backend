@@ -17,12 +17,13 @@ const ProfileViewRepository_1 = __importDefault(require("../../../db/repositorie
 const NotificationRepository_1 = __importDefault(require("../../../db/repositories/NotificationRepository"));
 const api_1 = require("../../../utils/api");
 const UserRepository_1 = __importDefault(require("../../../db/repositories/UserRepository"));
-function updateProfileView(source, args, context, info) {
-    if (context.isAuthenticated()) {
+const authenticate_1 = require("../../../middlewares/authenticate");
+exports.updateProfileView = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield authenticate_1.authenticate(context, context.res)) {
         let loggedUser = context.user;
         let input = args.input;
         input = Object.assign(input, { user_hunter: loggedUser._id });
-        return ProfileViewRepository_1.default.profileView(input).then((data) => __awaiter(this, void 0, void 0, function* () {
+        return ProfileViewRepository_1.default.profileView(input).then((data) => __awaiter(void 0, void 0, void 0, function* () {
             let notification = {
                 type: "user",
                 subject: "user_apply_job",
@@ -61,6 +62,5 @@ function updateProfileView(source, args, context, info) {
             return data;
         }));
     }
-}
-exports.updateProfileView = updateProfileView;
+});
 //# sourceMappingURL=update.js.map

@@ -1,19 +1,20 @@
 import JobLocationService from "../../../db/repositories/JobLocationRepository";
-import {isSuperUser} from "../../../helpers/permission";
+import { isSuperUser } from "../../../helpers/permission";
+import { authenticate } from "../../../middlewares/authenticate";
 
-export function updateJobLocation (source, args, context, info) {
-    if (context.isAuthenticated()) {
-        let loggedUser = context.user;
-        if (isSuperUser(loggedUser.email)) {
-            return JobLocationService.update(args.input);
-        }
+export const updateJobLocation = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
+    let loggedUser = context.user;
+    if (isSuperUser(loggedUser.email)) {
+      return JobLocationService.update(args.input);
     }
-}
-export function createJobLocation (source, args, context, info) {
-    if (context.isAuthenticated()) {
-        let loggedUser = context.user;
-        if (isSuperUser(loggedUser.email)) {
-            return JobLocationService.create(args.input);
-        }
+  }
+};
+export const createJobLocation = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
+    let loggedUser = context.user;
+    if (isSuperUser(loggedUser.email)) {
+      return JobLocationService.create(args.input);
     }
-}
+  }
+};

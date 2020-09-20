@@ -1,19 +1,20 @@
 import ServiceNotification from "../../../db/repositories/ServiceNotificationRepository";
 import { isSuperUser } from "../../../helpers/permission";
+import { authenticate } from "../../../middlewares/authenticate";
 
-export function updateServiceWorkerNotification(source, args, context, info) {
-  if (context.isAuthenticated()) {
+export const updateServiceWorkerNotification = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
     let loggedUser = context.user;
     if (isSuperUser(loggedUser.email)) {
       return ServiceNotification.update(args.input);
     }
   }
-}
-export function createServiceWorkerNotification(source, args, context, info) {
-  // if (context.isAuthenticated()) {
+};
+export const createServiceWorkerNotification = async (source, args, context, info) => {
+  // if (await authenticate(context, context.res)) {
   //   let loggedUser = context.user;
   //   if (isSuperUser(loggedUser.email)) {
-      return ServiceNotification.create(args.input);
+  return ServiceNotification.create(args.input);
   //   }
   // }
-}
+};

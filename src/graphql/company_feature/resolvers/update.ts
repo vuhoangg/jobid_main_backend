@@ -1,20 +1,21 @@
 import CompanyFeatureService from "../../../db/repositories/CompanyFeatureRepository";
 import { isSuperUser } from "../../../helpers/permission";
+import { authenticate } from "../../../middlewares/authenticate";
 
-export function createCompanyFeature(source, args, context, info) {
-  if (context.isAuthenticated()) {
+export const createCompanyFeature = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
     let loggedUser = context.user;
     if (isSuperUser(loggedUser.email)) {
       return CompanyFeatureService.create(args.input);
     }
   }
-}
+};
 
-export function updateCompanyFeature(source, args, context, info) {
-  if (context.isAuthenticated()) {
+export const updateCompanyFeature = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
     let loggedUser = context.user;
     if (isSuperUser(loggedUser.email)) {
       return CompanyFeatureService.update(args.input);
     }
   }
-}
+};

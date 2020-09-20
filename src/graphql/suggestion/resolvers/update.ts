@@ -1,19 +1,20 @@
 import SuggestionService from "../../../db/repositories/SuggestionRepository";
-import {isSuperUser} from "../../../helpers/permission";
+import { isSuperUser } from "../../../helpers/permission";
+import { authenticate } from "../../../middlewares/authenticate";
 
-export function updateSuggestion (source, args, context, info) {
-    if (context.isAuthenticated()) {
-        let loggedUser = context.user;
-        if (isSuperUser(loggedUser.email)) {
-            return SuggestionService.update(args.input);
-        }
+export const updateSuggestion = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
+    let loggedUser = context.user;
+    if (isSuperUser(loggedUser.email)) {
+      return SuggestionService.update(args.input);
     }
-}
-export function createSuggestion (source, args, context, info) {
-    if (context.isAuthenticated()) {
-        let loggedUser = context.user;
-        if (isSuperUser(loggedUser.email)) {
-            return SuggestionService.create(args.input);
-        }
+  }
+};
+export const createSuggestion = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
+    let loggedUser = context.user;
+    if (isSuperUser(loggedUser.email)) {
+      return SuggestionService.create(args.input);
     }
-}
+  }
+};

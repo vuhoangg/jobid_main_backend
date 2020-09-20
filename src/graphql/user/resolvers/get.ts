@@ -1,10 +1,11 @@
 import UserService from "../../../db/repositories/UserRepository";
 import { filterObject, rootField, rootInfo } from "../../helpers";
+import { authenticate } from "../../../middlewares/authenticate";
 
-export function getUser(source, args, context, info) {
+export const getUser = async (source, args, context, info) => {
   const fields = rootField(info);
   let getBy = {
-    _id: context.isAuthenticated() ? context.user._id : "",
+    _id: (await authenticate(context, context.res)) ? context.user._id : "",
   };
   if (args._id || args.email) {
     getBy = args;
@@ -28,9 +29,9 @@ export function getUser(source, args, context, info) {
     };
     return node;
   });
-}
+};
 
-export function getUsers(source, args, context, info) {
+export const getUsers = async (source, args, context, info) => {
   let infos = rootInfo(info);
   let filter = filterObject(args.filter);
   return UserService.filter(filter, args.limit, args.page, infos.edges).then(async (users) => {
@@ -70,4 +71,4 @@ export function getUsers(source, args, context, info) {
     };
     return dataRet;
   });
-}
+};

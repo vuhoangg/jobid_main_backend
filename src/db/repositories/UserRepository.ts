@@ -164,7 +164,6 @@ class UserRepository implements CrudContract {
         .populate("customize_info.work_preference.job_category")
         .populate("customize_info.work_preference.job_level")
         .populate("customize_info.work_preference.benefit")
-
         .populate("info.address.city")
         .populate("info.address.district")
         .populate("info.address.ward")
@@ -222,7 +221,6 @@ class UserRepository implements CrudContract {
           .populate("customize_info.work_preference.job_category")
           .populate("customize_info.work_preference.job_level")
           .populate("customize_info.work_preference.benefit")
-
           .populate("info.address.city")
           .populate("info.address.district")
           .populate("info.address.ward")
@@ -269,6 +267,23 @@ class UserRepository implements CrudContract {
     }
   }
 
+  async logout(_id) {
+    try {
+      return User.findByIdAndUpdate(_id, { accessToken: "", refreshToken: "" });
+    } catch (e) {
+      errorLog(e);
+      return promiseNull();
+    }
+  }
+
+  async findUserRefreshToken(accessToken: string) {
+    return User.findOne({ accessToken });
+  }
+
+  async refreshToken(_id: string, accessToken: string, refreshToken: string) {
+    return User.updateOne({ _id }, { accessToken, refreshToken });
+  }
+
   updateCompanyPermission(data) {
     try {
       return User.findByIdAndUpdate(data._id, { $addToSet: { company_role: data.company_role } }, { new: true });
@@ -290,6 +305,31 @@ class UserRepository implements CrudContract {
   removeSpam(_id) {
     try {
       return User.findByIdAndUpdate(_id, { spam: 0 }, { new: true });
+    } catch (e) {
+      errorLog(e);
+      return promiseNull();
+    }
+  }
+
+  getById(_id) {
+    try {
+      return User.findById(_id)
+        .populate("customize_info.current_job_level")
+        .populate("customize_info.location")
+        .populate("customize_info.skill")
+        .populate("customize_info.work_preference.job_location")
+        .populate("customize_info.work_preference.job_category")
+        .populate("customize_info.work_preference.job_level")
+        .populate("customize_info.work_preference.benefit")
+        .populate("info.address.city")
+        .populate("info.address.district")
+        .populate("info.address.ward")
+        .populate("info.experience.level")
+        .populate("info.favorite_job.job_type")
+        .populate("info.favorite_job.job_category")
+        .populate("info.favorite_job.job_location.city")
+        .populate("info.favorite_job.job_location.district")
+        .populate("info.favorite_job.job_location.ward");
     } catch (e) {
       errorLog(e);
       return promiseNull();

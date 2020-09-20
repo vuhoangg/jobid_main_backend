@@ -1,17 +1,18 @@
-import {isSuperUser} from "../../../helpers/permission";
+import { isSuperUser } from "../../../helpers/permission";
+import { authenticate } from "../../../middlewares/authenticate";
 
-export function getWebsiteRole(source, args, context, info) {
-  if (context.isAuthenticated()) {
+export const getWebsiteRole = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
     let loggedInUser = context.user;
     let email = loggedInUser.email;
 
     if (isSuperUser(email)) {
       return {
-        role: "super_admin"
-      }
+        role: "super_admin",
+      };
     }
   }
   return {
-    role: "member"
-  }
-}
+    role: "member",
+  };
+};

@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -209,6 +218,27 @@ class UserRepository {
             return promise_1.promiseNull();
         }
     }
+    logout(_id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return User_1.default.findByIdAndUpdate(_id, { accessToken: "", refreshToken: "" });
+            }
+            catch (e) {
+                log_1.errorLog(e);
+                return promise_1.promiseNull();
+            }
+        });
+    }
+    findUserRefreshToken(accessToken) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return User_1.default.findOne({ accessToken });
+        });
+    }
+    refreshToken(_id, accessToken, refreshToken) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return User_1.default.updateOne({ _id }, { accessToken, refreshToken });
+        });
+    }
     updateCompanyPermission(data) {
         try {
             return User_1.default.findByIdAndUpdate(data._id, { $addToSet: { company_role: data.company_role } }, { new: true });
@@ -230,6 +260,31 @@ class UserRepository {
     removeSpam(_id) {
         try {
             return User_1.default.findByIdAndUpdate(_id, { spam: 0 }, { new: true });
+        }
+        catch (e) {
+            log_1.errorLog(e);
+            return promise_1.promiseNull();
+        }
+    }
+    getById(_id) {
+        try {
+            return User_1.default.findById(_id)
+                .populate("customize_info.current_job_level")
+                .populate("customize_info.location")
+                .populate("customize_info.skill")
+                .populate("customize_info.work_preference.job_location")
+                .populate("customize_info.work_preference.job_category")
+                .populate("customize_info.work_preference.job_level")
+                .populate("customize_info.work_preference.benefit")
+                .populate("info.address.city")
+                .populate("info.address.district")
+                .populate("info.address.ward")
+                .populate("info.experience.level")
+                .populate("info.favorite_job.job_type")
+                .populate("info.favorite_job.job_category")
+                .populate("info.favorite_job.job_location.city")
+                .populate("info.favorite_job.job_location.district")
+                .populate("info.favorite_job.job_location.ward");
         }
         catch (e) {
             log_1.errorLog(e);

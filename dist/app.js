@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -40,11 +49,12 @@ app.use(cors_1.default({
         process.env.LOCAL_SITE,
         process.env.LOCAL_STUDIO,
         process.env.LOCAL_ADMIN,
+        process.env.CHIASE_URL,
     ],
 }));
 passport_1.default.serializeUser((user, done) => {
-    // console.log("serializeUser", user);
-    done(null, user._id);
+    // console.log("serializeUser", user.user);
+    done(null, user.user._id || user);
 });
 passport_1.default.deserializeUser((_id, done) => {
     // console.log("deserializeUser", _id);
@@ -53,7 +63,7 @@ passport_1.default.deserializeUser((_id, done) => {
         done(null, user);
     })
         .catch(function (err) {
-        console.log(err);
+        done(null, {});
     });
 });
 const GoogleStrategy = passport_google_oauth20_1.default.Strategy;
@@ -61,18 +71,18 @@ passport_1.default.use(new GoogleStrategy({
     callbackURL: "/auth/google/callback",
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-}, (accessToken, refreshToken, profile, cb) => {
-    handles_1.isExistingEmailUser(profile.emails[0].value).then((r1) => {
-        if (r1) {
-            cb(null, r1);
-        }
-        else {
-            handles_1.saveNewGoogleUser(profile).then((r2) => {
-                cb(null, r2);
-            });
-        }
-    });
-}));
+}, (accessToken, refreshToken, profile, cb) => __awaiter(void 0, void 0, void 0, function* () {
+    const r1 = yield handles_1.isExistingEmailUser(profile.emails[0].value);
+    if (r1) {
+        const accessToken = yield handles_1.handleTokenAuth(r1);
+        cb(null, { user: r1, accessToken });
+    }
+    else {
+        const r2 = yield handles_1.saveNewGoogleUser(profile);
+        const accessToken = yield handles_1.handleTokenAuth(r2);
+        cb(null, { user: r2, accessToken });
+    }
+})));
 const FacebookStrategy = passport_facebook_1.default.Strategy;
 passport_1.default.use(new FacebookStrategy({
     clientID: process.env.FACEBOOk_APP_ID,
@@ -80,24 +90,31 @@ passport_1.default.use(new FacebookStrategy({
     callbackURL: `${process.env.API_URL}/auth/facebook/callback`,
     profileFields: [
         "id",
-        "email",
+        "emails",
         "last_name",
         "first_name",
-        "middle_name",
         "gender",
         "is_verified",
         "profileUrl",
         "picture",
+        "displayName",
     ],
 }, function (accessToken, refreshToken, profile, cb) {
-    handles_1.isExistingEmailUser(profile.emails[0].value).then((r1) => {
-        if (r1) {
-            cb(null, r1);
+    return __awaiter(this, void 0, void 0, function* () {
+        if (profile.emails) {
+            const r1 = yield handles_1.isExistingEmailUser(profile.emails[0].value);
+            if (r1) {
+                const accessToken = yield handles_1.handleTokenAuth(r1);
+                cb(null, { user: r1, accessToken });
+            }
+            else {
+                const r2 = yield handles_1.saveNewGoogleUser(profile);
+                const accessToken = yield handles_1.handleTokenAuth(r2);
+                cb(null, { user: r2, accessToken });
+            }
         }
         else {
-            handles_1.saveNewFacebookUser(profile).then((r2) => {
-                cb(null, r2);
-            });
+            cb(null, { user: { _id: "" } });
         }
     });
 }));

@@ -1,19 +1,20 @@
 import BenefitService from "../../../db/repositories/BenefitRepository";
-import {isSuperUser} from "../../../helpers/permission";
+import { isSuperUser } from "../../../helpers/permission";
+import { authenticate } from "../../../middlewares/authenticate";
 
-export function updateBenefit (source, args, context, info) {
-    if (context.isAuthenticated()) {
-        let loggedUser = context.user;
-        if (isSuperUser(loggedUser.email)) {
-            return BenefitService.update(args.input);
-        }
+export const updateBenefit = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
+    let loggedUser = context.user;
+    if (isSuperUser(loggedUser.email)) {
+      return BenefitService.update(args.input);
     }
-}
-export function createBenefit (source, args, context, info) {
-    if (context.isAuthenticated()) {
-        let loggedUser = context.user;
-        if (isSuperUser(loggedUser.email)) {
-            return BenefitService.create(args.input);
-        }
+  }
+};
+export const createBenefit = async (source, args, context, info) => {
+  if (await authenticate(context, context.res)) {
+    let loggedUser = context.user;
+    if (isSuperUser(loggedUser.email)) {
+      return BenefitService.create(args.input);
     }
-}
+  }
+};
