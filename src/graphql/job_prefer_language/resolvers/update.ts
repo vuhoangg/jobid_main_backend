@@ -4,7 +4,7 @@ import { authenticate } from "../../../middlewares/authenticate";
 
 export const updateJobPreferLanguage = async (source, args, context, info) => {
   if (await authenticate(context, context.res)) {
-    let loggedUser = context.user;
+    let loggedUser = context.res.locals.fullUser;
     if (isSuperUser(loggedUser.email)) {
       return JobPreferLanguageService.update(args.input);
     }
@@ -13,7 +13,7 @@ export const updateJobPreferLanguage = async (source, args, context, info) => {
 
 export const createJobPreferLanguage = async (source, args, context, info) => {
   if (await authenticate(context, context.res)) {
-    let loggedUser = context.user;
+    let loggedUser = context.res.locals.fullUser;
     if (isSuperUser(loggedUser.email)) {
       return JobPreferLanguageService.create(args.input);
     }

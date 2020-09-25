@@ -5,7 +5,7 @@ import { authenticate } from "../../../middlewares/authenticate";
 export const updateWard = async (args, context) => {
   // TODO Admin and User has permission
   if (await authenticate(context, context.res)) {
-    let loggedUser = context.user;
+    let loggedUser = context.res.locals.fullUser;
     let input = args.input;
     if (isSuperUser(loggedUser.email)) {
       return WardService.update(input);

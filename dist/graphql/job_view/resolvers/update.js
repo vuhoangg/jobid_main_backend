@@ -17,7 +17,7 @@ const JobViewRepository_1 = __importDefault(require("../../../db/repositories/Jo
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.updateJobView = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     if (yield authenticate_1.authenticate(context, context.res)) {
-        let loggedUser = context.user;
+        let loggedUser = context.res.locals.fullUser;
         let input = args.input;
         input = Object.assign(input, { user: loggedUser._id });
         return JobViewRepository_1.default.viewJob(input);

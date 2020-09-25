@@ -14,7 +14,7 @@ const permission_1 = require("../../../helpers/permission");
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.getWebsiteRole = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     if (yield authenticate_1.authenticate(context, context.res)) {
-        let loggedInUser = context.user;
+        let loggedInUser = context.res.locals.fullUser;
         let email = loggedInUser.email;
         if (permission_1.isSuperUser(email)) {
             return {

@@ -7,7 +7,7 @@ export const getJobPost = async (source, args, context, info) => {
   let getBy = args._id ? { _id: args._id } : { slug: args.slug };
   let loggedUser = null;
   if (await authenticate(context, context.res)) {
-    loggedUser = context.user;
+    loggedUser = context.res.locals.fullUser;
   }
   return JobPostService.getBy(getBy, fields).then(async (jobPost) => {
     let node = {

@@ -20,7 +20,7 @@ const string_1 = require("../../../helpers/string");
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.updateCompany = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     if (yield authenticate_1.authenticate(context, context.res)) {
-        let loggedUser = context.user;
+        let loggedUser = context.res.locals.fullUser;
         if (permission_1.isSuperUser(loggedUser.email)) {
             return CompanyRepository_1.default.update(args.input);
         }
@@ -41,7 +41,7 @@ exports.createCompany = (source, args, context, info) => __awaiter(void 0, void 
     let input = args.input;
     input.slug = string_1.toSlug(input.name, true).toLowerCase();
     if (yield authenticate_1.authenticate(context, context.res)) {
-        let loggedUser = context.user;
+        let loggedUser = context.res.locals.fullUser;
         input = Object.assign(input, { created_by: loggedUser._id });
         return CompanyRepository_1.default.create(input);
     }
@@ -63,7 +63,7 @@ exports.assignPermission = (source, args, context, info) => __awaiter(void 0, vo
 });
 exports.verifyCompany = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     if (yield authenticate_1.authenticate(context, context.res)) {
-        let loggedUser = context.user;
+        let loggedUser = context.res.locals.fullUser;
         let input = args.input;
         if (permission_1.isSuperUser(loggedUser.email)) {
             return CompanyRepository_1.default.verify(input._id);
@@ -72,7 +72,7 @@ exports.verifyCompany = (source, args, context, info) => __awaiter(void 0, void 
 });
 exports.premiumCompany = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     if (yield authenticate_1.authenticate(context, context.res)) {
-        let loggedUser = context.user;
+        let loggedUser = context.res.locals.fullUser;
         let input = args.input;
         if (permission_1.isSuperUser(loggedUser.email)) {
             return CompanyRepository_1.default.premium(input._id);

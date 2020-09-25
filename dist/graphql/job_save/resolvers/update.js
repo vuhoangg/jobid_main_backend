@@ -17,7 +17,7 @@ const JobSaveRepository_1 = __importDefault(require("../../../db/repositories/Jo
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.updateJobSave = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     if (yield authenticate_1.authenticate(context, context.res)) {
-        let loggedUser = context.user;
+        let loggedUser = context.res.locals.fullUser;
         let input = args.input;
         input = Object.assign(input, { user: loggedUser._id });
         return JobSaveRepository_1.default.saveJob(input);

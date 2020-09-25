@@ -4,7 +4,7 @@ import { authenticate } from "../../../middlewares/authenticate";
 
 export const updateUser = async (source, args, context, info) => {
   if (await authenticate(context, context.res)) {
-    let loggedUser = context.user;
+    let loggedUser = context.res.locals.fullUser;
     let input = args.input;
     if (input && input.customize_info && input.customize_info.first_name && input.customize_info.last_name) {
       input.customize_info.full_name = `${input.customize_info.first_name.trim()} ${input.customize_info.last_name.trim()}`;
@@ -16,7 +16,7 @@ export const updateUser = async (source, args, context, info) => {
 
 export const markSpam = async (source, args, context, info) => {
   if (await authenticate(context, context.res)) {
-    let loggedUser = context.user;
+    let loggedUser = context.res.locals.fullUser;
     let input = args.input;
     if (isSuperUser(loggedUser.email)) {
       return UserService.markSpam(input._id);
@@ -26,7 +26,7 @@ export const markSpam = async (source, args, context, info) => {
 
 export const removeSpam = async (source, args, context, info) => {
   if (await authenticate(context, context.res)) {
-    let loggedUser = context.user;
+    let loggedUser = context.res.locals.fullUser;
     let input = args.input;
     if (isSuperUser(loggedUser.email)) {
       return UserService.removeSpam(input._id);

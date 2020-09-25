@@ -18,7 +18,7 @@ const JobPostRepository_1 = __importDefault(require("../../../db/repositories/Jo
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.updateJobApply = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     if (yield authenticate_1.authenticate(context, context.res)) {
-        let loggedUser = context.user;
+        let loggedUser = context.res.locals.fullUser;
         let input = args.input;
         input = Object.assign(input, { user: loggedUser._id, status: "pending" });
         return JobApplyRepository_1.default.applyJob(input).then((data) => __awaiter(void 0, void 0, void 0, function* () {

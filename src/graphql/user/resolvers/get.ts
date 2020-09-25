@@ -5,7 +5,7 @@ import { authenticate } from "../../../middlewares/authenticate";
 export const getUser = async (source, args, context, info) => {
   const fields = rootField(info);
   let getBy = {
-    _id: (await authenticate(context, context.res)) ? context.user._id : "",
+    _id: (await authenticate(context, context.res)) ? context.res.locals.fullUser._id : "",
   };
   if (args._id || args.email) {
     getBy = args;

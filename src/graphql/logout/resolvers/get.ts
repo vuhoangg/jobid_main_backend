@@ -2,7 +2,7 @@ import userService from "../../../db/repositories/UserRepository";
 import { authenticate } from "../../../middlewares/authenticate";
 
 export const logout = async (args, context) => {
-  const user = context.user;
+  const user = context.res.locals.fullUser;
   if (await authenticate(context, context.res)) {
     context.logout();
   }

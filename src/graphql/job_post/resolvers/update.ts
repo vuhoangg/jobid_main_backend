@@ -7,7 +7,8 @@ import { authenticate } from "../../../middlewares/authenticate";
 
 export const updateJobPost = async (source, args, context, info) => {
   if (await authenticate(context, context.res)) {
-    let loggedUser = context.user;
+    let loggedUser = context.res.locals.fullUser;
+
     let input = args.input;
 
     if (isSuperUser(loggedUser.email)) {
@@ -26,7 +27,7 @@ export const updateJobPost = async (source, args, context, info) => {
 
 export const createJobPost = async (source, args, context, info) => {
   if (await authenticate(context, context.res)) {
-    let loggedUser = context.user;
+    let loggedUser = context.res.locals.fullUser;
     let input = args.input;
     let slug = toSlug(input.title, true);
 

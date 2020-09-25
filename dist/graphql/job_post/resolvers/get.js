@@ -21,7 +21,7 @@ exports.getJobPost = (source, args, context, info) => __awaiter(void 0, void 0, 
     let getBy = args._id ? { _id: args._id } : { slug: args.slug };
     let loggedUser = null;
     if (yield authenticate_1.authenticate(context, context.res)) {
-        loggedUser = context.user;
+        loggedUser = context.res.locals.fullUser;
     }
     return JobPostRepository_1.default.getBy(getBy, fields).then((jobPost) => __awaiter(void 0, void 0, void 0, function* () {
         let node = {

@@ -18,7 +18,7 @@ const permission_1 = require("../../../helpers/permission");
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.updateServiceWorkerNotification = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     if (yield authenticate_1.authenticate(context, context.res)) {
-        let loggedUser = context.user;
+        let loggedUser = context.res.locals.fullUser;
         if (permission_1.isSuperUser(loggedUser.email)) {
             return ServiceNotificationRepository_1.default.update(args.input);
         }
@@ -26,7 +26,7 @@ exports.updateServiceWorkerNotification = (source, args, context, info) => __awa
 });
 exports.createServiceWorkerNotification = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     // if (await authenticate(context, context.res)) {
-    //   let loggedUser = context.user;
+    //   let loggedUser = context.res.locals.fullUser;
     //   if (isSuperUser(loggedUser.email)) {
     return ServiceNotificationRepository_1.default.create(args.input);
     //   }

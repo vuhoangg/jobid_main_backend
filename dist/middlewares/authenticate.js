@@ -25,6 +25,7 @@ exports.authenticate = (req, res) => __awaiter(void 0, void 0, void 0, function*
         try {
             const decoded = jsonwebtoken_1.default.verify(accessToken, process.env.JWT_SECRET);
             res.locals.user = decoded.data._id;
+            res.locals.fullUser = decoded.data;
             return true;
         }
         catch (err) {
@@ -55,6 +56,7 @@ exports.handleRefreshToken = (res, user) => __awaiter(void 0, void 0, void 0, fu
             path: "/",
         });
         res.locals.user = decoded.data._id;
+        res.locals.fullUser = decoded.data;
         return true;
     }
     catch (err) {

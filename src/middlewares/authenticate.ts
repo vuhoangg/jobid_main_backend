@@ -11,6 +11,7 @@ export const authenticate = async (req, res) => {
     try {
       const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
       res.locals.user = decoded.data._id;
+      res.locals.fullUser = decoded.data;
       return true;
     } catch (err) {
       if (err.name === "JsonWebTokenError") {
@@ -65,6 +66,7 @@ export const handleRefreshToken = async (res: any, user: any) => {
       path: "/",
     });
     res.locals.user = decoded.data._id;
+    res.locals.fullUser = decoded.data;
     return true;
   } catch (err) {
     res.clearCookie("knv_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: false });

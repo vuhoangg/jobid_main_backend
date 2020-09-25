@@ -6,7 +6,7 @@ export const getCompanyFollow = async (source, args, context, info) => {
   const fields = rootField(info);
   let getBy = args._id ? { _id: args._id } : { company: args.company };
   if (await authenticate(context, context.res)) {
-    let loggedUser = context.user;
+    let loggedUser = context.res.locals.fullUser;
     getBy = Object.assign(getBy, { user: loggedUser._id });
   }
 

@@ -4,7 +4,7 @@ import { authenticate } from "../../../middlewares/authenticate";
 
 export const updateBenefit = async (source, args, context, info) => {
   if (await authenticate(context, context.res)) {
-    let loggedUser = context.user;
+    let loggedUser = context.res.locals.fullUser;
     if (isSuperUser(loggedUser.email)) {
       return BenefitService.update(args.input);
     }
@@ -12,7 +12,7 @@ export const updateBenefit = async (source, args, context, info) => {
 };
 export const createBenefit = async (source, args, context, info) => {
   if (await authenticate(context, context.res)) {
-    let loggedUser = context.user;
+    let loggedUser = context.res.locals.fullUser;
     if (isSuperUser(loggedUser.email)) {
       return BenefitService.create(args.input);
     }

@@ -17,7 +17,7 @@ const CandidateRepository_1 = __importDefault(require("../../../db/repositories/
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.updateCandidate = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     if (yield authenticate_1.authenticate(context, context.res)) {
-        let loggedUser = context.user;
+        let loggedUser = context.res.locals.fullUser;
         let input = args.input;
         return CandidateRepository_1.default.get(input._id, {}).then((r) => {
             if (r && r.upload_by._id.toString() == loggedUser._id.toString()) {
@@ -31,7 +31,7 @@ exports.updateCandidate = (source, args, context, info) => __awaiter(void 0, voi
 });
 exports.createCandidate = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     if (yield authenticate_1.authenticate(context, context.res)) {
-        let loggedUser = context.user;
+        let loggedUser = context.res.locals.fullUser;
         let input = args.input;
         input = Object.assign(input, { upload_by: loggedUser._id });
         return CandidateRepository_1.default.create(input);

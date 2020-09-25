@@ -18,7 +18,7 @@ const permission_1 = require("../../../helpers/permission");
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.updateNotification = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     if (yield authenticate_1.authenticate(context, context.res)) {
-        let loggedUser = context.user;
+        let loggedUser = context.res.locals.fullUser;
         let input = args.input;
         if (permission_1.isSuperUser(loggedUser.email)) {
             return NotificationRepository_1.default.update(input);
@@ -28,14 +28,14 @@ exports.updateNotification = (source, args, context, info) => __awaiter(void 0, 
 exports.updateReadNotification = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     if (yield authenticate_1.authenticate(context, context.res)) {
         let input = args.input;
-        let loggedUser = context.user;
+        let loggedUser = context.res.locals.fullUser;
         input = Object.assign(input, { target: loggedUser._id });
         return NotificationRepository_1.default.readNotification(input).then((r) => ({ status: true }));
     }
 });
 exports.updateReadAllNotification = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     if (yield authenticate_1.authenticate(context, context.res)) {
-        let loggedUser = context.user;
+        let loggedUser = context.res.locals.fullUser;
         let input = { target: loggedUser._id };
         return NotificationRepository_1.default.readAllNotification(input).then((r) => ({ status: true }));
     }

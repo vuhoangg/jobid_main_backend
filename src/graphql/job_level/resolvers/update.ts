@@ -4,7 +4,7 @@ import { authenticate } from "../../../middlewares/authenticate";
 
 export const updateJobLevel = async (source, args, context, info) => {
   if (await authenticate(context, context.res)) {
-    let loggedUser = context.user;
+    let loggedUser = context.res.locals.fullUser;
     if (isSuperUser(loggedUser.email)) {
       return JobLevelService.update(args.input);
     }
@@ -13,7 +13,7 @@ export const updateJobLevel = async (source, args, context, info) => {
 
 export const createJobLevel = async (source, args, context, info) => {
   if (await authenticate(context, context.res)) {
-    let loggedUser = context.user;
+    let loggedUser = context.res.locals.fullUser;
     if (isSuperUser(loggedUser.email)) {
       return JobLevelService.create(args.input);
     }

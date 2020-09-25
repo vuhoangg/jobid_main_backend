@@ -19,7 +19,7 @@ const authenticate_1 = require("../../../middlewares/authenticate");
 exports.updateCity = (args, context) => __awaiter(void 0, void 0, void 0, function* () {
     // TODO Admin and User has permission
     if (yield authenticate_1.authenticate(context, context.res)) {
-        let loggedUser = context.user;
+        let loggedUser = context.res.locals.fullUser;
         let input = args.input;
         if (permission_1.isSuperUser(loggedUser.email)) {
             return CityRepository_1.default.update(input);

@@ -20,7 +20,7 @@ exports.getCompanyFollow = (source, args, context, info) => __awaiter(void 0, vo
     const fields = helpers_1.rootField(info);
     let getBy = args._id ? { _id: args._id } : { company: args.company };
     if (yield authenticate_1.authenticate(context, context.res)) {
-        let loggedUser = context.user;
+        let loggedUser = context.res.locals.fullUser;
         getBy = Object.assign(getBy, { user: loggedUser._id });
     }
     return CompanyFollowRepository_1.default.getBy(getBy, fields).then((companyFollow) => __awaiter(void 0, void 0, void 0, function* () {

@@ -16,7 +16,7 @@ exports.logout = void 0;
 const UserRepository_1 = __importDefault(require("../../../db/repositories/UserRepository"));
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.logout = (args, context) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = context.user;
+    const user = context.res.locals.fullUser;
     if (yield authenticate_1.authenticate(context, context.res)) {
         context.logout();
     }

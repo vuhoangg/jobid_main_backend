@@ -3,7 +3,7 @@ import { authenticate } from "../../../middlewares/authenticate";
 
 export const getWebsiteRole = async (source, args, context, info) => {
   if (await authenticate(context, context.res)) {
-    let loggedInUser = context.user;
+    let loggedInUser = context.res.locals.fullUser;
     let email = loggedInUser.email;
 
     if (isSuperUser(email)) {

@@ -4,7 +4,7 @@ import { authenticate } from "../../../middlewares/authenticate";
 
 export const updateJobCategory = async (source, args, context, info) => {
   if (await authenticate(context, context.res)) {
-    let loggedUser = context.user;
+    let loggedUser = context.res.locals.fullUser;
     if (isSuperUser(loggedUser.email)) {
       return JobCategoryService.update(args.input);
     }
@@ -12,7 +12,7 @@ export const updateJobCategory = async (source, args, context, info) => {
 };
 export const createJobCategory = async (source, args, context, info) => {
   if (await authenticate(context, context.res)) {
-    let loggedUser = context.user;
+    let loggedUser = context.res.locals.fullUser;
     if (isSuperUser(loggedUser.email)) {
       return JobCategoryService.create(args.input);
     }

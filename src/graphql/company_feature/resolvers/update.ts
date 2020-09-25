@@ -4,7 +4,7 @@ import { authenticate } from "../../../middlewares/authenticate";
 
 export const createCompanyFeature = async (source, args, context, info) => {
   if (await authenticate(context, context.res)) {
-    let loggedUser = context.user;
+    let loggedUser = context.res.locals.fullUser;
     if (isSuperUser(loggedUser.email)) {
       return CompanyFeatureService.create(args.input);
     }
@@ -13,7 +13,7 @@ export const createCompanyFeature = async (source, args, context, info) => {
 
 export const updateCompanyFeature = async (source, args, context, info) => {
   if (await authenticate(context, context.res)) {
-    let loggedUser = context.user;
+    let loggedUser = context.res.locals.fullUser;
     if (isSuperUser(loggedUser.email)) {
       return CompanyFeatureService.update(args.input);
     }

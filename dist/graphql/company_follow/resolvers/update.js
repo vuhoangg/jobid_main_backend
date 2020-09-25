@@ -17,7 +17,7 @@ const CompanyFollowRepository_1 = __importDefault(require("../../../db/repositor
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.updateCompanyFollow = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     if (yield authenticate_1.authenticate(context, context.res)) {
-        let loggedUser = context.user;
+        let loggedUser = context.res.locals.fullUser;
         let input = args.input;
         input = Object.assign(input, { user: loggedUser._id });
         return CompanyFollowRepository_1.default.update(input);

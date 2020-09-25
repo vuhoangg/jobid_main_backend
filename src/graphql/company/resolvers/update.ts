@@ -6,7 +6,7 @@ import { authenticate } from "../../../middlewares/authenticate";
 
 export const updateCompany = async (source, args, context, info) => {
   if (await authenticate(context, context.res)) {
-    let loggedUser = context.user;
+    let loggedUser = context.res.locals.fullUser;
     if (isSuperUser(loggedUser.email)) {
       return CompanyService.update(args.input);
     } else {
@@ -26,7 +26,7 @@ export const createCompany = async (source, args, context, info) => {
   let input = args.input;
   input.slug = toSlug(input.name, true).toLowerCase();
   if (await authenticate(context, context.res)) {
-    let loggedUser = context.user;
+    let loggedUser = context.res.locals.fullUser;
     input = Object.assign(input, { created_by: loggedUser._id });
     return CompanyService.create(input);
   }
@@ -51,7 +51,7 @@ export const assignPermission = async (source, args, context, info) => {
 
 export const verifyCompany = async (source, args, context, info) => {
   if (await authenticate(context, context.res)) {
-    let loggedUser = context.user;
+    let loggedUser = context.res.locals.fullUser;
     let input = args.input;
     if (isSuperUser(loggedUser.email)) {
       return CompanyService.verify(input._id);
@@ -61,7 +61,7 @@ export const verifyCompany = async (source, args, context, info) => {
 
 export const premiumCompany = async (source, args, context, info) => {
   if (await authenticate(context, context.res)) {
-    let loggedUser = context.user;
+    let loggedUser = context.res.locals.fullUser;
     let input = args.input;
     if (isSuperUser(loggedUser.email)) {
       return CompanyService.premium(input._id);

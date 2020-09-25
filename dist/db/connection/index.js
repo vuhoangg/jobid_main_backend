@@ -11,7 +11,7 @@ class Connection {
             else {
                 console.log("Connected successfully to server");
             }
-        }).then(() => ({}));
+        });
     }
 }
 exports.Connection = Connection;
