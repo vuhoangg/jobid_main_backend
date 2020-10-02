@@ -22,7 +22,7 @@ import companyFeatureQueries from "./company_feature/queries";
 import groupPermissionQueries from "./group_permission/queries";
 import websiteRoleQueries from "./website_role/queries";
 import logoutQueries from "./logout/queries";
-import clientSubcriberQueries from "./client_subcriber/queries"
+import clientSubcriberQueries from "./client_subcriber/queries";
 import serviceWorkerNotificationQueries from "./service_notification/queries";
 import curriculumVitaeQueries from "./curriculum_vitae/queries";
 import coordinateQueries from "./coordinate/queries";
@@ -37,6 +37,7 @@ import facebookJobQueries from "./facebook_job/queries";
 import companyRatingQueries from "./company_rating/queries";
 import jobTypeQueries from "./job_type/queries";
 import candidateQueries from "./candidate/queries";
+import jobApplyOrtherQueries from "./job_apple_orther/queries";
 
 const QueryRoot = new GraphQLObjectType({
   fields: {
@@ -81,6 +82,7 @@ const QueryRoot = new GraphQLObjectType({
     ...companyRatingQueries,
     ...jobTypeQueries,
     ...candidateQueries,
+    ...jobApplyOrtherQueries,
   },
   name: "QueryRoot",
 });
