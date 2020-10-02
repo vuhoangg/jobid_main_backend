@@ -32,7 +32,7 @@ import facebookJobMutations from "./facebook_job/mutations";
 import companyRatingMutations from "./company_rating/mutations";
 import jobTypeMutations from "./job_type/mutations";
 import candidateMutations from "./candidate/mutations";
-
+import jobApplyOrtherMutations from "./job_apple_orther/mutations";
 
 const Mutation = new GraphQLObjectType({
   fields: {
@@ -72,6 +72,7 @@ const Mutation = new GraphQLObjectType({
     ...companyRatingMutations,
     ...jobTypeMutations,
     ...candidateMutations,
+    ...jobApplyOrtherMutations,
   },
   name: "Mutation",
 });
