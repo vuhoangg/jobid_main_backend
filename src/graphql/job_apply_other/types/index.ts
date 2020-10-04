@@ -3,8 +3,8 @@ import { PageInfo } from "../../types";
 import { User } from "../../user/types";
 import { JobPost } from "../../job_post/types";
 
-export const JobApplyOrther = new GraphQLObjectType({
-  description: "Represents a job apply orther.",
+export const JobApplyOther = new GraphQLObjectType({
+  description: "Represents a job apply other.",
   fields: {
     _id: { type: new GraphQLNonNull(GraphQLString) },
     job_post: { type: GraphQLNonNull(GraphQLString) },
@@ -17,33 +17,33 @@ export const JobApplyOrther = new GraphQLObjectType({
     created_at: { type: new GraphQLNonNull(GraphQLString) },
     updated_at: { type: new GraphQLNonNull(GraphQLString) },
   },
-  name: "JobApplyOrther",
+  name: "JobApplyOther",
 });
-export const JobApplyOrtherEdge = new GraphQLObjectType({
+export const JobApplyOtherEdge = new GraphQLObjectType({
   description: "A list of edges.",
   fields: {
     cursor: { type: new GraphQLNonNull(GraphQLString) },
     node: {
-      description: "The item at the end of JobApplyOrtherEdge.",
+      description: "The item at the end of JobApplyOtherEdge.",
       resolve: (parent) => parent.node,
-      type: new GraphQLNonNull(JobApplyOrther),
+      type: new GraphQLNonNull(JobApplyOther),
     },
   },
-  name: "JobApplyOrtherEdge",
+  name: "JobApplyOtherEdge",
 });
-export const JobApplyOrtherConnection = new GraphQLObjectType({
-  description: "List of job applys orther.",
+export const JobApplyOtherConnection = new GraphQLObjectType({
+  description: "List of job applys other.",
   fields: {
     edges: {
       resolve: (parent) => parent.edges,
-      type: new GraphQLNonNull(new GraphQLList(JobApplyOrtherEdge)),
+      type: new GraphQLNonNull(new GraphQLList(JobApplyOtherEdge)),
     },
     pageInfo: { type: new GraphQLNonNull(PageInfo) },
   },
-  name: "JobApplyOrtherConnection",
+  name: "JobApplyOtherConnection",
 });
 
-export const JobApplyOrtherInput = new GraphQLInputObjectType({
+export const JobApplyOtherInput = new GraphQLInputObjectType({
   fields: {
     _id: { type: GraphQLString },
     status: { type: GraphQLString },
@@ -53,10 +53,10 @@ export const JobApplyOrtherInput = new GraphQLInputObjectType({
     description: { type: GraphQLString },
     type: { type: GraphQLString },
   },
-  name: "JobApplyOrtherInput",
-  description: "The updated properties for a job apply orther.",
+  name: "JobApplyOtherInput",
+  description: "The updated properties for a job apply other.",
 });
 
-export const JobApplyOrtherArguments = {
+export const JobApplyOtherArguments = {
   _id: { type: new GraphQLNonNull(GraphQLString) },
 };

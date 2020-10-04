@@ -1,5 +1,5 @@
 import { CrudContract } from "../contracts/CrudContract";
-import JobApplyOrther from "../schemas/JobApplyOrther";
+import JobApplyOther from "../schemas/JobApplyOther";
 import { errorLog } from "../../helpers/log";
 import { promiseNull } from "../../helpers/promise";
 
@@ -11,6 +11,7 @@ interface ISort {
 interface IFilter {
   sort_by?: ISort;
   job_post?: string;
+  type?: string;
   user?: string;
   status?: string;
   createdAt?: any;
@@ -28,6 +29,9 @@ function getCondition(filter: IFilter) {
   }
   if (filter.user) {
     condition = Object.assign(condition, { user: filter.user });
+  }
+  if (filter.type) {
+    condition = Object.assign(condition, { type: filter.type });
   }
   if (filter.status) {
     condition = Object.assign(condition, { status: filter.status });
@@ -63,11 +67,11 @@ function getSort(sortBy: ISort) {
   return sort;
 }
 
-class JobApplyOrtherRepository implements CrudContract {
+class JobApplyOtherRepository implements CrudContract {
   count(filter: IFilter) {
     try {
       let condition = getCondition(filter);
-      return JobApplyOrther.countDocuments(condition);
+      return JobApplyOther.countDocuments(condition);
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -76,7 +80,7 @@ class JobApplyOrtherRepository implements CrudContract {
 
   create(data) {
     try {
-      return JobApplyOrther.create(data);
+      return JobApplyOther.create(data);
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -85,7 +89,7 @@ class JobApplyOrtherRepository implements CrudContract {
 
   delete(id) {
     try {
-      return JobApplyOrther.findByIdAndRemove(id);
+      return JobApplyOther.findByIdAndRemove(id);
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -94,7 +98,7 @@ class JobApplyOrtherRepository implements CrudContract {
 
   get(id, projection) {
     try {
-      return JobApplyOrther.findById(id, projection)
+      return JobApplyOther.findById(id, projection)
         .populate("user")
         .populate({ path: "job_post", populate: { path: "job_location" } });
     } catch (e) {
@@ -107,7 +111,7 @@ class JobApplyOrtherRepository implements CrudContract {
     try {
       let condition = getCondition(filter);
       let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
-      return JobApplyOrther.find(condition, projection)
+      return JobApplyOther.find(condition, projection)
         .populate("user")
         .populate({ path: "job_post", populate: { path: "job_location" } })
         .sort(sort)
@@ -122,7 +126,7 @@ class JobApplyOrtherRepository implements CrudContract {
   getBy(getBy: IGetBy, projection) {
     try {
       if (getBy._id) {
-        return JobApplyOrther.findById(getBy._id, projection);
+        return JobApplyOther.findById(getBy._id, projection);
       } else {
         return promiseNull();
       }
@@ -134,7 +138,7 @@ class JobApplyOrtherRepository implements CrudContract {
 
   update(data) {
     try {
-      return JobApplyOrther.findByIdAndUpdate(data._id, data, { new: true });
+      return JobApplyOther.findByIdAndUpdate(data._id, data, { new: true });
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -143,7 +147,7 @@ class JobApplyOrtherRepository implements CrudContract {
 
   applyJob(data) {
     try {
-      return JobApplyOrther.findOneAndUpdate(
+      return JobApplyOther.findOneAndUpdate(
         {
           job_post: data.job_post,
           user: data.user,
@@ -162,5 +166,5 @@ class JobApplyOrtherRepository implements CrudContract {
   }
 }
 
-const JobApplyOrtherService = new JobApplyOrtherRepository();
-export default JobApplyOrtherService;
+const JobApplyOtherService = new JobApplyOtherRepository();
+export default JobApplyOtherService;

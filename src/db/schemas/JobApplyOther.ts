@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const jobApplyOrtherSchema = new mongoose.Schema(
+const jobApplyOtherSchema = new mongoose.Schema(
   {
     job_post: {
       type: String,
@@ -24,5 +24,5 @@ const jobApplyOrtherSchema = new mongoose.Schema(
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );
 
-const JobApplyOrther = mongoose.model("JobApplyOrther", jobApplyOrtherSchema);
-export default JobApplyOrther;
+const JobApplyOther = mongoose.model("JobApplyOther", jobApplyOtherSchema);
+export default JobApplyOther;

@@ -37,7 +37,7 @@ import facebookJobQueries from "./facebook_job/queries";
 import companyRatingQueries from "./company_rating/queries";
 import jobTypeQueries from "./job_type/queries";
 import candidateQueries from "./candidate/queries";
-import jobApplyOrtherQueries from "./job_apple_orther/queries";
+import jobApplyOtherQueries from "./job_apply_other/queries";
 
 const QueryRoot = new GraphQLObjectType({
   fields: {
@@ -82,7 +82,7 @@ const QueryRoot = new GraphQLObjectType({
     ...companyRatingQueries,
     ...jobTypeQueries,
     ...candidateQueries,
-    ...jobApplyOrtherQueries,
+    ...jobApplyOtherQueries,
   },
   name: "QueryRoot",
 });
