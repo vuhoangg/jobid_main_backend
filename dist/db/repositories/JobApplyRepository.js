@@ -14,6 +14,9 @@ function getCondition(filter) {
     if (filter.user) {
         condition = Object.assign(condition, { user: filter.user });
     }
+    if (filter.target) {
+        condition = Object.assign(condition, { target: filter.target });
+    }
     if (filter.status) {
         condition = Object.assign(condition, { status: filter.status });
     }

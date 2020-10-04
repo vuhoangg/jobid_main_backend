@@ -12,6 +12,7 @@ interface IFilter {
   sort_by?: ISort;
   job_post?: string;
   user?: string;
+  target?: string;
   status?: string;
   createdAt?: any;
   updatedAt?: any;
@@ -28,6 +29,9 @@ function getCondition(filter: IFilter) {
   }
   if (filter.user) {
     condition = Object.assign(condition, { user: filter.user });
+  }
+  if (filter.target) {
+    condition = Object.assign(condition, { target: filter.target });
   }
   if (filter.status) {
     condition = Object.assign(condition, { status: filter.status });

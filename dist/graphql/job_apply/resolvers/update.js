@@ -20,16 +20,16 @@ exports.updateJobApply = (source, args, context, info) => __awaiter(void 0, void
     if (yield authenticate_1.authenticate(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
-        input = Object.assign(input, { user: loggedUser._id, status: "pending" });
+        let jobPost = yield JobPostRepository_1.default.get(input.job_post, {});
+        let target = jobPost.user;
+        input = Object.assign(input, { user: loggedUser._id, target: target, status: "pending" });
         return JobApplyRepository_1.default.applyJob(input).then((data) => __awaiter(void 0, void 0, void 0, function* () {
-            let jobPost = yield JobPostRepository_1.default.get(input.job_post, {});
-            let target = jobPost.user;
             let notification = {
                 type: "user",
                 subject: "user_apply_job",
                 target: {
                     object_type: "user",
-                    ref: target.ref,
+                    ref: target,
                 },
                 message: `${loggedUser.first_name} ${loggedUser.last_name} đã ứng tuyển tin tuyển dụng ${jobPost.title}`,
                 href: jobPost.slug,

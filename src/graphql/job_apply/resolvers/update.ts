@@ -8,16 +8,19 @@ export const updateJobApply = async (source, args, context, info) => {
   if (await authenticate(context, context.res)) {
     let loggedUser = context.res.locals.fullUser;
     let input = args.input;
-    input = Object.assign(input, { user: loggedUser._id, status: "pending" });
+
+    let jobPost = await JobPostService.get(input.job_post, {});
+    let target = jobPost.user;
+
+    input = Object.assign(input, { user: loggedUser._id, target: target, status: "pending" });
+
     return JobApplyService.applyJob(input).then(async (data) => {
-      let jobPost = await JobPostService.get(input.job_post, {});
-      let target = jobPost.user;
       let notification = {
         type: "user",
         subject: "user_apply_job",
         target: {
           object_type: "user",
-          ref: target.ref,
+          ref: target,
         },
         message: `${loggedUser.first_name} ${loggedUser.last_name} đã ứng tuyển tin tuyển dụng ${jobPost.title}`,
         href: jobPost.slug,

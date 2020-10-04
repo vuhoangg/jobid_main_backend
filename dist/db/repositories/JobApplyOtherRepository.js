@@ -79,9 +79,7 @@ class JobApplyOtherRepository {
     }
     get(id, projection) {
         try {
-            return JobApplyOther_1.default.findById(id, projection)
-                .populate("user")
-                .populate({ path: "job_post", populate: { path: "job_location" } });
+            return JobApplyOther_1.default.findById(id, projection).populate("user");
         }
         catch (e) {
             log_1.errorLog(e);
@@ -94,7 +92,6 @@ class JobApplyOtherRepository {
             let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
             return JobApplyOther_1.default.find(condition, projection)
                 .populate("user")
-                .populate({ path: "job_post", populate: { path: "job_location" } })
                 .sort(sort)
                 .skip(limit * (page - 1))
                 .limit(limit);
