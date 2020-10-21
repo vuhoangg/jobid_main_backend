@@ -26,6 +26,12 @@ function getCondition(filter) {
     if (filter.job_category) {
         condition = Object.assign(condition, { job_category: filter.job_category });
     }
+    if (filter.job_level) {
+        condition = Object.assign(condition, { job_level: filter.job_level });
+    }
+    if (filter.job_type) {
+        condition = Object.assign(condition, { job_type: filter.job_type });
+    }
     if (filter.benefit) {
         condition = Object.assign(condition, { "benefit.benefit_id": filter.benefit });
     }
@@ -34,6 +40,12 @@ function getCondition(filter) {
     }
     if (filter.user) {
         condition = Object.assign(condition, { user: filter.user });
+    }
+    if (filter.salary_min) {
+        condition = Object.assign(condition, { "salary.min": { $gte: filter.salary_min } });
+    }
+    if (filter.salary_max) {
+        condition = Object.assign(condition, { "salary.max": { $lte: filter.salary_max } });
     }
     if (filter.coordinate) {
         condition = Object.assign(condition, { "location.lat": { $gte: filter.coordinate.minLat, $lte: filter.coordinate.maxLat } }, { "location.lng": { $gte: filter.coordinate.minLng, $lte: filter.coordinate.maxLng } });
