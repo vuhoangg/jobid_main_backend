@@ -130,6 +130,8 @@ exports.JobPost = new graphql_1.GraphQLObjectType({
         status: { type: graphql_1.GraphQLString },
         seo_title: { type: graphql_1.GraphQLString },
         seo_description: { type: graphql_1.GraphQLString },
+        is_featured: { type: graphql_1.GraphQLBoolean },
+        is_wishlist: { type: graphql_1.GraphQLBoolean },
         created_at: { type: graphql_1.GraphQLString },
         updated_at: { type: graphql_1.GraphQLString },
     },

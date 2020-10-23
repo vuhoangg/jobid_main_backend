@@ -1,15 +1,27 @@
 import JobPostService from "../../../db/repositories/JobPostRepository";
 import { filterObject, rootField, rootInfo } from "../../helpers";
 import { authenticate } from "../../../middlewares/authenticate";
+import JobPostWishlistService from "../../../db/repositories/JobPostWishlistRepository";
 
 export const getJobPost = async (source, args, context, info) => {
   const fields = rootField(info);
   let getBy = args._id ? { _id: args._id } : { slug: args.slug };
-  let loggedUser = null;
-  if (await authenticate(context, context.res)) {
-    loggedUser = context.res.locals.fullUser;
-  }
+
+
+
   return JobPostService.getBy(getBy, fields).then(async (jobPost) => {
+
+    let loggedUser = null;
+    if (await authenticate(context, context.res)) {
+      loggedUser = context.res.locals.fullUser;
+    }
+
+    let is_featured = false;
+    let is_wishlist = false;
+    if (loggedUser) {
+      is_wishlist = !! await JobPostWishlistService.count({ job_post: jobPost._id, user: loggedUser._id });
+    }
+
     let node = {
       _id: jobPost._id,
       title: jobPost.title,
@@ -34,6 +46,8 @@ export const getJobPost = async (source, args, context, info) => {
       status: jobPost.status,
       seo_title: jobPost.seo_title,
       seo_description: jobPost.seo_description,
+      is_featured: is_featured,
+      is_wishlist: is_wishlist,
       created_at: jobPost.created_at,
       updated_at: jobPost.updated_at,
     };
@@ -45,9 +59,23 @@ export function getJobPosts(source, args, context, info) {
   let infos = rootInfo(info);
   let filter = filterObject(args.filter);
   let limit = args.limit > 50 ? 10 : args.limit;
+
+
   return JobPostService.filter(filter, limit, args.page, infos.edges).then(async (jobPosts) => {
     let edges = [];
+
+    let loggedUser = null;
+    if (await authenticate(context, context.res)) {
+      loggedUser = context.res.locals.fullUser;
+    }
+
     for (let i = 0; i < jobPosts.length; i++) {
+      let is_featured = false;
+      let is_wishlist = false;
+      if (loggedUser) {
+        is_wishlist = !! await JobPostWishlistService.count({ job_post: jobPosts[i]._id, user: loggedUser._id });
+      }
+
       let jobPost = {
         cursor: jobPosts[i]._id,
         node: {
@@ -74,6 +102,8 @@ export function getJobPosts(source, args, context, info) {
           status: jobPosts[i].status,
           seo_title: jobPosts[i].seo_title,
           seo_description: jobPosts[i].seo_description,
+          is_featured: is_featured,
+          is_wishlist: is_wishlist,
           created_at: jobPosts[i].created_at,
           updated_at: jobPosts[i].updated_at,
         },

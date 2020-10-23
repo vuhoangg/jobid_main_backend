@@ -16,6 +16,8 @@ interface IFilter {
 
 interface IGetBy {
     _id?: string;
+    job_post?: string;
+    user?: string;
 }
 
 function getCondition(filter: IFilter) {
@@ -24,7 +26,7 @@ function getCondition(filter: IFilter) {
         condition = Object.assign(condition, { user: filter.user });
     }
     if (filter.job_post) {
-        condition = Object.assign(condition, { user: filter.job_post });
+        condition = Object.assign(condition, { job_post: filter.job_post });
     }
     return condition;
 }
@@ -97,6 +99,8 @@ class JobPostWishlistRepository implements CrudContract {
         try {
             if (getBy._id) {
                 return JobPostWishlist.findById(getBy._id, projection);
+            } else if (getBy.job_post) {
+                return JobPostWishlist.findOne({ job_post: getBy.job_post, user: getBy.user }, projection);
             } else {
                 return promiseNull();
             }

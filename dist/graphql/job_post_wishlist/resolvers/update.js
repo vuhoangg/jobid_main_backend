@@ -19,12 +19,12 @@ exports.createJobPostWishlist = (source, args, context, info) => __awaiter(void 
     if (yield authenticate_1.authenticate(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
-        return JobPostWishlistRepository_1.default.get(input._id, {}).then((r1) => {
+        input = Object.assign(input, { user: loggedUser._id });
+        return JobPostWishlistRepository_1.default.getBy(input, {}).then((r1) => {
             if (r1) {
                 return r1;
             }
             else {
-                input = Object.assign(input, { user: loggedUser._id });
                 return JobPostWishlistRepository_1.default.create(input);
             }
         });
@@ -34,9 +34,10 @@ exports.deleteJobPostWishlist = (source, args, context, info) => __awaiter(void 
     if (yield authenticate_1.authenticate(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
-        return JobPostWishlistRepository_1.default.get(input._id, {}).then((r1) => {
-            if (r1 && r1.user.toString() == loggedUser._id.toString()) {
-                return JobPostWishlistRepository_1.default.delete(input._id);
+        input = Object.assign(input, { user: loggedUser._id });
+        return JobPostWishlistRepository_1.default.getBy(input, {}).then((r1) => {
+            if (r1) {
+                return JobPostWishlistRepository_1.default.delete(r1._id).then(x => r1);
             }
             else {
                 return null;

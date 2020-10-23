@@ -24,10 +24,12 @@ exports.getJobPostWishlist = (source, args, context, info) => __awaiter(void 0, 
         loggedUser = context.res.locals.fullUser;
     }
     return JobPostWishlistRepository_1.default.getBy(getBy, fields).then((jobPostWishlist) => __awaiter(void 0, void 0, void 0, function* () {
+        let job_post = jobPostWishlist.job_post;
+        job_post = Object.assign(job_post, { is_featured: false, is_wishlist: true });
         let node = {
             _id: jobPostWishlist._id,
             user: jobPostWishlist.user,
-            job_post: jobPostWishlist.job_post,
+            job_post: job_post,
             created_at: jobPostWishlist.created_at,
             updated_at: jobPostWishlist.updated_at,
         };
@@ -41,12 +43,14 @@ function getJobPostWishlists(source, args, context, info) {
     return JobPostWishlistRepository_1.default.filter(filter, limit, args.page, infos.edges).then((jobPostWishlists) => __awaiter(this, void 0, void 0, function* () {
         let edges = [];
         for (let i = 0; i < jobPostWishlists.length; i++) {
+            let job_post = jobPostWishlists[i].job_post;
+            job_post = Object.assign(job_post, { is_featured: false, is_wishlist: true });
             let jobPostWishlist = {
                 cursor: jobPostWishlists[i]._id,
                 node: {
                     _id: jobPostWishlists[i]._id,
                     user: jobPostWishlists[i].user,
-                    job_post: jobPostWishlists[i].job_post,
+                    job_post: job_post,
                     created_at: jobPostWishlists[i].created_at,
                     updated_at: jobPostWishlists[i].updated_at,
                 },

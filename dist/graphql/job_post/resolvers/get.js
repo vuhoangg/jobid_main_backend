@@ -16,14 +16,20 @@ exports.getJobPosts = exports.getJobPost = void 0;
 const JobPostRepository_1 = __importDefault(require("../../../db/repositories/JobPostRepository"));
 const helpers_1 = require("../../helpers");
 const authenticate_1 = require("../../../middlewares/authenticate");
+const JobPostWishlistRepository_1 = __importDefault(require("../../../db/repositories/JobPostWishlistRepository"));
 exports.getJobPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     const fields = helpers_1.rootField(info);
     let getBy = args._id ? { _id: args._id } : { slug: args.slug };
-    let loggedUser = null;
-    if (yield authenticate_1.authenticate(context, context.res)) {
-        loggedUser = context.res.locals.fullUser;
-    }
     return JobPostRepository_1.default.getBy(getBy, fields).then((jobPost) => __awaiter(void 0, void 0, void 0, function* () {
+        let loggedUser = null;
+        if (yield authenticate_1.authenticate(context, context.res)) {
+            loggedUser = context.res.locals.fullUser;
+        }
+        let is_featured = false;
+        let is_wishlist = false;
+        if (loggedUser) {
+            is_wishlist = !!(yield JobPostWishlistRepository_1.default.count({ job_post: jobPost._id, user: loggedUser._id }));
+        }
         let node = {
             _id: jobPost._id,
             title: jobPost.title,
@@ -48,6 +54,8 @@ exports.getJobPost = (source, args, context, info) => __awaiter(void 0, void 0, 
             status: jobPost.status,
             seo_title: jobPost.seo_title,
             seo_description: jobPost.seo_description,
+            is_featured: is_featured,
+            is_wishlist: is_wishlist,
             created_at: jobPost.created_at,
             updated_at: jobPost.updated_at,
         };
@@ -60,7 +68,16 @@ function getJobPosts(source, args, context, info) {
     let limit = args.limit > 50 ? 10 : args.limit;
     return JobPostRepository_1.default.filter(filter, limit, args.page, infos.edges).then((jobPosts) => __awaiter(this, void 0, void 0, function* () {
         let edges = [];
+        let loggedUser = null;
+        if (yield authenticate_1.authenticate(context, context.res)) {
+            loggedUser = context.res.locals.fullUser;
+        }
         for (let i = 0; i < jobPosts.length; i++) {
+            let is_featured = false;
+            let is_wishlist = false;
+            if (loggedUser) {
+                is_wishlist = !!(yield JobPostWishlistRepository_1.default.count({ job_post: jobPosts[i]._id, user: loggedUser._id }));
+            }
             let jobPost = {
                 cursor: jobPosts[i]._id,
                 node: {
@@ -87,6 +104,8 @@ function getJobPosts(source, args, context, info) {
                     status: jobPosts[i].status,
                     seo_title: jobPosts[i].seo_title,
                     seo_description: jobPosts[i].seo_description,
+                    is_featured: is_featured,
+                    is_wishlist: is_wishlist,
                     created_at: jobPosts[i].created_at,
                     updated_at: jobPosts[i].updated_at,
                 },

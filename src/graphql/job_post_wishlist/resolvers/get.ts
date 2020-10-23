@@ -10,10 +10,14 @@ export const getJobPostWishlist = async (source, args, context, info) => {
         loggedUser = context.res.locals.fullUser;
     }
     return JobPostWishlistService.getBy(getBy, fields).then(async (jobPostWishlist) => {
+
+        let job_post = jobPostWishlist.job_post;
+        job_post = Object.assign(job_post, { is_featured: false, is_wishlist: true });
+
         let node = {
             _id: jobPostWishlist._id,
             user: jobPostWishlist.user,
-            job_post: jobPostWishlist.job_post,
+            job_post: job_post,
             created_at: jobPostWishlist.created_at,
             updated_at: jobPostWishlist.updated_at,
         };
@@ -28,12 +32,14 @@ export function getJobPostWishlists(source, args, context, info) {
     return JobPostWishlistService.filter(filter, limit, args.page, infos.edges).then(async (jobPostWishlists) => {
         let edges = [];
         for (let i = 0; i < jobPostWishlists.length; i++) {
+            let job_post = jobPostWishlists[i].job_post;
+            job_post = Object.assign(job_post, { is_featured: false, is_wishlist: true });
             let jobPostWishlist = {
                 cursor: jobPostWishlists[i]._id,
                 node: {
                     _id: jobPostWishlists[i]._id,
                     user: jobPostWishlists[i].user,
-                    job_post: jobPostWishlists[i].job_post,
+                    job_post: job_post,
                     created_at: jobPostWishlists[i].created_at,
                     updated_at: jobPostWishlists[i].updated_at,
                 },

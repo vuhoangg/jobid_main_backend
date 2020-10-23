@@ -12,7 +12,7 @@ function getCondition(filter) {
         condition = Object.assign(condition, { user: filter.user });
     }
     if (filter.job_post) {
-        condition = Object.assign(condition, { user: filter.job_post });
+        condition = Object.assign(condition, { job_post: filter.job_post });
     }
     return condition;
 }
@@ -81,6 +81,9 @@ class JobPostWishlistRepository {
         try {
             if (getBy._id) {
                 return JobPostWishlist_1.default.findById(getBy._id, projection);
+            }
+            else if (getBy.job_post) {
+                return JobPostWishlist_1.default.findOne({ job_post: getBy.job_post, user: getBy.user }, projection);
             }
             else {
                 return promise_1.promiseNull();
