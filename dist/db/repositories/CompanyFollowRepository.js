@@ -68,7 +68,8 @@ class CompanyFollowRepository {
         try {
             let condition = getCondition(filter);
             let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
-            return CompanyFollow_1.default.find(condition, projection).sort(sort).skip(limit * (page - 1)).limit(limit).populate('user').populate('company');
+            return CompanyFollow_1.default.find(condition, projection).sort(sort).skip(limit * (page - 1)).limit(limit)
+                .populate('company');
         }
         catch (e) {
             log_1.errorLog(e);
@@ -77,15 +78,7 @@ class CompanyFollowRepository {
     }
     getBy(getBy, projection) {
         try {
-            if (getBy._id) {
-                return CompanyFollow_1.default.findById(getBy._id, projection);
-            }
-            else if (getBy.company) {
-                return CompanyFollow_1.default.findOne({ company: getBy.company, user: getBy.user }, projection).populate('user').populate('company');
-            }
-            else {
-                return promise_1.promiseNull();
-            }
+            return CompanyFollow_1.default.findOne(getBy, projection).populate('user').populate('company');
         }
         catch (e) {
             log_1.errorLog(e);

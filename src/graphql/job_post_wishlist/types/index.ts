@@ -56,4 +56,5 @@ export const JobPostWishlistInput = new GraphQLInputObjectType({
 
 export const JobPostWishlistArguments = {
     _id: { type: GraphQLString },
+    job_post: { type: GraphQLString },
 };

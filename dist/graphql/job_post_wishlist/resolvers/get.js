@@ -18,12 +18,13 @@ const helpers_1 = require("../../helpers");
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.getJobPostWishlist = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     const fields = helpers_1.rootField(info);
-    let getBy = args._id ? { _id: args._id } : { slug: args.slug };
-    let loggedUser = null;
-    if (yield authenticate_1.authenticate(context, context.res)) {
-        loggedUser = context.res.locals.fullUser;
-    }
-    return JobPostWishlistRepository_1.default.getBy(getBy, fields).then((jobPostWishlist) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield authenticate_1.authenticate(context, context.res);
+    if (isAuthenticated) {
+        let loggedUser = context.res.locals.fullUser;
+        let getBy = { user: loggedUser._id };
+        args._id ? getBy = Object.assign(getBy, { _id: args._id }) : null;
+        args.job_post ? getBy = Object.assign(getBy, { job_post: args.job_post }) : null;
+        let jobPostWishlist = yield JobPostWishlistRepository_1.default.getBy(getBy, fields);
         let job_post = jobPostWishlist.job_post;
         job_post = Object.assign(job_post, { is_featured: false, is_wishlist: true });
         let node = {
@@ -34,13 +35,17 @@ exports.getJobPostWishlist = (source, args, context, info) => __awaiter(void 0, 
             updated_at: jobPostWishlist.updated_at,
         };
         return node;
-    }));
+    }
 });
-function getJobPostWishlists(source, args, context, info) {
+exports.getJobPostWishlists = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
     let limit = args.limit > 50 ? 10 : args.limit;
-    return JobPostWishlistRepository_1.default.filter(filter, limit, args.page, infos.edges).then((jobPostWishlists) => __awaiter(this, void 0, void 0, function* () {
+    let isAuthenticated = yield authenticate_1.authenticate(context, context.res);
+    if (isAuthenticated) {
+        let loggedUser = context.res.locals.fullUser;
+        filter = Object.assign(filter, { user: loggedUser._id });
+        let jobPostWishlists = yield JobPostWishlistRepository_1.default.filter(filter, limit, args.page, infos.edges);
         let edges = [];
         for (let i = 0; i < jobPostWishlists.length; i++) {
             let job_post = jobPostWishlists[i].job_post;
@@ -64,7 +69,7 @@ function getJobPostWishlists(source, args, context, info) {
                 hasPreviousPage: args.page > 1,
             } });
         return dataRet;
-    }));
-}
-exports.getJobPostWishlists = getJobPostWishlists;
+    }
+    ;
+});
 //# sourceMappingURL=get.js.map

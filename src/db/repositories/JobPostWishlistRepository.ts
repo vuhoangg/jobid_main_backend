@@ -104,13 +104,7 @@ class JobPostWishlistRepository implements CrudContract {
 
     getBy(getBy: IGetBy, projection) {
         try {
-            if (getBy._id) {
-                return JobPostWishlist.findById(getBy._id, projection);
-            } else if (getBy.job_post) {
-                return JobPostWishlist.findOne({ job_post: getBy.job_post, user: getBy.user }, projection);
-            } else {
-                return promiseNull();
-            }
+            return JobPostWishlist.findOne(getBy, projection);
         } catch (e) {
             errorLog(e);
             return promiseNull();

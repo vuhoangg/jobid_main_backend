@@ -85,15 +85,7 @@ class JobPostWishlistRepository {
     }
     getBy(getBy, projection) {
         try {
-            if (getBy._id) {
-                return JobPostWishlist_1.default.findById(getBy._id, projection);
-            }
-            else if (getBy.job_post) {
-                return JobPostWishlist_1.default.findOne({ job_post: getBy.job_post, user: getBy.user }, projection);
-            }
-            else {
-                return promise_1.promiseNull();
-            }
+            return JobPostWishlist_1.default.findOne(getBy, projection);
         }
         catch (e) {
             log_1.errorLog(e);

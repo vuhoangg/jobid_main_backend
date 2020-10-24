@@ -48,5 +48,6 @@ exports.JobPostWishlistInput = new graphql_1.GraphQLInputObjectType({
 });
 exports.JobPostWishlistArguments = {
     _id: { type: graphql_1.GraphQLString },
+    job_post: { type: graphql_1.GraphQLString },
 };
 //# sourceMappingURL=index.js.map
