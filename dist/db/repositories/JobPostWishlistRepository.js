@@ -69,8 +69,14 @@ class JobPostWishlistRepository {
             let condition = getCondition(filter);
             let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
             return JobPostWishlist_1.default.find(condition, projection).sort(sort).skip(limit * (page - 1)).limit(limit)
-                .populate("job_post")
-                .populate("job_post.company");
+                .populate({
+                path: "job_post",
+                populate: [
+                    { path: "address.city" },
+                    { path: "company.ref" },
+                    { path: "job_type" }
+                ]
+            });
         }
         catch (e) {
             log_1.errorLog(e);

@@ -6,10 +6,6 @@ const jobApplySchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "JobPost",
     },
-    target: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",

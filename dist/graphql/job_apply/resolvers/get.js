@@ -15,10 +15,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getJobApplys = exports.getJobApply = void 0;
 const JobApplyRepository_1 = __importDefault(require("../../../db/repositories/JobApplyRepository"));
 const helpers_1 = require("../../helpers");
-function getJobApply(source, args, context, info) {
-    console.log("getJobApply -> args", args);
+const authenticate_1 = require("../../../middlewares/authenticate");
+exports.getJobApply = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     const fields = helpers_1.rootField(info);
-    return JobApplyRepository_1.default.get(args._id, fields).then((jobApply) => __awaiter(this, void 0, void 0, function* () {
+    let isAuthenticated = yield authenticate_1.authenticate(context, context.res);
+    if (isAuthenticated) {
+        let loggedUser = context.res.locals.fullUser;
+        let getBy = {
+            _id: args._id,
+            user: loggedUser._id,
+        };
+        let jobApply = yield JobApplyRepository_1.default.getBy(getBy, fields);
         let node = {
             _id: jobApply._id,
             job_post: jobApply.job_post,
@@ -31,14 +38,17 @@ function getJobApply(source, args, context, info) {
             updated_at: jobApply.updated_at,
         };
         return node;
-    }));
-}
-exports.getJobApply = getJobApply;
-function getJobApplys(source, args, context, info) {
+    }
+});
+exports.getJobApplys = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
     let page = args.page > 50 ? 10 : args.page;
-    return JobApplyRepository_1.default.filter(filter, args.limit, page, infos.edges).then((jobApplys) => __awaiter(this, void 0, void 0, function* () {
+    let isAuthenticated = yield authenticate_1.authenticate(context, context.res);
+    if (isAuthenticated) {
+        let loggedUser = context.res.locals.fullUser;
+        filter = Object.assign(filter, { user: loggedUser._id });
+        let jobApplys = yield JobApplyRepository_1.default.filter(filter, args.limit, page, infos.edges);
         let edges = [];
         for (let i = 0; i < jobApplys.length; i++) {
             let jobApply = {
@@ -64,7 +74,6 @@ function getJobApplys(source, args, context, info) {
                 hasPreviousPage: page > 1,
             } });
         return dataRet;
-    }));
-}
-exports.getJobApplys = getJobApplys;
+    }
+});
 //# sourceMappingURL=get.js.map

@@ -87,8 +87,15 @@ class JobPostWishlistRepository implements CrudContract {
             let condition = getCondition(filter);
             let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
             return JobPostWishlist.find(condition, projection).sort(sort).skip(limit * (page - 1)).limit(limit)
-                .populate("job_post")
-                .populate("job_post.company");
+                .populate(
+                    {
+                        path: "job_post",
+                        populate: [
+                            { path: "address.city" },
+                            { path: "company.ref" },
+                            { path: "job_type" }
+                        ]
+                    });
         } catch (e) {
             errorLog(e);
             return promiseNull();

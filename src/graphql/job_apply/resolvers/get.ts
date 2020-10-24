@@ -1,10 +1,20 @@
 import JobApplyService from "../../../db/repositories/JobApplyRepository";
 import { filterObject, rootField, rootInfo } from "../../helpers";
+import { authenticate } from "../../../middlewares/authenticate";
+import { promiseNull } from "../../../helpers/promise";
 
-export function getJobApply(source, args, context, info) {
-  console.log("getJobApply -> args", args);
+export const getJobApply = async (source, args, context, info) => {
   const fields = rootField(info);
-  return JobApplyService.get(args._id, fields).then(async (jobApply) => {
+
+  let isAuthenticated = await authenticate(context, context.res);
+
+  if (isAuthenticated) {
+    let loggedUser = context.res.locals.fullUser;
+    let getBy = {
+      _id: args._id,
+      user: loggedUser._id,
+    }
+    let jobApply = await JobApplyService.getBy(getBy, fields);
     let node = {
       _id: jobApply._id,
       job_post: jobApply.job_post,
@@ -17,14 +27,21 @@ export function getJobApply(source, args, context, info) {
       updated_at: jobApply.updated_at,
     };
     return node;
-  });
+  }
 }
 
-export function getJobApplys(source, args, context, info) {
+export const getJobApplys = async (source, args, context, info) => {
   let infos = rootInfo(info);
   let filter = filterObject(args.filter);
   let page = args.page > 50 ? 10 : args.page;
-  return JobApplyService.filter(filter, args.limit, page, infos.edges).then(async (jobApplys) => {
+
+  let isAuthenticated = await authenticate(context, context.res);
+
+  if (isAuthenticated) {
+    let loggedUser = context.res.locals.fullUser;
+    filter = Object.assign(filter, { user: loggedUser._id });
+
+    let jobApplys = await JobApplyService.filter(filter, args.limit, page, infos.edges);
     let edges = [];
     for (let i = 0; i < jobApplys.length; i++) {
       let jobApply = {
@@ -53,5 +70,5 @@ export function getJobApplys(source, args, context, info) {
       },
     };
     return dataRet;
-  });
+  }
 }

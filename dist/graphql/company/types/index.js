@@ -165,6 +165,7 @@ exports.Company = new graphql_1.GraphQLObjectType({
         people: { type: new graphql_1.GraphQLList(exports.People) },
         benefit: { type: new graphql_1.GraphQLList(exports.BenefitContent) },
         follow: { type: graphql_1.GraphQLInt },
+        is_follow: { type: graphql_1.GraphQLBoolean },
         size: { type: exports.CompanySize },
         seo_title: { type: graphql_1.GraphQLString },
         seo_description: { type: graphql_1.GraphQLString },

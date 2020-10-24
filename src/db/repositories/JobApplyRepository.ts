@@ -12,7 +12,6 @@ interface IFilter {
   sort_by?: ISort;
   job_post?: string;
   user?: string;
-  target?: string;
   status?: string;
   createdAt?: any;
   updatedAt?: any;
@@ -20,6 +19,8 @@ interface IFilter {
 
 interface IGetBy {
   _id?: string;
+  user: string;
+  job_post?: string;
 }
 
 function getCondition(filter: IFilter) {
@@ -29,9 +30,6 @@ function getCondition(filter: IFilter) {
   }
   if (filter.user) {
     condition = Object.assign(condition, { user: filter.user });
-  }
-  if (filter.target) {
-    condition = Object.assign(condition, { target: filter.target });
   }
   if (filter.status) {
     condition = Object.assign(condition, { status: filter.status });
@@ -96,11 +94,10 @@ class JobApplyRepository implements CrudContract {
     }
   }
 
-  get(id, projection) {
+  get(_id, projection) {
     try {
-      return JobApply.findById(id, projection)
-        .populate("user")
-        .populate({ path: "job_post", populate: { path: "job_location" } });
+      return JobApply.findById(_id, projection)
+        .populate("job_post");
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -112,8 +109,15 @@ class JobApplyRepository implements CrudContract {
       let condition = getCondition(filter);
       let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
       return JobApply.find(condition, projection)
-        .populate("user")
-        .populate({ path: "job_post", populate: { path: "job_location" } })
+        .populate(
+          {
+            path: "job_post",
+            populate: [
+              { path: "address.city" },
+              { path: "company.ref" },
+              { path: "job_type" }
+            ]
+          })
         .sort(sort)
         .skip(limit * (page - 1))
         .limit(limit);
@@ -125,11 +129,7 @@ class JobApplyRepository implements CrudContract {
 
   getBy(getBy: IGetBy, projection) {
     try {
-      if (getBy._id) {
-        return JobApply.findById(getBy._id, projection);
-      } else {
-        return promiseNull();
-      }
+      return JobApply.findOne(getBy, projection);
     } catch (e) {
       errorLog(e);
       return promiseNull();

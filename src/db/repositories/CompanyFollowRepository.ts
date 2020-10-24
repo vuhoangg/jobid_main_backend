@@ -1,7 +1,7 @@
-import {CrudContract} from "../contracts/CrudContract";
+import { CrudContract } from "../contracts/CrudContract";
 import CompanyFollow from "../schemas/CompanyFollow";
-import {errorLog} from "../../helpers/log";
-import {promiseNull} from "../../helpers/promise";
+import { errorLog } from "../../helpers/log";
+import { promiseNull } from "../../helpers/promise";
 
 interface ISort {
   created?: "newest" | "oldest",
@@ -21,10 +21,10 @@ interface IGetBy {
 function getCondition(filter: IFilter) {
   let condition = {};
   if (filter.user) {
-    condition = Object.assign(condition, {user: filter.user});
+    condition = Object.assign(condition, { user: filter.user });
   }
   if (filter.company) {
-    condition = Object.assign(condition, {company: filter.company});
+    condition = Object.assign(condition, { company: filter.company });
   }
   return condition;
 }
@@ -32,10 +32,10 @@ function getCondition(filter: IFilter) {
 function getSort(sortBy: ISort) {
   let sort = {};
   if (sortBy.created) {
-    sort = Object.assign(sort, {_id: (sortBy.created === "newest" ? "desc" : "asc")})
+    sort = Object.assign(sort, { _id: (sortBy.created === "newest" ? "desc" : "asc") })
   }
   if (sortBy.updated) {
-    sort = Object.assign(sort, {updated_at: (sortBy.updated === "newest" ? "desc" : "asc")})
+    sort = Object.assign(sort, { updated_at: (sortBy.updated === "newest" ? "desc" : "asc") })
   }
   return sort;
 }
@@ -81,7 +81,7 @@ class CompanyFollowRepository implements CrudContract {
   filter(filter: IFilter, limit, page, projection) {
     try {
       let condition = getCondition(filter);
-      let sort = filter.sort_by ? getSort(filter.sort_by) : {_id: "desc"};
+      let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
       return CompanyFollow.find(condition, projection).sort(sort).skip(limit * (page - 1)).limit(limit).populate('user').populate('company');
     } catch (e) {
       errorLog(e);
@@ -94,7 +94,7 @@ class CompanyFollowRepository implements CrudContract {
       if (getBy._id) {
         return CompanyFollow.findById(getBy._id, projection);
       } else if (getBy.company) {
-        return CompanyFollow.findOne({company: getBy.company, user: getBy.user}, projection).populate('user').populate('company');
+        return CompanyFollow.findOne({ company: getBy.company, user: getBy.user }, projection).populate('user').populate('company');
       } else {
         return promiseNull();
       }
@@ -106,13 +106,13 @@ class CompanyFollowRepository implements CrudContract {
 
   update(data) {
     try {
-      return CompanyFollow.findOne({company: data.company, user: data.user}).then(r1 => {
+      return CompanyFollow.findOne({ company: data.company, user: data.user }).then(r1 => {
         if (r1) {
           return CompanyFollow.findByIdAndRemove(r1._id).then(r2 => {
             return null
           });
         } else {
-          return CompanyFollow.create({user: data.user, company: data.company});
+          return CompanyFollow.create({ user: data.user, company: data.company });
         }
       });
     } catch (e) {

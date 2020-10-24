@@ -112,7 +112,7 @@ const companySchema = new mongoose.Schema(
     seo_title: String,
     seo_description: String,
   },
-  {timestamps: {createdAt: "created_at", updatedAt: "updated_at"}}
+  { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );
 
 const Company = mongoose.model("Company", companySchema);

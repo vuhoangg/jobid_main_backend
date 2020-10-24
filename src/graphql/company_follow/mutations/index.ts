@@ -1,11 +1,16 @@
-import {GraphQLNonNull} from "graphql";
-import {CompanyFollow, CompanyFollowInput} from "../types";
-import {updateCompanyFollow} from "../resolvers/update";
+import { GraphQLNonNull } from "graphql";
+import { CompanyFollow, CompanyFollowInput } from "../types";
+import { createCompanyFollow, deleteCompanyFollow } from "../resolvers/update";
 
 const companyFollowMutations = {
-  companyFollowUpdate: {
-    args: {input: {type: GraphQLNonNull(CompanyFollowInput)}},
-    resolve: (source, args, context, info) => updateCompanyFollow(source, args, context, info),
+  companyFollowCreate: {
+    args: { input: { type: GraphQLNonNull(CompanyFollowInput) } },
+    resolve: (source, args, context, info) => createCompanyFollow(source, args, context, info),
+    type: CompanyFollow,
+  },
+  companyFollowDelete: {
+    args: { input: { type: GraphQLNonNull(CompanyFollowInput) } },
+    resolve: (source, args, context, info) => deleteCompanyFollow(source, args, context, info),
     type: CompanyFollow,
   },
 };

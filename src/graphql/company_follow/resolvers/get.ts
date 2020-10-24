@@ -4,33 +4,37 @@ import { authenticate } from "../../../middlewares/authenticate";
 
 export const getCompanyFollow = async (source, args, context, info) => {
   const fields = rootField(info);
-  let getBy = args._id ? { _id: args._id } : { company: args.company };
-  if (await authenticate(context, context.res)) {
-    let loggedUser = context.res.locals.fullUser;
-    getBy = Object.assign(getBy, { user: loggedUser._id });
-  }
 
-  return CompanyFollowService.getBy(getBy, fields).then(async (companyFollow) => {
-    if (companyFollow) {
-      let node = {
-        _id: companyFollow._id,
-        company: companyFollow.company,
-        user: companyFollow.user,
-        created_at: companyFollow.created_at,
-        updated_at: companyFollow.updated_at,
-      };
-      return node;
-    } else {
-      return null;
+  let isAuthenticated = await authenticate(context, context.res);
+  if (isAuthenticated) {
+    let loggedUser = context.res.locals.fullUser;
+    let getBy = {
+      _id: args._id,
+      user: loggedUser._id,
     }
-  });
+    let companyFollow = await CompanyFollowService.getBy(getBy, fields);
+    let node = {
+      _id: companyFollow._id,
+      company: companyFollow.company,
+      user: companyFollow.user,
+      created_at: companyFollow.created_at,
+      updated_at: companyFollow.updated_at,
+    };
+    return node;
+  }
 };
 
-export function getCompanyFollows(source, args, context, info) {
+export const getCompanyFollows = async (source, args, context, info) => {
   let infos = rootInfo(info);
   let filter = filterObject(args.filter);
   let page = args.page > 50 ? 10 : args.page;
-  return CompanyFollowService.filter(filter, args.limit, page, infos.edges).then(async (companyFollows) => {
+
+  let isAuthenticated = await authenticate(context, context.res);
+  if (isAuthenticated) {
+    let loggedUser = context.res.locals.fullUser;
+    filter = Object.assign(filter, { user: loggedUser._id });
+
+    let companyFollows = await CompanyFollowService.filter(filter, args.limit, page, infos.edges);
     let edges = [];
     for (let i = 0; i < companyFollows.length; i++) {
       let companyFollow = {
@@ -55,5 +59,5 @@ export function getCompanyFollows(source, args, context, info) {
       },
     };
     return dataRet;
-  });
+  }
 }

@@ -18,32 +18,33 @@ const helpers_1 = require("../../helpers");
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.getCompanyFollow = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     const fields = helpers_1.rootField(info);
-    let getBy = args._id ? { _id: args._id } : { company: args.company };
-    if (yield authenticate_1.authenticate(context, context.res)) {
+    let isAuthenticated = yield authenticate_1.authenticate(context, context.res);
+    if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
-        getBy = Object.assign(getBy, { user: loggedUser._id });
+        let getBy = {
+            _id: args._id,
+            user: loggedUser._id,
+        };
+        let companyFollow = yield CompanyFollowRepository_1.default.getBy(getBy, fields);
+        let node = {
+            _id: companyFollow._id,
+            company: companyFollow.company,
+            user: companyFollow.user,
+            created_at: companyFollow.created_at,
+            updated_at: companyFollow.updated_at,
+        };
+        return node;
     }
-    return CompanyFollowRepository_1.default.getBy(getBy, fields).then((companyFollow) => __awaiter(void 0, void 0, void 0, function* () {
-        if (companyFollow) {
-            let node = {
-                _id: companyFollow._id,
-                company: companyFollow.company,
-                user: companyFollow.user,
-                created_at: companyFollow.created_at,
-                updated_at: companyFollow.updated_at,
-            };
-            return node;
-        }
-        else {
-            return null;
-        }
-    }));
 });
-function getCompanyFollows(source, args, context, info) {
+exports.getCompanyFollows = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
     let page = args.page > 50 ? 10 : args.page;
-    return CompanyFollowRepository_1.default.filter(filter, args.limit, page, infos.edges).then((companyFollows) => __awaiter(this, void 0, void 0, function* () {
+    let isAuthenticated = yield authenticate_1.authenticate(context, context.res);
+    if (isAuthenticated) {
+        let loggedUser = context.res.locals.fullUser;
+        filter = Object.assign(filter, { user: loggedUser._id });
+        let companyFollows = yield CompanyFollowRepository_1.default.filter(filter, args.limit, page, infos.edges);
         let edges = [];
         for (let i = 0; i < companyFollows.length; i++) {
             let companyFollow = {
@@ -65,7 +66,6 @@ function getCompanyFollows(source, args, context, info) {
                 hasPreviousPage: page > 1,
             } });
         return dataRet;
-    }));
-}
-exports.getCompanyFollows = getCompanyFollows;
+    }
+});
 //# sourceMappingURL=get.js.map

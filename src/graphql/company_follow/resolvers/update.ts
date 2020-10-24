@@ -1,11 +1,35 @@
 import CompanyFollowService from "../../../db/repositories/CompanyFollowRepository";
+import CompanyService from "../../../db/repositories/CompanyRepository";
 import { authenticate } from "../../../middlewares/authenticate";
 
-export const updateCompanyFollow = async (source, args, context, info) => {
-  if (await authenticate(context, context.res)) {
+export const createCompanyFollow = async (source, args, context, info) => {
+  let isAuthenticated = await authenticate(context, context.res);
+  if (isAuthenticated) {
     let loggedUser = context.res.locals.fullUser;
     let input = args.input;
     input = Object.assign(input, { user: loggedUser._id });
-    return CompanyFollowService.update(input);
+
+    let r1 = await CompanyFollowService.getBy(input, {});
+    if (!r1) {
+      let r2 = await CompanyFollowService.create(input);
+      await CompanyService.increaseFollow(input.company);
+      return r2;
+    }
+  }
+};
+
+export const deleteCompanyFollow = async (source, args, context, info) => {
+  let isAuthenticated = await authenticate(context, context.res);
+  if (isAuthenticated) {
+    let loggedUser = context.res.locals.fullUser;
+    let input = args.input;
+    input = Object.assign(input, { user: loggedUser._id });
+
+    let r1 = await CompanyFollowService.getBy(input, {});
+    if (r1) {
+      await CompanyFollowService.delete(r1._id);
+      await CompanyService.decreaseFollow(input.company);
+    }
+
   }
 };

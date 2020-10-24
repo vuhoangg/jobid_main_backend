@@ -21,8 +21,8 @@ function getCondition(filter) {
     if (filter.job_category) {
         condition = Object.assign(condition, { job_category: filter.job_category });
     }
-    if (filter.job_location) {
-        condition = Object.assign(condition, { job_location: filter.job_location });
+    if (filter.office_city) {
+        condition = Object.assign(condition, { "office.city": filter.office_city });
     }
     if (filter.created_by) {
         condition = Object.assign(condition, { created_by: filter.created_by });
@@ -90,7 +90,6 @@ class CompanyRepository {
                 .populate("office.ward")
                 .populate("created_by")
                 .populate("job_category")
-                .populate("job_location")
                 .sort(sort)
                 .skip(limit * (page - 1))
                 .limit(limit);
@@ -109,8 +108,7 @@ class CompanyRepository {
                     .populate("office.ward")
                     .populate("job_category")
                     .populate("benefit.id")
-                    .populate("created_by")
-                    .populate("job_location");
+                    .populate("created_by");
             }
             else if (getBy.slug) {
                 return Company_1.default.findOne({ slug: getBy.slug }, projection)
@@ -119,8 +117,7 @@ class CompanyRepository {
                     .populate("office.ward")
                     .populate("job_category")
                     .populate("benefit.id")
-                    .populate("created_by")
-                    .populate("job_location");
+                    .populate("created_by");
             }
             else {
                 return promise_1.promiseNull();
@@ -168,6 +165,24 @@ class CompanyRepository {
     premium(_id, status = true) {
         try {
             return Company_1.default.findByIdAndUpdate(_id, { premium_status: status }, { new: true });
+        }
+        catch (e) {
+            log_1.errorLog(e);
+            return promise_1.promiseNull();
+        }
+    }
+    increaseFollow(_id) {
+        try {
+            return Company_1.default.findByIdAndUpdate(_id, { $inc: { follow: 1 } }, { new: true });
+        }
+        catch (e) {
+            log_1.errorLog(e);
+            return promise_1.promiseNull();
+        }
+    }
+    decreaseFollow(_id) {
+        try {
+            return Company_1.default.findByIdAndUpdate(_id, { $inc: { follow: -1 } }, { new: true });
         }
         catch (e) {
             log_1.errorLog(e);

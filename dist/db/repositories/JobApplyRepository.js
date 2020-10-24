@@ -14,9 +14,6 @@ function getCondition(filter) {
     if (filter.user) {
         condition = Object.assign(condition, { user: filter.user });
     }
-    if (filter.target) {
-        condition = Object.assign(condition, { target: filter.target });
-    }
     if (filter.status) {
         condition = Object.assign(condition, { status: filter.status });
     }
@@ -77,11 +74,10 @@ class JobApplyRepository {
             return promise_1.promiseNull();
         }
     }
-    get(id, projection) {
+    get(_id, projection) {
         try {
-            return JobApply_1.default.findById(id, projection)
-                .populate("user")
-                .populate({ path: "job_post", populate: { path: "job_location" } });
+            return JobApply_1.default.findById(_id, projection)
+                .populate("job_post");
         }
         catch (e) {
             log_1.errorLog(e);
@@ -93,8 +89,14 @@ class JobApplyRepository {
             let condition = getCondition(filter);
             let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
             return JobApply_1.default.find(condition, projection)
-                .populate("user")
-                .populate({ path: "job_post", populate: { path: "job_location" } })
+                .populate({
+                path: "job_post",
+                populate: [
+                    { path: "address.city" },
+                    { path: "company.ref" },
+                    { path: "job_type" }
+                ]
+            })
                 .sort(sort)
                 .skip(limit * (page - 1))
                 .limit(limit);
@@ -106,12 +108,7 @@ class JobApplyRepository {
     }
     getBy(getBy, projection) {
         try {
-            if (getBy._id) {
-                return JobApply_1.default.findById(getBy._id, projection);
-            }
-            else {
-                return promise_1.promiseNull();
-            }
+            return JobApply_1.default.findOne(getBy, projection);
         }
         catch (e) {
             log_1.errorLog(e);
