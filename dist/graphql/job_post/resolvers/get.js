@@ -17,50 +17,56 @@ const JobPostRepository_1 = __importDefault(require("../../../db/repositories/Jo
 const helpers_1 = require("../../helpers");
 const authenticate_1 = require("../../../middlewares/authenticate");
 const JobPostWishlistRepository_1 = __importDefault(require("../../../db/repositories/JobPostWishlistRepository"));
+const JobSaveRepository_1 = __importDefault(require("../../../db/repositories/JobSaveRepository"));
+const JobApplyRepository_1 = __importDefault(require("../../../db/repositories/JobApplyRepository"));
 exports.getJobPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     const fields = helpers_1.rootField(info);
     let getBy = args._id ? { _id: args._id } : { slug: args.slug };
-    return JobPostRepository_1.default.getBy(getBy, fields).then((jobPost) => __awaiter(void 0, void 0, void 0, function* () {
-        let loggedUser = null;
-        if (yield authenticate_1.authenticate(context, context.res)) {
-            loggedUser = context.res.locals.fullUser;
-        }
-        let is_featured = false;
-        let is_wishlist = false;
-        if (loggedUser) {
-            is_wishlist = !!(yield JobPostWishlistRepository_1.default.count({ job_post: jobPost._id, user: loggedUser._id }));
-        }
-        let node = {
-            _id: jobPost._id,
-            title: jobPost.title,
-            slug: jobPost.slug,
-            job_type: jobPost.job_type,
-            job_level: jobPost.job_level,
-            job_category: jobPost.job_category,
-            number: jobPost.number,
-            description: jobPost.description,
-            requirement: jobPost.requirement,
-            salary: jobPost.salary,
-            address: jobPost.address,
-            company: jobPost.company,
-            contact: jobPost.contact,
-            image: jobPost.image,
-            photos: jobPost.photos,
-            video: jobPost.video,
-            benefit: jobPost.benefit,
-            end_date: jobPost.end_date,
-            user: jobPost.user,
-            view_count: jobPost.view_count,
-            status: jobPost.status,
-            seo_title: jobPost.seo_title,
-            seo_description: jobPost.seo_description,
-            is_featured: is_featured,
-            is_wishlist: is_wishlist,
-            created_at: jobPost.created_at,
-            updated_at: jobPost.updated_at,
-        };
-        return node;
-    }));
+    let jobPost = yield JobPostRepository_1.default.getBy(getBy, fields);
+    let isAuthenticated = yield authenticate_1.authenticate(context, context.res);
+    let loggedUser = null;
+    if (isAuthenticated) {
+        loggedUser = context.res.locals.fullUser;
+    }
+    let is_featured = false;
+    let is_wishlist = false;
+    if (loggedUser) {
+        is_wishlist = !!(yield JobPostWishlistRepository_1.default.count({ job_post: jobPost._id, user: loggedUser._id }));
+    }
+    let save_count = yield JobSaveRepository_1.default.count({ job_post: jobPost._id });
+    let apply_count = yield JobApplyRepository_1.default.count({ job_post: jobPost._id });
+    let node = {
+        _id: jobPost._id,
+        title: jobPost.title,
+        slug: jobPost.slug,
+        job_type: jobPost.job_type,
+        job_level: jobPost.job_level,
+        job_category: jobPost.job_category,
+        number: jobPost.number,
+        description: jobPost.description,
+        requirement: jobPost.requirement,
+        salary: jobPost.salary,
+        address: jobPost.address,
+        company: jobPost.company,
+        contact: jobPost.contact,
+        image: jobPost.image,
+        photos: jobPost.photos,
+        video: jobPost.video,
+        benefit: jobPost.benefit,
+        end_date: jobPost.end_date,
+        user: jobPost.user,
+        view_count: jobPost.view_count,
+        save_count: save_count,
+        apply_count: apply_count,
+        status: jobPost.status,
+        seo_title: jobPost.seo_title,
+        seo_description: jobPost.seo_description,
+        is_featured: is_featured,
+        is_wishlist: is_wishlist,
+        created_at: jobPost.created_at,
+        updated_at: jobPost.updated_at,
+    };
+    return node;
 });
 function getJobPosts(source, args, context, info) {
     let infos = helpers_1.rootInfo(info);

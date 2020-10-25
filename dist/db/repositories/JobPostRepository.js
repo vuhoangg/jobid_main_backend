@@ -190,6 +190,15 @@ class JobPostRepository {
             return promise_1.promiseNull();
         }
     }
+    increaseViewCountBySlug(slug) {
+        try {
+            return JobPost_1.default.findOneAndUpdate({ slug: slug }, { $inc: { view_count: 1 } }, { new: true });
+        }
+        catch (e) {
+            log_1.errorLog(e);
+            return promise_1.promiseNull();
+        }
+    }
 }
 const JobPostService = new JobPostRepository();
 exports.default = JobPostService;

@@ -10,10 +10,6 @@ const jobViewSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
     },
-    view_count: {
-        type: Number,
-        default: 0,
-    }
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
 const JobView = mongoose.model('JobView', jobViewSchema);
 exports.default = JobView;

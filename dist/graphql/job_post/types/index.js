@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.JobPostArguments = exports.JobPostInput = exports.JobPostConnection = exports.JobPostEdge = exports.JobPost = exports.JobContactInput = exports.JobContact = exports.JobAddressInput = exports.JobAddress = exports.JobCompanyInput = exports.JobCompany = exports.JobBenefitInput = exports.JobBenefit = exports.JobSalaryInput = exports.JobSalary = void 0;
+exports.JobPostArguments = exports.JobPostTrackingBySlugInput = exports.JobPostTrackingBySlug = exports.JobPostInput = exports.JobPostConnection = exports.JobPostEdge = exports.JobPost = exports.JobContactInput = exports.JobContact = exports.JobAddressInput = exports.JobAddress = exports.JobCompanyInput = exports.JobCompany = exports.JobBenefitInput = exports.JobBenefit = exports.JobSalaryInput = exports.JobSalary = void 0;
 const graphql_1 = require("graphql");
 const types_1 = require("../../types");
 const types_2 = require("../../job_level/types");
@@ -127,6 +127,8 @@ exports.JobPost = new graphql_1.GraphQLObjectType({
         end_date: { type: graphql_1.GraphQLString },
         user: { type: types_6.User },
         view_count: { type: graphql_1.GraphQLInt },
+        save_count: { type: graphql_1.GraphQLInt },
+        apply_count: { type: graphql_1.GraphQLInt },
         status: { type: graphql_1.GraphQLString },
         seo_title: { type: graphql_1.GraphQLString },
         seo_description: { type: graphql_1.GraphQLString },
@@ -183,6 +185,20 @@ exports.JobPostInput = new graphql_1.GraphQLInputObjectType({
     },
     name: "JobPostInput",
     description: "The updated properties for a job post.",
+});
+exports.JobPostTrackingBySlug = new graphql_1.GraphQLObjectType({
+    fields: {
+        status: { type: graphql_1.GraphQLBoolean },
+    },
+    name: "JobPostTrackingBySlug",
+    description: "Represents a job post tracking"
+});
+exports.JobPostTrackingBySlugInput = new graphql_1.GraphQLInputObjectType({
+    fields: {
+        slug: { type: graphql_1.GraphQLString },
+    },
+    name: "JobPostTrackingBySlugInput",
+    description: "The updated properties for a job post tracking."
 });
 exports.JobPostArguments = {
     _id: { type: graphql_1.GraphQLString },

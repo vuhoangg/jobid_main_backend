@@ -225,6 +225,15 @@ class JobPostRepository implements CrudContract {
       return promiseNull();
     }
   }
+
+  increaseViewCountBySlug(slug) {
+    try {
+      return JobPost.findOneAndUpdate({ slug: slug }, { $inc: { view_count: 1 } }, { new: true });
+    } catch (e) {
+      errorLog(e);
+      return promiseNull();
+    }
+  }
 }
 
 const JobPostService = new JobPostRepository();

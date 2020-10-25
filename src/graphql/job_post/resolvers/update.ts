@@ -4,6 +4,7 @@ import { toSlug } from "../../../helpers/string";
 import NotificationService from "../../../db/repositories/NotificationRepository";
 import { isSuperUser } from "../../../helpers/permission";
 import { authenticate } from "../../../middlewares/authenticate";
+import JobViewService from "../../../db/repositories/JobViewRepository";
 
 export const updateJobPost = async (source, args, context, info) => {
   if (await authenticate(context, context.res)) {
@@ -59,3 +60,21 @@ export const createJobPost = async (source, args, context, info) => {
     });
   }
 };
+
+
+export const trackingBySlug = async (source, args, context, info) => {
+  let input = args.input;
+  let jobPost = await JobPostService.increaseViewCountBySlug(input.slug);
+  let isAuthenticated = await authenticate(context, context.res);
+  if (isAuthenticated) {
+    let loggedUser = context.res.locals.fullUser;
+    let payload = {
+      job_post: jobPost._id,
+      user: loggedUser._id,
+    }
+    await JobViewService.create(payload);
+  }
+  return {
+    status: true
+  }
+}

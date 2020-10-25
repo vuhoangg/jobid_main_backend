@@ -143,6 +143,8 @@ export const JobPost = new GraphQLObjectType({
     end_date: { type: GraphQLString },
     user: { type: User },
     view_count: { type: GraphQLInt },
+    save_count: { type: GraphQLInt },
+    apply_count: { type: GraphQLInt },
     status: { type: GraphQLString },
     seo_title: { type: GraphQLString },
     seo_description: { type: GraphQLString },
@@ -200,6 +202,23 @@ export const JobPostInput = new GraphQLInputObjectType({
   },
   name: "JobPostInput",
   description: "The updated properties for a job post.",
+});
+
+
+export const JobPostTrackingBySlug = new GraphQLObjectType({
+  fields: {
+    status: { type: GraphQLBoolean },
+  },
+  name: "JobPostTrackingBySlug",
+  description: "Represents a job post tracking"
+})
+
+export const JobPostTrackingBySlugInput = new GraphQLInputObjectType({
+  fields: {
+    slug: { type: GraphQLString },
+  },
+  name: "JobPostTrackingBySlugInput",
+  description: "The updated properties for a job post tracking."
 });
 
 export const JobPostArguments = {

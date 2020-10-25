@@ -2,57 +2,62 @@ import JobPostService from "../../../db/repositories/JobPostRepository";
 import { filterObject, rootField, rootInfo } from "../../helpers";
 import { authenticate } from "../../../middlewares/authenticate";
 import JobPostWishlistService from "../../../db/repositories/JobPostWishlistRepository";
+import JobSaveService from "../../../db/repositories/JobSaveRepository";
+import JobApplyService from "../../../db/repositories/JobApplyRepository";
 
 export const getJobPost = async (source, args, context, info) => {
   const fields = rootField(info);
   let getBy = args._id ? { _id: args._id } : { slug: args.slug };
 
+  let jobPost = await JobPostService.getBy(getBy, fields);
+  let isAuthenticated = await authenticate(context, context.res);
 
+  let loggedUser = null;
+  if (isAuthenticated) {
+    loggedUser = context.res.locals.fullUser;
+  }
 
-  return JobPostService.getBy(getBy, fields).then(async (jobPost) => {
+  let is_featured = false;
+  let is_wishlist = false;
+  if (loggedUser) {
+    is_wishlist = !! await JobPostWishlistService.count({ job_post: jobPost._id, user: loggedUser._id });
+  }
 
-    let loggedUser = null;
-    if (await authenticate(context, context.res)) {
-      loggedUser = context.res.locals.fullUser;
-    }
+  let save_count = await JobSaveService.count({ job_post: jobPost._id });
+  let apply_count = await JobApplyService.count({ job_post: jobPost._id });
 
-    let is_featured = false;
-    let is_wishlist = false;
-    if (loggedUser) {
-      is_wishlist = !! await JobPostWishlistService.count({ job_post: jobPost._id, user: loggedUser._id });
-    }
-
-    let node = {
-      _id: jobPost._id,
-      title: jobPost.title,
-      slug: jobPost.slug,
-      job_type: jobPost.job_type,
-      job_level: jobPost.job_level,
-      job_category: jobPost.job_category,
-      number: jobPost.number,
-      description: jobPost.description,
-      requirement: jobPost.requirement,
-      salary: jobPost.salary,
-      address: jobPost.address,
-      company: jobPost.company,
-      contact: jobPost.contact,
-      image: jobPost.image,
-      photos: jobPost.photos,
-      video: jobPost.video,
-      benefit: jobPost.benefit,
-      end_date: jobPost.end_date,
-      user: jobPost.user,
-      view_count: jobPost.view_count,
-      status: jobPost.status,
-      seo_title: jobPost.seo_title,
-      seo_description: jobPost.seo_description,
-      is_featured: is_featured,
-      is_wishlist: is_wishlist,
-      created_at: jobPost.created_at,
-      updated_at: jobPost.updated_at,
-    };
-    return node;
-  });
+  let node = {
+    _id: jobPost._id,
+    title: jobPost.title,
+    slug: jobPost.slug,
+    job_type: jobPost.job_type,
+    job_level: jobPost.job_level,
+    job_category: jobPost.job_category,
+    number: jobPost.number,
+    description: jobPost.description,
+    requirement: jobPost.requirement,
+    salary: jobPost.salary,
+    address: jobPost.address,
+    company: jobPost.company,
+    contact: jobPost.contact,
+    image: jobPost.image,
+    photos: jobPost.photos,
+    video: jobPost.video,
+    benefit: jobPost.benefit,
+    end_date: jobPost.end_date,
+    user: jobPost.user,
+    view_count: jobPost.view_count,
+    save_count: save_count,
+    apply_count: apply_count,
+    status: jobPost.status,
+    seo_title: jobPost.seo_title,
+    seo_description: jobPost.seo_description,
+    is_featured: is_featured,
+    is_wishlist: is_wishlist,
+    created_at: jobPost.created_at,
+    updated_at: jobPost.updated_at,
+  };
+  return node;
 };
 
 export function getJobPosts(source, args, context, info) {

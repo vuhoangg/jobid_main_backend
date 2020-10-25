@@ -12,13 +12,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createJobPost = exports.updateJobPost = void 0;
+exports.trackingBySlug = exports.createJobPost = exports.updateJobPost = void 0;
 const JobPostRepository_1 = __importDefault(require("../../../db/repositories/JobPostRepository"));
 const ActivityRepository_1 = __importDefault(require("../../../db/repositories/ActivityRepository"));
 const string_1 = require("../../../helpers/string");
 const NotificationRepository_1 = __importDefault(require("../../../db/repositories/NotificationRepository"));
 const permission_1 = require("../../../helpers/permission");
 const authenticate_1 = require("../../../middlewares/authenticate");
+const JobViewRepository_1 = __importDefault(require("../../../db/repositories/JobViewRepository"));
 exports.updateJobPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     if (yield authenticate_1.authenticate(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
@@ -68,5 +69,21 @@ exports.createJobPost = (source, args, context, info) => __awaiter(void 0, void 
             return r;
         }));
     }
+});
+exports.trackingBySlug = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let input = args.input;
+    let jobPost = yield JobPostRepository_1.default.increaseViewCountBySlug(input.slug);
+    let isAuthenticated = yield authenticate_1.authenticate(context, context.res);
+    if (isAuthenticated) {
+        let loggedUser = context.res.locals.fullUser;
+        let payload = {
+            job_post: jobPost._id,
+            user: loggedUser._id,
+        };
+        yield JobViewRepository_1.default.create(payload);
+    }
+    return {
+        status: true
+    };
 });
 //# sourceMappingURL=update.js.map

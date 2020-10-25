@@ -1,8 +1,8 @@
-import {CrudContract} from "../contracts/CrudContract";
-import {errorLog} from "../../helpers/log";
-import {promiseNull} from "../../helpers/promise";
+import { CrudContract } from "../contracts/CrudContract";
+import { errorLog } from "../../helpers/log";
+import { promiseNull } from "../../helpers/promise";
 import Notification from "../schemas/Notification";
-import {processDataUpdate} from "../../helpers/flattenNestedObject";
+import { processDataUpdate } from "../../helpers/flattenNestedObject";
 import User from "../schemas/User";
 
 interface ISort {
@@ -26,19 +26,19 @@ interface IGetBy {
 function getCondition(filter: IFilter) {
   let condition = {};
   if (filter.type) {
-    condition = Object.assign(condition, {type: filter.type});
+    condition = Object.assign(condition, { type: filter.type });
   }
   if (filter.subject) {
-    condition = Object.assign(condition, {subject: filter.subject});
+    condition = Object.assign(condition, { subject: filter.subject });
   }
   if (filter.target_object_type) {
-    condition = Object.assign(condition, {"target.object_type": filter.target_object_type});
+    condition = Object.assign(condition, { "target.object_type": filter.target_object_type });
   }
   if (filter.target_ref) {
-    condition = Object.assign(condition, {"target.ref": filter.target_ref});
+    condition = Object.assign(condition, { "target.ref": filter.target_ref });
   }
   if (filter.read != undefined) {
-    condition = Object.assign(condition, {read: filter.read});
+    condition = Object.assign(condition, { read: filter.read });
   }
   return condition;
 }
@@ -46,10 +46,10 @@ function getCondition(filter: IFilter) {
 function getSort(sortBy: ISort) {
   let sort = {};
   if (sortBy.created) {
-    sort = Object.assign(sort, {_id: (sortBy.created === "newest" ? "desc" : "asc")})
+    sort = Object.assign(sort, { _id: (sortBy.created === "newest" ? "desc" : "asc") })
   }
   if (sortBy.updated) {
-    sort = Object.assign(sort, {updated_at: (sortBy.updated === "newest" ? "desc" : "asc")})
+    sort = Object.assign(sort, { updated_at: (sortBy.updated === "newest" ? "desc" : "asc") })
   }
   return sort;
 }
@@ -86,7 +86,7 @@ class NotificationRepository implements CrudContract {
   filter(filter: IFilter, limit, page, projection) {
     try {
       let condition = getCondition(filter);
-      let sort = filter.sort_by ? getSort(filter.sort_by) : {_id: "desc"};
+      let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
       return Notification.find(condition, projection).sort(sort).skip(limit * (page - 1)).limit(limit);
     } catch (e) {
       errorLog(e);
@@ -118,7 +118,7 @@ class NotificationRepository implements CrudContract {
 
   update(data) {
     try {
-      return Notification.findByIdAndUpdate(data._id, data, {new: true});
+      return Notification.findByIdAndUpdate(data._id, data, { new: true });
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -127,7 +127,7 @@ class NotificationRepository implements CrudContract {
 
   readNotification(data) {
     try {
-      return Notification.findOneAndUpdate({_id: data._id, "target.ref": data.target, read: false}, {read: true}, {new: true});
+      return Notification.findOneAndUpdate({ _id: data._id, "target.ref": data.target, read: false }, { read: true }, { new: true });
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -136,7 +136,7 @@ class NotificationRepository implements CrudContract {
 
   readAllNotification(data) {
     try {
-      return Notification.updateMany({"target.ref": data.target, read: false}, {read: true}, {new: true});
+      return Notification.updateMany({ "target.ref": data.target, read: false }, { read: true }, { new: true });
     } catch (e) {
       errorLog(e);
       return promiseNull();
