@@ -82,3 +82,30 @@ export const s3UploadPdf = (fileContent, fileName, typeUpload) => {
 
   // Setting up S3 upload parameters
 };
+
+export const s3Upload = (directory, fileName, fileContent) => {
+  let headerData = fileContent.split(";")[0];
+  let contentType = headerData.replace("data:", "");
+  let extension = contentType.split("/")[1];
+
+  let key = `${fileName}.${extension}`;
+
+  const baseData = dataUriToBuffer(fileContent);
+  return new Promise((resolve) => {
+    const params = {
+      Bucket: `${process.env.S3_BUCKET_NAME}/${directory}`,
+      Key: key, // File name you want to save as in S3
+      Body: baseData,
+      ContentType: contentType,
+      ACL: process.env.S3_FILE_PERMISSION,
+    };
+
+    // Uploading files to the bucket
+    s3.upload(params, (err, data) => {
+      if (err) {
+        throw err;
+      }
+      resolve(data.Location);
+    });
+  });
+}

@@ -1,7 +1,8 @@
 import express from "express";
-import { s3UploadImage, s3UploadFile, s3UploadPdf } from "../../../aws/s3";
+import { s3UploadImage, s3UploadFile, s3UploadPdf, s3Upload } from "../../../aws/s3";
 import axios from "axios";
 import { authenticate } from "../../../middlewares/authenticate";
+import { detectType } from "../../../helpers/base64";
 
 const router = express.Router();
 
@@ -70,5 +71,26 @@ router.post("/detect_upload_file", async (req, res) => {
     res.send("fail");
   }
 });
+
+
+router.post("/apply", async (req, res) => {
+  let isAuthenticated = await authenticate(req, res);
+  if (isAuthenticated) {
+    let loggedInUser = res.locals.user;
+    let timestamp = new Date().getTime();
+
+    let fileContent = req.body.file;
+    let fileName = `${loggedInUser}_${timestamp}`;
+
+    let url = await s3Upload("apply", fileName, fileContent);
+
+    res.send({
+      location: url
+    })
+  } else {
+    res.status(404);
+  }
+});
+
 
 export { router as UploadRouter };

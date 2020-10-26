@@ -2,6 +2,7 @@ require("dotenv").config();
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
+import multer from "multer";
 import passport from "passport";
 import passportGoogle from "passport-google-oauth20";
 import passportFacebook from "passport-facebook";
@@ -23,9 +24,11 @@ import {
 } from "./modules/auth/handles";
 Connection.connect();
 const app = express();
+const upload = multer();
 
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+app.use(upload.array());
 app.use(
   cookieSession({
     keys: [process.env.COOKIE_KEY],

@@ -16,6 +16,7 @@ require("dotenv").config();
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = __importDefault(require("body-parser"));
+const multer_1 = __importDefault(require("multer"));
 const passport_1 = __importDefault(require("passport"));
 const passport_google_oauth20_1 = __importDefault(require("passport-google-oauth20"));
 const passport_facebook_1 = __importDefault(require("passport-facebook"));
@@ -31,8 +32,10 @@ const schema_1 = __importDefault(require("./schema"));
 const handles_1 = require("./modules/auth/handles");
 connection_1.Connection.connect();
 const app = express_1.default();
+const upload = multer_1.default();
 app.use(body_parser_1.default.json({ limit: "50mb" }));
 app.use(body_parser_1.default.urlencoded({ limit: "50mb", extended: true }));
+app.use(upload.array());
 app.use(cookie_session_1.default({
     keys: [process.env.COOKIE_KEY],
     maxAge: parseInt(process.env.COOKIE_AGE),
