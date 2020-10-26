@@ -5,12 +5,17 @@ const jobApplySchema = new mongoose.Schema({
     job_post: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "JobPost",
+        required: true
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
+        required: true
     },
-    email: String,
+    email: {
+        type: String,
+        required: true,
+    },
     description: String,
     file: String,
     status: {

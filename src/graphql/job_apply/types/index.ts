@@ -51,7 +51,6 @@ export const JobApplyConnection = new GraphQLObjectType({
 export const JobApplyInput = new GraphQLInputObjectType({
   fields: {
     _id: { type: GraphQLString },
-    status: { type: GraphQLString },
     job_post: { type: GraphQLString },
     email: { type: GraphQLString },
     file: { type: GraphQLString },

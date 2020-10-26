@@ -12,10 +12,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateStatusJobApply = exports.updateJobApply = void 0;
+exports.updateStatusJobApply = exports.updateJobApply = exports.createJobApply = void 0;
 const JobApplyRepository_1 = __importDefault(require("../../../db/repositories/JobApplyRepository"));
 const JobPostRepository_1 = __importDefault(require("../../../db/repositories/JobPostRepository"));
 const authenticate_1 = require("../../../middlewares/authenticate");
+exports.createJobApply = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield authenticate_1.authenticate(context, context.res);
+    if (isAuthenticated) {
+        let loggedUser = context.res.locals.fullUser;
+        let input = args.input;
+        input = Object.assign(input, { user: loggedUser._id, status: "pending" });
+        let data = yield JobApplyRepository_1.default.create(input);
+        return data;
+    }
+});
 exports.updateJobApply = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     if (yield authenticate_1.authenticate(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;

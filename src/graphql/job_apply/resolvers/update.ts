@@ -4,6 +4,20 @@ import NotificationService from "../../../db/repositories/NotificationRepository
 import { api } from "../../../utils/api";
 import { authenticate } from "../../../middlewares/authenticate";
 
+
+export const createJobApply = async (source, args, context, info) => {
+  let isAuthenticated = await authenticate(context, context.res);
+  if (isAuthenticated) {
+    let loggedUser = context.res.locals.fullUser;
+    let input = args.input;
+
+    input = Object.assign(input, { user: loggedUser._id, status: "pending" });
+
+    let data = await JobApplyService.create(input);
+    return data;
+  }
+}
+
 export const updateJobApply = async (source, args, context, info) => {
   if (await authenticate(context, context.res)) {
     let loggedUser = context.res.locals.fullUser;

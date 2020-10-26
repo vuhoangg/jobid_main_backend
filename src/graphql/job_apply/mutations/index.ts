@@ -1,6 +1,6 @@
 import { GraphQLNonNull } from "graphql";
 import { JobApply, JobApplyInput } from "../types";
-import { updateJobApply, updateStatusJobApply } from "../resolvers/update";
+import { createJobApply, updateJobApply, updateStatusJobApply } from "../resolvers/update";
 
 const jobApplyMutations = {
   jobApplyUpdate: {
@@ -13,5 +13,10 @@ const jobApplyMutations = {
     resolve: (source, args, context, info) => updateStatusJobApply(source, args, context, info),
     type: new GraphQLNonNull(JobApply),
   },
+  jobApplyCreate: {
+    args: { input: { type: GraphQLNonNull(JobApplyInput) } },
+    resolve: (source, args, context, info) => createJobApply(source, args, context, info),
+    type: new GraphQLNonNull(JobApply),
+  }
 };
 export default jobApplyMutations;
