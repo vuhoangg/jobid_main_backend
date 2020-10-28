@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CompanyArguments = exports.AssignPermissionOnput = exports.AssignPermissionInput = exports.CompanyInput = exports.CompanyConnection = exports.CompanyEdge = exports.Company = exports.CompanySizeInput = exports.CompanySize = exports.AlbumInput = exports.Album = exports.AlbumImageInput = exports.AlbumImage = exports.OfficeInput = exports.Office = exports.BenefitContentInput = exports.BenefitContent = exports.PeopleInput = exports.People = exports.StoryInput = exports.Story = void 0;
+exports.CompanyArguments = exports.CompanyTrackingBySlugInput = exports.CompanyTrackingBySlug = exports.AssignPermissionOnput = exports.AssignPermissionInput = exports.CompanyInput = exports.CompanyConnection = exports.CompanyEdge = exports.Company = exports.CompanySizeInput = exports.CompanySize = exports.AlbumInput = exports.Album = exports.AlbumImageInput = exports.AlbumImage = exports.OfficeInput = exports.Office = exports.BenefitContentInput = exports.BenefitContent = exports.PeopleInput = exports.People = exports.StoryInput = exports.Story = void 0;
 const types_1 = require("./../../user/types");
 const graphql_1 = require("graphql");
 const types_2 = require("../../types");
@@ -167,6 +167,8 @@ exports.Company = new graphql_1.GraphQLObjectType({
         follow: { type: graphql_1.GraphQLInt },
         is_follow: { type: graphql_1.GraphQLBoolean },
         size: { type: exports.CompanySize },
+        view_count: { type: graphql_1.GraphQLInt },
+        job_count: { type: graphql_1.GraphQLInt },
         seo_title: { type: graphql_1.GraphQLString },
         seo_description: { type: graphql_1.GraphQLString },
         created_at: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
@@ -246,6 +248,20 @@ exports.AssignPermissionOnput = new graphql_1.GraphQLObjectType({
     },
     name: "AssignPermissionOnput",
     description: "The updated properties for a group permission.",
+});
+exports.CompanyTrackingBySlug = new graphql_1.GraphQLObjectType({
+    fields: {
+        status: { type: graphql_1.GraphQLBoolean },
+    },
+    name: "CompanyTrackingBySlug",
+    description: "Represents a company tracking"
+});
+exports.CompanyTrackingBySlugInput = new graphql_1.GraphQLInputObjectType({
+    fields: {
+        slug: { type: graphql_1.GraphQLString },
+    },
+    name: "CompanyTrackingBySlugInput",
+    description: "The updated properties for a company tracking."
 });
 exports.CompanyArguments = {
     _id: { type: graphql_1.GraphQLString },

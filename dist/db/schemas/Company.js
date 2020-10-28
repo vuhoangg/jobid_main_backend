@@ -98,6 +98,10 @@ const companySchema = new mongoose.Schema({
             },
         },
     ],
+    view_count: {
+        type: Number,
+        default: 0,
+    },
     follow: {
         type: Number,
         default: 0,

@@ -29,6 +29,11 @@ const companyMutations = {
         resolve: (source, args, context, info) => update_1.premiumCompany(source, args, context, info),
         type: new graphql_1.GraphQLNonNull(types_1.Company),
     },
+    companyTrackingBySlug: {
+        args: { input: { type: graphql_1.GraphQLNonNull(types_1.CompanyTrackingBySlugInput) } },
+        resolve: (source, args, context, info) => update_1.trackingBySlug(source, args, context, info),
+        type: new graphql_1.GraphQLNonNull(types_1.CompanyTrackingBySlug),
+    }
 };
 exports.default = companyMutations;
 //# sourceMappingURL=index.js.map

@@ -1,5 +1,6 @@
 import CompanyFollowService from "../../../db/repositories/CompanyFollowRepository";
 import CompanyService from "../../../db/repositories/CompanyRepository";
+import JobPostService from "../../../db/repositories/JobPostRepository";
 import { authenticate } from "../../../middlewares/authenticate";
 import { filterObject, rootField, rootInfo } from "../../helpers";
 
@@ -15,6 +16,7 @@ export const getCompany = async (source, args, context, info) => {
     let loggedUser = context.res.locals.fullUser;
     is_follow = !! await CompanyFollowService.count({ company: company._id, user: loggedUser._id });
   }
+  let job_count = await JobPostService.count({ company: company._id, status: "active" });
 
   let node = {
     _id: company._id,
@@ -42,6 +44,8 @@ export const getCompany = async (source, args, context, info) => {
     people: company.people,
     benefit: company.benefit,
     follow: company.follow,
+    view_count: company.view_count,
+    job_count: job_count,
     is_follow: is_follow,
     size: company.size,
     seo_title: company.seo_title,
@@ -67,6 +71,7 @@ export const getCompanys = async (source, args, context, info) => {
       let loggedUser = context.res.locals.fullUser;
       is_follow = !! await CompanyFollowService.count({ company: companys[i]._id, user: loggedUser._id });
     }
+    let job_count = await JobPostService.count({ company: companys[i]._id, status: "active" });
     let company = {
       cursor: companys[i]._id,
       node: {
@@ -96,6 +101,8 @@ export const getCompanys = async (source, args, context, info) => {
         people: companys[i].people,
         benefit: companys[i].benefit,
         follow: companys[i].follow,
+        view_count: companys[i].view_count,
+        job_count: job_count,
         is_follow: is_follow,
         size: companys[i].size,
         seo_title: companys[i].seo_title,

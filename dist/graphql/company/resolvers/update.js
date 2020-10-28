@@ -12,8 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.premiumCompany = exports.verifyCompany = exports.assignPermission = exports.createCompany = exports.updateCompany = void 0;
+exports.trackingBySlug = exports.premiumCompany = exports.verifyCompany = exports.assignPermission = exports.createCompany = exports.updateCompany = void 0;
 const CompanyRepository_1 = __importDefault(require("../../../db/repositories/CompanyRepository"));
+const CompanyViewRepository_1 = __importDefault(require("../../../db/repositories/CompanyViewRepository"));
 const permission_1 = require("../../../helpers/permission");
 const UserRepository_1 = __importDefault(require("../../../db/repositories/UserRepository"));
 const string_1 = require("../../../helpers/string");
@@ -78,5 +79,21 @@ exports.premiumCompany = (source, args, context, info) => __awaiter(void 0, void
             return CompanyRepository_1.default.premium(input._id);
         }
     }
+});
+exports.trackingBySlug = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let input = args.input;
+    let company = yield CompanyRepository_1.default.increaseViewCountBySlug(input.slug);
+    let isAuthenticated = yield authenticate_1.authenticate(context, context.res);
+    if (isAuthenticated) {
+        let loggedUser = context.res.locals.fullUser;
+        let payload = {
+            company: company._id,
+            user: loggedUser._id,
+        };
+        yield CompanyViewRepository_1.default.create(payload);
+    }
+    return {
+        status: true
+    };
 });
 //# sourceMappingURL=update.js.map

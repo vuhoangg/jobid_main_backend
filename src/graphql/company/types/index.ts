@@ -190,6 +190,8 @@ export const Company = new GraphQLObjectType({
     follow: { type: GraphQLInt },
     is_follow: { type: GraphQLBoolean },
     size: { type: CompanySize },
+    view_count: { type: GraphQLInt },
+    job_count: { type: GraphQLInt },
 
     seo_title: { type: GraphQLString },
     seo_description: { type: GraphQLString },
@@ -281,6 +283,24 @@ export const AssignPermissionOnput = new GraphQLObjectType({
   name: "AssignPermissionOnput",
   description: "The updated properties for a group permission.",
 });
+
+
+export const CompanyTrackingBySlug = new GraphQLObjectType({
+  fields: {
+    status: { type: GraphQLBoolean },
+  },
+  name: "CompanyTrackingBySlug",
+  description: "Represents a company tracking"
+})
+
+export const CompanyTrackingBySlugInput = new GraphQLInputObjectType({
+  fields: {
+    slug: { type: GraphQLString },
+  },
+  name: "CompanyTrackingBySlugInput",
+  description: "The updated properties for a company tracking."
+});
+
 
 export const CompanyArguments = {
   _id: { type: GraphQLString },

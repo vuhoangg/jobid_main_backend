@@ -211,6 +211,15 @@ class CompanyRepository implements CrudContract {
       return promiseNull();
     }
   }
+
+  increaseViewCountBySlug(slug) {
+    try {
+      return Company.findOneAndUpdate({ slug: slug }, { $inc: { view_count: 1 } }, { new: true });
+    } catch (e) {
+      errorLog(e);
+      return promiseNull();
+    }
+  }
 }
 
 const CompanyService = new CompanyRepository();

@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCompanys = exports.getCompany = void 0;
 const CompanyFollowRepository_1 = __importDefault(require("../../../db/repositories/CompanyFollowRepository"));
 const CompanyRepository_1 = __importDefault(require("../../../db/repositories/CompanyRepository"));
+const JobPostRepository_1 = __importDefault(require("../../../db/repositories/JobPostRepository"));
 const authenticate_1 = require("../../../middlewares/authenticate");
 const helpers_1 = require("../../helpers");
 exports.getCompany = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
@@ -27,6 +28,7 @@ exports.getCompany = (source, args, context, info) => __awaiter(void 0, void 0, 
         let loggedUser = context.res.locals.fullUser;
         is_follow = !!(yield CompanyFollowRepository_1.default.count({ company: company._id, user: loggedUser._id }));
     }
+    let job_count = yield JobPostRepository_1.default.count({ company: company._id, status: "active" });
     let node = {
         _id: company._id,
         name: company.name,
@@ -53,6 +55,8 @@ exports.getCompany = (source, args, context, info) => __awaiter(void 0, void 0, 
         people: company.people,
         benefit: company.benefit,
         follow: company.follow,
+        view_count: company.view_count,
+        job_count: job_count,
         is_follow: is_follow,
         size: company.size,
         seo_title: company.seo_title,
@@ -74,6 +78,7 @@ exports.getCompanys = (source, args, context, info) => __awaiter(void 0, void 0,
             let loggedUser = context.res.locals.fullUser;
             is_follow = !!(yield CompanyFollowRepository_1.default.count({ company: companys[i]._id, user: loggedUser._id }));
         }
+        let job_count = yield JobPostRepository_1.default.count({ company: companys[i]._id, status: "active" });
         let company = {
             cursor: companys[i]._id,
             node: {
@@ -102,6 +107,8 @@ exports.getCompanys = (source, args, context, info) => __awaiter(void 0, void 0,
                 people: companys[i].people,
                 benefit: companys[i].benefit,
                 follow: companys[i].follow,
+                view_count: companys[i].view_count,
+                job_count: job_count,
                 is_follow: is_follow,
                 size: companys[i].size,
                 seo_title: companys[i].seo_title,
