@@ -192,7 +192,7 @@ export const Company = new GraphQLObjectType({
     size: { type: CompanySize },
     view_count: { type: GraphQLInt },
     job_count: { type: GraphQLInt },
-
+    is_register: { type: GraphQLBoolean },
     seo_title: { type: GraphQLString },
     seo_description: { type: GraphQLString },
     created_at: { type: new GraphQLNonNull(GraphQLString) },

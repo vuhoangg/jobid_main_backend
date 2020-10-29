@@ -1,4 +1,5 @@
 import CompanyFollowService from "../../../db/repositories/CompanyFollowRepository";
+import CompanyNotificationRegisterService from "../../../db/repositories/CompanyNotificationRegisterRepository";
 import CompanyService from "../../../db/repositories/CompanyRepository";
 import JobPostService from "../../../db/repositories/JobPostRepository";
 import { authenticate } from "../../../middlewares/authenticate";
@@ -11,10 +12,12 @@ export const getCompany = async (source, args, context, info) => {
   let company = await CompanyService.getBy(getBy, fields);
 
   let is_follow = false;
+  let is_register = false;
   let isAuthenticated = await authenticate(context, context.res);
   if (isAuthenticated) {
     let loggedUser = context.res.locals.fullUser;
     is_follow = !! await CompanyFollowService.count({ company: company._id, user: loggedUser._id });
+    is_register = !! await CompanyNotificationRegisterService.count({ company: company._id, user: loggedUser._id });
   }
   let job_count = await JobPostService.count({ company: company._id, status: "active" });
 
@@ -47,6 +50,7 @@ export const getCompany = async (source, args, context, info) => {
     view_count: company.view_count,
     job_count: job_count,
     is_follow: is_follow,
+    is_register: is_register,
     size: company.size,
     seo_title: company.seo_title,
     seo_description: company.seo_description,
@@ -67,9 +71,11 @@ export const getCompanys = async (source, args, context, info) => {
   for (let i = 0; i < companys.length; i++) {
 
     let is_follow = false;
+    let is_register = false;
     if (isAuthenticated) {
       let loggedUser = context.res.locals.fullUser;
       is_follow = !! await CompanyFollowService.count({ company: companys[i]._id, user: loggedUser._id });
+      is_register = !! await CompanyNotificationRegisterService.count({ company: companys[i]._id, user: loggedUser._id });
     }
     let job_count = await JobPostService.count({ company: companys[i]._id, status: "active" });
     let company = {
@@ -104,6 +110,7 @@ export const getCompanys = async (source, args, context, info) => {
         view_count: companys[i].view_count,
         job_count: job_count,
         is_follow: is_follow,
+        is_register: is_register,
         size: companys[i].size,
         seo_title: companys[i].seo_title,
         seo_description: companys[i].seo_description,

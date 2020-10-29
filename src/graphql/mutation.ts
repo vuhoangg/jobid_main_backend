@@ -34,6 +34,7 @@ import jobTypeMutations from "./job_type/mutations";
 import candidateMutations from "./candidate/mutations";
 import jobApplyOtherMutations from "./job_apply_other/mutations";
 import jobPostWishlistMutations from "./job_post_wishlist/mutations";
+import companyNotificationRegisterMutations from "./company_notification_register/mutations";
 
 const Mutation = new GraphQLObjectType({
   fields: {
@@ -75,6 +76,7 @@ const Mutation = new GraphQLObjectType({
     ...candidateMutations,
     ...jobApplyOtherMutations,
     ...jobPostWishlistMutations,
+    ...companyNotificationRegisterMutations
   },
   name: "Mutation",
 });

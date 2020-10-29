@@ -29,6 +29,7 @@ export const deleteCompanyFollow = async (source, args, context, info) => {
     if (r1) {
       await CompanyFollowService.delete(r1._id);
       await CompanyService.decreaseFollow(input.company);
+      return r1;
     }
 
   }

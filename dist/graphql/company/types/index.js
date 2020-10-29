@@ -169,6 +169,7 @@ exports.Company = new graphql_1.GraphQLObjectType({
         size: { type: exports.CompanySize },
         view_count: { type: graphql_1.GraphQLInt },
         job_count: { type: graphql_1.GraphQLInt },
+        is_register: { type: graphql_1.GraphQLBoolean },
         seo_title: { type: graphql_1.GraphQLString },
         seo_description: { type: graphql_1.GraphQLString },
         created_at: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },

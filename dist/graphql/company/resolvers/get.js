@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCompanys = exports.getCompany = void 0;
 const CompanyFollowRepository_1 = __importDefault(require("../../../db/repositories/CompanyFollowRepository"));
+const CompanyNotificationRegisterRepository_1 = __importDefault(require("../../../db/repositories/CompanyNotificationRegisterRepository"));
 const CompanyRepository_1 = __importDefault(require("../../../db/repositories/CompanyRepository"));
 const JobPostRepository_1 = __importDefault(require("../../../db/repositories/JobPostRepository"));
 const authenticate_1 = require("../../../middlewares/authenticate");
@@ -23,10 +24,12 @@ exports.getCompany = (source, args, context, info) => __awaiter(void 0, void 0, 
     let getBy = args._id ? { _id: args._id } : { slug: args.slug };
     let company = yield CompanyRepository_1.default.getBy(getBy, fields);
     let is_follow = false;
+    let is_register = false;
     let isAuthenticated = yield authenticate_1.authenticate(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         is_follow = !!(yield CompanyFollowRepository_1.default.count({ company: company._id, user: loggedUser._id }));
+        is_register = !!(yield CompanyNotificationRegisterRepository_1.default.count({ company: company._id, user: loggedUser._id }));
     }
     let job_count = yield JobPostRepository_1.default.count({ company: company._id, status: "active" });
     let node = {
@@ -58,6 +61,7 @@ exports.getCompany = (source, args, context, info) => __awaiter(void 0, void 0, 
         view_count: company.view_count,
         job_count: job_count,
         is_follow: is_follow,
+        is_register: is_register,
         size: company.size,
         seo_title: company.seo_title,
         seo_description: company.seo_description,
@@ -74,9 +78,11 @@ exports.getCompanys = (source, args, context, info) => __awaiter(void 0, void 0,
     let edges = [];
     for (let i = 0; i < companys.length; i++) {
         let is_follow = false;
+        let is_register = false;
         if (isAuthenticated) {
             let loggedUser = context.res.locals.fullUser;
             is_follow = !!(yield CompanyFollowRepository_1.default.count({ company: companys[i]._id, user: loggedUser._id }));
+            is_register = !!(yield CompanyNotificationRegisterRepository_1.default.count({ company: companys[i]._id, user: loggedUser._id }));
         }
         let job_count = yield JobPostRepository_1.default.count({ company: companys[i]._id, status: "active" });
         let company = {
@@ -110,6 +116,7 @@ exports.getCompanys = (source, args, context, info) => __awaiter(void 0, void 0,
                 view_count: companys[i].view_count,
                 job_count: job_count,
                 is_follow: is_follow,
+                is_register: is_register,
                 size: companys[i].size,
                 seo_title: companys[i].seo_title,
                 seo_description: companys[i].seo_description,
