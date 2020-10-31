@@ -40,6 +40,11 @@ import candidateQueries from "./candidate/queries";
 import jobApplyOtherQueries from "./job_apply_other/queries";
 import jobPostWithlistQueries from "./job_post_wishlist/queries";
 import companyNotificationRegisterQueries from "./company_notification_register/queries";
+import communityTagQueries from "./community_tag/queries";
+import communityCategoryQueries from "./community_category/queries";
+import communityPostQueries from "./community_post/queries";
+import communityPostLikeQueries from "./community_post_like/queries";
+import communityAnswerQueries from "./community_answer/queries";
 
 const QueryRoot = new GraphQLObjectType({
   fields: {
@@ -86,7 +91,12 @@ const QueryRoot = new GraphQLObjectType({
     ...candidateQueries,
     ...jobApplyOtherQueries,
     ...jobPostWithlistQueries,
-    ...companyNotificationRegisterQueries
+    ...companyNotificationRegisterQueries,
+    ...communityTagQueries,
+    ...communityCategoryQueries,
+    ...communityPostQueries,
+    ...communityPostLikeQueries,
+    ...communityAnswerQueries,
   },
   name: "QueryRoot",
 });
