@@ -2,7 +2,7 @@ export const removeAllSpace = (text: string) => {
     return text.replace(/\s/g, "");
 };
 
-export const toSlug = (str: string, unique = false) => {
+export const toSlug = (str, unique = false) => {
     // Chuyển hết sang chữ thường
     str = str.toLowerCase();
 

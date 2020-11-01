@@ -1,5 +1,6 @@
 import CommunityPostService from "../../../db/repositories/CommunityPostRepository";
 import { isSuperUser } from "../../../helpers/permission";
+import { toSlug } from "../../../helpers/string";
 import { authenticate } from "../../../middlewares/authenticate";
 
 export const updateCommunityPost = async (source, args, context, info) => {
@@ -8,7 +9,8 @@ export const updateCommunityPost = async (source, args, context, info) => {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
         let communityPost = await CommunityPostService.get(input._id, {});
-        if (communityPost.user == loggedUser._id) {
+
+        if (communityPost.user._id == loggedUser._id) {
             return CommunityPostService.update(args.input);
         }
     }
@@ -18,7 +20,8 @@ export const createCommunityPost = async (source, args, context, info) => {
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
-        input = Object.assign(input, { user: loggedUser._id });
+        let slug = toSlug(input.title, true);
+        input = Object.assign(input, { user: loggedUser._id, slug: slug });
         return CommunityPostService.create(input);
     }
 };

@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCommunityPost = exports.updateCommunityPost = void 0;
 const CommunityPostRepository_1 = __importDefault(require("../../../db/repositories/CommunityPostRepository"));
+const string_1 = require("../../../helpers/string");
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.updateCommunityPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     let isAuthenticated = yield authenticate_1.authenticate(context, context.res);
@@ -21,7 +22,7 @@ exports.updateCommunityPost = (source, args, context, info) => __awaiter(void 0,
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
         let communityPost = yield CommunityPostRepository_1.default.get(input._id, {});
-        if (communityPost.user == loggedUser._id) {
+        if (communityPost.user._id == loggedUser._id) {
             return CommunityPostRepository_1.default.update(args.input);
         }
     }
@@ -31,7 +32,8 @@ exports.createCommunityPost = (source, args, context, info) => __awaiter(void 0,
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
-        input = Object.assign(input, { user: loggedUser._id });
+        let slug = string_1.toSlug(input.title, true);
+        input = Object.assign(input, { user: loggedUser._id, slug: slug });
         return CommunityPostRepository_1.default.create(input);
     }
 });

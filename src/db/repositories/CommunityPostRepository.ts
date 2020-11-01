@@ -6,6 +6,7 @@ import { promiseNull } from "../../helpers/promise";
 interface ISort {
     created?: "newest" | "oldest",
     updated?: "newest" | "oldest",
+    view_count?: "high_to_low" | "low_to_high"
 }
 
 interface IFilter {
@@ -44,6 +45,9 @@ function getSort(sortBy: ISort) {
     if (sortBy.updated) {
         sort = Object.assign(sort, { updated_at: (sortBy.updated === "newest" ? "desc" : "asc") })
     }
+    if (sortBy.view_count) {
+        sort = Object.assign(sort, { view_count: (sortBy.view_count === "high_to_low" ? "desc" : "asc") })
+    }
     return sort;
 }
 
@@ -79,7 +83,7 @@ class CommunityPostRepository implements CrudContract {
 
     get(id, projection) {
         try {
-            return CommunityPost.findById(id, projection);
+            return CommunityPost.findById(id, projection).populate('user').populate('community_category');
         } catch (e) {
             errorLog(e);
             return promiseNull();
@@ -99,7 +103,7 @@ class CommunityPostRepository implements CrudContract {
 
     getBy(getBy: IGetBy, projection) {
         try {
-            return CommunityPost.findOne(getBy, projection);
+            return CommunityPost.findOne(getBy, projection).populate('user').populate('community_category');
         } catch (e) {
             errorLog(e);
             return promiseNull();

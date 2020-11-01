@@ -27,6 +27,9 @@ function getSort(sortBy) {
     if (sortBy.updated) {
         sort = Object.assign(sort, { updated_at: (sortBy.updated === "newest" ? "desc" : "asc") });
     }
+    if (sortBy.view_count) {
+        sort = Object.assign(sort, { view_count: (sortBy.view_count === "high_to_low" ? "desc" : "asc") });
+    }
     return sort;
 }
 class CommunityPostRepository {
@@ -60,7 +63,7 @@ class CommunityPostRepository {
     }
     get(id, projection) {
         try {
-            return CommunityPost_1.default.findById(id, projection);
+            return CommunityPost_1.default.findById(id, projection).populate('user').populate('community_category');
         }
         catch (e) {
             log_1.errorLog(e);
@@ -80,7 +83,7 @@ class CommunityPostRepository {
     }
     getBy(getBy, projection) {
         try {
-            return CommunityPost_1.default.findOne(getBy, projection);
+            return CommunityPost_1.default.findOne(getBy, projection).populate('user').populate('community_category');
         }
         catch (e) {
             log_1.errorLog(e);

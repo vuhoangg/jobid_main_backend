@@ -17,7 +17,8 @@ const CommunityPostRepository_1 = __importDefault(require("../../../db/repositor
 const helpers_1 = require("../../helpers");
 exports.getCommunityPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     const fields = helpers_1.rootField(info);
-    let communityPost = yield CommunityPostRepository_1.default.get(args._id, fields);
+    let getBy = args._id ? { _id: args._id } : { slug: args.slug };
+    let communityPost = yield CommunityPostRepository_1.default.getBy(getBy, fields);
     let node = {
         _id: communityPost._id,
         user: communityPost.user,
