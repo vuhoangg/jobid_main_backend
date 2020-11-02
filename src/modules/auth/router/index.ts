@@ -23,7 +23,7 @@ router.get(
       httpOnly: false,
       path: "/",
     });
-    res.redirect(`${req.cookies.cb_redirect || process.env.SITE_URL}`);
+    res.redirect(`${process.env.SITE_URL}`);
   }
 );
 
@@ -41,7 +41,7 @@ router.get(
         path: "/",
       });
     }
-    res.redirect(`${req.cookies.cb_redirect || process.env.SITE_URL}`);
+    res.redirect(`${process.env.SITE_URL}`);
   }
 );
 

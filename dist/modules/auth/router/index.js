@@ -30,7 +30,7 @@ router.get("/google/callback", passport_1.default.authenticate("google", { failu
         httpOnly: false,
         path: "/",
     });
-    res.redirect(`${req.cookies.cb_redirect || process.env.SITE_URL}`);
+    res.redirect(`${process.env.SITE_URL}`);
 }));
 router.get("/facebook", passport_1.default.authenticate("facebook", { scope: ["email"] }));
 router.get("/facebook/callback", passport_1.default.authenticate("facebook", { failureRedirect: "/login" }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -43,7 +43,7 @@ router.get("/facebook/callback", passport_1.default.authenticate("facebook", { f
             path: "/",
         });
     }
-    res.redirect(`${req.cookies.cb_redirect || process.env.SITE_URL}`);
+    res.redirect(`${process.env.SITE_URL}`);
 }));
 router.get("/zalo", passport_1.default.authenticate("zalo"));
 router.get("/zalo/callback", passport_1.default.authenticate("zalo", { failureRedirect: "/login" }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
