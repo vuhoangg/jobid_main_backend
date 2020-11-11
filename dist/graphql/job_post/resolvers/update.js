@@ -21,7 +21,7 @@ const permission_1 = require("../../../helpers/permission");
 const authenticate_1 = require("../../../middlewares/authenticate");
 const JobViewRepository_1 = __importDefault(require("../../../db/repositories/JobViewRepository"));
 exports.updateJobPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticate(context, context.res)) {
+    if (yield authenticate_1.authenticateUser(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
         if (permission_1.isSuperUser(loggedUser.email)) {
@@ -40,7 +40,7 @@ exports.updateJobPost = (source, args, context, info) => __awaiter(void 0, void 
     }
 });
 exports.createJobPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticate(context, context.res)) {
+    if (yield authenticate_1.authenticateUser(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
         let slug = string_1.toSlug(input.title, true);
@@ -73,7 +73,7 @@ exports.createJobPost = (source, args, context, info) => __awaiter(void 0, void 
 exports.trackingBySlug = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     let input = args.input;
     let jobPost = yield JobPostRepository_1.default.increaseViewCountBySlug(input.slug);
-    let isAuthenticated = yield authenticate_1.authenticate(context, context.res);
+    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let payload = {

@@ -20,7 +20,7 @@ const authenticate_1 = require("../../../middlewares/authenticate");
 const router = express_1.default.Router();
 exports.UploadRouter = router;
 router.post("/upload_image", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticate(req, res)) {
+    if (yield authenticate_1.authenticateUser(req, res)) {
         let base64 = req.body.base64_image;
         let fileName = req.body.fileName;
         let typeUpload = req.body.typeUpload;
@@ -32,7 +32,7 @@ router.post("/upload_image", (req, res) => __awaiter(void 0, void 0, void 0, fun
     }
 }));
 router.post("/upload_file", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticate(req, res)) {
+    if (yield authenticate_1.authenticateUser(req, res)) {
         let base64 = req.body.base64_image;
         let fileName = req.body.fileName;
         let typeUpload = req.body.typeUpload;
@@ -44,7 +44,7 @@ router.post("/upload_file", (req, res) => __awaiter(void 0, void 0, void 0, func
     }
 }));
 router.post("/upload_file_pdf", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticate(req, res)) {
+    if (yield authenticate_1.authenticateUser(req, res)) {
         let baseData = req.body.baseData;
         let fileName = req.body.fileName;
         let typeUpload = req.body.typeUpload;
@@ -63,7 +63,7 @@ router.post("/private_upload_image_app", (req, res) => __awaiter(void 0, void 0,
     res.send({ location: url });
 }));
 router.post("/detect_upload_file", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticate(req, res)) {
+    if (yield authenticate_1.authenticateUser(req, res)) {
         let loggedInUser = req.user;
         let timestamp = new Date().getTime();
         let base64 = req.body.base64;
@@ -84,7 +84,7 @@ router.post("/detect_upload_file", (req, res) => __awaiter(void 0, void 0, void 
     }
 }));
 router.post("/apply", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticate(req, res);
+    let isAuthenticated = yield authenticate_1.authenticateUser(req, res);
     if (isAuthenticated) {
         let loggedInUser = res.locals.user;
         let timestamp = new Date().getTime();

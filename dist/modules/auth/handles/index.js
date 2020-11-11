@@ -12,19 +12,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.handleTokenAuth = exports.saveNewFacebookUser = exports.saveNewGoogleUser = exports.isExistingEmailUser = exports.isExistingIdUser = void 0;
+exports.handleTokenAuthEmployer = exports.handleTokenAuthUser = exports.saveNewFacebookUser = exports.saveNewGoogleEmployer = exports.saveNewGoogleUser = exports.isExistingEmailEmployer = exports.isExistingEmailUser = void 0;
 const UserRepository_1 = __importDefault(require("../../../db/repositories/UserRepository"));
+const EmployerRepository_1 = __importDefault(require("../../../db/repositories/EmployerRepository"));
 const mail_1 = require("../../../mail");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const mongoose_1 = __importDefault(require("mongoose"));
-exports.isExistingIdUser = (_id) => __awaiter(void 0, void 0, void 0, function* () {
-    return UserRepository_1.default.getBy({ _id }, { accessToken: 0, refreshToken: 0 });
-});
-function isExistingEmailUser(email) {
-    return UserRepository_1.default.getBy({ email }, { accessToken: 0, refreshToken: 0 });
-}
-exports.isExistingEmailUser = isExistingEmailUser;
-exports.saveNewGoogleUser = (profile) => __awaiter(void 0, void 0, void 0, function* () {
+const Employer_1 = __importDefault(require("../../../db/schemas/Employer"));
+exports.isExistingEmailUser = (email) => {
+    let getBy = {
+        email: email,
+    };
+    return UserRepository_1.default.getBy(getBy, {});
+};
+exports.isExistingEmailEmployer = (email) => {
+    let getBy = {
+        email: email,
+    };
+    return EmployerRepository_1.default.getBy(getBy, {});
+};
+exports.saveNewGoogleUser = (profile) => {
     let payload = {
         first_name: profile.name.familyName,
         last_name: profile.name.givenName,
@@ -36,7 +43,19 @@ exports.saveNewGoogleUser = (profile) => __awaiter(void 0, void 0, void 0, funct
     };
     mail_1.sendWelcome(payload.email);
     return UserRepository_1.default.create(payload);
-});
+};
+exports.saveNewGoogleEmployer = (profile) => {
+    let payload = {
+        first_name: profile.name.familyName,
+        last_name: profile.name.givenName,
+        full_name: `${profile.name.familyName.trim()} ${profile.name.givenName.trim()}`,
+        email: profile.emails[0].value,
+        avatar: profile.photos[0].value,
+        login_type: "google",
+    };
+    mail_1.sendWelcomeEmployer(payload.email);
+    return Employer_1.default.create(payload);
+};
 exports.saveNewFacebookUser = (profile) => {
     let payload = {
         first_name: profile.name.familyName,
@@ -52,15 +71,29 @@ exports.saveNewFacebookUser = (profile) => {
     mail_1.sendWelcome(profile.emails[0].value);
     return UserRepository_1.default.create(payload);
 };
-exports.handleTokenAuth = (user) => __awaiter(void 0, void 0, void 0, function* () {
+exports.handleTokenAuthUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
     const accessToken = jsonwebtoken_1.default.sign({
         data: Object.assign(Object.assign({}, user.toObject()), { accessToken: "", refreshToken: "", info: {}, company_role: [], manager_cv: [], customize_info: {} }),
-    }, process.env.JWT_SECRET, { expiresIn: process.env.EXPIRES_ACCESS_TOKEN });
+    }, process.env.USER_JWT_SECRET, { expiresIn: process.env.USER_EXPIRES_ACCESS_TOKEN });
     const refreshToken = jsonwebtoken_1.default.sign({
         data: Object.assign(Object.assign({}, user.toObject()), { accessToken: "", refreshToken: "", info: {}, company_role: [], manager_cv: [], customize_info: {} }),
-    }, process.env.JWT_SECRET, { expiresIn: process.env.EXPIRES_REFRESH_TOKEN });
+    }, process.env.USER_JWT_SECRET, { expiresIn: process.env.USER_EXPIRES_REFRESH_TOKEN });
     yield UserRepository_1.default.update({
         _id: user._id,
+        accessToken,
+        refreshToken,
+    });
+    return accessToken;
+});
+exports.handleTokenAuthEmployer = (employer) => __awaiter(void 0, void 0, void 0, function* () {
+    const accessToken = jsonwebtoken_1.default.sign({
+        data: Object.assign(Object.assign({}, employer.toObject()), { accessToken: "", refreshToken: "" }),
+    }, process.env.EMPLOYER_JWT_SECRET, { expiresIn: process.env.EMPLOYER_EXPIRES_ACCESS_TOKEN });
+    const refreshToken = jsonwebtoken_1.default.sign({
+        data: Object.assign(Object.assign({}, employer.toObject()), { accessToken: "", refreshToken: "" }),
+    }, process.env.EMPLOYER_JWT_SECRET, { expiresIn: process.env.EMPLOYER_EXPIRES_REFRESH_TOKEN });
+    yield EmployerRepository_1.default.update({
+        _id: employer._id,
         accessToken,
         refreshToken,
     });

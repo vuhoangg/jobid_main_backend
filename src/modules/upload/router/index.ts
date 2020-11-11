@@ -1,13 +1,13 @@
 import express from "express";
 import { s3UploadImage, s3UploadFile, s3UploadPdf, s3Upload } from "../../../aws/s3";
 import axios from "axios";
-import { authenticate } from "../../../middlewares/authenticate";
+import { authenticateUser } from "../../../middlewares/authenticate";
 import { detectType } from "../../../helpers/base64";
 
 const router = express.Router();
 
 router.post("/upload_image", async (req, res) => {
-  if (await authenticate(req, res)) {
+  if (await authenticateUser(req, res)) {
     let base64 = req.body.base64_image;
     let fileName = req.body.fileName;
     let typeUpload = req.body.typeUpload;
@@ -19,7 +19,7 @@ router.post("/upload_image", async (req, res) => {
 });
 
 router.post("/upload_file", async (req, res) => {
-  if (await authenticate(req, res)) {
+  if (await authenticateUser(req, res)) {
     let base64 = req.body.base64_image;
     let fileName = req.body.fileName;
     let typeUpload = req.body.typeUpload;
@@ -31,7 +31,7 @@ router.post("/upload_file", async (req, res) => {
 });
 
 router.post("/upload_file_pdf", async (req, res) => {
-  if (await authenticate(req, res)) {
+  if (await authenticateUser(req, res)) {
     let baseData = req.body.baseData;
     let fileName = req.body.fileName;
     let typeUpload = req.body.typeUpload;
@@ -51,7 +51,7 @@ router.post("/private_upload_image_app", async (req, res) => {
 });
 
 router.post("/detect_upload_file", async (req, res) => {
-  if (await authenticate(req, res)) {
+  if (await authenticateUser(req, res)) {
     let loggedInUser: any = req.user;
     let timestamp = new Date().getTime();
 
@@ -74,7 +74,7 @@ router.post("/detect_upload_file", async (req, res) => {
 
 
 router.post("/apply", async (req, res) => {
-  let isAuthenticated = await authenticate(req, res);
+  let isAuthenticated = await authenticateUser(req, res);
   if (isAuthenticated) {
     let loggedInUser = res.locals.user;
     let timestamp = new Date().getTime();

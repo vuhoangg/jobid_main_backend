@@ -1,9 +1,9 @@
 import CommunityPostLikeService from "../../../db/repositories/CommunityPostLikeRepository";
 import { isSuperUser } from "../../../helpers/permission";
-import { authenticate } from "../../../middlewares/authenticate";
+import { authenticateUser } from "../../../middlewares/authenticate";
 
 export const updateCommunityPostLike = async (source, args, context, info) => {
-    let isAuthenticated = await authenticate(context, context.res);
+    let isAuthenticated = await authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         if (isSuperUser(loggedUser.email)) {
@@ -12,7 +12,7 @@ export const updateCommunityPostLike = async (source, args, context, info) => {
     }
 };
 export const createCommunityPostLike = async (source, args, context, info) => {
-    let isAuthenticated = await authenticate(context, context.res);
+    let isAuthenticated = await authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;

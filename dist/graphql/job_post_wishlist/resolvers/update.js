@@ -16,7 +16,7 @@ exports.deleteJobPostWishlist = exports.createJobPostWishlist = void 0;
 const JobPostWishlistRepository_1 = __importDefault(require("../../../db/repositories/JobPostWishlistRepository"));
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.createJobPostWishlist = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticate(context, context.res)) {
+    if (yield authenticate_1.authenticateUser(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
         input = Object.assign(input, { user: loggedUser._id });
@@ -31,7 +31,7 @@ exports.createJobPostWishlist = (source, args, context, info) => __awaiter(void 
     }
 });
 exports.deleteJobPostWishlist = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticate(context, context.res)) {
+    if (yield authenticate_1.authenticateUser(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
         input = Object.assign(input, { user: loggedUser._id });

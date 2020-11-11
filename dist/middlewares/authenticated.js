@@ -22,7 +22,7 @@ exports.authenticate = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
     else {
         try {
-            const decoded = jsonwebtoken_1.default.verify(accessToken, process.env.JWT_SECRET);
+            const decoded = jsonwebtoken_1.default.verify(accessToken, process.env.USER_JWT_SECRET);
             return true;
         }
         catch (err) {
@@ -39,13 +39,13 @@ exports.authenticate = (req, res) => __awaiter(void 0, void 0, void 0, function*
 });
 exports.handleRefreshToken = (res, user) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const decoded = jsonwebtoken_1.default.verify(user.refreshToken, process.env.JWT_SECRET);
+        const decoded = jsonwebtoken_1.default.verify(user.refreshToken, process.env.USER_JWT_SECRET);
         const accessToken = jsonwebtoken_1.default.sign({
             data: user._id,
-        }, process.env.JWT_SECRET, { expiresIn: process.env.EXPIRES_ACCESS_TOKEN });
+        }, process.env.USER_JWT_SECRET, { expiresIn: process.env.USER_EXPIRES_ACCESS_TOKEN });
         const refreshToken = jsonwebtoken_1.default.sign({
             data: user._id,
-        }, process.env.JWT_SECRET, { expiresIn: process.env.EXPIRES_REFRESH_TOKEN });
+        }, process.env.USER_JWT_SECRET, { expiresIn: process.env.USER_EXPIRES_REFRESH_TOKEN });
         yield UserRepository_1.default.refreshToken(user._id, accessToken, refreshToken);
         res.cookie("knv_accessToken", accessToken, {
             domain: process.env.DOMAIN_CLIENT_COOKIE,

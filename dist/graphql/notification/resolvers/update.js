@@ -17,7 +17,7 @@ const NotificationRepository_1 = __importDefault(require("../../../db/repositori
 const permission_1 = require("../../../helpers/permission");
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.updateNotification = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticate(context, context.res)) {
+    if (yield authenticate_1.authenticateUser(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
         if (permission_1.isSuperUser(loggedUser.email)) {
@@ -26,7 +26,7 @@ exports.updateNotification = (source, args, context, info) => __awaiter(void 0, 
     }
 });
 exports.updateReadNotification = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticate(context, context.res)) {
+    if (yield authenticate_1.authenticateUser(context, context.res)) {
         let input = args.input;
         let loggedUser = context.res.locals.fullUser;
         input = Object.assign(input, { target: loggedUser._id });
@@ -34,7 +34,7 @@ exports.updateReadNotification = (source, args, context, info) => __awaiter(void
     }
 });
 exports.updateReadAllNotification = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticate(context, context.res)) {
+    if (yield authenticate_1.authenticateUser(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
         let input = { target: loggedUser._id };
         return NotificationRepository_1.default.readAllNotification(input).then((r) => ({ status: true }));

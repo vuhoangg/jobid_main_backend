@@ -19,7 +19,7 @@ const authenticate_1 = require("../../../middlewares/authenticate");
 exports.getUser = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     const fields = helpers_1.rootField(info);
     let getBy = {
-        _id: (yield authenticate_1.authenticate(context, context.res)) ? context.res.locals.fullUser._id : "",
+        _id: (yield authenticate_1.authenticateUser(context, context.res)) ? context.res.locals.fullUser._id : "",
     };
     if (args._id || args.email) {
         getBy = args;

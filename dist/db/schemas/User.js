@@ -173,6 +173,12 @@ const userSchema = new mongoose.Schema({
                     from: Number,
                     to: Number,
                 },
+                skill: [
+                    {
+                        name: String,
+                        level: Number,
+                    }
+                ]
             },
         ],
     },

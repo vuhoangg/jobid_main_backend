@@ -17,7 +17,7 @@ const CompanyFollowRepository_1 = __importDefault(require("../../../db/repositor
 const CompanyRepository_1 = __importDefault(require("../../../db/repositories/CompanyRepository"));
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.createCompanyFollow = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticate(context, context.res);
+    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
@@ -31,7 +31,7 @@ exports.createCompanyFollow = (source, args, context, info) => __awaiter(void 0,
     }
 });
 exports.deleteCompanyFollow = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticate(context, context.res);
+    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;

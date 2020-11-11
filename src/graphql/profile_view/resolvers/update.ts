@@ -2,10 +2,10 @@ import ProfileViewService from "../../../db/repositories/ProfileViewRepository";
 import NotificationService from "../../../db/repositories/NotificationRepository";
 import { api } from "../../../utils/api";
 import UserService from "../../../db/repositories/UserRepository";
-import { authenticate } from "../../../middlewares/authenticate";
+import { authenticateUser } from "../../../middlewares/authenticate";
 
 export const updateProfileView = async (source, args, context, info) => {
-  if (await authenticate(context, context.res)) {
+  if (await authenticateUser(context, context.res)) {
     let loggedUser = context.res.locals.fullUser;
     let input = args.input;
     input = Object.assign(input, { user_hunter: loggedUser._id });

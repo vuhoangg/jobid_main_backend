@@ -1,9 +1,9 @@
 import ClientSubscriberService from "../../../db/repositories/ClientSubcriberRepository";
 import { isSuperUser } from "../../../helpers/permission";
-import { authenticate } from "../../../middlewares/authenticate";
+import { authenticateUser } from "../../../middlewares/authenticate";
 
 export const updateClientSubcriber = async (source, args, context, info) => {
-  if (await authenticate(context, context.res)) {
+  if (await authenticateUser(context, context.res)) {
     let loggedUser = context.res.locals.fullUser;
     if (isSuperUser(loggedUser.email)) {
       return ClientSubscriberService.update(args.input);

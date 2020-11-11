@@ -1,9 +1,9 @@
 import userService from "../../../db/repositories/UserRepository";
-import { authenticate } from "../../../middlewares/authenticate";
+import { authenticateUser } from "../../../middlewares/authenticate";
 
 export const logout = async (args, context) => {
   const user = context.res.locals.fullUser;
-  if (await authenticate(context, context.res)) {
+  if (await authenticateUser(context, context.res)) {
     context.logout();
   }
   await userService.update({ _id: user._id, accessToken: "", refreshToken: "" });

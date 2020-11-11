@@ -16,7 +16,7 @@ exports.createCandidate = exports.updateCandidate = void 0;
 const CandidateRepository_1 = __importDefault(require("../../../db/repositories/CandidateRepository"));
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.updateCandidate = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticate(context, context.res)) {
+    if (yield authenticate_1.authenticateUser(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
         return CandidateRepository_1.default.get(input._id, {}).then((r) => {
@@ -30,7 +30,7 @@ exports.updateCandidate = (source, args, context, info) => __awaiter(void 0, voi
     }
 });
 exports.createCandidate = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticate(context, context.res)) {
+    if (yield authenticate_1.authenticateUser(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
         input = Object.assign(input, { upload_by: loggedUser._id });

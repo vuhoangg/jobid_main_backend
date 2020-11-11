@@ -1,9 +1,9 @@
 import CompanyFollowService from "../../../db/repositories/CompanyFollowRepository";
 import CompanyService from "../../../db/repositories/CompanyRepository";
-import { authenticate } from "../../../middlewares/authenticate";
+import { authenticateUser } from "../../../middlewares/authenticate";
 
 export const createCompanyFollow = async (source, args, context, info) => {
-  let isAuthenticated = await authenticate(context, context.res);
+  let isAuthenticated = await authenticateUser(context, context.res);
   if (isAuthenticated) {
     let loggedUser = context.res.locals.fullUser;
     let input = args.input;
@@ -19,7 +19,7 @@ export const createCompanyFollow = async (source, args, context, info) => {
 };
 
 export const deleteCompanyFollow = async (source, args, context, info) => {
-  let isAuthenticated = await authenticate(context, context.res);
+  let isAuthenticated = await authenticateUser(context, context.res);
   if (isAuthenticated) {
     let loggedUser = context.res.locals.fullUser;
     let input = args.input;

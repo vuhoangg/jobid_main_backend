@@ -16,7 +16,7 @@ exports.deleteCompanyNotificationRegister = exports.createCompanyNotificationReg
 const CompanyNotificationRegisterRepository_1 = __importDefault(require("../../../db/repositories/CompanyNotificationRegisterRepository"));
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.createCompanyNotificationRegister = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticate(context, context.res);
+    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
@@ -29,7 +29,7 @@ exports.createCompanyNotificationRegister = (source, args, context, info) => __a
     }
 });
 exports.deleteCompanyNotificationRegister = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticate(context, context.res);
+    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;

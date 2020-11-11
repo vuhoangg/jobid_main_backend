@@ -17,10 +17,11 @@ import { ServiceNotificationRouter } from "./modules/clientRegistration";
 import AppSchema from "./schema";
 import {
   isExistingEmailUser,
-  isExistingIdUser,
-  saveNewFacebookUser,
   saveNewGoogleUser,
-  handleTokenAuth,
+  handleTokenAuthUser,
+  handleTokenAuthEmployer,
+  isExistingEmailEmployer,
+  saveNewGoogleEmployer,
 } from "./modules/auth/handles";
 Connection.connect();
 const app = express();
@@ -29,15 +30,15 @@ const upload = multer();
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(upload.array());
-app.use(
-  cookieSession({
-    keys: [process.env.COOKIE_KEY],
-    maxAge: parseInt(process.env.COOKIE_AGE),
-  })
-);
+// app.use(
+//   cookieSession({
+//     keys: [process.env.COOKIE_KEY],
+//     maxAge: parseInt(process.env.COOKIE_AGE),
+//   })
+// );
 app.use(cookieParser());
 app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.session());
 app.use(
   cors({
     credentials: true,
@@ -55,82 +56,143 @@ app.use(
 );
 
 passport.serializeUser((user: any, done) => {
-  // console.log("serializeUser", user.user);
-  done(null, user.user._id || user);
+  console.log("serializeUser");
+  done(null, user);
 });
 
-passport.deserializeUser((_id: string, done) => {
-  // console.log("deserializeUser", _id);
-  isExistingIdUser(_id)
-    .then((user) => {
-      done(null, user);
-    })
-    .catch(function (err) {
-      done(null, {});
-    });
+passport.deserializeUser((obj: any, done) => {
+  console.log("deserializeUser");
+  done(null, obj);
+  // isExistingIdUser(_id)
+  //   .then((user) => {
+  //     done(null, user);
+  //   })
+  //   .catch(function (err) {
+  //     done(null, {});
+  //   });
 });
 
 const GoogleStrategy = passportGoogle.Strategy;
-passport.use(
-  new GoogleStrategy(
-    {
-      callbackURL: "/auth/google/callback",
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    },
-    async (accessToken, refreshToken, profile, cb) => {
-      const r1 = await isExistingEmailUser(profile.emails[0].value);
-      if (r1) {
-        const accessToken = await handleTokenAuth(r1);
-        cb(null, { user: r1, accessToken });
-      } else {
-        const r2 = await saveNewGoogleUser(profile);
-        const accessToken = await handleTokenAuth(r2);
-        cb(null, { user: r2, accessToken });
-      }
+const googleUserStrategy = new GoogleStrategy(
+  {
+    callbackURL: "/auth/user/google/callback",
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  },
+  async (accessToken, refreshToken, profile, cb) => {
+    const r1 = await isExistingEmailUser(profile.emails[0].value);
+    if (r1) {
+      const accessToken = await handleTokenAuthUser(r1);
+      cb(null, { accessToken: accessToken });
+    } else {
+      const r2 = await saveNewGoogleUser(profile);
+      const accessToken = await handleTokenAuthUser(r2);
+      cb(null, { accessToken: accessToken });
     }
-  )
+  }
+);
+const googleEmployerStrategy = new GoogleStrategy(
+  {
+    callbackURL: "/auth/employer/google/callback",
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  },
+  async (accessToken, refreshToken, profile, cb) => {
+    const r1 = await isExistingEmailEmployer(profile.emails[0].value);
+    if (r1) {
+      const accessToken = await handleTokenAuthEmployer(r1);
+      cb(null, { accessToken: accessToken });
+    } else {
+      const r2 = await saveNewGoogleEmployer(profile);
+      const accessToken = await handleTokenAuthEmployer(r2);
+      cb(null, { accessToken: accessToken });
+    }
+  }
 );
 
+googleUserStrategy.name = "google_user";
+googleEmployerStrategy.name = "google_employer";
+
+passport.use(googleUserStrategy);
+passport.use(googleEmployerStrategy);
+
+
 const FacebookStrategy = passportFacebook.Strategy;
-passport.use(
-  new FacebookStrategy(
-    {
-      clientID: process.env.FACEBOOk_APP_ID,
-      clientSecret: process.env.FACEBOOk_APP_SECRET,
-      callbackURL: `${process.env.API_URL}/auth/facebook/callback`,
-      profileFields: [
-        "id",
-        "emails",
-        "last_name",
-        "first_name",
-        "gender",
-        "is_verified",
-        "profileUrl",
-        "picture",
-        "displayName",
-      ],
-    },
-    async function (accessToken, refreshToken, profile, cb) {
-      if (profile.emails) {
-        const r1 = await isExistingEmailUser(profile.emails[0].value);
-        if (r1) {
-          const accessToken = await handleTokenAuth(r1);
-          cb(null, { user: r1, accessToken });
-        } else {
-          const r2 = await saveNewGoogleUser(profile);
-          const accessToken = await handleTokenAuth(r2);
-          cb(null, { user: r2, accessToken });
-        }
+const facebookUserStrategy = new FacebookStrategy(
+  {
+    clientID: process.env.FACEBOOk_APP_ID,
+    clientSecret: process.env.FACEBOOk_APP_SECRET,
+    callbackURL: `${process.env.API_URL}/auth/user/facebook/callback`,
+    profileFields: [
+      "id",
+      "emails",
+      "last_name",
+      "first_name",
+      "gender",
+      "is_verified",
+      "profileUrl",
+      "picture",
+      "displayName",
+    ],
+  },
+  async function (accessToken, refreshToken, profile, cb) {
+    if (profile.emails) {
+      const r1 = await isExistingEmailUser(profile.emails[0].value);
+      if (r1) {
+        const accessToken = await handleTokenAuthUser(r1);
+        cb(null, { accessToken: accessToken });
       } else {
-        cb(null, { user: { _id: "" } });
+        const r2 = await saveNewGoogleUser(profile);
+        const accessToken = await handleTokenAuthUser(r2);
+        cb(null, { accessToken: accessToken });
       }
+    } else {
+      cb(null, { accessToken: null });
     }
-  )
+  }
 );
+
+const facebookEmployerStrategy = new FacebookStrategy(
+  {
+    clientID: process.env.FACEBOOk_APP_ID,
+    clientSecret: process.env.FACEBOOk_APP_SECRET,
+    callbackURL: `${process.env.API_URL}/auth/employer/facebook/callback`,
+    profileFields: [
+      "id",
+      "emails",
+      "last_name",
+      "first_name",
+      "gender",
+      "is_verified",
+      "profileUrl",
+      "picture",
+      "displayName",
+    ],
+  },
+  async function (accessToken, refreshToken, profile, cb) {
+    if (profile.emails) {
+      const r1 = await isExistingEmailUser(profile.emails[0].value);
+      if (r1) {
+        const accessToken = await handleTokenAuthUser(r1);
+        cb(null, { accessToken: accessToken });
+      } else {
+        const r2 = await saveNewGoogleUser(profile);
+        const accessToken = await handleTokenAuthUser(r2);
+        cb(null, { accessToken: accessToken });
+      }
+    } else {
+      cb(null, { accessToken: null });
+    }
+  }
+);
+facebookUserStrategy.name = "facebook_user";
+facebookEmployerStrategy.name = "facebook_employer";
+passport.use(facebookUserStrategy);
+passport.use(facebookEmployerStrategy);
 
 app.use("/upload", UploadRouter);
 app.use("/auth", AuthRouter);
+
 app.use("/", ServiceNotificationRouter);
 app.use("/noreply", MailRouter);
 app.use(

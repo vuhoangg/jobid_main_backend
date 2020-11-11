@@ -20,20 +20,32 @@ const handles_1 = require("../handles");
 const router = express_1.default.Router();
 exports.AuthRouter = router;
 const passport_1 = __importDefault(require("passport"));
-router.get("/google", passport_1.default.authenticate("google", {
+router.get("/user/google", passport_1.default.authenticate("google_user", {
     scope: ["profile", "email"],
 }));
-router.get("/google/callback", passport_1.default.authenticate("google", { failureRedirect: "/login" }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get("/employer/google", passport_1.default.authenticate("google_employer", {
+    scope: ["profile", "email"],
+}));
+router.get("/user/google/callback", passport_1.default.authenticate("google_user", { failureRedirect: "/user/login" }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const accessToken = req.user.accessToken;
     res.cookie("knv_accessToken", accessToken, {
         domain: process.env.COOKIE_SHARE_DOMAIN,
-        httpOnly: false,
+        httpOnly: true,
         path: "/",
     });
     res.redirect(`${process.env.SITE_URL}`);
 }));
-router.get("/facebook", passport_1.default.authenticate("facebook", { scope: ["email"] }));
-router.get("/facebook/callback", passport_1.default.authenticate("facebook", { failureRedirect: "/login" }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get("/employer/google/callback", passport_1.default.authenticate("google_employer", { failureRedirect: "/employer/login" }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const accessToken = req.user.accessToken;
+    res.cookie("employer_accessToken", accessToken, {
+        domain: process.env.COOKIE_SHARE_DOMAIN,
+        httpOnly: true,
+        path: "/",
+    });
+    res.redirect(`${process.env.SITE_URL}`);
+}));
+router.get("/user/facebook", passport_1.default.authenticate("facebook", { scope: ["email"] }));
+router.get("/user/facebook/callback", passport_1.default.authenticate("facebook", { failureRedirect: "/user/login" }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = req.user.user;
     if (user._id) {
         const accessToken = req.user.accessToken;
@@ -45,8 +57,8 @@ router.get("/facebook/callback", passport_1.default.authenticate("facebook", { f
     }
     res.redirect(`${process.env.SITE_URL}`);
 }));
-router.get("/zalo", passport_1.default.authenticate("zalo"));
-router.get("/zalo/callback", passport_1.default.authenticate("zalo", { failureRedirect: "/login" }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get("/user/zalo", passport_1.default.authenticate("zalo"));
+router.get("/user/zalo/callback", passport_1.default.authenticate("zalo", { failureRedirect: "/user/login" }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.cookie("user", req.user, {
         domain: process.env.COOKIE_SHARE_DOMAIN,
         maxAge: parseInt(process.env.COOKIE_AGE),
@@ -54,7 +66,7 @@ router.get("/zalo/callback", passport_1.default.authenticate("zalo", { failureRe
     });
     res.redirect(process.env.SITE_URL);
 }));
-router.post("/login", (req, res, next) => {
+router.post("/user/login", (req, res, next) => {
     if (!req.cookies.knv_accessToken) {
         res.status(200).json({});
     }
@@ -62,7 +74,7 @@ router.post("/login", (req, res, next) => {
         next();
     }
 }, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticate(req, res)) {
+    if (yield authenticate_1.authenticateUser(req, res)) {
         const user_id = res.locals.user;
         const user = yield UserRepository_1.default.getById(user_id);
         res.json({ user });
@@ -71,18 +83,18 @@ router.post("/login", (req, res, next) => {
         res.json({});
     }
 }));
-router.post("/logout", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticate(req, res)) {
+router.post("/user/logout", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield authenticate_1.authenticateUser(req, res)) {
         const user_id = res.locals.user;
         yield UserRepository_1.default.logout(user_id);
         res.clearCookie("knv_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: false });
         res.status(200).json("ok");
     }
 }));
-router.post("/refresh-token", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post("/user/refresh-token", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield UserRepository_1.default.findUserRefreshToken(req.body.accessToken);
     if (user) {
-        const accessToken = yield handles_1.handleTokenAuth(user);
+        const accessToken = yield handles_1.handleTokenAuthUser(user);
         res.json({ user_id: user.user_chiase, accessToken });
     }
     else {

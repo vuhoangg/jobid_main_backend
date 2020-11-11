@@ -1,12 +1,12 @@
 import JobApplyService from "../../../db/repositories/JobApplyRepository";
 import { filterObject, rootField, rootInfo } from "../../helpers";
-import { authenticate } from "../../../middlewares/authenticate";
+import { authenticateUser } from "../../../middlewares/authenticate";
 import { promiseNull } from "../../../helpers/promise";
 
 export const getJobApply = async (source, args, context, info) => {
   const fields = rootField(info);
 
-  let isAuthenticated = await authenticate(context, context.res);
+  let isAuthenticated = await authenticateUser(context, context.res);
 
   if (isAuthenticated) {
     let loggedUser = context.res.locals.fullUser;
@@ -35,7 +35,7 @@ export const getJobApplys = async (source, args, context, info) => {
   let filter = filterObject(args.filter);
   let page = args.page > 50 ? 10 : args.page;
 
-  let isAuthenticated = await authenticate(context, context.res);
+  let isAuthenticated = await authenticateUser(context, context.res);
 
   if (isAuthenticated) {
     let loggedUser = context.res.locals.fullUser;

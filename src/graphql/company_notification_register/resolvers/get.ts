@@ -1,11 +1,11 @@
 import CompanyNotificationRegisterService from "../../../db/repositories/CompanyNotificationRegisterRepository";
 import { filterObject, rootField, rootInfo } from "../../helpers";
-import { authenticate } from "../../../middlewares/authenticate";
+import { authenticateUser } from "../../../middlewares/authenticate";
 
 export const getCompanyNotificationRegister = async (source, args, context, info) => {
     const fields = rootField(info);
 
-    let isAuthenticated = await authenticate(context, context.res);
+    let isAuthenticated = await authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let getBy = {
@@ -29,7 +29,7 @@ export const getCompanyNotificationRegisters = async (source, args, context, inf
     let filter = filterObject(args.filter);
     let page = args.page > 50 ? 10 : args.page;
 
-    let isAuthenticated = await authenticate(context, context.res);
+    let isAuthenticated = await authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         filter = Object.assign(filter, { user: loggedUser._id });

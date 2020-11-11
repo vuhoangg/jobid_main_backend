@@ -1,11 +1,11 @@
 import JobPostWishlistService from "../../../db/repositories/JobPostWishlistRepository";
 import { filterObject, rootField, rootInfo } from "../../helpers";
-import { authenticate } from "../../../middlewares/authenticate";
+import { authenticateUser } from "../../../middlewares/authenticate";
 
 export const getJobPostWishlist = async (source, args, context, info) => {
     const fields = rootField(info);
 
-    let isAuthenticated = await authenticate(context, context.res);
+    let isAuthenticated = await authenticateUser(context, context.res);
 
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
@@ -35,7 +35,7 @@ export const getJobPostWishlists = async (source, args, context, info) => {
     let filter = filterObject(args.filter);
     let limit = args.limit > 50 ? 10 : args.limit;
 
-    let isAuthenticated = await authenticate(context, context.res);
+    let isAuthenticated = await authenticateUser(context, context.res);
 
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;

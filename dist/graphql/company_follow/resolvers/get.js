@@ -18,7 +18,7 @@ const helpers_1 = require("../../helpers");
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.getCompanyFollow = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     const fields = helpers_1.rootField(info);
-    let isAuthenticated = yield authenticate_1.authenticate(context, context.res);
+    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let getBy = {
@@ -40,7 +40,7 @@ exports.getCompanyFollows = (source, args, context, info) => __awaiter(void 0, v
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
     let page = args.page > 50 ? 10 : args.page;
-    let isAuthenticated = yield authenticate_1.authenticate(context, context.res);
+    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         filter = Object.assign(filter, { user: loggedUser._id });

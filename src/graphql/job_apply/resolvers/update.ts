@@ -2,11 +2,11 @@ import JobApplyService from "../../../db/repositories/JobApplyRepository";
 import JobPostService from "../../../db/repositories/JobPostRepository";
 import NotificationService from "../../../db/repositories/NotificationRepository";
 import { api } from "../../../utils/api";
-import { authenticate } from "../../../middlewares/authenticate";
+import { authenticateUser } from "../../../middlewares/authenticate";
 
 
 export const createJobApply = async (source, args, context, info) => {
-  let isAuthenticated = await authenticate(context, context.res);
+  let isAuthenticated = await authenticateUser(context, context.res);
   if (isAuthenticated) {
     let loggedUser = context.res.locals.fullUser;
     let input = args.input;
@@ -19,7 +19,7 @@ export const createJobApply = async (source, args, context, info) => {
 }
 
 export const updateJobApply = async (source, args, context, info) => {
-  if (await authenticate(context, context.res)) {
+  if (await authenticateUser(context, context.res)) {
     let loggedUser = context.res.locals.fullUser;
     let input = args.input;
 
@@ -63,7 +63,7 @@ export const updateJobApply = async (source, args, context, info) => {
   }
 };
 export const updateStatusJobApply = async (source, args, context, info) => {
-  if (await authenticate(context, context.res)) {
+  if (await authenticateUser(context, context.res)) {
     let input = args.input;
     return JobApplyService.update(input);
   }

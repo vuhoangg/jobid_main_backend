@@ -17,7 +17,7 @@ const CommunityPostRepository_1 = __importDefault(require("../../../db/repositor
 const string_1 = require("../../../helpers/string");
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.updateCommunityPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticate(context, context.res);
+    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
@@ -28,7 +28,7 @@ exports.updateCommunityPost = (source, args, context, info) => __awaiter(void 0,
     }
 });
 exports.createCommunityPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticate(context, context.res);
+    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;

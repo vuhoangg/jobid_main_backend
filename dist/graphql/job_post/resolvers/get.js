@@ -23,7 +23,7 @@ exports.getJobPost = (source, args, context, info) => __awaiter(void 0, void 0, 
     const fields = helpers_1.rootField(info);
     let getBy = args._id ? { _id: args._id } : { slug: args.slug };
     let jobPost = yield JobPostRepository_1.default.getBy(getBy, fields);
-    let isAuthenticated = yield authenticate_1.authenticate(context, context.res);
+    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
     let loggedUser = null;
     if (isAuthenticated) {
         loggedUser = context.res.locals.fullUser;
@@ -75,7 +75,7 @@ function getJobPosts(source, args, context, info) {
     return JobPostRepository_1.default.filter(filter, limit, args.page, infos.edges).then((jobPosts) => __awaiter(this, void 0, void 0, function* () {
         let edges = [];
         let loggedUser = null;
-        if (yield authenticate_1.authenticate(context, context.res)) {
+        if (yield authenticate_1.authenticateUser(context, context.res)) {
             loggedUser = context.res.locals.fullUser;
         }
         for (let i = 0; i < jobPosts.length; i++) {

@@ -16,7 +16,7 @@ exports.updateStatusJobApplyOther = exports.updateJobApplyOther = void 0;
 const JobApplyOtherRepository_1 = __importDefault(require("../../../db/repositories/JobApplyOtherRepository"));
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.updateJobApplyOther = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticate(context, context.res)) {
+    if (yield authenticate_1.authenticateUser(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
         input = Object.assign(input, { user: loggedUser._id, status: "pending" });
@@ -56,7 +56,7 @@ exports.updateJobApplyOther = (source, args, context, info) => __awaiter(void 0,
     }
 });
 exports.updateStatusJobApplyOther = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticate(context, context.res)) {
+    if (yield authenticate_1.authenticateUser(context, context.res)) {
         let input = args.input;
         return JobApplyOtherRepository_1.default.update(input);
     }

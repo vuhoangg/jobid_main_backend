@@ -1,6 +1,6 @@
 import JobPostService from "../../../db/repositories/JobPostRepository";
 import { filterObject, rootField, rootInfo } from "../../helpers";
-import { authenticate } from "../../../middlewares/authenticate";
+import { authenticateUser } from "../../../middlewares/authenticate";
 import JobPostWishlistService from "../../../db/repositories/JobPostWishlistRepository";
 import JobSaveService from "../../../db/repositories/JobSaveRepository";
 import JobApplyService from "../../../db/repositories/JobApplyRepository";
@@ -10,7 +10,7 @@ export const getJobPost = async (source, args, context, info) => {
   let getBy = args._id ? { _id: args._id } : { slug: args.slug };
 
   let jobPost = await JobPostService.getBy(getBy, fields);
-  let isAuthenticated = await authenticate(context, context.res);
+  let isAuthenticated = await authenticateUser(context, context.res);
 
   let loggedUser = null;
   if (isAuthenticated) {
@@ -70,7 +70,7 @@ export function getJobPosts(source, args, context, info) {
     let edges = [];
 
     let loggedUser = null;
-    if (await authenticate(context, context.res)) {
+    if (await authenticateUser(context, context.res)) {
       loggedUser = context.res.locals.fullUser;
     }
 

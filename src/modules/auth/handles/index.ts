@@ -1,15 +1,25 @@
 import UserService from "../../../db/repositories/UserRepository";
-import { sendWelcome } from "../../../mail";
+import EmployerService from "../../../db/repositories/EmployerRepository";
+import { sendWelcome, sendWelcomeEmployer } from "../../../mail";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
+import Employer from "../../../db/schemas/Employer";
 
-export const isExistingIdUser = async (_id: string) => {
-  return UserService.getBy({ _id }, { accessToken: 0, refreshToken: 0 });
-};
-export function isExistingEmailUser(email: string) {
-  return UserService.getBy({ email }, { accessToken: 0, refreshToken: 0 });
+export const isExistingEmailUser = (email: string) => {
+  let getBy = {
+    email: email,
+  }
+  return UserService.getBy(getBy, {});
 }
-export const saveNewGoogleUser = async (profile) => {
+
+export const isExistingEmailEmployer = (email: string) => {
+  let getBy = {
+    email: email,
+  }
+  return EmployerService.getBy(getBy, {});
+}
+
+export const saveNewGoogleUser = (profile) => {
   let payload = {
     first_name: profile.name.familyName,
     last_name: profile.name.givenName,
@@ -21,6 +31,19 @@ export const saveNewGoogleUser = async (profile) => {
   };
   sendWelcome(payload.email);
   return UserService.create(payload);
+};
+
+export const saveNewGoogleEmployer = (profile) => {
+  let payload = {
+    first_name: profile.name.familyName,
+    last_name: profile.name.givenName,
+    full_name: `${profile.name.familyName.trim()} ${profile.name.givenName.trim()}`,
+    email: profile.emails[0].value,
+    avatar: profile.photos[0].value,
+    login_type: "google",
+  };
+  sendWelcomeEmployer(payload.email);
+  return Employer.create(payload);
 };
 
 export const saveNewFacebookUser = (profile: any) => {
@@ -39,7 +62,7 @@ export const saveNewFacebookUser = (profile: any) => {
   return UserService.create(payload);
 };
 
-export const handleTokenAuth = async (user: any) => {
+export const handleTokenAuthUser = async (user: any) => {
   const accessToken = jwt.sign(
     {
       data: {
@@ -52,8 +75,8 @@ export const handleTokenAuth = async (user: any) => {
         customize_info: {},
       },
     },
-    process.env.JWT_SECRET,
-    { expiresIn: process.env.EXPIRES_ACCESS_TOKEN }
+    process.env.USER_JWT_SECRET,
+    { expiresIn: process.env.USER_EXPIRES_ACCESS_TOKEN }
   );
   const refreshToken = jwt.sign(
     {
@@ -67,8 +90,8 @@ export const handleTokenAuth = async (user: any) => {
         customize_info: {},
       },
     },
-    process.env.JWT_SECRET,
-    { expiresIn: process.env.EXPIRES_REFRESH_TOKEN }
+    process.env.USER_JWT_SECRET,
+    { expiresIn: process.env.USER_EXPIRES_REFRESH_TOKEN }
   );
   await UserService.update({
     _id: user._id,
@@ -77,3 +100,35 @@ export const handleTokenAuth = async (user: any) => {
   });
   return accessToken;
 };
+
+
+export const handleTokenAuthEmployer = async (employer: any) => {
+  const accessToken = jwt.sign(
+    {
+      data: {
+        ...employer.toObject(),
+        accessToken: "",
+        refreshToken: "",
+      },
+    },
+    process.env.EMPLOYER_JWT_SECRET,
+    { expiresIn: process.env.EMPLOYER_EXPIRES_ACCESS_TOKEN }
+  );
+  const refreshToken = jwt.sign(
+    {
+      data: {
+        ...employer.toObject(),
+        accessToken: "",
+        refreshToken: "",
+      },
+    },
+    process.env.EMPLOYER_JWT_SECRET,
+    { expiresIn: process.env.EMPLOYER_EXPIRES_REFRESH_TOKEN }
+  );
+  await EmployerService.update({
+    _id: employer._id,
+    accessToken,
+    refreshToken,
+  });
+  return accessToken;
+}

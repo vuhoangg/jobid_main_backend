@@ -1,9 +1,9 @@
 import UserService from "../../../db/repositories/UserRepository";
 import { isSuperUser } from "../../../helpers/permission";
-import { authenticate } from "../../../middlewares/authenticate";
+import { authenticateUser } from "../../../middlewares/authenticate";
 
 export const updateUser = async (source, args, context, info) => {
-  if (await authenticate(context, context.res)) {
+  if (await authenticateUser(context, context.res)) {
     let loggedUser = context.res.locals.fullUser;
     let input = args.input;
     if (input && input.customize_info && input.customize_info.first_name && input.customize_info.last_name) {
@@ -15,7 +15,7 @@ export const updateUser = async (source, args, context, info) => {
 };
 
 export const markSpam = async (source, args, context, info) => {
-  if (await authenticate(context, context.res)) {
+  if (await authenticateUser(context, context.res)) {
     let loggedUser = context.res.locals.fullUser;
     let input = args.input;
     if (isSuperUser(loggedUser.email)) {
@@ -25,7 +25,7 @@ export const markSpam = async (source, args, context, info) => {
 };
 
 export const removeSpam = async (source, args, context, info) => {
-  if (await authenticate(context, context.res)) {
+  if (await authenticateUser(context, context.res)) {
     let loggedUser = context.res.locals.fullUser;
     let input = args.input;
     if (isSuperUser(loggedUser.email)) {

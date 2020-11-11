@@ -17,7 +17,7 @@ const UserRepository_1 = __importDefault(require("../../../db/repositories/UserR
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.logout = (args, context) => __awaiter(void 0, void 0, void 0, function* () {
     const user = context.res.locals.fullUser;
-    if (yield authenticate_1.authenticate(context, context.res)) {
+    if (yield authenticate_1.authenticateUser(context, context.res)) {
         context.logout();
     }
     yield UserRepository_1.default.update({ _id: user._id, accessToken: "", refreshToken: "" });

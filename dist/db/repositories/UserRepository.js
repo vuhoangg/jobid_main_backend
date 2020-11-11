@@ -162,47 +162,23 @@ class UserRepository {
     }
     getBy(getBy, projection) {
         try {
-            if (getBy._id) {
-                return User_1.default.findById(getBy._id, projection)
-                    .populate("customize_info.current_job_level")
-                    .populate("customize_info.location")
-                    .populate("customize_info.skill")
-                    .populate("customize_info.work_preference.job_location")
-                    .populate("customize_info.work_preference.job_category")
-                    .populate("customize_info.work_preference.job_level")
-                    .populate("customize_info.work_preference.benefit")
-                    .populate("info.address.city")
-                    .populate("info.address.district")
-                    .populate("info.address.ward")
-                    .populate("info.experience.level")
-                    .populate("info.favorite_job.job_type")
-                    .populate("info.favorite_job.job_category")
-                    .populate("info.favorite_job.job_location.city")
-                    .populate("info.favorite_job.job_location.district")
-                    .populate("info.favorite_job.job_location.ward");
-            }
-            else if (getBy.email) {
-                return User_1.default.findOne({ email: getBy.email }, projection)
-                    .populate("customize_info.current_job_level")
-                    .populate("customize_info.location")
-                    .populate("customize_info.skill")
-                    .populate("customize_info.work_preference.job_location")
-                    .populate("customize_info.work_preference.job_category")
-                    .populate("customize_info.work_preference.job_level")
-                    .populate("customize_info.work_preference.benefit")
-                    .populate("info.address.city")
-                    .populate("info.address.district")
-                    .populate("info.address.ward")
-                    .populate("info.experience.level")
-                    .populate("info.favorite_job.job_type")
-                    .populate("info.favorite_job.job_category")
-                    .populate("info.favorite_job.job_location.city")
-                    .populate("info.favorite_job.job_location.district")
-                    .populate("info.favorite_job.job_location.ward");
-            }
-            else {
-                return promise_1.promiseNull();
-            }
+            return User_1.default.findOne(getBy, projection)
+                .populate("customize_info.current_job_level")
+                .populate("customize_info.location")
+                .populate("customize_info.skill")
+                .populate("customize_info.work_preference.job_location")
+                .populate("customize_info.work_preference.job_category")
+                .populate("customize_info.work_preference.job_level")
+                .populate("customize_info.work_preference.benefit")
+                .populate("info.address.city")
+                .populate("info.address.district")
+                .populate("info.address.ward")
+                .populate("info.experience.level")
+                .populate("info.favorite_job.job_type")
+                .populate("info.favorite_job.job_category")
+                .populate("info.favorite_job.job_location.city")
+                .populate("info.favorite_job.job_location.district")
+                .populate("info.favorite_job.job_location.ward");
         }
         catch (e) {
             log_1.errorLog(e);

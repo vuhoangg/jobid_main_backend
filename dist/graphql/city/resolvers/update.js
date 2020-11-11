@@ -18,7 +18,7 @@ const CityRepository_1 = __importDefault(require("../../../db/repositories/CityR
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.updateCity = (args, context) => __awaiter(void 0, void 0, void 0, function* () {
     // TODO Admin and User has permission
-    if (yield authenticate_1.authenticate(context, context.res)) {
+    if (yield authenticate_1.authenticateUser(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
         if (permission_1.isSuperUser(loggedUser.email)) {

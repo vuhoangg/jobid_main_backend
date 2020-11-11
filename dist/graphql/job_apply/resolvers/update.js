@@ -17,7 +17,7 @@ const JobApplyRepository_1 = __importDefault(require("../../../db/repositories/J
 const JobPostRepository_1 = __importDefault(require("../../../db/repositories/JobPostRepository"));
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.createJobApply = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticate(context, context.res);
+    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
@@ -27,7 +27,7 @@ exports.createJobApply = (source, args, context, info) => __awaiter(void 0, void
     }
 });
 exports.updateJobApply = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticate(context, context.res)) {
+    if (yield authenticate_1.authenticateUser(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
         let jobPost = yield JobPostRepository_1.default.get(input.job_post, {});
@@ -67,7 +67,7 @@ exports.updateJobApply = (source, args, context, info) => __awaiter(void 0, void
     }
 });
 exports.updateStatusJobApply = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticate(context, context.res)) {
+    if (yield authenticate_1.authenticateUser(context, context.res)) {
         let input = args.input;
         return JobApplyRepository_1.default.update(input);
     }

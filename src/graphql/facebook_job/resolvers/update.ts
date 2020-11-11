@@ -1,10 +1,10 @@
 import { isSuperUser } from "../../../helpers/permission";
 import FacebookJobService from "../../../db/repositories/FacebookJobRepository";
-import { authenticate } from "../../../middlewares/authenticate";
+import { authenticateUser } from "../../../middlewares/authenticate";
 
 export const updateFacebookJob = async (args, context) => {
   // TODO Admin and User has permission
-  if (await authenticate(context, context.res)) {
+  if (await authenticateUser(context, context.res)) {
     let loggedUser = context.res.locals.fullUser;
     let input = args.input;
     if (isSuperUser(loggedUser.email)) {

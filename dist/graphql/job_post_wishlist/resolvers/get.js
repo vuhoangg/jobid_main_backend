@@ -18,7 +18,7 @@ const helpers_1 = require("../../helpers");
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.getJobPostWishlist = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     const fields = helpers_1.rootField(info);
-    let isAuthenticated = yield authenticate_1.authenticate(context, context.res);
+    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let getBy = { user: loggedUser._id };
@@ -41,7 +41,7 @@ exports.getJobPostWishlists = (source, args, context, info) => __awaiter(void 0,
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
     let limit = args.limit > 50 ? 10 : args.limit;
-    let isAuthenticated = yield authenticate_1.authenticate(context, context.res);
+    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         filter = Object.assign(filter, { user: loggedUser._id });

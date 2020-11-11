@@ -1,10 +1,10 @@
 import CommunityPostService from "../../../db/repositories/CommunityPostRepository";
 import { isSuperUser } from "../../../helpers/permission";
 import { toSlug } from "../../../helpers/string";
-import { authenticate } from "../../../middlewares/authenticate";
+import { authenticateUser } from "../../../middlewares/authenticate";
 
 export const updateCommunityPost = async (source, args, context, info) => {
-    let isAuthenticated = await authenticate(context, context.res);
+    let isAuthenticated = await authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
@@ -16,7 +16,7 @@ export const updateCommunityPost = async (source, args, context, info) => {
     }
 };
 export const createCommunityPost = async (source, args, context, info) => {
-    let isAuthenticated = await authenticate(context, context.res);
+    let isAuthenticated = await authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;

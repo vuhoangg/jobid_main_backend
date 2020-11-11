@@ -1,9 +1,9 @@
 import CompanyNotificationRegisterService from "../../../db/repositories/CompanyNotificationRegisterRepository";
 import CompanyService from "../../../db/repositories/CompanyRepository";
-import { authenticate } from "../../../middlewares/authenticate";
+import { authenticateUser } from "../../../middlewares/authenticate";
 
 export const createCompanyNotificationRegister = async (source, args, context, info) => {
-    let isAuthenticated = await authenticate(context, context.res);
+    let isAuthenticated = await authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
@@ -18,7 +18,7 @@ export const createCompanyNotificationRegister = async (source, args, context, i
 };
 
 export const deleteCompanyNotificationRegister = async (source, args, context, info) => {
-    let isAuthenticated = await authenticate(context, context.res);
+    let isAuthenticated = await authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;

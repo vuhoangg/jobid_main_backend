@@ -2,7 +2,7 @@ import CompanyFollowService from "../../../db/repositories/CompanyFollowReposito
 import CompanyNotificationRegisterService from "../../../db/repositories/CompanyNotificationRegisterRepository";
 import CompanyService from "../../../db/repositories/CompanyRepository";
 import JobPostService from "../../../db/repositories/JobPostRepository";
-import { authenticate } from "../../../middlewares/authenticate";
+import { authenticateUser } from "../../../middlewares/authenticate";
 import { filterObject, rootField, rootInfo } from "../../helpers";
 
 export const getCompany = async (source, args, context, info) => {
@@ -13,7 +13,7 @@ export const getCompany = async (source, args, context, info) => {
 
   let is_follow = false;
   let is_register = false;
-  let isAuthenticated = await authenticate(context, context.res);
+  let isAuthenticated = await authenticateUser(context, context.res);
   if (isAuthenticated) {
     let loggedUser = context.res.locals.fullUser;
     is_follow = !! await CompanyFollowService.count({ company: company._id, user: loggedUser._id });
@@ -65,7 +65,7 @@ export const getCompanys = async (source, args, context, info) => {
   let filter = filterObject(args.filter);
 
   let companys = await CompanyService.filter(filter, args.limit, args.page, infos.edges);
-  let isAuthenticated = await authenticate(context, context.res);
+  let isAuthenticated = await authenticateUser(context, context.res);
 
   let edges = [];
   for (let i = 0; i < companys.length; i++) {

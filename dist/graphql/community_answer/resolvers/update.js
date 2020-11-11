@@ -17,7 +17,7 @@ const CommunityAnswerRepository_1 = __importDefault(require("../../../db/reposit
 const permission_1 = require("../../../helpers/permission");
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.updateCommunityAnswer = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticate(context, context.res);
+    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         if (permission_1.isSuperUser(loggedUser.email)) {
@@ -26,7 +26,7 @@ exports.updateCommunityAnswer = (source, args, context, info) => __awaiter(void 
     }
 });
 exports.createCommunityAnswer = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticate(context, context.res);
+    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;

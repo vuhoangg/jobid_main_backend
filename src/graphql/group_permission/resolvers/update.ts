@@ -1,5 +1,5 @@
 import GroupPermissionService from "../../../db/repositories/GroupPermissionRepository";
-import { authenticate } from "../../../middlewares/authenticate";
+import { authenticateUser } from "../../../middlewares/authenticate";
 
 export const updateGroupPermission = async (source, args, context, info) => {
   // if (await authenticate(context, context.res)) {

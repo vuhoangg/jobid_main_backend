@@ -17,7 +17,7 @@ const UserRepository_1 = __importDefault(require("../../../db/repositories/UserR
 const permission_1 = require("../../../helpers/permission");
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.updateUser = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticate(context, context.res)) {
+    if (yield authenticate_1.authenticateUser(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
         if (input && input.customize_info && input.customize_info.first_name && input.customize_info.last_name) {
@@ -28,7 +28,7 @@ exports.updateUser = (source, args, context, info) => __awaiter(void 0, void 0, 
     }
 });
 exports.markSpam = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticate(context, context.res)) {
+    if (yield authenticate_1.authenticateUser(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
         if (permission_1.isSuperUser(loggedUser.email)) {
@@ -37,7 +37,7 @@ exports.markSpam = (source, args, context, info) => __awaiter(void 0, void 0, vo
     }
 });
 exports.removeSpam = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticate(context, context.res)) {
+    if (yield authenticate_1.authenticateUser(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
         if (permission_1.isSuperUser(loggedUser.email)) {

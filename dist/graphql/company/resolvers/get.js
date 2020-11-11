@@ -25,7 +25,7 @@ exports.getCompany = (source, args, context, info) => __awaiter(void 0, void 0, 
     let company = yield CompanyRepository_1.default.getBy(getBy, fields);
     let is_follow = false;
     let is_register = false;
-    let isAuthenticated = yield authenticate_1.authenticate(context, context.res);
+    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         is_follow = !!(yield CompanyFollowRepository_1.default.count({ company: company._id, user: loggedUser._id }));
@@ -74,7 +74,7 @@ exports.getCompanys = (source, args, context, info) => __awaiter(void 0, void 0,
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
     let companys = yield CompanyRepository_1.default.filter(filter, args.limit, args.page, infos.edges);
-    let isAuthenticated = yield authenticate_1.authenticate(context, context.res);
+    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
     let edges = [];
     for (let i = 0; i < companys.length; i++) {
         let is_follow = false;

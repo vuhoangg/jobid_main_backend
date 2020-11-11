@@ -1,11 +1,11 @@
 import CompanyFollowService from "../../../db/repositories/CompanyFollowRepository";
 import { filterObject, rootField, rootInfo } from "../../helpers";
-import { authenticate } from "../../../middlewares/authenticate";
+import { authenticateUser } from "../../../middlewares/authenticate";
 
 export const getCompanyFollow = async (source, args, context, info) => {
   const fields = rootField(info);
 
-  let isAuthenticated = await authenticate(context, context.res);
+  let isAuthenticated = await authenticateUser(context, context.res);
   if (isAuthenticated) {
     let loggedUser = context.res.locals.fullUser;
     let getBy = {
@@ -29,7 +29,7 @@ export const getCompanyFollows = async (source, args, context, info) => {
   let filter = filterObject(args.filter);
   let page = args.page > 50 ? 10 : args.page;
 
-  let isAuthenticated = await authenticate(context, context.res);
+  let isAuthenticated = await authenticateUser(context, context.res);
   if (isAuthenticated) {
     let loggedUser = context.res.locals.fullUser;
     filter = Object.assign(filter, { user: loggedUser._id });

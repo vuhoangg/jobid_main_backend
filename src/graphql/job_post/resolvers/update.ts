@@ -3,11 +3,11 @@ import ActivityService from "../../../db/repositories/ActivityRepository";
 import { toSlug } from "../../../helpers/string";
 import NotificationService from "../../../db/repositories/NotificationRepository";
 import { isSuperUser } from "../../../helpers/permission";
-import { authenticate } from "../../../middlewares/authenticate";
+import { authenticateUser } from "../../../middlewares/authenticate";
 import JobViewService from "../../../db/repositories/JobViewRepository";
 
 export const updateJobPost = async (source, args, context, info) => {
-  if (await authenticate(context, context.res)) {
+  if (await authenticateUser(context, context.res)) {
     let loggedUser = context.res.locals.fullUser;
 
     let input = args.input;
@@ -27,7 +27,7 @@ export const updateJobPost = async (source, args, context, info) => {
 };
 
 export const createJobPost = async (source, args, context, info) => {
-  if (await authenticate(context, context.res)) {
+  if (await authenticateUser(context, context.res)) {
     let loggedUser = context.res.locals.fullUser;
     let input = args.input;
     let slug = toSlug(input.title, true);
@@ -65,7 +65,7 @@ export const createJobPost = async (source, args, context, info) => {
 export const trackingBySlug = async (source, args, context, info) => {
   let input = args.input;
   let jobPost = await JobPostService.increaseViewCountBySlug(input.slug);
-  let isAuthenticated = await authenticate(context, context.res);
+  let isAuthenticated = await authenticateUser(context, context.res);
   if (isAuthenticated) {
     let loggedUser = context.res.locals.fullUser;
     let payload = {
