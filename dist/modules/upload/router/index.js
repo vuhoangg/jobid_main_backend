@@ -83,6 +83,7 @@ router.post("/detect_upload_file", (req, res) => __awaiter(void 0, void 0, void 
         res.send("fail");
     }
 }));
+// ==== TODO new
 router.post("/apply", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let isAuthenticated = yield authenticate_1.authenticateUser(req, res);
     if (isAuthenticated) {
@@ -91,6 +92,22 @@ router.post("/apply", (req, res) => __awaiter(void 0, void 0, void 0, function* 
         let fileContent = req.body.file;
         let fileName = `${loggedInUser}_${timestamp}`;
         let url = yield s3_1.s3Upload("apply", fileName, fileContent);
+        res.send({
+            location: url
+        });
+    }
+    else {
+        res.status(404);
+    }
+}));
+router.post("/user_avatar", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield authenticate_1.authenticateUser(req, res);
+    if (isAuthenticated) {
+        let loggedInUser = res.locals.user;
+        let timestamp = new Date().getTime();
+        let fileContent = req.body.file;
+        let fileName = `${loggedInUser}_${timestamp}`;
+        let url = yield s3_1.s3Upload("user_avatar", fileName, fileContent);
         res.send({
             location: url
         });

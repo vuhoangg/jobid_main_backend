@@ -238,7 +238,8 @@ class UserRepository implements CrudContract {
 
   update(data) {
     try {
-      return User.findByIdAndUpdate(data._id, data, { new: true });
+      let dataUpdate = processDataUpdate(data);
+      return User.findByIdAndUpdate(data._id, dataUpdate, { new: true });
     } catch (e) {
       errorLog(e);
       return promiseNull();
