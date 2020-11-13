@@ -7,10 +7,10 @@ export function getBanner(source, args, context, info) {
         .then(async (banner) => {
             let node = {
                 _id: banner._id,
-                title: banner.title,
-                slug: banner.slug,
-                seo_title: banner.seo_title,
-                seo_description: banner.seo_description,
+                name: banner.name,
+                image: banner.image,
+                href: banner.href,
+                status: banner.status,
                 created_at: banner.created_at,
                 updated_at: banner.updated_at,
             };
@@ -30,11 +30,10 @@ export function getBanners(source, args, context, info) {
                     cursor: banners[i]._id,
                     node: {
                         _id: banners[i]._id,
-                        title: banners[i].title,
-                        slug: banners[i].slug,
-                        icon: banners[i].icon,
-                        seo_title: banners[i].seo_title,
-                        seo_description: banners[i].seo_description,
+                        name: banners[i].name,
+                        image: banners[i].image,
+                        href: banners[i].href,
+                        status: banners[i].status,
                         created_at: banners[i].created_at,
                         updated_at: banners[i].updated_at,
                     }

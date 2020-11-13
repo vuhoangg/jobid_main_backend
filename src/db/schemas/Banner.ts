@@ -5,7 +5,11 @@ const bannerSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    src: {
+    image: {
+        type: String,
+        require: true
+    },
+    href: {
         type: String,
         require: true
     },

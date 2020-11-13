@@ -8,7 +8,8 @@ exports.Banner = new graphql_1.GraphQLObjectType({
     fields: {
         _id: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         name: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
-        src: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
+        image: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
+        href: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         status: { type: graphql_1.GraphQLString },
         created_at: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         updated_at: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
@@ -42,7 +43,8 @@ exports.BannerInput = new graphql_1.GraphQLInputObjectType({
     fields: {
         _id: { type: graphql_1.GraphQLString },
         name: { type: graphql_1.GraphQLString },
-        src: { type: graphql_1.GraphQLString },
+        image: { type: graphql_1.GraphQLString },
+        href: { type: graphql_1.GraphQLString },
         status: { type: graphql_1.GraphQLString },
     },
     name: "BannerInput",

@@ -12,7 +12,8 @@ export const Banner = new GraphQLObjectType({
     fields: {
         _id: { type: new GraphQLNonNull(GraphQLString) },
         name: { type: new GraphQLNonNull(GraphQLString) },
-        src: { type: new GraphQLNonNull(GraphQLString) },
+        image: { type: new GraphQLNonNull(GraphQLString) },
+        href: { type: new GraphQLNonNull(GraphQLString) },
         status: { type: GraphQLString },
         created_at: { type: new GraphQLNonNull(GraphQLString) },
         updated_at: { type: new GraphQLNonNull(GraphQLString) },
@@ -47,7 +48,8 @@ export const BannerInput = new GraphQLInputObjectType({
     fields: {
         _id: { type: GraphQLString },
         name: { type: GraphQLString },
-        src: { type: GraphQLString },
+        image: { type: GraphQLString },
+        href: { type: GraphQLString },
         status: { type: GraphQLString },
     },
     name: "BannerInput",
