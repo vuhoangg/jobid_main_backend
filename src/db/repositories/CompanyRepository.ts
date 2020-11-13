@@ -3,6 +3,7 @@ import Company from "../schemas/Company";
 import { errorLog } from "../../helpers/log";
 import { promiseNull } from "../../helpers/promise";
 import { processDataUpdate } from "../../helpers/flattenNestedObject";
+import User from "../schemas/User";
 
 interface ISort {
   created?: "newest" | "oldest";
@@ -18,6 +19,8 @@ interface IFilter {
   office_city?: string;
   job_category?: string;
   created_by?: string;
+
+  suggestion?: string;
 }
 
 interface IGetBy {
@@ -104,17 +107,29 @@ class CompanyRepository implements CrudContract {
     try {
       let condition = getCondition(filter);
       let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
-      return Company.find(condition, projection)
-        .populate("office.city")
-        .populate("office.district")
-        .populate("office.ward")
-        .populate("created_by")
+      if (filter.suggestion) {
+        return User.findById(filter.suggestion).then(r1 => {
+          let favorite_job = r1.info.favorite_job || [];
+          let job_category = favorite_job.map((item) => item.job_category);
+          return Company.find({ verify_status: true, job_category: { "$in": job_category } }, projection)
+            .sort(sort)
+            .skip(limit * (page - 1))
+            .limit(limit);
+        })
+      } else {
+        return Company.find(condition, projection)
+          .populate("office.city")
+          .populate("office.district")
+          .populate("office.ward")
+          .populate("created_by")
 
-        .populate("job_category")
+          .populate("job_category")
 
-        .sort(sort)
-        .skip(limit * (page - 1))
-        .limit(limit);
+          .sort(sort)
+          .skip(limit * (page - 1))
+          .limit(limit);
+      }
+
     } catch (e) {
       errorLog(e);
       return promiseNull();

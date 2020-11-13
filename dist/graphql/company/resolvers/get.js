@@ -31,7 +31,7 @@ exports.getCompany = (source, args, context, info) => __awaiter(void 0, void 0, 
         is_follow = !!(yield CompanyFollowRepository_1.default.count({ company: company._id, user: loggedUser._id }));
         is_register = !!(yield CompanyNotificationRegisterRepository_1.default.count({ company: company._id, user: loggedUser._id }));
     }
-    let job_count = yield JobPostRepository_1.default.count({ company: company._id, status: "active" });
+    let job_count = yield JobPostRepository_1.default.count({ company_ref: company._id, status: "active" });
     let node = {
         _id: company._id,
         name: company.name,
@@ -84,7 +84,7 @@ exports.getCompanys = (source, args, context, info) => __awaiter(void 0, void 0,
             is_follow = !!(yield CompanyFollowRepository_1.default.count({ company: companys[i]._id, user: loggedUser._id }));
             is_register = !!(yield CompanyNotificationRegisterRepository_1.default.count({ company: companys[i]._id, user: loggedUser._id }));
         }
-        let job_count = yield JobPostRepository_1.default.count({ company: companys[i]._id, status: "active" });
+        let job_count = yield JobPostRepository_1.default.count({ company_ref: companys[i]._id, status: "active" });
         let company = {
             cursor: companys[i]._id,
             node: {

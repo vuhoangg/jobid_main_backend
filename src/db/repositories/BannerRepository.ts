@@ -80,7 +80,7 @@ class BannerRepository implements CrudContract {
             let condition = getCondition(filter);
             let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
             if (filter.random) {
-                return Banner.count(condition).then(r1 => {
+                return Banner.countDocuments(condition).then(count => {
                     let rd = Math.floor(Math.random() * count);
                     return Banner.find(condition, projection).sort(sort).skip(rd).limit(limit);
                 })

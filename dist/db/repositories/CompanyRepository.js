@@ -7,6 +7,7 @@ const Company_1 = __importDefault(require("../schemas/Company"));
 const log_1 = require("../../helpers/log");
 const promise_1 = require("../../helpers/promise");
 const flattenNestedObject_1 = require("../../helpers/flattenNestedObject");
+const User_1 = __importDefault(require("../schemas/User"));
 function getCondition(filter) {
     let condition = {};
     if (filter.name) {
@@ -84,15 +85,27 @@ class CompanyRepository {
         try {
             let condition = getCondition(filter);
             let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
-            return Company_1.default.find(condition, projection)
-                .populate("office.city")
-                .populate("office.district")
-                .populate("office.ward")
-                .populate("created_by")
-                .populate("job_category")
-                .sort(sort)
-                .skip(limit * (page - 1))
-                .limit(limit);
+            if (filter.suggestion) {
+                return User_1.default.findById(filter.suggestion).then(r1 => {
+                    let favorite_job = r1.info.favorite_job || [];
+                    let job_category = favorite_job.map((item) => item.job_category);
+                    return Company_1.default.find({ verify_status: true, job_category: { "$in": job_category } }, projection)
+                        .sort(sort)
+                        .skip(limit * (page - 1))
+                        .limit(limit);
+                });
+            }
+            else {
+                return Company_1.default.find(condition, projection)
+                    .populate("office.city")
+                    .populate("office.district")
+                    .populate("office.ward")
+                    .populate("created_by")
+                    .populate("job_category")
+                    .sort(sort)
+                    .skip(limit * (page - 1))
+                    .limit(limit);
+            }
         }
         catch (e) {
             log_1.errorLog(e);

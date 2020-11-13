@@ -19,7 +19,7 @@ export const getCompany = async (source, args, context, info) => {
     is_follow = !! await CompanyFollowService.count({ company: company._id, user: loggedUser._id });
     is_register = !! await CompanyNotificationRegisterService.count({ company: company._id, user: loggedUser._id });
   }
-  let job_count = await JobPostService.count({ company: company._id, status: "active" });
+  let job_count = await JobPostService.count({ company_ref: company._id, status: "active" });
 
   let node = {
     _id: company._id,
@@ -77,7 +77,7 @@ export const getCompanys = async (source, args, context, info) => {
       is_follow = !! await CompanyFollowService.count({ company: companys[i]._id, user: loggedUser._id });
       is_register = !! await CompanyNotificationRegisterService.count({ company: companys[i]._id, user: loggedUser._id });
     }
-    let job_count = await JobPostService.count({ company: companys[i]._id, status: "active" });
+    let job_count = await JobPostService.count({ company_ref: companys[i]._id, status: "active" });
     let company = {
       cursor: companys[i]._id,
       node: {
