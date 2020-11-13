@@ -1,10 +1,20 @@
+import CommunityPostLikeService from "../../../db/repositories/CommunityPostLikeRepository";
 import CommunityPostService from "../../../db/repositories/CommunityPostRepository";
+import { authenticateUser } from "../../../middlewares/authenticate";
 import { filterObject, rootField, rootInfo } from "../../helpers";
 
 export const getCommunityPost = async (source, args, context, info) => {
     const fields = rootField(info);
     let getBy = args._id ? { _id: args._id } : { slug: args.slug };
     let communityPost = await CommunityPostService.getBy(getBy, fields);
+
+    let is_like = false;
+
+    let isAuthenticated = await authenticateUser(context, context.res);
+    if (isAuthenticated) {
+        let loggedUser = context.res.locals.fullUser;
+        is_like = !! await CommunityPostLikeService.count({ community_post: communityPost._id, user: loggedUser._id });
+    }
 
     let node = {
         _id: communityPost._id,
@@ -15,6 +25,7 @@ export const getCommunityPost = async (source, args, context, info) => {
         community_tag: communityPost.community_tag,
         description: communityPost.description,
         like_count: communityPost.like_count,
+        is_like: is_like,
         view_count: communityPost.view_count,
         answer_count: communityPost.answer_count,
         status: communityPost.status,
@@ -33,8 +44,15 @@ export const getCommunityPosts = async (source, args, context, info) => {
 
     let communityPosts = await CommunityPostService.filter(filter, args.limit, page, infos.edges);
 
+    let isAuthenticated = await authenticateUser(context, context.res);
+
     let edges = [];
     for (let i = 0; i < communityPosts.length; i++) {
+        let is_like = false;
+        if (isAuthenticated) {
+            let loggedUser = context.res.locals.fullUser;
+            is_like = !! await CommunityPostLikeService.count({ community_post: communityPosts[i]._id, user: loggedUser._id });
+        }
         let communityPost = {
             cursor: communityPosts[i]._id,
             node: {
@@ -46,6 +64,7 @@ export const getCommunityPosts = async (source, args, context, info) => {
                 community_tag: communityPosts[i].community_tag,
                 description: communityPosts[i].description,
                 like_count: communityPosts[i].like_count,
+                is_like: is_like,
                 view_count: communityPosts[i].view_count,
                 answer_count: communityPosts[i].answer_count,
                 status: communityPosts[i].status,

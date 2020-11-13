@@ -10,7 +10,9 @@ export const createCompanyFollow = async (source, args, context, info) => {
     input = Object.assign(input, { user: loggedUser._id });
 
     let r1 = await CompanyFollowService.getBy(input, {});
-    if (!r1) {
+    if (r1) {
+      return r1;
+    } else {
       let r2 = await CompanyFollowService.create(input);
       await CompanyService.increaseFollow(input.company);
       return r2;

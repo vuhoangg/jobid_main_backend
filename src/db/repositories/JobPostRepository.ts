@@ -2,6 +2,7 @@ import { CrudContract } from "../contracts/CrudContract";
 import JobPost from "../schemas/JobPost";
 import { errorLog } from "../../helpers/log";
 import { promiseNull } from "../../helpers/promise";
+import User from "../schemas/User";
 
 interface ISort {
   view_count?: "low_to_high" | "high_to_low";
@@ -22,11 +23,15 @@ interface IFilter {
   job_category?: string;
   benefit?: string;
   status?: string;
-  company?: string;
+  company_ref?: string;
+  company_name?: string;
   coordinate?: any;
   expire?: boolean;
   salary_min?: number;
   salary_max?: number;
+  except?: string;
+
+  suggestion?: string;
 }
 
 interface IGetBy {
@@ -63,9 +68,12 @@ function getCondition(filter: IFilter) {
   if (filter.benefit) {
     condition = Object.assign(condition, { "benefit.benefit_id": filter.benefit });
   }
-  if (filter.company) {
-    condition = Object.assign(condition, { "company.ref": filter.company });
+  if (filter.company_ref) {
+    condition = Object.assign(condition, { "company.ref": filter.company_ref });
+  } else if (filter.company_name) {
+    condition = Object.assign(condition, { "company.name": filter.company_name });
   }
+
   if (filter.user) {
     condition = Object.assign(condition, { user: filter.user });
   }
@@ -95,6 +103,9 @@ function getCondition(filter: IFilter) {
     } else {
       condition = Object.assign(condition, { end_date: { $gte: new Date() } });
     }
+  }
+  if (filter.except) {
+    condition = Object.assign(condition, { _id: { $ne: filter.except } });
   }
 
   return condition;
@@ -156,19 +167,33 @@ class JobPostRepository implements CrudContract {
     try {
       let condition = getCondition(filter);
       let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
-      return JobPost.find(condition, projection)
-        .sort(sort)
-        .skip(limit * (page - 1))
-        .limit(limit)
-        .populate("job_category")
-        .populate("job_level")
-        .populate("address.city")
-        .populate("address.district")
-        .populate("address.ward")
-        .populate("job_type")
-        .populate("benefit.benefit_id")
-        .populate("company.ref")
-        .populate("user");
+
+      if (filter.suggestion) {
+        return User.findById(filter.suggestion).then(r1 => {
+          let favorite_job = r1.info.favorite_job || [];
+          let job_category = favorite_job.map((item) => item.job_category);
+          return JobPost.find({ status: "active", job_category: { "$in": job_category } }, projection)
+            .sort(sort)
+            .skip(limit * (page - 1))
+            .limit(limit);
+        })
+      } else {
+        return JobPost.find(condition, projection)
+          .sort(sort)
+          .skip(limit * (page - 1))
+          .limit(limit)
+          .populate("job_category")
+          .populate("job_level")
+          .populate("address.city")
+          .populate("address.district")
+          .populate("address.ward")
+          .populate("job_type")
+          .populate("benefit.benefit_id")
+          .populate("company.ref")
+          .populate("user");
+      }
+
+
     } catch (e) {
       errorLog(e);
       return promiseNull();

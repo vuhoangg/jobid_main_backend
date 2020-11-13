@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 const Schema: any = mongoose.Schema;
 
-const communityAnswerSchema: any = new Schema(
+const communityPostAnswerSchema: any = new Schema(
     {
         user: {
             type: mongoose.Schema.Types.ObjectId,
@@ -15,7 +15,7 @@ const communityAnswerSchema: any = new Schema(
         },
         reply: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "CommunityAnswer"
+            ref: "CommunityPostAnswer"
         },
         description: {
             type: String,
@@ -33,5 +33,5 @@ const communityAnswerSchema: any = new Schema(
     { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );
 
-const CommunityAnswer = mongoose.model("CommunityAnswer", communityAnswerSchema);
-export default CommunityAnswer;
+const CommunityPostAnswer = mongoose.model("CommunityPostAnswer", communityPostAnswerSchema);
+export default CommunityPostAnswer;

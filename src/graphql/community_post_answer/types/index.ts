@@ -9,12 +9,12 @@ import {
 import { User } from "../../user/types";
 import { PageInfo } from "../../types";
 
-export const CommunityAnswer = new GraphQLObjectType({
+export const CommunityPostAnswer = new GraphQLObjectType({
     description: "Represents a benefit.",
     fields: {
         _id: { type: new GraphQLNonNull(GraphQLString) },
         user: { type: User },
-        question: { type: GraphQLString },
+        community_post: { type: GraphQLString },
         reply: { type: GraphQLString },
         description: { type: GraphQLString },
         like_count: { type: GraphQLInt },
@@ -22,43 +22,43 @@ export const CommunityAnswer = new GraphQLObjectType({
         created_at: { type: new GraphQLNonNull(GraphQLString) },
         updated_at: { type: new GraphQLNonNull(GraphQLString) },
     },
-    name: "CommunityAnswer",
+    name: "CommunityPostAnswer",
 });
-export const CommunityAnswerEdge = new GraphQLObjectType({
+export const CommunityPostAnswerEdge = new GraphQLObjectType({
     description: "A list of edges.",
     fields: {
         cursor: { type: new GraphQLNonNull(GraphQLString) },
         node: {
-            description: "The item at the end of CommunityAnswerEdge.",
+            description: "The item at the end of CommunityPostAnswerEdge.",
             resolve: (parent) => parent.node,
-            type: new GraphQLNonNull(CommunityAnswer),
+            type: new GraphQLNonNull(CommunityPostAnswer),
         },
     },
-    name: "CommunityAnswerEdge",
+    name: "CommunityPostAnswerEdge",
 });
-export const CommunityAnswerConnection = new GraphQLObjectType({
+export const CommunityPostAnswerConnection = new GraphQLObjectType({
     description: "List of benefits.",
     fields: {
         edges: {
             resolve: (parent) => parent.edges,
-            type: new GraphQLNonNull(new GraphQLList(CommunityAnswerEdge)),
+            type: new GraphQLNonNull(new GraphQLList(CommunityPostAnswerEdge)),
         },
         pageInfo: { type: new GraphQLNonNull(PageInfo) },
     },
-    name: "CommunityAnswerConnection",
+    name: "CommunityPostAnswerConnection",
 });
 
-export const CommunityAnswerInput = new GraphQLInputObjectType({
+export const CommunityPostAnswerInput = new GraphQLInputObjectType({
     fields: {
         _id: { type: GraphQLString },
-        question: { type: GraphQLString },
+        community_post: { type: GraphQLString },
         reply: { type: GraphQLString },
         description: { type: GraphQLString },
     },
-    name: "CommunityAnswerInput",
+    name: "CommunityPostAnswerInput",
     description: "The updated properties for a benefit.",
 });
 
-export const CommunityAnswerArguments = {
+export const CommunityPostAnswerArguments = {
     _id: { type: GraphQLString },
 };

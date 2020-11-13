@@ -99,6 +99,51 @@ class CommunityPostRepository {
             return promise_1.promiseNull();
         }
     }
+    increaseAnswerCount(_id) {
+        try {
+            return CommunityPost_1.default.findByIdAndUpdate(_id, { $inc: { answer_count: 1 } }, { new: true });
+        }
+        catch (e) {
+            log_1.errorLog(e);
+            return promise_1.promiseNull();
+        }
+    }
+    decreaseAnswerCount(_id) {
+        try {
+            return CommunityPost_1.default.findByIdAndUpdate(_id, { $inc: { answer_count: -1 } }, { new: true });
+        }
+        catch (e) {
+            log_1.errorLog(e);
+            return promise_1.promiseNull();
+        }
+    }
+    increaseLike(_id) {
+        try {
+            return CommunityPost_1.default.findByIdAndUpdate(_id, { $inc: { like_count: 1 } }, { new: true });
+        }
+        catch (e) {
+            log_1.errorLog(e);
+            return promise_1.promiseNull();
+        }
+    }
+    decreaseLike(_id) {
+        try {
+            return CommunityPost_1.default.findByIdAndUpdate(_id, { $inc: { like_count: -1 } }, { new: true });
+        }
+        catch (e) {
+            log_1.errorLog(e);
+            return promise_1.promiseNull();
+        }
+    }
+    increaseViewCountBySlug(slug) {
+        try {
+            return CommunityPost_1.default.findOneAndUpdate({ slug: slug }, { $inc: { view_count: 1 } }, { new: true });
+        }
+        catch (e) {
+            log_1.errorLog(e);
+            return promise_1.promiseNull();
+        }
+    }
 }
 const CommunityPostService = new CommunityPostRepository();
 exports.default = CommunityPostService;

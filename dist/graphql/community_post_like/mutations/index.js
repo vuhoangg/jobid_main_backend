@@ -14,6 +14,11 @@ const communityPostLikeMutations = {
         resolve: (source, args, context, info) => update_1.createCommunityPostLike(source, args, context, info),
         type: new graphql_1.GraphQLNonNull(types_1.CommunityPostLike),
     },
+    communityPostLikeDelete: {
+        args: { input: { type: graphql_1.GraphQLNonNull(types_1.CommunityPostLikeInput) } },
+        resolve: (source, args, context, info) => update_1.deleteCommunityPostLike(source, args, context, info),
+        type: types_1.CommunityPostLike,
+    },
 };
 exports.default = communityPostLikeMutations;
 //# sourceMappingURL=index.js.map

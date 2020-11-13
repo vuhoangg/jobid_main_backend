@@ -11,7 +11,7 @@ interface ISort {
 interface IFilter {
     sort_by?: ISort;
     user?: string;
-    question?: string;
+    community_post?: string;
 }
 
 interface IGetBy {
@@ -23,8 +23,8 @@ function getCondition(filter: IFilter) {
     if (filter.user) {
         condition = Object.assign(condition, { user: filter.user });
     }
-    if (filter.question) {
-        condition = Object.assign(condition, { question: filter.question });
+    if (filter.community_post) {
+        condition = Object.assign(condition, { community_post: filter.community_post });
     }
     return condition;
 }

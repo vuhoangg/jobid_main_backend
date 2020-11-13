@@ -23,7 +23,10 @@ exports.createCompanyFollow = (source, args, context, info) => __awaiter(void 0,
         let input = args.input;
         input = Object.assign(input, { user: loggedUser._id });
         let r1 = yield CompanyFollowRepository_1.default.getBy(input, {});
-        if (!r1) {
+        if (r1) {
+            return r1;
+        }
+        else {
             let r2 = yield CompanyFollowRepository_1.default.create(input);
             yield CompanyRepository_1.default.increaseFollow(input.company);
             return r2;

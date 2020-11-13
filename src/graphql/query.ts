@@ -44,7 +44,8 @@ import communityTagQueries from "./community_tag/queries";
 import communityCategoryQueries from "./community_category/queries";
 import communityPostQueries from "./community_post/queries";
 import communityPostLikeQueries from "./community_post_like/queries";
-import communityAnswerQueries from "./community_answer/queries";
+import communityPostAnswerQueries from "./community_post_answer/queries";
+import bannerQueries from "./banner/queries";
 
 const QueryRoot = new GraphQLObjectType({
   fields: {
@@ -96,7 +97,8 @@ const QueryRoot = new GraphQLObjectType({
     ...communityCategoryQueries,
     ...communityPostQueries,
     ...communityPostLikeQueries,
-    ...communityAnswerQueries,
+    ...communityPostAnswerQueries,
+    ...bannerQueries
   },
   name: "QueryRoot",
 });

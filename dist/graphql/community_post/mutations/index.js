@@ -14,6 +14,11 @@ const communityPostMutations = {
         resolve: (source, args, context, info) => update_1.createCommunityPost(source, args, context, info),
         type: new graphql_1.GraphQLNonNull(types_1.CommunityPost),
     },
+    communityPostTrackingBySlug: {
+        args: { input: { type: graphql_1.GraphQLNonNull(types_1.CommunityPostTrackingBySlugInput) } },
+        resolve: (source, args, context, info) => update_1.trackingBySlug(source, args, context, info),
+        type: new graphql_1.GraphQLNonNull(types_1.CommunityPostTrackingBySlug),
+    }
 };
 exports.default = communityPostMutations;
 //# sourceMappingURL=index.js.map

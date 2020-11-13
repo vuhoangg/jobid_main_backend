@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CommunityPostArguments = exports.CommunityPostInput = exports.CommunityPostConnection = exports.CommunityPostEdge = exports.CommunityPost = void 0;
+exports.CommunityPostArguments = exports.CommunityPostTrackingBySlugInput = exports.CommunityPostTrackingBySlug = exports.CommunityPostInput = exports.CommunityPostConnection = exports.CommunityPostEdge = exports.CommunityPost = void 0;
 const graphql_1 = require("graphql");
 const types_1 = require("../../user/types");
 const types_2 = require("../../types");
@@ -17,6 +17,7 @@ exports.CommunityPost = new graphql_1.GraphQLObjectType({
         community_tag: { type: new graphql_1.GraphQLList(types_4.CommunityTag) },
         description: { type: graphql_1.GraphQLString },
         like_count: { type: graphql_1.GraphQLInt },
+        is_like: { type: graphql_1.GraphQLBoolean },
         view_count: { type: graphql_1.GraphQLInt },
         answer_count: { type: graphql_1.GraphQLInt },
         status: { type: graphql_1.GraphQLString },
@@ -61,6 +62,20 @@ exports.CommunityPostInput = new graphql_1.GraphQLInputObjectType({
     },
     name: "CommunityPostInput",
     description: "The updated properties for a benefit.",
+});
+exports.CommunityPostTrackingBySlug = new graphql_1.GraphQLObjectType({
+    fields: {
+        status: { type: graphql_1.GraphQLBoolean },
+    },
+    name: "CommunityPostTrackingBySlug",
+    description: "Represents a community post tracking"
+});
+exports.CommunityPostTrackingBySlugInput = new graphql_1.GraphQLInputObjectType({
+    fields: {
+        slug: { type: graphql_1.GraphQLString },
+    },
+    name: "CommunityPostTrackingBySlugInput",
+    description: "The updated properties for a community post tracking."
 });
 exports.CommunityPostArguments = {
     _id: { type: graphql_1.GraphQLString },

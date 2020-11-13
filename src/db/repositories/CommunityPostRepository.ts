@@ -118,6 +118,49 @@ class CommunityPostRepository implements CrudContract {
             return promiseNull();
         }
     }
+
+    increaseAnswerCount(_id) {
+        try {
+            return CommunityPost.findByIdAndUpdate(_id, { $inc: { answer_count: 1 } }, { new: true });
+        } catch (e) {
+            errorLog(e);
+            return promiseNull();
+        }
+    }
+    decreaseAnswerCount(_id) {
+        try {
+            return CommunityPost.findByIdAndUpdate(_id, { $inc: { answer_count: -1 } }, { new: true });
+        } catch (e) {
+            errorLog(e);
+            return promiseNull();
+        }
+    }
+
+    increaseLike(_id) {
+        try {
+            return CommunityPost.findByIdAndUpdate(_id, { $inc: { like_count: 1 } }, { new: true });
+        } catch (e) {
+            errorLog(e);
+            return promiseNull();
+        }
+    }
+    decreaseLike(_id) {
+        try {
+            return CommunityPost.findByIdAndUpdate(_id, { $inc: { like_count: -1 } }, { new: true });
+        } catch (e) {
+            errorLog(e);
+            return promiseNull();
+        }
+    }
+
+    increaseViewCountBySlug(slug) {
+        try {
+            return CommunityPost.findOneAndUpdate({ slug: slug }, { $inc: { view_count: 1 } }, { new: true });
+        } catch (e) {
+            errorLog(e);
+            return promiseNull();
+        }
+    }
 }
 
 const CommunityPostService = new CommunityPostRepository();

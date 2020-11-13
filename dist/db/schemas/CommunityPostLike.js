@@ -6,13 +6,11 @@ const Schema = mongoose.Schema;
 const communityPostLikeSchema = new Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        index: true,
         ref: 'User'
     },
-    question: {
+    community_post: {
         type: mongoose.Schema.Types.ObjectId,
-        index: true,
-        ref: 'Question'
+        ref: 'CommunityPost'
     },
 }, { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } });
 const CommunityPostLike = mongoose.model("CommunityPostLike", communityPostLikeSchema);

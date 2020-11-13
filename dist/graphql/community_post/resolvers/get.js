@@ -13,12 +13,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCommunityPosts = exports.getCommunityPost = void 0;
+const CommunityPostLikeRepository_1 = __importDefault(require("../../../db/repositories/CommunityPostLikeRepository"));
 const CommunityPostRepository_1 = __importDefault(require("../../../db/repositories/CommunityPostRepository"));
+const authenticate_1 = require("../../../middlewares/authenticate");
 const helpers_1 = require("../../helpers");
 exports.getCommunityPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     const fields = helpers_1.rootField(info);
     let getBy = args._id ? { _id: args._id } : { slug: args.slug };
     let communityPost = yield CommunityPostRepository_1.default.getBy(getBy, fields);
+    let is_like = false;
+    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+    if (isAuthenticated) {
+        let loggedUser = context.res.locals.fullUser;
+        is_like = !!(yield CommunityPostLikeRepository_1.default.count({ community_post: communityPost._id, user: loggedUser._id }));
+    }
     let node = {
         _id: communityPost._id,
         user: communityPost.user,
@@ -28,6 +36,7 @@ exports.getCommunityPost = (source, args, context, info) => __awaiter(void 0, vo
         community_tag: communityPost.community_tag,
         description: communityPost.description,
         like_count: communityPost.like_count,
+        is_like: is_like,
         view_count: communityPost.view_count,
         answer_count: communityPost.answer_count,
         status: communityPost.status,
@@ -43,8 +52,14 @@ exports.getCommunityPosts = (source, args, context, info) => __awaiter(void 0, v
     let filter = helpers_1.filterObject(args.filter);
     let page = args.page > 50 ? 10 : args.page;
     let communityPosts = yield CommunityPostRepository_1.default.filter(filter, args.limit, page, infos.edges);
+    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
     let edges = [];
     for (let i = 0; i < communityPosts.length; i++) {
+        let is_like = false;
+        if (isAuthenticated) {
+            let loggedUser = context.res.locals.fullUser;
+            is_like = !!(yield CommunityPostLikeRepository_1.default.count({ community_post: communityPosts[i]._id, user: loggedUser._id }));
+        }
         let communityPost = {
             cursor: communityPosts[i]._id,
             node: {
@@ -56,6 +71,7 @@ exports.getCommunityPosts = (source, args, context, info) => __awaiter(void 0, v
                 community_tag: communityPosts[i].community_tag,
                 description: communityPosts[i].description,
                 like_count: communityPosts[i].like_count,
+                is_like: is_like,
                 view_count: communityPosts[i].view_count,
                 answer_count: communityPosts[i].answer_count,
                 status: communityPosts[i].status,

@@ -5,6 +5,7 @@ import {
     GraphQLNonNull,
     GraphQLObjectType,
     GraphQLString,
+    GraphQLBoolean
 } from "graphql";
 import { User } from "../../user/types";
 import { PageInfo } from "../../types";
@@ -22,6 +23,7 @@ export const CommunityPost = new GraphQLObjectType({
         community_tag: { type: new GraphQLList(CommunityTag) },
         description: { type: GraphQLString },
         like_count: { type: GraphQLInt },
+        is_like: { type: GraphQLBoolean },
         view_count: { type: GraphQLInt },
         answer_count: { type: GraphQLInt },
         status: { type: GraphQLString },
@@ -67,6 +69,22 @@ export const CommunityPostInput = new GraphQLInputObjectType({
     },
     name: "CommunityPostInput",
     description: "The updated properties for a benefit.",
+});
+
+export const CommunityPostTrackingBySlug = new GraphQLObjectType({
+    fields: {
+        status: { type: GraphQLBoolean },
+    },
+    name: "CommunityPostTrackingBySlug",
+    description: "Represents a community post tracking"
+})
+
+export const CommunityPostTrackingBySlugInput = new GraphQLInputObjectType({
+    fields: {
+        slug: { type: GraphQLString },
+    },
+    name: "CommunityPostTrackingBySlugInput",
+    description: "The updated properties for a community post tracking."
 });
 
 export const CommunityPostArguments = {

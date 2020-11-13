@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const JobPost_1 = __importDefault(require("../schemas/JobPost"));
 const log_1 = require("../../helpers/log");
 const promise_1 = require("../../helpers/promise");
+const User_1 = __importDefault(require("../schemas/User"));
 function getCondition(filter) {
     let condition = {};
     if (filter.title) {
@@ -35,8 +36,11 @@ function getCondition(filter) {
     if (filter.benefit) {
         condition = Object.assign(condition, { "benefit.benefit_id": filter.benefit });
     }
-    if (filter.company) {
-        condition = Object.assign(condition, { "company.ref": filter.company });
+    if (filter.company_ref) {
+        condition = Object.assign(condition, { "company.ref": filter.company_ref });
+    }
+    else if (filter.company_name) {
+        condition = Object.assign(condition, { "company.name": filter.company_name });
     }
     if (filter.user) {
         condition = Object.assign(condition, { user: filter.user });
@@ -60,6 +64,9 @@ function getCondition(filter) {
         else {
             condition = Object.assign(condition, { end_date: { $gte: new Date() } });
         }
+    }
+    if (filter.except) {
+        condition = Object.assign(condition, { _id: { $ne: filter.except } });
     }
     return condition;
 }
@@ -118,19 +125,31 @@ class JobPostRepository {
         try {
             let condition = getCondition(filter);
             let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
-            return JobPost_1.default.find(condition, projection)
-                .sort(sort)
-                .skip(limit * (page - 1))
-                .limit(limit)
-                .populate("job_category")
-                .populate("job_level")
-                .populate("address.city")
-                .populate("address.district")
-                .populate("address.ward")
-                .populate("job_type")
-                .populate("benefit.benefit_id")
-                .populate("company.ref")
-                .populate("user");
+            if (filter.suggestion) {
+                return User_1.default.findById(filter.suggestion).then(r1 => {
+                    let favorite_job = r1.info.favorite_job || [];
+                    let job_category = favorite_job.map((item) => item.job_category);
+                    return JobPost_1.default.find({ status: "active", job_category: { "$in": job_category } }, projection)
+                        .sort(sort)
+                        .skip(limit * (page - 1))
+                        .limit(limit);
+                });
+            }
+            else {
+                return JobPost_1.default.find(condition, projection)
+                    .sort(sort)
+                    .skip(limit * (page - 1))
+                    .limit(limit)
+                    .populate("job_category")
+                    .populate("job_level")
+                    .populate("address.city")
+                    .populate("address.district")
+                    .populate("address.ward")
+                    .populate("job_type")
+                    .populate("benefit.benefit_id")
+                    .populate("company.ref")
+                    .populate("user");
+            }
         }
         catch (e) {
             log_1.errorLog(e);

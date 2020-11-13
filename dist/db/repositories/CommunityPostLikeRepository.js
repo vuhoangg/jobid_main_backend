@@ -11,8 +11,8 @@ function getCondition(filter) {
     if (filter.user) {
         condition = Object.assign(condition, { user: filter.user });
     }
-    if (filter.question) {
-        condition = Object.assign(condition, { question: filter.question });
+    if (filter.community_post) {
+        condition = Object.assign(condition, { community_post: filter.community_post });
     }
     return condition;
 }

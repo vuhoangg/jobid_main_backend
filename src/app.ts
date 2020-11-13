@@ -25,7 +25,9 @@ import {
 } from "./modules/auth/handles";
 Connection.connect();
 const app = express();
-const upload = multer();
+const upload = multer({
+  limits: { fieldSize: 50 * 1024 * 1024 }
+});
 
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));

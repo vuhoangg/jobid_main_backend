@@ -39,7 +39,8 @@ import communityTagMutations from "./community_tag/mutations";
 import communityCategoryMutations from "./community_category/mutations";
 import communityPostMutations from "./community_post/mutations";
 import communityPostLikeMutations from "./community_post_like/mutations";
-import communityAnswerMutations from "./community_answer/mutations";
+import communityPostAnswerMutations from "./community_post_answer/mutations";
+import bannerMutations from "./banner/mutations";
 
 const Mutation = new GraphQLObjectType({
   fields: {
@@ -86,7 +87,8 @@ const Mutation = new GraphQLObjectType({
     ...communityCategoryMutations,
     ...communityPostMutations,
     ...communityPostLikeMutations,
-    ...communityAnswerMutations,
+    ...communityPostAnswerMutations,
+    ...bannerMutations
   },
   name: "Mutation",
 });

@@ -12,8 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createCommunityPost = exports.updateCommunityPost = void 0;
+exports.trackingBySlug = exports.createCommunityPost = exports.updateCommunityPost = void 0;
 const CommunityPostRepository_1 = __importDefault(require("../../../db/repositories/CommunityPostRepository"));
+const CommunityPostViewRepository_1 = __importDefault(require("../../../db/repositories/CommunityPostViewRepository"));
 const string_1 = require("../../../helpers/string");
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.updateCommunityPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
@@ -36,5 +37,21 @@ exports.createCommunityPost = (source, args, context, info) => __awaiter(void 0,
         input = Object.assign(input, { user: loggedUser._id, slug: slug });
         return CommunityPostRepository_1.default.create(input);
     }
+});
+exports.trackingBySlug = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let input = args.input;
+    let community_post = yield CommunityPostRepository_1.default.increaseViewCountBySlug(input.slug);
+    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+    if (isAuthenticated) {
+        let loggedUser = context.res.locals.fullUser;
+        let payload = {
+            community_post: community_post._id,
+            user: loggedUser._id,
+        };
+        yield CommunityPostViewRepository_1.default.create(payload);
+    }
+    return {
+        status: true
+    };
 });
 //# sourceMappingURL=update.js.map

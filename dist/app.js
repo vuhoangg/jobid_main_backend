@@ -31,7 +31,9 @@ const schema_1 = __importDefault(require("./schema"));
 const handles_1 = require("./modules/auth/handles");
 connection_1.Connection.connect();
 const app = express_1.default();
-const upload = multer_1.default();
+const upload = multer_1.default({
+    limits: { fieldSize: 50 * 1024 * 1024 }
+});
 app.use(body_parser_1.default.json({ limit: "50mb" }));
 app.use(body_parser_1.default.urlencoded({ limit: "50mb", extended: true }));
 app.use(upload.array());

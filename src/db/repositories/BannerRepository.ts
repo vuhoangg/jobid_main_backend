@@ -1,5 +1,5 @@
 import { CrudContract } from "../contracts/CrudContract";
-import CommunityAnswer from "../schemas/CommunityAnswer";
+import Banner from "../schemas/Banner";
 import { errorLog } from "../../helpers/log";
 import { promiseNull } from "../../helpers/promise";
 
@@ -10,27 +10,21 @@ interface ISort {
 
 interface IFilter {
     sort_by?: ISort;
-    user?: string;
-    community_question?: string;
+    status?: string;
+    random: boolean;
 }
 
 interface IGetBy {
     _id?: string;
-    community_question?: string;
-    user?: string;
 }
 
 function getCondition(filter: IFilter) {
     let condition = {};
-    if (filter.user) {
-        condition = Object.assign(condition, { user: filter.user });
-    }
-    if (filter.community_question) {
-        condition = Object.assign(condition, { community_question: filter.community_question });
+    if (filter.status) {
+        condition = Object.assign(condition, { status: filter.status });
     }
     return condition;
 }
-
 
 function getSort(sortBy: ISort) {
     let sort = {};
@@ -43,12 +37,11 @@ function getSort(sortBy: ISort) {
     return sort;
 }
 
-
-class CommunityAnswerRepository implements CrudContract {
+class BannerRepository implements CrudContract {
     count(filter: IFilter) {
         try {
             let condition = getCondition(filter);
-            return CommunityAnswer.countDocuments(condition);
+            return Banner.countDocuments(condition);
         } catch (e) {
             errorLog(e);
             return promiseNull();
@@ -57,7 +50,7 @@ class CommunityAnswerRepository implements CrudContract {
 
     create(data) {
         try {
-            return CommunityAnswer.create(data);
+            return Banner.create(data);
         } catch (e) {
             errorLog(e);
             return promiseNull();
@@ -66,7 +59,7 @@ class CommunityAnswerRepository implements CrudContract {
 
     delete(id) {
         try {
-            return CommunityAnswer.findByIdAndRemove(id);
+            return Banner.findByIdAndRemove(id);
         } catch (e) {
             errorLog(e);
             return promiseNull();
@@ -75,7 +68,7 @@ class CommunityAnswerRepository implements CrudContract {
 
     get(id, projection) {
         try {
-            return CommunityAnswer.findById(id, projection);
+            return Banner.findById(id, projection);
         } catch (e) {
             errorLog(e);
             return promiseNull();
@@ -86,8 +79,14 @@ class CommunityAnswerRepository implements CrudContract {
         try {
             let condition = getCondition(filter);
             let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
-            return CommunityAnswer.find(condition, projection).sort(sort).skip(limit * (page - 1)).limit(limit)
-                .populate("community_question");
+            if (filter.random) {
+                return Banner.count(condition).then(r1 => {
+                    let rd = Math.floor(Math.random() * count);
+                    return Banner.find(condition, projection).sort(sort).skip(rd).limit(limit);
+                })
+            } else {
+                return Banner.find(condition, projection).sort(sort).skip(limit * (page - 1)).limit(limit);
+            }
         } catch (e) {
             errorLog(e);
             return promiseNull();
@@ -96,7 +95,11 @@ class CommunityAnswerRepository implements CrudContract {
 
     getBy(getBy: IGetBy, projection) {
         try {
-            return CommunityAnswer.findOne(getBy, projection);
+            if (getBy._id) {
+                return Banner.findById(getBy._id, projection);
+            } else {
+                return promiseNull();
+            }
         } catch (e) {
             errorLog(e);
             return promiseNull();
@@ -105,7 +108,7 @@ class CommunityAnswerRepository implements CrudContract {
 
     update(data) {
         try {
-            return CommunityAnswer.findByIdAndUpdate(data._id, data, { new: true });
+            return Banner.findByIdAndUpdate(data._id, data, { new: true });
         } catch (e) {
             errorLog(e);
             return promiseNull();
@@ -113,5 +116,5 @@ class CommunityAnswerRepository implements CrudContract {
     }
 }
 
-const CommunityAnswerService = new CommunityAnswerRepository();
-export default CommunityAnswerService;
+const BannerService = new BannerRepository();
+export default BannerService;
