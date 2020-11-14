@@ -19,7 +19,7 @@ const communityPostAnswerSchema: any = new Schema(
         },
         description: {
             type: String,
-            default: "",
+            require: true,
         },
         like_count: {
             type: Number,

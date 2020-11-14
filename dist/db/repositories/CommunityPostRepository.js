@@ -17,6 +17,12 @@ function getCondition(filter) {
     if (filter.status) {
         condition = Object.assign(condition, { status: filter.status });
     }
+    if (filter.community_category) {
+        condition = Object.assign(condition, { community_category: filter.community_category });
+    }
+    if (filter.except) {
+        condition = Object.assign(condition, { _id: { $ne: filter.except } });
+    }
     return condition;
 }
 function getSort(sortBy) {
@@ -73,8 +79,18 @@ class CommunityPostRepository {
     filter(filter, limit, page, projection) {
         try {
             let condition = getCondition(filter);
-            let sort = filter.sort_by ? getSort(filter.sort_by) : { created_at: "desc" };
-            return CommunityPost_1.default.find(condition, projection).sort(sort).skip(limit * (page - 1)).limit(limit).populate('user');
+            let sort = filter.sort_by ? getSort(filter.sort_by) : { updated_at: "desc" };
+            if (filter.suggestion) {
+                return CommunityPost_1.default.findById(filter.suggestion, {}).then(r1 => {
+                    return CommunityPost_1.default.find({
+                        _id: { $ne: r1._id },
+                        community_category: r1.community_category
+                    }, projection).sort(sort).skip(limit * (page - 1)).limit(limit).populate('user').populate('community_category');
+                });
+            }
+            else {
+                return CommunityPost_1.default.find(condition, projection).sort(sort).skip(limit * (page - 1)).limit(limit).populate('user').populate('community_category');
+            }
         }
         catch (e) {
             log_1.errorLog(e);

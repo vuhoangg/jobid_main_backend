@@ -12,12 +12,10 @@ const communityPostSchema = new Schema({
         type: String,
         default: "",
     },
-    community_category: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "CommunityCategory"
-        }
-    ],
+    community_category: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "CommunityCategory"
+    },
     slug: {
         type: String,
         require: true,
