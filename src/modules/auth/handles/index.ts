@@ -23,9 +23,13 @@ export const saveNewGoogleUser = (profile) => {
   let payload = {
     first_name: profile.name.familyName,
     last_name: profile.name.givenName,
-    full_name: `${profile.name.familyName.trim()} ${profile.name.givenName.trim()}`,
+    full_name: `${profile.name.familyName} ${profile.name.givenName}`.trim(),
     email: profile.emails[0].value,
     avatar: profile.photos[0].value,
+    info: {
+      name: `${profile.name.familyName} ${profile.name.givenName}`.trim(),
+      avatar: profile.photos[0].value,
+    },
     login_type: "google",
     user_chiase: mongoose.Types.ObjectId(),
   };
@@ -37,7 +41,7 @@ export const saveNewGoogleEmployer = (profile) => {
   let payload = {
     first_name: profile.name.familyName,
     last_name: profile.name.givenName,
-    full_name: `${profile.name.familyName.trim()} ${profile.name.givenName.trim()}`,
+    full_name: `${profile.name.familyName} ${profile.name.givenName}`.trim(),
     email: profile.emails[0].value,
     avatar: profile.photos[0].value,
     login_type: "google",
@@ -50,11 +54,15 @@ export const saveNewFacebookUser = (profile: any) => {
   let payload = {
     first_name: profile.name.familyName,
     last_name: profile.name.givenName,
-    full_name: `${profile.name.familyName.trim()} ${profile.name.givenName.trim()}`,
+    full_name: `${profile.name.familyName} ${profile.name.givenName}`.trim(),
     avatar: profile.photos[0].value,
     // facebook_link: profile.profileUrl,
     // gender: profile.gender,
     email: profile.emails[0].value,
+    info: {
+      name: `${profile.name.familyName} ${profile.name.givenName}`.trim(),
+      avatar: profile.photos[0].value,
+    },
     login_type: "facebook",
     user_chiaser: mongoose.Types.ObjectId(),
   };
