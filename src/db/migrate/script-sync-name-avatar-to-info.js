@@ -17,8 +17,8 @@ const syncNameAvatar = async () => {
 
     await Promise.all(
         users.map((user) => {
-            return dbKetnoiviec.collection("users").findByIdAndUpdate(
-                user._id,
+            return dbKetnoiviec.collection("users").updateMany(
+                { _id: user._id },
                 {
                     $set: {
                         "info.avatar": user.avatar,
