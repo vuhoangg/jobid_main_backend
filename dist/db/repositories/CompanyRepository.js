@@ -41,6 +41,9 @@ function getSort(sortBy) {
     if (sortBy.follow) {
         sort = Object.assign(sort, { follow: sortBy.follow === "high_to_low" ? "desc" : "asc" });
     }
+    if (sortBy.hot) {
+        sort = Object.assign(sort, { follow: sortBy.follow === "high_to_low" ? "desc" : "asc" });
+    }
     return sort;
 }
 class CompanyRepository {

@@ -81,6 +81,12 @@ function getSort(sortBy) {
     if (sortBy.view_count) {
         sort = Object.assign(sort, { view_count: sortBy.view_count === "high_to_low" ? "desc" : "asc" });
     }
+    if (sortBy.salary) {
+        sort = Object.assign(sort, { "salary.max": sortBy.salary === "high_to_low" ? "desc" : "asc" });
+    }
+    if (sortBy.hot) {
+        sort = Object.assign(sort, { view_count: sortBy.salary === "high_to_low" ? "desc" : "asc" });
+    }
     return sort;
 }
 class JobPostRepository {
