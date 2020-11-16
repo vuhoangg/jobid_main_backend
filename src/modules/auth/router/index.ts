@@ -4,8 +4,9 @@ import UserService from "../../../db/repositories/UserRepository";
 import { authenticateUser } from "../../../middlewares/authenticate";
 import { handleTokenAuthUser } from "../handles";
 
-const router = express.Router();
 import passport from "passport";
+import EmployerService from "../../../db/repositories/EmployerRepository";
+const router = express.Router();
 
 router.get(
   "/user/google",
@@ -39,7 +40,7 @@ router.get(
   "/employer/google/callback",
   passport.authenticate("google_employer", { failureRedirect: "/employer/login" }),
   async (req: any, res) => {
-    const accessToken = req.user.accessToken;
+    const accessToken = req.employer.accessToken;
     res.cookie("employer_accessToken", accessToken, {
       domain: process.env.COOKIE_SHARE_DOMAIN,
       httpOnly: true,
@@ -59,7 +60,7 @@ router.get(
       const accessToken = req.user.accessToken;
       res.cookie("knv_accessToken", accessToken, {
         domain: process.env.COOKIE_SHARE_DOMAIN,
-        httpOnly: false,
+        httpOnly: true,
         path: "/",
       });
     }
@@ -72,7 +73,7 @@ router.get("/user/zalo/callback", passport.authenticate("zalo", { failureRedirec
   res.cookie("user", req.user, {
     domain: process.env.COOKIE_SHARE_DOMAIN,
     maxAge: parseInt(process.env.COOKIE_AGE),
-    httpOnly: false,
+    httpOnly: true,
   });
   res.redirect(process.env.SITE_URL);
 });
@@ -97,17 +98,56 @@ router.post(
   }
 );
 
+router.post(
+  "/employer/login",
+  (req, res, next) => {
+    if (!req.cookies.employer_accessToken) {
+      res.status(200).json({});
+    } else {
+      next();
+    }
+  },
+  async (req, res) => {
+    if (await authenticateUser(req, res)) {
+      const employer_id = res.locals.employer;
+      const employer = await EmployerService.getById(employer_id);
+      res.json({ employer });
+    } else {
+      res.json({});
+    }
+  }
+);
+
 router.post("/user/logout", async (req, res) => {
   if (await authenticateUser(req, res)) {
     const user_id = res.locals.user;
     await UserService.logout(user_id);
-    res.clearCookie("knv_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: false });
+    res.clearCookie("knv_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: true });
+    res.status(200).json("ok");
+  }
+});
+
+router.post("/employer/logout", async (req, res) => {
+  if (await authenticateUser(req, res)) {
+    const employer_id = res.locals.employer;
+    await EmployerService.logout(employer_id);
+    res.clearCookie("employer_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: true });
     res.status(200).json("ok");
   }
 });
 
 router.post("/user/refresh-token", async (req, res) => {
   const user = await UserService.findUserRefreshToken(req.body.accessToken);
+  if (user) {
+    const accessToken = await handleTokenAuthUser(user);
+    res.json({ user_id: user.user_chiase, accessToken });
+  } else {
+    res.end();
+  }
+});
+
+router.post("/employer/refresh-token", async (req, res) => {
+  const user = await EmployerService.findEmployerRefreshToken(req.body.accessToken);
   if (user) {
     const accessToken = await handleTokenAuthUser(user);
     res.json({ user_id: user.user_chiase, accessToken });

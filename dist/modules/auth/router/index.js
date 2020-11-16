@@ -17,9 +17,10 @@ const express_1 = __importDefault(require("express"));
 const UserRepository_1 = __importDefault(require("../../../db/repositories/UserRepository"));
 const authenticate_1 = require("../../../middlewares/authenticate");
 const handles_1 = require("../handles");
+const passport_1 = __importDefault(require("passport"));
+const EmployerRepository_1 = __importDefault(require("../../../db/repositories/EmployerRepository"));
 const router = express_1.default.Router();
 exports.AuthRouter = router;
-const passport_1 = __importDefault(require("passport"));
 router.get("/user/google", passport_1.default.authenticate("google_user", {
     scope: ["profile", "email"],
 }));
@@ -36,7 +37,7 @@ router.get("/user/google/callback", passport_1.default.authenticate("google_user
     res.redirect(`${process.env.SITE_URL}`);
 }));
 router.get("/employer/google/callback", passport_1.default.authenticate("google_employer", { failureRedirect: "/employer/login" }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const accessToken = req.user.accessToken;
+    const accessToken = req.employer.accessToken;
     res.cookie("employer_accessToken", accessToken, {
         domain: process.env.COOKIE_SHARE_DOMAIN,
         httpOnly: true,
@@ -51,7 +52,7 @@ router.get("/user/facebook/callback", passport_1.default.authenticate("facebook"
         const accessToken = req.user.accessToken;
         res.cookie("knv_accessToken", accessToken, {
             domain: process.env.COOKIE_SHARE_DOMAIN,
-            httpOnly: false,
+            httpOnly: true,
             path: "/",
         });
     }
@@ -62,7 +63,7 @@ router.get("/user/zalo/callback", passport_1.default.authenticate("zalo", { fail
     res.cookie("user", req.user, {
         domain: process.env.COOKIE_SHARE_DOMAIN,
         maxAge: parseInt(process.env.COOKIE_AGE),
-        httpOnly: false,
+        httpOnly: true,
     });
     res.redirect(process.env.SITE_URL);
 }));
@@ -83,16 +84,51 @@ router.post("/user/login", (req, res, next) => {
         res.json({});
     }
 }));
+router.post("/employer/login", (req, res, next) => {
+    if (!req.cookies.employer_accessToken) {
+        res.status(200).json({});
+    }
+    else {
+        next();
+    }
+}, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield authenticate_1.authenticateUser(req, res)) {
+        const employer_id = res.locals.employer;
+        const employer = yield EmployerRepository_1.default.getById(employer_id);
+        res.json({ employer });
+    }
+    else {
+        res.json({});
+    }
+}));
 router.post("/user/logout", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (yield authenticate_1.authenticateUser(req, res)) {
         const user_id = res.locals.user;
         yield UserRepository_1.default.logout(user_id);
-        res.clearCookie("knv_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: false });
+        res.clearCookie("knv_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: true });
+        res.status(200).json("ok");
+    }
+}));
+router.post("/employer/logout", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield authenticate_1.authenticateUser(req, res)) {
+        const employer_id = res.locals.employer;
+        yield EmployerRepository_1.default.logout(employer_id);
+        res.clearCookie("employer_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: true });
         res.status(200).json("ok");
     }
 }));
 router.post("/user/refresh-token", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield UserRepository_1.default.findUserRefreshToken(req.body.accessToken);
+    if (user) {
+        const accessToken = yield handles_1.handleTokenAuthUser(user);
+        res.json({ user_id: user.user_chiase, accessToken });
+    }
+    else {
+        res.end();
+    }
+}));
+router.post("/employer/refresh-token", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield EmployerRepository_1.default.findEmployerRefreshToken(req.body.accessToken);
     if (user) {
         const accessToken = yield handles_1.handleTokenAuthUser(user);
         res.json({ user_id: user.user_chiase, accessToken });

@@ -97,6 +97,7 @@ class JobApplyRepository {
                     { path: "job_type" }
                 ]
             })
+                .populate("user")
                 .sort(sort)
                 .skip(limit * (page - 1))
                 .limit(limit);
