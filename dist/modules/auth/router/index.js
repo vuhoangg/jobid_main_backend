@@ -28,7 +28,7 @@ router.get("/employer/google", passport_1.default.authenticate("google_employer"
     scope: ["profile", "email"],
 }));
 router.get("/user/google/callback", passport_1.default.authenticate("google_user", { failureRedirect: "/user/login" }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const accessToken = req.user.accessToken;
+    const accessToken = req.user.user.accessToken;
     res.cookie("knv_accessToken", accessToken, {
         domain: process.env.COOKIE_SHARE_DOMAIN,
         httpOnly: true,
@@ -37,7 +37,7 @@ router.get("/user/google/callback", passport_1.default.authenticate("google_user
     res.redirect(`${process.env.SITE_URL}`);
 }));
 router.get("/employer/google/callback", passport_1.default.authenticate("google_employer", { failureRedirect: "/employer/login" }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const accessToken = req.employer.accessToken;
+    const accessToken = req.user.employer.accessToken;
     res.cookie("employer_accessToken", accessToken, {
         domain: process.env.COOKIE_SHARE_DOMAIN,
         httpOnly: true,
@@ -75,7 +75,8 @@ router.post("/user/login", (req, res, next) => {
         next();
     }
 }, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(req, res)) {
+    let isAuthenticated = yield authenticate_1.authenticateUser(req, res);
+    if (isAuthenticated) {
         const user_id = res.locals.user;
         const user = yield UserRepository_1.default.getById(user_id);
         res.json({ user });
@@ -92,7 +93,8 @@ router.post("/employer/login", (req, res, next) => {
         next();
     }
 }, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(req, res)) {
+    let isAuthenticated = yield authenticate_1.authenticateEmployer(req, res);
+    if (isAuthenticated) {
         const employer_id = res.locals.employer;
         const employer = yield EmployerRepository_1.default.getById(employer_id);
         res.json({ employer });
@@ -102,7 +104,8 @@ router.post("/employer/login", (req, res, next) => {
     }
 }));
 router.post("/user/logout", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(req, res)) {
+    let isAuthenticated = yield authenticate_1.authenticateUser(req, res);
+    if (isAuthenticated) {
         const user_id = res.locals.user;
         yield UserRepository_1.default.logout(user_id);
         res.clearCookie("knv_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: true });
@@ -110,7 +113,8 @@ router.post("/user/logout", (req, res) => __awaiter(void 0, void 0, void 0, func
     }
 }));
 router.post("/employer/logout", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(req, res)) {
+    let isAuthenticated = yield authenticate_1.authenticateEmployer(req, res);
+    if (isAuthenticated) {
         const employer_id = res.locals.employer;
         yield EmployerRepository_1.default.logout(employer_id);
         res.clearCookie("employer_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: true });

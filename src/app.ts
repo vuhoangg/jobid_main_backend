@@ -85,11 +85,11 @@ const googleUserStrategy = new GoogleStrategy(
     const r1 = await isExistingEmailUser(profile.emails[0].value);
     if (r1) {
       const accessToken = await handleTokenAuthUser(r1);
-      cb(null, { accessToken: accessToken });
+      cb(null, { user: { accessToken: accessToken } });
     } else {
       const r2 = await saveNewGoogleUser(profile);
       const accessToken = await handleTokenAuthUser(r2);
-      cb(null, { accessToken: accessToken });
+      cb(null, { user: { accessToken: accessToken } });
     }
   }
 );
@@ -103,11 +103,11 @@ const googleEmployerStrategy = new GoogleStrategy(
     const r1 = await isExistingEmailEmployer(profile.emails[0].value);
     if (r1) {
       const accessToken = await handleTokenAuthEmployer(r1);
-      cb(null, { accessToken: accessToken });
+      cb(null, { employer: { accessToken: accessToken } });
     } else {
       const r2 = await saveNewGoogleEmployer(profile);
       const accessToken = await handleTokenAuthEmployer(r2);
-      cb(null, { accessToken: accessToken });
+      cb(null, { employer: { accessToken: accessToken } });
     }
   }
 );
@@ -142,14 +142,14 @@ const facebookUserStrategy = new FacebookStrategy(
       const r1 = await isExistingEmailUser(profile.emails[0].value);
       if (r1) {
         const accessToken = await handleTokenAuthUser(r1);
-        cb(null, { accessToken: accessToken });
+        cb(null, { user: { accessToken: accessToken } });
       } else {
         const r2 = await saveNewGoogleUser(profile);
         const accessToken = await handleTokenAuthUser(r2);
-        cb(null, { accessToken: accessToken });
+        cb(null, { user: { accessToken: accessToken } });
       }
     } else {
-      cb(null, { accessToken: null });
+      cb(null, { user: { accessToken: null } });
     }
   }
 );
@@ -176,14 +176,14 @@ const facebookEmployerStrategy = new FacebookStrategy(
       const r1 = await isExistingEmailUser(profile.emails[0].value);
       if (r1) {
         const accessToken = await handleTokenAuthUser(r1);
-        cb(null, { accessToken: accessToken });
+        cb(null, { employer: { accessToken: accessToken } });
       } else {
         const r2 = await saveNewGoogleUser(profile);
         const accessToken = await handleTokenAuthUser(r2);
-        cb(null, { accessToken: accessToken });
+        cb(null, { employer: { accessToken: accessToken } });
       }
     } else {
-      cb(null, { accessToken: null });
+      cb(null, { employer: { accessToken: null } });
     }
   }
 );

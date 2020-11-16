@@ -1,7 +1,7 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import UserService from "../../../db/repositories/UserRepository";
-import { authenticateUser } from "../../../middlewares/authenticate";
+import { authenticateEmployer, authenticateUser } from "../../../middlewares/authenticate";
 import { handleTokenAuthUser } from "../handles";
 
 import passport from "passport";
@@ -26,7 +26,7 @@ router.get(
   "/user/google/callback",
   passport.authenticate("google_user", { failureRedirect: "/user/login" }),
   async (req: any, res) => {
-    const accessToken = req.user.accessToken;
+    const accessToken = req.user.user.accessToken;
     res.cookie("knv_accessToken", accessToken, {
       domain: process.env.COOKIE_SHARE_DOMAIN,
       httpOnly: true,
@@ -40,7 +40,9 @@ router.get(
   "/employer/google/callback",
   passport.authenticate("google_employer", { failureRedirect: "/employer/login" }),
   async (req: any, res) => {
-    const accessToken = req.employer.accessToken;
+
+    const accessToken = req.user.employer.accessToken;
+
     res.cookie("employer_accessToken", accessToken, {
       domain: process.env.COOKIE_SHARE_DOMAIN,
       httpOnly: true,
@@ -88,7 +90,8 @@ router.post(
     }
   },
   async (req, res) => {
-    if (await authenticateUser(req, res)) {
+    let isAuthenticated = await authenticateUser(req, res);
+    if (isAuthenticated) {
       const user_id = res.locals.user;
       const user = await UserService.getById(user_id);
       res.json({ user });
@@ -108,7 +111,8 @@ router.post(
     }
   },
   async (req, res) => {
-    if (await authenticateUser(req, res)) {
+    let isAuthenticated = await authenticateEmployer(req, res);
+    if (isAuthenticated) {
       const employer_id = res.locals.employer;
       const employer = await EmployerService.getById(employer_id);
       res.json({ employer });
@@ -119,7 +123,8 @@ router.post(
 );
 
 router.post("/user/logout", async (req, res) => {
-  if (await authenticateUser(req, res)) {
+  let isAuthenticated = await authenticateUser(req, res);
+  if (isAuthenticated) {
     const user_id = res.locals.user;
     await UserService.logout(user_id);
     res.clearCookie("knv_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: true });
@@ -128,7 +133,8 @@ router.post("/user/logout", async (req, res) => {
 });
 
 router.post("/employer/logout", async (req, res) => {
-  if (await authenticateUser(req, res)) {
+  let isAuthenticated = await authenticateEmployer(req, res);
+  if (isAuthenticated) {
     const employer_id = res.locals.employer;
     await EmployerService.logout(employer_id);
     res.clearCookie("employer_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: true });

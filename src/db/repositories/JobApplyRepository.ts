@@ -97,7 +97,7 @@ class JobApplyRepository implements CrudContract {
   get(_id, projection) {
     try {
       return JobApply.findById(_id, projection)
-        .populate("job_post");
+        .populate("job_post").populate("user");
     } catch (e) {
       errorLog(e);
       return promiseNull();

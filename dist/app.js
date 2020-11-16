@@ -83,12 +83,12 @@ const googleUserStrategy = new GoogleStrategy({
     const r1 = yield handles_1.isExistingEmailUser(profile.emails[0].value);
     if (r1) {
         const accessToken = yield handles_1.handleTokenAuthUser(r1);
-        cb(null, { accessToken: accessToken });
+        cb(null, { user: { accessToken: accessToken } });
     }
     else {
         const r2 = yield handles_1.saveNewGoogleUser(profile);
         const accessToken = yield handles_1.handleTokenAuthUser(r2);
-        cb(null, { accessToken: accessToken });
+        cb(null, { user: { accessToken: accessToken } });
     }
 }));
 const googleEmployerStrategy = new GoogleStrategy({
@@ -99,12 +99,12 @@ const googleEmployerStrategy = new GoogleStrategy({
     const r1 = yield handles_1.isExistingEmailEmployer(profile.emails[0].value);
     if (r1) {
         const accessToken = yield handles_1.handleTokenAuthEmployer(r1);
-        cb(null, { accessToken: accessToken });
+        cb(null, { employer: { accessToken: accessToken } });
     }
     else {
         const r2 = yield handles_1.saveNewGoogleEmployer(profile);
         const accessToken = yield handles_1.handleTokenAuthEmployer(r2);
-        cb(null, { accessToken: accessToken });
+        cb(null, { employer: { accessToken: accessToken } });
     }
 }));
 googleUserStrategy.name = "google_user";
@@ -133,16 +133,16 @@ const facebookUserStrategy = new FacebookStrategy({
             const r1 = yield handles_1.isExistingEmailUser(profile.emails[0].value);
             if (r1) {
                 const accessToken = yield handles_1.handleTokenAuthUser(r1);
-                cb(null, { accessToken: accessToken });
+                cb(null, { user: { accessToken: accessToken } });
             }
             else {
                 const r2 = yield handles_1.saveNewGoogleUser(profile);
                 const accessToken = yield handles_1.handleTokenAuthUser(r2);
-                cb(null, { accessToken: accessToken });
+                cb(null, { user: { accessToken: accessToken } });
             }
         }
         else {
-            cb(null, { accessToken: null });
+            cb(null, { user: { accessToken: null } });
         }
     });
 });
@@ -167,16 +167,16 @@ const facebookEmployerStrategy = new FacebookStrategy({
             const r1 = yield handles_1.isExistingEmailUser(profile.emails[0].value);
             if (r1) {
                 const accessToken = yield handles_1.handleTokenAuthUser(r1);
-                cb(null, { accessToken: accessToken });
+                cb(null, { employer: { accessToken: accessToken } });
             }
             else {
                 const r2 = yield handles_1.saveNewGoogleUser(profile);
                 const accessToken = yield handles_1.handleTokenAuthUser(r2);
-                cb(null, { accessToken: accessToken });
+                cb(null, { employer: { accessToken: accessToken } });
             }
         }
         else {
-            cb(null, { accessToken: null });
+            cb(null, { employer: { accessToken: null } });
         }
     });
 });
