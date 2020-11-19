@@ -77,6 +77,10 @@ const jobPostSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
+  employer: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Employer'
+  },
   view_count: {
     type: Number,
     default: 0
@@ -87,7 +91,7 @@ const jobPostSchema = new mongoose.Schema({
     type: String,
     enum: ['active', 'trash', 'draft'],
   }
-}, {timestamps: {createdAt: 'created_at', updatedAt: 'updated_at'}});
+}, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
 
 const JobPost = mongoose.model('JobPost', jobPostSchema);
 export default JobPost;

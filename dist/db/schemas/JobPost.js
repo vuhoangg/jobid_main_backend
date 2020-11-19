@@ -78,6 +78,10 @@ const jobPostSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
+    employer: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Employer'
+    },
     view_count: {
         type: Number,
         default: 0

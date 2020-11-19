@@ -3,61 +3,61 @@ import ActivityService from "../../../db/repositories/ActivityRepository";
 import { toSlug } from "../../../helpers/string";
 import NotificationService from "../../../db/repositories/NotificationRepository";
 import { isSuperUser } from "../../../helpers/permission";
-import { authenticateUser } from "../../../middlewares/authenticate";
+import { authenticateEmployer, authenticateUser } from "../../../middlewares/authenticate";
 import JobViewService from "../../../db/repositories/JobViewRepository";
 
 export const updateJobPost = async (source, args, context, info) => {
-  if (await authenticateUser(context, context.res)) {
-    let loggedUser = context.res.locals.fullUser;
+  let isAuthenticated = await authenticateEmployer(context, context.res);
+  if (isAuthenticated) {
+    let loggedEmployer = context.res.locals.fullEmployer;
 
     let input = args.input;
 
-    if (isSuperUser(loggedUser.email)) {
+    if (isSuperUser(loggedEmployer.email)) {
       return JobPostService.update(input);
     } else {
-      return JobPostService.get(input._id, {}).then((r1) => {
-        if (r1 && r1.user.toString() == loggedUser._id.toString()) {
-          return JobPostService.update(input);
-        } else {
-          return r1;
-        }
-      });
+      let r1 = await JobPostService.get(input._id, {});
+      if (r1 && r1.employer.toString() == loggedEmployer._id.toString()) {
+        return JobPostService.update(input);
+      } else {
+        return r1;
+      }
     }
   }
 };
 
 export const createJobPost = async (source, args, context, info) => {
-  if (await authenticateUser(context, context.res)) {
-    let loggedUser = context.res.locals.fullUser;
+  let isAuthenticated = await authenticateEmployer(context, context.res);
+  if (isAuthenticated) {
+    let loggedEmployer = context.res.locals.fullEmployer;
     let input = args.input;
     let slug = toSlug(input.title, true);
 
     let activity = {
-      name: `${loggedUser.first_name} ${loggedUser.last_name}`,
+      name: `${loggedEmployer.first_name} ${loggedEmployer.last_name}`,
       message: input.title,
       href_type: "job_post",
       href_url: slug,
     };
     let notification = {
-      type: "user",
-      subject: "user_post_job",
+      type: "system",
+      subject: "employer_post_job",
       target: {
-        object_type: "user",
-        ref: loggedUser._id,
+        object_type: "employer",
+        ref: loggedEmployer._id,
       },
-      message: "Tin tuyển dụng của bạn đã được đăng tải. Cảm ơn bạn đã sử dụng Kết Nối Việc!",
+      message: "Tin tuyển dụng của bạn đã được đăng tải!",
       href: slug,
       read: false,
     };
 
     input = Object.assign(input, { slug: slug });
-    input = Object.assign(input, { user: loggedUser._id });
+    input = Object.assign(input, { employer: loggedEmployer._id });
 
-    return JobPostService.create(input).then(async (r) => {
-      await ActivityService.create(activity);
-      await NotificationService.create(notification);
-      return r;
-    });
+    let r = await JobPostService.create(input);
+    await ActivityService.create(activity);
+    await NotificationService.create(notification);
+    return r;
   }
 };
 

@@ -45,6 +45,9 @@ function getCondition(filter) {
     if (filter.user) {
         condition = Object.assign(condition, { user: filter.user });
     }
+    if (filter.employer) {
+        condition = Object.assign(condition, { employer: filter.employer });
+    }
     if (filter.salary_min) {
         condition = Object.assign(condition, { "salary.min": { $gte: filter.salary_min } });
     }

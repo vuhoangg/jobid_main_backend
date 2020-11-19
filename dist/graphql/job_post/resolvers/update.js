@@ -21,53 +21,53 @@ const permission_1 = require("../../../helpers/permission");
 const authenticate_1 = require("../../../middlewares/authenticate");
 const JobViewRepository_1 = __importDefault(require("../../../db/repositories/JobViewRepository"));
 exports.updateJobPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
-        let loggedUser = context.res.locals.fullUser;
+    let isAuthenticated = yield authenticate_1.authenticateEmployer(context, context.res);
+    if (isAuthenticated) {
+        let loggedEmployer = context.res.locals.fullEmployer;
         let input = args.input;
-        if (permission_1.isSuperUser(loggedUser.email)) {
+        if (permission_1.isSuperUser(loggedEmployer.email)) {
             return JobPostRepository_1.default.update(input);
         }
         else {
-            return JobPostRepository_1.default.get(input._id, {}).then((r1) => {
-                if (r1 && r1.user.toString() == loggedUser._id.toString()) {
-                    return JobPostRepository_1.default.update(input);
-                }
-                else {
-                    return r1;
-                }
-            });
+            let r1 = yield JobPostRepository_1.default.get(input._id, {});
+            if (r1 && r1.employer.toString() == loggedEmployer._id.toString()) {
+                return JobPostRepository_1.default.update(input);
+            }
+            else {
+                return r1;
+            }
         }
     }
 });
 exports.createJobPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
-        let loggedUser = context.res.locals.fullUser;
+    let isAuthenticated = yield authenticate_1.authenticateEmployer(context, context.res);
+    if (isAuthenticated) {
+        let loggedEmployer = context.res.locals.fullEmployer;
         let input = args.input;
         let slug = string_1.toSlug(input.title, true);
         let activity = {
-            name: `${loggedUser.first_name} ${loggedUser.last_name}`,
+            name: `${loggedEmployer.first_name} ${loggedEmployer.last_name}`,
             message: input.title,
             href_type: "job_post",
             href_url: slug,
         };
         let notification = {
-            type: "user",
-            subject: "user_post_job",
+            type: "system",
+            subject: "employer_post_job",
             target: {
-                object_type: "user",
-                ref: loggedUser._id,
+                object_type: "employer",
+                ref: loggedEmployer._id,
             },
-            message: "Tin tuyển dụng của bạn đã được đăng tải. Cảm ơn bạn đã sử dụng Kết Nối Việc!",
+            message: "Tin tuyển dụng của bạn đã được đăng tải!",
             href: slug,
             read: false,
         };
         input = Object.assign(input, { slug: slug });
-        input = Object.assign(input, { user: loggedUser._id });
-        return JobPostRepository_1.default.create(input).then((r) => __awaiter(void 0, void 0, void 0, function* () {
-            yield ActivityRepository_1.default.create(activity);
-            yield NotificationRepository_1.default.create(notification);
-            return r;
-        }));
+        input = Object.assign(input, { employer: loggedEmployer._id });
+        let r = yield JobPostRepository_1.default.create(input);
+        yield ActivityRepository_1.default.create(activity);
+        yield NotificationRepository_1.default.create(notification);
+        return r;
     }
 });
 exports.trackingBySlug = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {

@@ -1,7 +1,7 @@
 import express from "express";
 import { s3UploadImage, s3UploadFile, s3UploadPdf, s3Upload } from "../../../aws/s3";
 import axios from "axios";
-import { authenticateUser } from "../../../middlewares/authenticate";
+import { authenticateEmployer, authenticateUser } from "../../../middlewares/authenticate";
 import { detectType } from "../../../helpers/base64";
 
 const router = express.Router();
@@ -102,6 +102,42 @@ router.post("/user_avatar", async (req, res) => {
     let fileName = `${loggedInUser}_${timestamp}`;
 
     let url = await s3Upload("user_avatar", fileName, fileContent);
+
+    res.send({
+      location: url
+    })
+  } else {
+    res.status(404);
+  }
+});
+router.post("/job_post_featured", async (req, res) => {
+  let isAuthenticated = await authenticateEmployer(req, res);
+  if (isAuthenticated) {
+    let loggedInEmployer = res.locals.employer;
+    let timestamp = new Date().getTime();
+
+    let fileContent = req.body.file;
+    let fileName = `${loggedInEmployer}_${timestamp}`;
+
+    let url = await s3Upload("job_post_featured", fileName, fileContent);
+
+    res.send({
+      location: url
+    })
+  } else {
+    res.status(404);
+  }
+});
+router.post("/job_post_image", async (req, res) => {
+  let isAuthenticated = await authenticateEmployer(req, res);
+  if (isAuthenticated) {
+    let loggedInEmployer = res.locals.employer;
+    let timestamp = new Date().getTime();
+
+    let fileContent = req.body.file;
+    let fileName = `${loggedInEmployer}_${timestamp}`;
+
+    let url = await s3Upload("job_post_image", fileName, fileContent);
 
     res.send({
       location: url

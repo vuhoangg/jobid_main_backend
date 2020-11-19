@@ -116,4 +116,36 @@ router.post("/user_avatar", (req, res) => __awaiter(void 0, void 0, void 0, func
         res.status(404);
     }
 }));
+router.post("/job_post_featured", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield authenticate_1.authenticateEmployer(req, res);
+    if (isAuthenticated) {
+        let loggedInEmployer = res.locals.employer;
+        let timestamp = new Date().getTime();
+        let fileContent = req.body.file;
+        let fileName = `${loggedInEmployer}_${timestamp}`;
+        let url = yield s3_1.s3Upload("job_post_featured", fileName, fileContent);
+        res.send({
+            location: url
+        });
+    }
+    else {
+        res.status(404);
+    }
+}));
+router.post("/job_post_image", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield authenticate_1.authenticateEmployer(req, res);
+    if (isAuthenticated) {
+        let loggedInEmployer = res.locals.employer;
+        let timestamp = new Date().getTime();
+        let fileContent = req.body.file;
+        let fileName = `${loggedInEmployer}_${timestamp}`;
+        let url = yield s3_1.s3Upload("job_post_image", fileName, fileContent);
+        res.send({
+            location: url
+        });
+    }
+    else {
+        res.status(404);
+    }
+}));
 //# sourceMappingURL=index.js.map

@@ -20,6 +20,7 @@ interface IFilter {
   ward?: string;
   slug?: string;
   user?: string;
+  employer?: string;
   job_level?: string;
   job_type?: string;
   job_category?: string;
@@ -78,6 +79,9 @@ function getCondition(filter: IFilter) {
 
   if (filter.user) {
     condition = Object.assign(condition, { user: filter.user });
+  }
+  if (filter.employer) {
+    condition = Object.assign(condition, { employer: filter.employer });
   }
 
   if (filter.salary_min) {
