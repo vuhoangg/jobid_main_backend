@@ -2,7 +2,7 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import UserService from "../../../db/repositories/UserRepository";
 import { authenticateEmployer, authenticateUser } from "../../../middlewares/authenticate";
-import { handleTokenAuthUser } from "../handles";
+import { handleTokenAuthEmployer, handleTokenAuthUser } from "../handles";
 
 import passport from "passport";
 import EmployerService from "../../../db/repositories/EmployerRepository";
@@ -48,7 +48,7 @@ router.get(
       httpOnly: true,
       path: "/",
     });
-    res.redirect(`${process.env.SITE_URL}`);
+    res.redirect(`${process.env.STUDIO_URL}`);
   }
 );
 
@@ -153,10 +153,10 @@ router.post("/user/refresh-token", async (req, res) => {
 });
 
 router.post("/employer/refresh-token", async (req, res) => {
-  const user = await EmployerService.findEmployerRefreshToken(req.body.accessToken);
-  if (user) {
-    const accessToken = await handleTokenAuthUser(user);
-    res.json({ user_id: user.user_chiase, accessToken });
+  const employer = await EmployerService.findEmployerRefreshToken(req.body.accessToken);
+  if (employer) {
+    const accessToken = await handleTokenAuthEmployer(employer);
+    res.json({ accessToken });
   } else {
     res.end();
   }

@@ -43,7 +43,7 @@ router.get("/employer/google/callback", passport_1.default.authenticate("google_
         httpOnly: true,
         path: "/",
     });
-    res.redirect(`${process.env.SITE_URL}`);
+    res.redirect(`${process.env.STUDIO_URL}`);
 }));
 router.get("/user/facebook", passport_1.default.authenticate("facebook", { scope: ["email"] }));
 router.get("/user/facebook/callback", passport_1.default.authenticate("facebook", { failureRedirect: "/user/login" }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -132,10 +132,10 @@ router.post("/user/refresh-token", (req, res) => __awaiter(void 0, void 0, void 
     }
 }));
 router.post("/employer/refresh-token", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield EmployerRepository_1.default.findEmployerRefreshToken(req.body.accessToken);
-    if (user) {
-        const accessToken = yield handles_1.handleTokenAuthUser(user);
-        res.json({ user_id: user.user_chiase, accessToken });
+    const employer = yield EmployerRepository_1.default.findEmployerRefreshToken(req.body.accessToken);
+    if (employer) {
+        const accessToken = yield handles_1.handleTokenAuthEmployer(employer);
+        res.json({ accessToken });
     }
     else {
         res.end();

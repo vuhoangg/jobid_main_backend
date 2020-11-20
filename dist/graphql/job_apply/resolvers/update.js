@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateStatusJobApply = exports.updateJobApply = exports.createJobApply = void 0;
+exports.employerUpdateJobApply = exports.createJobApply = void 0;
 const JobApplyRepository_1 = __importDefault(require("../../../db/repositories/JobApplyRepository"));
 const JobPostRepository_1 = __importDefault(require("../../../db/repositories/JobPostRepository"));
 const authenticate_1 = require("../../../middlewares/authenticate");
@@ -26,50 +26,18 @@ exports.createJobApply = (source, args, context, info) => __awaiter(void 0, void
         return data;
     }
 });
-exports.updateJobApply = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
-        let loggedUser = context.res.locals.fullUser;
+exports.employerUpdateJobApply = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield authenticate_1.authenticateEmployer(context, context.res);
+    if (isAuthenticated) {
+        let loggedEmployer = context.res.locals.fullEmployer;
         let input = args.input;
-        let jobPost = yield JobPostRepository_1.default.get(input.job_post, {});
-        let target = jobPost.user;
-        input = Object.assign(input, { user: loggedUser._id, target: target, status: "pending" });
-        return JobApplyRepository_1.default.applyJob(input).then((data) => __awaiter(void 0, void 0, void 0, function* () {
-            let notification = {
-                type: "user",
-                subject: "user_apply_job",
-                target: {
-                    object_type: "user",
-                    ref: target,
-                },
-                message: `${loggedUser.first_name} ${loggedUser.last_name} đã ứng tuyển tin tuyển dụng ${jobPost.title}`,
-                href: jobPost.slug,
-                read: false,
-            };
-            // await NotificationService.create(notification).then((r) => {
-            //   if (target.ref.toString() !== loggedUser._id.toString()) {
-            //     const params = {
-            //       token: process.env.SOCKET_TOKEN as string,
-            //     };
-            //     api("POST", `${process.env.SOCKET_SERVER_URL}/socket/notify/${target.ref}`, params, {
-            //       data: {
-            //         ...r.toObject(),
-            //         created_at: new Date(r.created_at).getTime().toString(),
-            //         updated_at: new Date(r.updated_at).getTime().toString(),
-            //       },
-            //       type: "studio",
-            //     })
-            //       .then((res) => console.log(res))
-            //       .catch((e) => console.log(e));
-            //   }
-            // });
-            return data;
-        }));
-    }
-});
-exports.updateStatusJobApply = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
-        let input = args.input;
-        return JobApplyRepository_1.default.update(input);
+        let jobApply = yield JobApplyRepository_1.default.get(input._id, {});
+        if (jobApply.status == "pending") {
+            let jobPost = yield JobPostRepository_1.default.get(jobApply.job_post, {});
+            if (loggedEmployer._id == jobPost.employer) {
+                return JobApplyRepository_1.default.update(input);
+            }
+        }
     }
 });
 //# sourceMappingURL=update.js.map

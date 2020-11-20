@@ -14,7 +14,17 @@ const jobApplyQueries = {
         args: types_1.PaginationArguments,
         resolve: (source, args, context, info) => get_1.getJobApplys(source, args, context, info),
         type: new graphql_1.GraphQLNonNull(types_2.JobApplyConnection),
-    }
+    },
+    employerJobApply: {
+        args: types_2.JobApplyArguments,
+        resolve: (source, args, context, info) => get_1.getEmployerJobApply(source, args, context, info),
+        type: new graphql_1.GraphQLNonNull(types_2.JobApply),
+    },
+    employerJobApplys: {
+        args: types_1.PaginationArguments,
+        resolve: (source, args, context, info) => get_1.getEmployerJobApplys(source, args, context, info),
+        type: new graphql_1.GraphQLNonNull(types_2.JobApplyConnection),
+    },
 };
 exports.default = jobApplyQueries;
 //# sourceMappingURL=index.js.map

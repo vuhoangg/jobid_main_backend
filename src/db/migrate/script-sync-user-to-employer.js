@@ -28,23 +28,23 @@ const syncUserEmployer = async () => {
         })
     );
 
-    // for (let i = 0; i < users.length; i++) {
-    //     await dbKetnoiviec.collection("employers").insertOne({
-    //         _id: users[i]._id,
-    //         email: users[i].email,
-    //         psid: users[i].psid,
-    //         password: users[i].password,
-    //         first_name: users[i].first_name,
-    //         last_name: users[i].last_name,
-    //         full_name: users[i].full_name,
-    //         birth_day: users[i].birth_day,
-    //         avatar: users[i].avatar,
-    //         gender: users[i].gender,
-    //         spam: users[i].spam,
-    //         accessToken: users[i].accessToken,
-    //         refreshToken: users[i].refreshToken,
-    //     })
-    // }
+    for (let i = 0; i < users.length; i++) {
+        await dbKetnoiviec.collection("employers").insertOne({
+            _id: users[i]._id,
+            email: users[i].email,
+            psid: users[i].psid,
+            password: users[i].password,
+            first_name: users[i].first_name,
+            last_name: users[i].last_name,
+            full_name: users[i].full_name,
+            birth_day: users[i].birth_day,
+            avatar: users[i].avatar,
+            gender: users[i].gender,
+            spam: users[i].spam,
+            accessToken: users[i].accessToken,
+            refreshToken: users[i].refreshToken,
+        })
+    }
 
     connect.close();
 };

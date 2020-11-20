@@ -55,6 +55,7 @@ export const JobApplyInput = new GraphQLInputObjectType({
     email: { type: GraphQLString },
     file: { type: GraphQLString },
     description: { type: GraphQLString },
+    status: { type: GraphQLString },
   },
   name: "JobApplyInput",
   description: "The updated properties for a job apply.",

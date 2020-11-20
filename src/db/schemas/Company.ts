@@ -111,7 +111,7 @@ const companySchema = new mongoose.Schema(
     },
     created_by: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Employer",
     },
     seo_title: String,
     seo_description: String,

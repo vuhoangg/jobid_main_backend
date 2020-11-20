@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const JobApply_1 = __importDefault(require("../schemas/JobApply"));
+const JobPost_1 = __importDefault(require("../schemas/JobPost"));
 const log_1 = require("../../helpers/log");
 const promise_1 = require("../../helpers/promise");
 function getCondition(filter) {
@@ -17,19 +18,19 @@ function getCondition(filter) {
     if (filter.status) {
         condition = Object.assign(condition, { status: filter.status });
     }
-    if (filter.createdAt) {
+    if (filter.created_at) {
         condition = Object.assign(condition, {
             created_at: {
-                $gte: new Date(filter.createdAt.from),
-                $lte: new Date(filter.createdAt.to),
+                $gte: new Date(filter.created_at.from),
+                $lte: new Date(filter.created_at.to),
             },
         });
     }
-    if (filter.updatedAt) {
+    if (filter.updated_at) {
         condition = Object.assign(condition, {
             updated_at: {
-                $gte: new Date(filter.updatedAt.from),
-                $lte: new Date(filter.updatedAt.to),
+                $gte: new Date(filter.updated_at.from),
+                $lte: new Date(filter.updated_at.to),
             },
         });
     }
@@ -49,7 +50,17 @@ class JobApplyRepository {
     count(filter) {
         try {
             let condition = getCondition(filter);
-            return JobApply_1.default.countDocuments(condition);
+            if (filter.employer) {
+                let employer = filter.employer;
+                return JobPost_1.default.find({ employer: employer }, { _id: 1 }).then(r1 => {
+                    let _ids = r1.map(i => i._id);
+                    condition = Object.assign(condition, { job_post: { $in: _ids } });
+                    return JobApply_1.default.countDocuments(condition);
+                });
+            }
+            else {
+                return JobApply_1.default.countDocuments(condition);
+            }
         }
         catch (e) {
             log_1.errorLog(e);
@@ -76,8 +87,7 @@ class JobApplyRepository {
     }
     get(_id, projection) {
         try {
-            return JobApply_1.default.findById(_id, projection)
-                .populate("job_post").populate("user");
+            return JobApply_1.default.findById(_id, projection);
         }
         catch (e) {
             log_1.errorLog(e);
@@ -88,19 +98,41 @@ class JobApplyRepository {
         try {
             let condition = getCondition(filter);
             let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
-            return JobApply_1.default.find(condition, projection)
-                .populate({
-                path: "job_post",
-                populate: [
-                    { path: "address.city" },
-                    { path: "company.ref" },
-                    { path: "job_type" }
-                ]
-            })
-                .populate("user")
-                .sort(sort)
-                .skip(limit * (page - 1))
-                .limit(limit);
+            if (filter.employer) {
+                let employer = filter.employer;
+                return JobPost_1.default.find({ employer: employer }, { _id: 1 }).then(r1 => {
+                    let _ids = r1.map(i => i._id);
+                    condition = Object.assign(condition, { job_post: { $in: _ids } });
+                    return JobApply_1.default.find(condition, projection)
+                        .populate({
+                        path: "job_post",
+                        populate: [
+                            { path: "address.city" },
+                            { path: "company.ref" },
+                            { path: "job_type" }
+                        ]
+                    })
+                        .populate("user")
+                        .sort(sort)
+                        .skip(limit * (page - 1))
+                        .limit(limit);
+                });
+            }
+            else {
+                return JobApply_1.default.find(condition, projection)
+                    .populate({
+                    path: "job_post",
+                    populate: [
+                        { path: "address.city" },
+                        { path: "company.ref" },
+                        { path: "job_type" }
+                    ]
+                })
+                    .populate("user")
+                    .sort(sort)
+                    .skip(limit * (page - 1))
+                    .limit(limit);
+            }
         }
         catch (e) {
             log_1.errorLog(e);
@@ -109,7 +141,20 @@ class JobApplyRepository {
     }
     getBy(getBy, projection) {
         try {
-            return JobApply_1.default.findOne(getBy, projection);
+            if (getBy.employer) {
+                let employer = getBy.employer;
+                delete getBy.employer;
+                return JobApply_1.default.findOne(getBy, projection).populate("user").populate('job_post').then(r1 => {
+                    return JobPost_1.default.find({ employer: employer }).then(r2 => {
+                        if (r2) {
+                            return r1;
+                        }
+                    });
+                });
+            }
+            else {
+                return JobApply_1.default.findOne(getBy, projection).populate("user").populate('job_post');
+            }
         }
         catch (e) {
             log_1.errorLog(e);

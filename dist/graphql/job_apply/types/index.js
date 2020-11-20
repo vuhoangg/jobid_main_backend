@@ -50,6 +50,7 @@ exports.JobApplyInput = new graphql_1.GraphQLInputObjectType({
         email: { type: graphql_1.GraphQLString },
         file: { type: graphql_1.GraphQLString },
         description: { type: graphql_1.GraphQLString },
+        status: { type: graphql_1.GraphQLString },
     },
     name: "JobApplyInput",
     description: "The updated properties for a job apply.",

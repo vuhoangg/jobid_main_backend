@@ -1,5 +1,6 @@
 import { CrudContract } from "../contracts/CrudContract";
 import JobApply from "../schemas/JobApply";
+import JobPost from "../schemas/JobPost";
 import { errorLog } from "../../helpers/log";
 import { promiseNull } from "../../helpers/promise";
 
@@ -11,16 +12,18 @@ interface ISort {
 interface IFilter {
   sort_by?: ISort;
   job_post?: string;
+  employer?: string;
   user?: string;
   status?: string;
-  createdAt?: any;
-  updatedAt?: any;
+  created_at?: any;
+  updated_at?: any;
 }
 
 interface IGetBy {
   _id?: string;
-  user: string;
+  user?: string;
   job_post?: string;
+  employer?: string;
 }
 
 function getCondition(filter: IFilter) {
@@ -34,19 +37,19 @@ function getCondition(filter: IFilter) {
   if (filter.status) {
     condition = Object.assign(condition, { status: filter.status });
   }
-  if (filter.createdAt) {
+  if (filter.created_at) {
     condition = Object.assign(condition, {
       created_at: {
-        $gte: new Date(filter.createdAt.from),
-        $lte: new Date(filter.createdAt.to),
+        $gte: new Date(filter.created_at.from),
+        $lte: new Date(filter.created_at.to),
       },
     });
   }
-  if (filter.updatedAt) {
+  if (filter.updated_at) {
     condition = Object.assign(condition, {
       updated_at: {
-        $gte: new Date(filter.updatedAt.from),
-        $lte: new Date(filter.updatedAt.to),
+        $gte: new Date(filter.updated_at.from),
+        $lte: new Date(filter.updated_at.to),
       },
     });
   }
@@ -69,7 +72,17 @@ class JobApplyRepository implements CrudContract {
   count(filter: IFilter) {
     try {
       let condition = getCondition(filter);
-      return JobApply.countDocuments(condition);
+
+      if (filter.employer) {
+        let employer = filter.employer;
+        return JobPost.find({ employer: employer }, { _id: 1 }).then(r1 => {
+          let _ids = r1.map(i => i._id);
+          condition = Object.assign(condition, { job_post: { $in: _ids } });
+          return JobApply.countDocuments(condition);
+        })
+      } else {
+        return JobApply.countDocuments(condition);
+      }
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -96,8 +109,7 @@ class JobApplyRepository implements CrudContract {
 
   get(_id, projection) {
     try {
-      return JobApply.findById(_id, projection)
-        .populate("job_post").populate("user");
+      return JobApply.findById(_id, projection);
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -108,20 +120,43 @@ class JobApplyRepository implements CrudContract {
     try {
       let condition = getCondition(filter);
       let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
-      return JobApply.find(condition, projection)
-        .populate(
-          {
-            path: "job_post",
-            populate: [
-              { path: "address.city" },
-              { path: "company.ref" },
-              { path: "job_type" }
-            ]
-          })
-        .populate("user")
-        .sort(sort)
-        .skip(limit * (page - 1))
-        .limit(limit);
+      if (filter.employer) {
+        let employer = filter.employer;
+        return JobPost.find({ employer: employer }, { _id: 1 }).then(r1 => {
+          let _ids = r1.map(i => i._id);
+          condition = Object.assign(condition, { job_post: { $in: _ids } });
+          return JobApply.find(condition, projection)
+            .populate(
+              {
+                path: "job_post",
+                populate: [
+                  { path: "address.city" },
+                  { path: "company.ref" },
+                  { path: "job_type" }
+                ]
+              })
+            .populate("user")
+            .sort(sort)
+            .skip(limit * (page - 1))
+            .limit(limit);
+        })
+      } else {
+        return JobApply.find(condition, projection)
+          .populate(
+            {
+              path: "job_post",
+              populate: [
+                { path: "address.city" },
+                { path: "company.ref" },
+                { path: "job_type" }
+              ]
+            })
+          .populate("user")
+          .sort(sort)
+          .skip(limit * (page - 1))
+          .limit(limit);
+      }
+
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -130,7 +165,20 @@ class JobApplyRepository implements CrudContract {
 
   getBy(getBy: IGetBy, projection) {
     try {
-      return JobApply.findOne(getBy, projection);
+      if (getBy.employer) {
+        let employer = getBy.employer;
+        delete getBy.employer;
+        return JobApply.findOne(getBy, projection).populate("user").populate('job_post').then(r1 => {
+          return JobPost.find({ employer: employer }).then(r2 => {
+            if (r2) {
+              return r1;
+            }
+          })
+        });
+      } else {
+        return JobApply.findOne(getBy, projection).populate("user").populate('job_post');
+      }
+
     } catch (e) {
       errorLog(e);
       return promiseNull();
