@@ -20,30 +20,31 @@ const UserRepository_1 = __importDefault(require("../../../db/repositories/UserR
 const string_1 = require("../../../helpers/string");
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.updateCompany = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
-        let loggedUser = context.res.locals.fullUser;
-        if (permission_1.isSuperUser(loggedUser.email)) {
+    let isAuthenticated = authenticate_1.authenticateEmployer(context, context.res);
+    if (isAuthenticated) {
+        let loggedEmployer = context.res.locals.fullEmployer;
+        if (permission_1.isSuperUser(loggedEmployer.email)) {
             return CompanyRepository_1.default.update(args.input);
         }
         else {
             let _id = args.input._id;
-            return CompanyRepository_1.default.get(_id, {}).then((r1) => {
-                if (r1 && r1.created_by.toString() == loggedUser._id.toString()) {
-                    return CompanyRepository_1.default.update(args.input);
-                }
-                else {
-                    return r1;
-                }
-            });
+            let r1 = yield CompanyRepository_1.default.get(_id, {});
+            if (r1 && r1.created_by.toString() == loggedEmployer._id.toString()) {
+                return CompanyRepository_1.default.update(args.input);
+            }
+            else {
+                return r1;
+            }
         }
     }
 });
 exports.createCompany = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     let input = args.input;
     input.slug = string_1.toSlug(input.name, true).toLowerCase();
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
-        let loggedUser = context.res.locals.fullUser;
-        input = Object.assign(input, { created_by: loggedUser._id });
+    let isAuthenticated = yield authenticate_1.authenticateEmployer(context, context.res);
+    if (isAuthenticated) {
+        let loggedEmployer = context.res.locals.fullEmployer;
+        input = Object.assign(input, { created_by: loggedEmployer._id });
         return CompanyRepository_1.default.create(input);
     }
 });

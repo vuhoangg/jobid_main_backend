@@ -3,22 +3,22 @@ import CompanyViewService from "../../../db/repositories/CompanyViewRepository";
 import { isSuperUser } from "../../../helpers/permission";
 import UserService from "../../../db/repositories/UserRepository";
 import { toSlug } from "../../../helpers/string";
-import { authenticateUser } from "../../../middlewares/authenticate";
+import { authenticateEmployer, authenticateUser } from "../../../middlewares/authenticate";
 
 export const updateCompany = async (source, args, context, info) => {
-  if (await authenticateUser(context, context.res)) {
-    let loggedUser = context.res.locals.fullUser;
-    if (isSuperUser(loggedUser.email)) {
+  let isAuthenticated = authenticateEmployer(context, context.res);
+  if (isAuthenticated) {
+    let loggedEmployer = context.res.locals.fullEmployer;
+    if (isSuperUser(loggedEmployer.email)) {
       return CompanyService.update(args.input);
     } else {
       let _id = args.input._id;
-      return CompanyService.get(_id, {}).then((r1) => {
-        if (r1 && r1.created_by.toString() == loggedUser._id.toString()) {
-          return CompanyService.update(args.input);
-        } else {
-          return r1;
-        }
-      });
+      let r1 = await CompanyService.get(_id, {});
+      if (r1 && r1.created_by.toString() == loggedEmployer._id.toString()) {
+        return CompanyService.update(args.input);
+      } else {
+        return r1;
+      }
     }
   }
 };
@@ -26,9 +26,10 @@ export const updateCompany = async (source, args, context, info) => {
 export const createCompany = async (source, args, context, info) => {
   let input = args.input;
   input.slug = toSlug(input.name, true).toLowerCase();
-  if (await authenticateUser(context, context.res)) {
-    let loggedUser = context.res.locals.fullUser;
-    input = Object.assign(input, { created_by: loggedUser._id });
+  let isAuthenticated = await authenticateEmployer(context, context.res);
+  if (isAuthenticated) {
+    let loggedEmployer = context.res.locals.fullEmployer;
+    input = Object.assign(input, { created_by: loggedEmployer._id });
     return CompanyService.create(input);
   }
 };

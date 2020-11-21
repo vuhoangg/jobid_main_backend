@@ -147,5 +147,62 @@ router.post("/job_post_image", async (req, res) => {
   }
 });
 
+router.post("/company_people", async (req, res) => {
+  let isAuthenticated = await authenticateEmployer(req, res);
+  if (isAuthenticated) {
+    let loggedInEmployer = res.locals.employer;
+    let timestamp = new Date().getTime();
+
+    let fileContent = req.body.file;
+    let fileName = `${loggedInEmployer}_${timestamp}`;
+
+    let url = await s3Upload("company_people", fileName, fileContent);
+
+    res.send({
+      location: url
+    })
+  } else {
+    res.status(404);
+  }
+});
+
+router.post("/company_media", async (req, res) => {
+  let isAuthenticated = await authenticateEmployer(req, res);
+  if (isAuthenticated) {
+    let loggedInEmployer = res.locals.employer;
+    let timestamp = new Date().getTime();
+
+    let fileContent = req.body.file;
+    let fileName = `${loggedInEmployer}_${timestamp}`;
+
+    let url = await s3Upload("company_media", fileName, fileContent);
+
+    res.send({
+      location: url
+    })
+  } else {
+    res.status(404);
+  }
+});
+
+router.post("/company_avatar", async (req, res) => {
+  let isAuthenticated = await authenticateEmployer(req, res);
+  if (isAuthenticated) {
+    let loggedInEmployer = res.locals.employer;
+    let timestamp = new Date().getTime();
+
+    let fileContent = req.body.file;
+    let fileName = `${loggedInEmployer}_${timestamp}`;
+
+    let url = await s3Upload("company_avatar", fileName, fileContent);
+
+    res.send({
+      location: url
+    })
+  } else {
+    res.status(404);
+  }
+});
+
 
 export { router as UploadRouter };
