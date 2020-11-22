@@ -45,7 +45,7 @@ exports.saveNewGoogleUser = (profile) => {
         login_type: "google",
         user_chiase: mongoose_1.default.Types.ObjectId(),
     };
-    mail_1.sendWelcome(payload.email);
+    mail_1.sendWelcome(payload.email, payload.full_name, "");
     return UserRepository_1.default.create(payload);
 };
 exports.saveNewGoogleEmployer = (profile) => {
@@ -57,7 +57,7 @@ exports.saveNewGoogleEmployer = (profile) => {
         avatar: profile.photos[0].value,
         login_type: "google",
     };
-    mail_1.sendWelcomeEmployer(payload.email);
+    mail_1.sendWelcomeEmployer(payload.email, payload.full_name, "");
     return Employer_1.default.create(payload);
 };
 exports.saveNewFacebookUser = (profile) => {
@@ -76,7 +76,7 @@ exports.saveNewFacebookUser = (profile) => {
         login_type: "facebook",
         user_chiaser: mongoose_1.default.Types.ObjectId(),
     };
-    mail_1.sendWelcome(profile.emails[0].value);
+    mail_1.sendWelcome(payload.email, payload.full_name, "");
     return UserRepository_1.default.create(payload);
 };
 exports.handleTokenAuthUser = (user) => __awaiter(void 0, void 0, void 0, function* () {

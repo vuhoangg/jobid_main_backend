@@ -33,7 +33,7 @@ export const saveNewGoogleUser = (profile) => {
     login_type: "google",
     user_chiase: mongoose.Types.ObjectId(),
   };
-  sendWelcome(payload.email);
+  sendWelcome(payload.email, payload.full_name, "");
   return UserService.create(payload);
 };
 
@@ -46,7 +46,7 @@ export const saveNewGoogleEmployer = (profile) => {
     avatar: profile.photos[0].value,
     login_type: "google",
   };
-  sendWelcomeEmployer(payload.email);
+  sendWelcomeEmployer(payload.email, payload.full_name, "");
   return Employer.create(payload);
 };
 
@@ -66,7 +66,7 @@ export const saveNewFacebookUser = (profile: any) => {
     login_type: "facebook",
     user_chiaser: mongoose.Types.ObjectId(),
   };
-  sendWelcome(profile.emails[0].value);
+  sendWelcome(payload.email, payload.full_name, "");
   return UserService.create(payload);
 };
 
