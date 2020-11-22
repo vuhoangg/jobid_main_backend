@@ -45,8 +45,8 @@ router.get("/employer/google/callback", passport_1.default.authenticate("google_
     });
     res.redirect(`${process.env.STUDIO_URL}`);
 }));
-router.get("/user/facebook", passport_1.default.authenticate("facebook", { scope: ["email"] }));
-router.get("/user/facebook/callback", passport_1.default.authenticate("facebook", { failureRedirect: "/user/login" }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get("/user/facebook", passport_1.default.authenticate("facebook_user", { scope: ["email"] }));
+router.get("/user/facebook/callback", passport_1.default.authenticate("facebook_user", { failureRedirect: "/user/login" }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = req.user.user;
     if (user._id) {
         const accessToken = req.user.accessToken;

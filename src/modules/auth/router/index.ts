@@ -52,10 +52,10 @@ router.get(
   }
 );
 
-router.get("/user/facebook", passport.authenticate("facebook", { scope: ["email"] }));
+router.get("/user/facebook", passport.authenticate("facebook_user", { scope: ["email"] }));
 router.get(
   "/user/facebook/callback",
-  passport.authenticate("facebook", { failureRedirect: "/user/login" }),
+  passport.authenticate("facebook_user", { failureRedirect: "/user/login" }),
   async (req: any, res) => {
     const user = req.user.user;
     if (user._id) {
