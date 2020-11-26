@@ -4,6 +4,7 @@ import { authenticateUser } from "../../../middlewares/authenticate";
 import JobPostWishlistService from "../../../db/repositories/JobPostWishlistRepository";
 import JobSaveService from "../../../db/repositories/JobSaveRepository";
 import JobApplyService from "../../../db/repositories/JobApplyRepository";
+import { seoDescription } from "../../../helpers/seo";
 
 export const getJobPost = async (source, args, context, info) => {
   const fields = rootField(info);
@@ -50,8 +51,8 @@ export const getJobPost = async (source, args, context, info) => {
     save_count: save_count,
     apply_count: apply_count,
     status: jobPost.status,
-    seo_title: jobPost.seo_title,
-    seo_description: jobPost.seo_description,
+    seo_title: jobPost.seo_title || jobPost.title,
+    seo_description: jobPost.seo_description || seoDescription(jobPost.description),
     is_featured: is_featured,
     is_wishlist: is_wishlist,
     created_at: jobPost.created_at,
@@ -105,8 +106,8 @@ export function getJobPosts(source, args, context, info) {
           user: jobPosts[i].user,
           view_count: jobPosts[i].view_count,
           status: jobPosts[i].status,
-          seo_title: jobPosts[i].seo_title,
-          seo_description: jobPosts[i].seo_description,
+          seo_title: jobPosts[i].seo_title || jobPosts[i].title,
+          seo_description: jobPosts[i].seo_description || seoDescription(jobPosts[i].seo_description),
           is_featured: is_featured,
           is_wishlist: is_wishlist,
           created_at: jobPosts[i].created_at,

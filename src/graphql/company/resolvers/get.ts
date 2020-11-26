@@ -2,6 +2,7 @@ import CompanyFollowService from "../../../db/repositories/CompanyFollowReposito
 import CompanyNotificationRegisterService from "../../../db/repositories/CompanyNotificationRegisterRepository";
 import CompanyService from "../../../db/repositories/CompanyRepository";
 import JobPostService from "../../../db/repositories/JobPostRepository";
+import { seoDescription } from "../../../helpers/seo";
 import { authenticateUser } from "../../../middlewares/authenticate";
 import { filterObject, rootField, rootInfo } from "../../helpers";
 
@@ -52,8 +53,8 @@ export const getCompany = async (source, args, context, info) => {
     is_follow: is_follow,
     is_register: is_register,
     size: company.size,
-    seo_title: company.seo_title,
-    seo_description: company.seo_description,
+    seo_title: company.seo_title || company.title,
+    seo_description: company.seo_description || seoDescription(company.description),
     created_at: company.created_at,
     updated_at: company.updated_at,
   };
@@ -112,8 +113,8 @@ export const getCompanys = async (source, args, context, info) => {
         is_follow: is_follow,
         is_register: is_register,
         size: companys[i].size,
-        seo_title: companys[i].seo_title,
-        seo_description: companys[i].seo_description,
+        seo_title: companys[i].seo_title || companys[i].title,
+        seo_description: companys[i].seo_description || seoDescription(companys[i].description),
         created_at: companys[i].created_at,
         updated_at: companys[i].updated_at,
       },

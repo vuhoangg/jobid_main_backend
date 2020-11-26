@@ -17,6 +17,7 @@ const CompanyFollowRepository_1 = __importDefault(require("../../../db/repositor
 const CompanyNotificationRegisterRepository_1 = __importDefault(require("../../../db/repositories/CompanyNotificationRegisterRepository"));
 const CompanyRepository_1 = __importDefault(require("../../../db/repositories/CompanyRepository"));
 const JobPostRepository_1 = __importDefault(require("../../../db/repositories/JobPostRepository"));
+const seo_1 = require("../../../helpers/seo");
 const authenticate_1 = require("../../../middlewares/authenticate");
 const helpers_1 = require("../../helpers");
 exports.getCompany = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
@@ -63,8 +64,8 @@ exports.getCompany = (source, args, context, info) => __awaiter(void 0, void 0, 
         is_follow: is_follow,
         is_register: is_register,
         size: company.size,
-        seo_title: company.seo_title,
-        seo_description: company.seo_description,
+        seo_title: company.seo_title || company.title,
+        seo_description: company.seo_description || seo_1.seoDescription(company.description),
         created_at: company.created_at,
         updated_at: company.updated_at,
     };
@@ -118,8 +119,8 @@ exports.getCompanys = (source, args, context, info) => __awaiter(void 0, void 0,
                 is_follow: is_follow,
                 is_register: is_register,
                 size: companys[i].size,
-                seo_title: companys[i].seo_title,
-                seo_description: companys[i].seo_description,
+                seo_title: companys[i].seo_title || companys[i].title,
+                seo_description: companys[i].seo_description || seo_1.seoDescription(companys[i].description),
                 created_at: companys[i].created_at,
                 updated_at: companys[i].updated_at,
             },

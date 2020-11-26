@@ -1,5 +1,6 @@
 import CommunityPostLikeService from "../../../db/repositories/CommunityPostLikeRepository";
 import CommunityPostService from "../../../db/repositories/CommunityPostRepository";
+import { seoDescription } from "../../../helpers/seo";
 import { authenticateUser } from "../../../middlewares/authenticate";
 import { filterObject, rootField, rootInfo } from "../../helpers";
 
@@ -29,8 +30,8 @@ export const getCommunityPost = async (source, args, context, info) => {
         view_count: communityPost.view_count,
         answer_count: communityPost.answer_count,
         status: communityPost.status,
-        seo_title: communityPost.seo_title,
-        seo_description: communityPost.seo_description,
+        seo_title: communityPost.seo_title || communityPost.title,
+        seo_description: communityPost.seo_description || seoDescription(communityPost.description),
         created_at: communityPost.created_at,
         updated_at: communityPost.updated_at,
     };
@@ -68,8 +69,8 @@ export const getCommunityPosts = async (source, args, context, info) => {
                 view_count: communityPosts[i].view_count,
                 answer_count: communityPosts[i].answer_count,
                 status: communityPosts[i].status,
-                seo_title: communityPosts[i].seo_title,
-                seo_description: communityPosts[i].seo_description,
+                seo_title: communityPosts[i].seo_title || communityPosts[i].title,
+                seo_description: communityPosts[i].seo_description || seoDescription(communityPosts[i].description),
                 created_at: communityPosts[i].created_at,
                 updated_at: communityPosts[i].updated_at,
             }

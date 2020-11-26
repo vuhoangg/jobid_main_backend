@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCommunityPosts = exports.getCommunityPost = void 0;
 const CommunityPostLikeRepository_1 = __importDefault(require("../../../db/repositories/CommunityPostLikeRepository"));
 const CommunityPostRepository_1 = __importDefault(require("../../../db/repositories/CommunityPostRepository"));
+const seo_1 = require("../../../helpers/seo");
 const authenticate_1 = require("../../../middlewares/authenticate");
 const helpers_1 = require("../../helpers");
 exports.getCommunityPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
@@ -40,8 +41,8 @@ exports.getCommunityPost = (source, args, context, info) => __awaiter(void 0, vo
         view_count: communityPost.view_count,
         answer_count: communityPost.answer_count,
         status: communityPost.status,
-        seo_title: communityPost.seo_title,
-        seo_description: communityPost.seo_description,
+        seo_title: communityPost.seo_title || communityPost.title,
+        seo_description: communityPost.seo_description || seo_1.seoDescription(communityPost.description),
         created_at: communityPost.created_at,
         updated_at: communityPost.updated_at,
     };
@@ -75,8 +76,8 @@ exports.getCommunityPosts = (source, args, context, info) => __awaiter(void 0, v
                 view_count: communityPosts[i].view_count,
                 answer_count: communityPosts[i].answer_count,
                 status: communityPosts[i].status,
-                seo_title: communityPosts[i].seo_title,
-                seo_description: communityPosts[i].seo_description,
+                seo_title: communityPosts[i].seo_title || communityPosts[i].title,
+                seo_description: communityPosts[i].seo_description || seo_1.seoDescription(communityPosts[i].description),
                 created_at: communityPosts[i].created_at,
                 updated_at: communityPosts[i].updated_at,
             }

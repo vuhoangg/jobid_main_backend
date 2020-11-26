@@ -19,6 +19,7 @@ const authenticate_1 = require("../../../middlewares/authenticate");
 const JobPostWishlistRepository_1 = __importDefault(require("../../../db/repositories/JobPostWishlistRepository"));
 const JobSaveRepository_1 = __importDefault(require("../../../db/repositories/JobSaveRepository"));
 const JobApplyRepository_1 = __importDefault(require("../../../db/repositories/JobApplyRepository"));
+const seo_1 = require("../../../helpers/seo");
 exports.getJobPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     const fields = helpers_1.rootField(info);
     let getBy = args._id ? { _id: args._id } : { slug: args.slug };
@@ -59,8 +60,8 @@ exports.getJobPost = (source, args, context, info) => __awaiter(void 0, void 0, 
         save_count: save_count,
         apply_count: apply_count,
         status: jobPost.status,
-        seo_title: jobPost.seo_title,
-        seo_description: jobPost.seo_description,
+        seo_title: jobPost.seo_title || jobPost.title,
+        seo_description: jobPost.seo_description || seo_1.seoDescription(jobPost.description),
         is_featured: is_featured,
         is_wishlist: is_wishlist,
         created_at: jobPost.created_at,
@@ -108,8 +109,8 @@ function getJobPosts(source, args, context, info) {
                     user: jobPosts[i].user,
                     view_count: jobPosts[i].view_count,
                     status: jobPosts[i].status,
-                    seo_title: jobPosts[i].seo_title,
-                    seo_description: jobPosts[i].seo_description,
+                    seo_title: jobPosts[i].seo_title || jobPosts[i].title,
+                    seo_description: jobPosts[i].seo_description || seo_1.seoDescription(jobPosts[i].seo_description),
                     is_featured: is_featured,
                     is_wishlist: is_wishlist,
                     created_at: jobPosts[i].created_at,
