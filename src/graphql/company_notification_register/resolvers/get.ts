@@ -27,7 +27,7 @@ export const getCompanyNotificationRegister = async (source, args, context, info
 export const getCompanyNotificationRegisters = async (source, args, context, info) => {
     let infos = rootInfo(info);
     let filter = filterObject(args.filter);
-    let page = args.page > 50 ? 10 : args.page;
+    let page = args.page > 4000 ? 10 : args.page;
 
     let isAuthenticated = await authenticateUser(context, context.res);
     if (isAuthenticated) {

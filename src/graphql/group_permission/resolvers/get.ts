@@ -17,7 +17,7 @@ export function getGroupPermission(source, args, context, info) {
 export function getGroupPermissions(source, args, context, info) {
   let infos = rootInfo(info);
   let filter = filterObject(args.filter);
-  let page = args.page > 50 ? 10 : args.page;
+  let page = args.page > 4000 ? 10 : args.page;
   return GroupPermissionService.filter(filter, args.limit, page, infos.edges).then(async (groupPermission) => {
     let countData = infos.pageInfo && infos.pageInfo.length ? await GroupPermissionService.count(filter) : 0;
     let dataRet = {

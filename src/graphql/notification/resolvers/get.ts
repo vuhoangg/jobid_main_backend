@@ -1,5 +1,5 @@
 import NotificationService from "../../../db/repositories/NotificationRepository";
-import {filterObject, rootField, rootInfo} from "../../helpers";
+import { filterObject, rootField, rootInfo } from "../../helpers";
 
 export function getNotification(source, args, context, info) {
   const fields = rootField(info);
@@ -24,7 +24,7 @@ export function getNotifications(source, args, context, info) {
   let infos = rootInfo(info);
   let filter = filterObject(args.filter);
 
-  let page = args.page > 50 ? 10 : args.page;
+  let page = args.page > 4000 ? 10 : args.page;
   return NotificationService.filter(filter, args.limit, page, infos.edges)
     .then(async (notifications) => {
       let edges = [];
@@ -47,7 +47,7 @@ export function getNotifications(source, args, context, info) {
       }
       let countData = (infos.pageInfo && infos.pageInfo.length) ? await NotificationService.count(filter) : 0;
       let dataRet = {
-        ...{edges},
+        ...{ edges },
         pageInfo: {
           length: countData,
           hasNextPage: notifications.length >= args.limit,

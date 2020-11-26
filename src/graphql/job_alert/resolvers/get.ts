@@ -1,5 +1,5 @@
 import JobAlertService from "../../../db/repositories/JobAlertRepository";
-import {filterObject, rootField, rootInfo} from "../../helpers";
+import { filterObject, rootField, rootInfo } from "../../helpers";
 
 export function getJobAlert(source, args, context, info) {
   const fields = rootField(info);
@@ -19,7 +19,7 @@ export function getJobAlert(source, args, context, info) {
 export function getJobAlerts(source, args, context, info) {
   let infos = rootInfo(info);
   let filter = filterObject(args.filter);
-  let page = args.page > 50 ? 10 : args.page;
+  let page = args.page > 4000 ? 10 : args.page;
   return JobAlertService.filter(filter, args.limit, page, infos.edges)
     .then(async (jobAlerts) => {
       let edges = [];
@@ -38,7 +38,7 @@ export function getJobAlerts(source, args, context, info) {
       }
       let countData = (infos.pageInfo && infos.pageInfo.length) ? await JobAlertService.count(filter) : 0;
       let dataRet = {
-        ...{edges},
+        ...{ edges },
         pageInfo: {
           length: countData,
           hasNextPage: jobAlerts.length >= args.limit,

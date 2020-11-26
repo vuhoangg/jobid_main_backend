@@ -1,5 +1,5 @@
 import CandidateService from "../../../db/repositories/CandidateRepository";
-import {filterObject, rootField, rootInfo} from "../../helpers";
+import { filterObject, rootField, rootInfo } from "../../helpers";
 
 export function getCandidate(source, args, context, info) {
   const fields = rootField(info);
@@ -42,7 +42,7 @@ export function getCandidate(source, args, context, info) {
 export function getCandidates(source, args, context, info) {
   let infos = rootInfo(info);
   let filter = filterObject(args.filter);
-  let page = args.page > 50 ? 10 : args.page;
+  let page = args.page > 4000 ? 10 : args.page;
   return CandidateService.filter(filter, args.limit, page, infos.edges)
     .then(async (candidates) => {
       let edges = [];
@@ -84,7 +84,7 @@ export function getCandidates(source, args, context, info) {
       }
       let countData = (infos.pageInfo && infos.pageInfo.length) ? await CandidateService.count(filter) : 0;
       let dataRet = {
-        ...{edges},
+        ...{ edges },
         pageInfo: {
           length: countData,
           hasNextPage: candidates.length >= args.limit,

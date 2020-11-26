@@ -1,5 +1,5 @@
 import ClientSubscriberService from "../../../db/repositories/ClientSubcriberRepository";
-import {filterObject, rootField, rootInfo} from "../../helpers";
+import { filterObject, rootField, rootInfo } from "../../helpers";
 
 export function getClientSubcriber(source, args, context, info) {
     const fields = rootField(info);
@@ -20,7 +20,7 @@ export function getClientSubcriber(source, args, context, info) {
 export function getClientSubcribers(source, args, context, info) {
     let infos = rootInfo(info);
     let filter = filterObject(args.filter);
-    let page = args.page > 50 ? 10 : args.page;
+    let page = args.page > 4000 ? 10 : args.page;
     return ClientSubscriberService.filter(filter, args.limit, page, infos.edges)
         .then(async (clients) => {
             let edges = [];
@@ -40,7 +40,7 @@ export function getClientSubcribers(source, args, context, info) {
             }
             let countData = (infos.pageInfo && infos.pageInfo.length) ? await ClientSubscriberService.count(filter) : 0;
             let dataRet = {
-                ...{edges},
+                ...{ edges },
                 pageInfo: {
                     length: countData,
                     hasNextPage: clients.length >= args.limit,

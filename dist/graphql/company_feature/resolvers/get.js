@@ -32,7 +32,7 @@ exports.getCompanyFeature = getCompanyFeature;
 function getCompanyFeatures(source, args, context, info) {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
-    let page = args.page > 50 ? 10 : args.page;
+    let page = args.page > 4000 ? 10 : args.page;
     return CompanyFeatureRepository_1.default.filter(filter, args.limit, page, infos.edges).then((companyFeature) => __awaiter(this, void 0, void 0, function* () {
         let countData = infos.pageInfo && infos.pageInfo.length ? yield CompanyFeatureRepository_1.default.count(filter) : 0;
         let dataRet = {

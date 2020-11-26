@@ -18,7 +18,7 @@ export const getCurriculumVitaes = async (source, args, context, info) => {
   if (await authenticateUser(context, context.res)) {
     let infos = rootInfo(info);
     let filter = { user_created: context.res.locals.fullUser._id, status: "active", ...filterObject(args.filter) };
-    let page = args.page > 50 ? 10 : args.page;
+    let page = args.page > 4000 ? 10 : args.page;
     return CurriculumVitaeService.filter(filter, args.limit, page, infos.edges).then(async (curriculumVitae) => {
       let countData = infos.pageInfo && infos.pageInfo.length ? await CurriculumVitaeService.count(filter) : 0;
       let dataRet = {

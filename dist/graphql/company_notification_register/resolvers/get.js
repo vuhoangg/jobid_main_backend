@@ -39,7 +39,7 @@ exports.getCompanyNotificationRegister = (source, args, context, info) => __awai
 exports.getCompanyNotificationRegisters = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
-    let page = args.page > 50 ? 10 : args.page;
+    let page = args.page > 4000 ? 10 : args.page;
     let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;

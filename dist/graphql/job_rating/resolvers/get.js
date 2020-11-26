@@ -35,7 +35,7 @@ exports.getJobRating = getJobRating;
 function getJobRatings(source, args, context, info) {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
-    let page = args.page > 50 ? 10 : args.page;
+    let page = args.page > 4000 ? 10 : args.page;
     return JobRatingRepository_1.default.filter(filter, args.limit, page, infos.edges).then((jobRatings) => __awaiter(this, void 0, void 0, function* () {
         let edges = [];
         for (let i = 0; i < jobRatings.length; i++) {

@@ -33,7 +33,7 @@ export const getJobApply = async (source, args, context, info) => {
 export const getJobApplys = async (source, args, context, info) => {
   let infos = rootInfo(info);
   let filter = filterObject(args.filter);
-  let page = args.page > 50 ? 10 : args.page;
+  let page = args.page > 4000 ? 10 : args.page;
 
   let isAuthenticated = await authenticateUser(context, context.res);
 
@@ -103,7 +103,7 @@ export const getEmployerJobApply = async (source, args, context, info) => {
 export const getEmployerJobApplys = async (source, args, context, info) => {
   let infos = rootInfo(info);
   let filter = filterObject(args.filter);
-  let page = args.page > 50 ? 10 : args.page;
+  let page = args.page > 4000 ? 10 : args.page;
 
   let isAuthenticated = await authenticateEmployer(context, context.res);
 

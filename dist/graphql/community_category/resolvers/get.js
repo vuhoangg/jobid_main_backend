@@ -34,7 +34,7 @@ exports.getCommunityCategory = (source, args, context, info) => __awaiter(void 0
 exports.getCommunityCategorys = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
-    let page = args.page > 50 ? 10 : args.page;
+    let page = args.page > 4000 ? 10 : args.page;
     let communityCategorys = yield CommunityCategoryRepository_1.default.filter(filter, args.limit, page, infos.edges);
     let edges = [];
     for (let i = 0; i < communityCategorys.length; i++) {

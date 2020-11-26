@@ -35,7 +35,7 @@ exports.getBenefit = getBenefit;
 function getBenefits(source, args, context, info) {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
-    let page = args.page > 50 ? 10 : args.page;
+    let page = args.page > 4000 ? 10 : args.page;
     return BenefitRepository_1.default.filter(filter, args.limit, page, infos.edges)
         .then((benefits) => __awaiter(this, void 0, void 0, function* () {
         let edges = [];

@@ -1,5 +1,5 @@
 import JobViewService from "../../../db/repositories/JobViewRepository";
-import {filterObject, rootField, rootInfo} from "../../helpers";
+import { filterObject, rootField, rootInfo } from "../../helpers";
 
 export function getJobView(source, args, context, info) {
   const fields = rootField(info);
@@ -19,7 +19,7 @@ export function getJobView(source, args, context, info) {
 export function getJobViews(source, args, context, info) {
   let infos = rootInfo(info);
   let filter = filterObject(args.filter);
-  let page = args.page > 50 ? 10 : args.page;
+  let page = args.page > 4000 ? 10 : args.page;
   return JobViewService.filter(filter, args.limit, page, infos.edges)
     .then(async (jobViews) => {
       let edges = [];
@@ -38,7 +38,7 @@ export function getJobViews(source, args, context, info) {
       }
       let countData = (infos.pageInfo && infos.pageInfo.length) ? await JobViewService.count(filter) : 0;
       let dataRet = {
-        ...{edges},
+        ...{ edges },
         pageInfo: {
           length: countData,
           hasNextPage: jobViews.length >= args.limit,

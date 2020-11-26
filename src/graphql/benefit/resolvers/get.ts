@@ -1,5 +1,5 @@
 import BenefitService from "../../../db/repositories/BenefitRepository";
-import {filterObject, rootField, rootInfo} from "../../helpers";
+import { filterObject, rootField, rootInfo } from "../../helpers";
 
 export function getBenefit(source, args, context, info) {
     const fields = rootField(info);
@@ -21,7 +21,7 @@ export function getBenefit(source, args, context, info) {
 export function getBenefits(source, args, context, info) {
     let infos = rootInfo(info);
     let filter = filterObject(args.filter);
-    let page = args.page > 50 ? 10 : args.page;
+    let page = args.page > 4000 ? 10 : args.page;
     return BenefitService.filter(filter, args.limit, page, infos.edges)
         .then(async (benefits) => {
             let edges = [];
@@ -43,7 +43,7 @@ export function getBenefits(source, args, context, info) {
             }
             let countData = (infos.pageInfo && infos.pageInfo.length) ? await BenefitService.count(filter) : 0;
             let dataRet = {
-                ...{edges},
+                ...{ edges },
                 pageInfo: {
                     length: countData,
                     hasNextPage: benefits.length >= args.limit,

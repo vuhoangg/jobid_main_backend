@@ -1,5 +1,5 @@
 import ServiceNotification from "../../../db/repositories/ServiceNotificationRepository";
-import {filterObject, rootField, rootInfo} from "../../helpers";
+import { filterObject, rootField, rootInfo } from "../../helpers";
 
 export function getServiceWorkerNotification(source, args, context, info) {
     const fields = rootField(info);
@@ -24,7 +24,7 @@ export function getServiceWorkerNotification(source, args, context, info) {
 export function getServiceWorkerNotifications(source, args, context, info) {
     let infos = rootInfo(info);
     let filter = filterObject(args.filter);
-    let page = args.page > 50 ? 10 : args.page;
+    let page = args.page > 4000 ? 10 : args.page;
     return ServiceNotification.filter(filter, args.limit, page, infos.edges)
         .then(async (notifications) => {
             let edges = [];
@@ -48,7 +48,7 @@ export function getServiceWorkerNotifications(source, args, context, info) {
             }
             let countData = (infos.pageInfo && infos.pageInfo.length) ? await ServiceNotification.count(filter) : 0;
             let dataRet = {
-                ...{edges},
+                ...{ edges },
                 pageInfo: {
                     length: countData,
                     hasNextPage: notifications.length >= args.limit,

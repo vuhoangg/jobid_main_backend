@@ -18,7 +18,7 @@ export const getCommunityPostLike = async (source, args, context, info) => {
 export const getCommunityPostLikes = async (source, args, context, info) => {
     let infos = rootInfo(info);
     let filter = filterObject(args.filter);
-    let page = args.page > 50 ? 10 : args.page;
+    let page = args.page > 4000 ? 10 : args.page;
 
     let communityPostLikes = await CommunityPostLikeService.filter(filter, args.limit, page, infos.edges);
 

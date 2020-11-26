@@ -22,7 +22,7 @@ export function getCompanyRating(source, args, context, info) {
 export function getCompanyRatings(source, args, context, info) {
   let infos = rootInfo(info);
   let filter = filterObject(args.filter);
-  let page = args.page > 50 ? 10 : args.page;
+  let page = args.page > 4000 ? 10 : args.page;
   return CompanyRatingService.filter(filter, args.limit, page, infos.edges).then(async (companyRatings) => {
     let edges = [];
     for (let i = 0; i < companyRatings.length; i++) {

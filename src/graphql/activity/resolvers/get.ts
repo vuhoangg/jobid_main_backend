@@ -1,10 +1,10 @@
-import {filterObject, rootInfo} from "../../helpers";
+import { filterObject, rootInfo } from "../../helpers";
 import ActivityService from "../../../db/repositories/ActivityRepository";
 
 export function getActivitys(source, args, context, info) {
   let infos = rootInfo(info);
   let filter = filterObject(args.filter);
-  let page = args.page > 50 ? 10 : args.page;
+  let page = args.page > 4000 ? 10 : args.page;
   return ActivityService.filter(filter, args.limit, page, infos.edges)
     .then(async (activitys) => {
       let edges = [];
@@ -25,7 +25,7 @@ export function getActivitys(source, args, context, info) {
       }
       let countData = (infos.pageInfo && infos.pageInfo.length) ? await ActivityService.count(filter) : 0;
       let dataRet = {
-        ...{edges},
+        ...{ edges },
         pageInfo: {
           length: countData,
           hasNextPage: activitys.length >= args.limit,

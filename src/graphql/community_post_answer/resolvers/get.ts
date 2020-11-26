@@ -22,7 +22,7 @@ export const getCommunityPostAnswer = async (source, args, context, info) => {
 export const getCommunityPostAnswers = async (source, args, context, info) => {
     let infos = rootInfo(info);
     let filter = filterObject(args.filter);
-    let page = args.page > 50 ? 10 : args.page;
+    let page = args.page > 4000 ? 10 : args.page;
 
     let communityPostAnswers = await CommunityPostAnswerService.filter(filter, args.limit, page, infos.edges);
 
