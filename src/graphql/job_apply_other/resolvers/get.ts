@@ -23,8 +23,9 @@ export function getJobApplyOther(source, args, context, info) {
 export function getJobApplyOthers(source, args, context, info) {
   let infos = rootInfo(info);
   let filter = filterObject(args.filter);
-  let page = args.page > 4000 ? 10 : args.page;
-  return JobApplyOtherService.filter(filter, args.limit, page, infos.edges).then(async (jobApplyOthers) => {
+  let limit = args.limit > 1000 ? 10 : args.limit;
+  let page = args.page;
+  return JobApplyOtherService.filter(filter, limit, page, infos.edges).then(async (jobApplyOthers) => {
     let edges = [];
     for (let i = 0; i < jobApplyOthers.length; i++) {
       let jobApplyOther = {
@@ -49,7 +50,7 @@ export function getJobApplyOthers(source, args, context, info) {
       ...{ edges },
       pageInfo: {
         length: countData,
-        hasNextPage: jobApplyOthers.length >= args.limit,
+        hasNextPage: jobApplyOthers.length >= limit,
         hasPreviousPage: page > 1,
       },
     };

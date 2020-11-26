@@ -1,5 +1,5 @@
 import JobSkillService from "../../../db/repositories/JobSkillRepository";
-import {filterObject, rootField, rootInfo} from "../../helpers";
+import { filterObject, rootField, rootInfo } from "../../helpers";
 
 export function getJobSkill(source, args, context, info) {
     const fields = rootField(info);
@@ -41,7 +41,7 @@ export function getJobSkills(source, args, context, info) {
             }
             let countData = (infos.pageInfo && infos.pageInfo.length) ? await JobSkillService.count(filter) : 0;
             let dataRet = {
-                ...{edges},
+                ...{ edges },
                 pageInfo: {
                     length: countData,
                     hasNextPage: jobSkills.length >= args.limit,

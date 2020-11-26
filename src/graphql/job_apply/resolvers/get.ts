@@ -33,15 +33,15 @@ export const getJobApply = async (source, args, context, info) => {
 export const getJobApplys = async (source, args, context, info) => {
   let infos = rootInfo(info);
   let filter = filterObject(args.filter);
-  let page = args.page > 4000 ? 10 : args.page;
-
+  let limit = args.limit > 1000 ? 10 : args.limit;
+  let page = args.page;
   let isAuthenticated = await authenticateUser(context, context.res);
 
   if (isAuthenticated) {
     let loggedUser = context.res.locals.fullUser;
     filter = Object.assign(filter, { user: loggedUser._id });
 
-    let jobApplys = await JobApplyService.filter(filter, args.limit, page, infos.edges);
+    let jobApplys = await JobApplyService.filter(filter, limit, page, infos.edges);
     let edges = [];
     for (let i = 0; i < jobApplys.length; i++) {
       let jobApply = {
@@ -65,7 +65,7 @@ export const getJobApplys = async (source, args, context, info) => {
       ...{ edges },
       pageInfo: {
         length: countData,
-        hasNextPage: jobApplys.length >= args.limit,
+        hasNextPage: jobApplys.length >= limit,
         hasPreviousPage: page > 1,
       },
     };
@@ -103,15 +103,15 @@ export const getEmployerJobApply = async (source, args, context, info) => {
 export const getEmployerJobApplys = async (source, args, context, info) => {
   let infos = rootInfo(info);
   let filter = filterObject(args.filter);
-  let page = args.page > 4000 ? 10 : args.page;
-
+  let limit = args.limit > 1000 ? 10 : args.limit;
+  let page = args.page;
   let isAuthenticated = await authenticateEmployer(context, context.res);
 
   if (isAuthenticated) {
     let loggedEmployer = context.res.locals.fullEmployer;
     filter = Object.assign(filter, { employer: loggedEmployer._id });
 
-    let jobApplys = await JobApplyService.filter(filter, args.limit, page, infos.edges);
+    let jobApplys = await JobApplyService.filter(filter, limit, page, infos.edges);
     let edges = [];
     for (let i = 0; i < jobApplys.length; i++) {
       let jobApply = {
@@ -135,7 +135,7 @@ export const getEmployerJobApplys = async (source, args, context, info) => {
       ...{ edges },
       pageInfo: {
         length: countData,
-        hasNextPage: jobApplys.length >= args.limit,
+        hasNextPage: jobApplys.length >= limit,
         hasPreviousPage: page > 1,
       },
     };

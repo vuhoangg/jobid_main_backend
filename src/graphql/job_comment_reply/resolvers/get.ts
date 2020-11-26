@@ -20,8 +20,9 @@ export function getJobReplyComment(source, args, context, info) {
 export function getJobReplyComments(source, args, context, info) {
   let infos = rootInfo(info);
   let filter = filterObject(args.filter);
-  let page = args.page > 4000 ? 10 : args.page;
-  return JobCommentReplySerrvice.filter(filter, args.limit, page, infos.edges).then(async (jobCommentsReply) => {
+  let limit = args.limit > 1000 ? 10 : args.limit;
+  let page = args.page;
+  return JobCommentReplySerrvice.filter(filter, limit, page, infos.edges).then(async (jobCommentsReply) => {
     let edges = [];
     for (let i = 0; i < jobCommentsReply.length; i++) {
       let jobComment = {
@@ -43,7 +44,7 @@ export function getJobReplyComments(source, args, context, info) {
       ...{ edges },
       pageInfo: {
         length: countData,
-        hasNextPage: jobCommentsReply.length >= args.limit,
+        hasNextPage: jobCommentsReply.length >= limit,
         hasPreviousPage: page > 1,
       },
     };

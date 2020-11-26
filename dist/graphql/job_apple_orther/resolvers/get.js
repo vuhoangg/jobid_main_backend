@@ -37,8 +37,8 @@ exports.getJobApplyOrther = getJobApplyOrther;
 function getJobApplysOrther(source, args, context, info) {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
-    let page = args.page > 4000 ? 10 : args.page;
-    return JobApplyRepository_1.default.filter(filter, args.limit, page, infos.edges).then((jobApplys) => __awaiter(this, void 0, void 0, function* () {
+    let limit = args.limit > 1000 ? 10 : args.limit;
+    return JobApplyRepository_1.default.filter(filter, limit, page, infos.edges).then((jobApplys) => __awaiter(this, void 0, void 0, function* () {
         let edges = [];
         for (let i = 0; i < jobApplys.length; i++) {
             let jobApply = {
@@ -61,7 +61,7 @@ function getJobApplysOrther(source, args, context, info) {
         let dataRet = Object.assign({ edges }, {
             pageInfo: {
                 length: countData,
-                hasNextPage: jobApplys.length >= args.limit,
+                hasNextPage: jobApplys.length >= limit,
                 hasPreviousPage: page > 1,
             }
         });

@@ -22,9 +22,9 @@ export const getCommunityCategory = async (source, args, context, info) => {
 export const getCommunityCategorys = async (source, args, context, info) => {
     let infos = rootInfo(info);
     let filter = filterObject(args.filter);
-    let page = args.page > 4000 ? 10 : args.page;
-
-    let communityCategorys = await CommunityCategoryService.filter(filter, args.limit, page, infos.edges);
+    let limit = args.limit > 1000 ? 10 : args.limit;
+    let page = args.page;
+    let communityCategorys = await CommunityCategoryService.filter(filter, limit, page, infos.edges);
 
     let edges = [];
     for (let i = 0; i < communityCategorys.length; i++) {
@@ -48,7 +48,7 @@ export const getCommunityCategorys = async (source, args, context, info) => {
         ...{ edges },
         pageInfo: {
             length: countData,
-            hasNextPage: communityCategorys.length >= args.limit,
+            hasNextPage: communityCategorys.length >= limit,
             hasPreviousPage: page > 1
         }
     };

@@ -4,8 +4,9 @@ import ActivityService from "../../../db/repositories/ActivityRepository";
 export function getActivitys(source, args, context, info) {
   let infos = rootInfo(info);
   let filter = filterObject(args.filter);
-  let page = args.page > 4000 ? 10 : args.page;
-  return ActivityService.filter(filter, args.limit, page, infos.edges)
+  let limit = args.limit > 1000 ? 10 : args.limit;
+  let page = args.page;
+  return ActivityService.filter(filter, limit, page, infos.edges)
     .then(async (activitys) => {
       let edges = [];
       for (let i = 0; i < activitys.length; i++) {
@@ -28,7 +29,7 @@ export function getActivitys(source, args, context, info) {
         ...{ edges },
         pageInfo: {
           length: countData,
-          hasNextPage: activitys.length >= args.limit,
+          hasNextPage: activitys.length >= limit,
           hasPreviousPage: page > 1
         }
       };

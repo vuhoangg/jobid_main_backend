@@ -34,8 +34,8 @@ exports.getCommunityAnswer = (source, args, context, info) => __awaiter(void 0, 
 exports.getCommunityAnswers = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
-    let page = args.page > 4000 ? 10 : args.page;
-    let communityAnswers = yield CommunityAnswerRepository_1.default.filter(filter, args.limit, page, infos.edges);
+    let limit = args.limit > 1000 ? 10 : args.limit;
+    let communityAnswers = yield CommunityAnswerRepository_1.default.filter(filter, limit, page, infos.edges);
     let edges = [];
     for (let i = 0; i < communityAnswers.length; i++) {
         let communityAnswer = {
@@ -58,7 +58,7 @@ exports.getCommunityAnswers = (source, args, context, info) => __awaiter(void 0,
     let dataRet = Object.assign({ edges }, {
         pageInfo: {
             length: countData,
-            hasNextPage: communityAnswers.length >= args.limit,
+            hasNextPage: communityAnswers.length >= limit,
             hasPreviousPage: page > 1
         }
     });

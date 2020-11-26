@@ -41,9 +41,9 @@ export const getCommunityPost = async (source, args, context, info) => {
 export const getCommunityPosts = async (source, args, context, info) => {
     let infos = rootInfo(info);
     let filter = filterObject(args.filter);
-    let page = args.page > 4000 ? 10 : args.page;
-
-    let communityPosts = await CommunityPostService.filter(filter, args.limit, page, infos.edges);
+    let limit = args.limit > 1000 ? 10 : args.limit;
+    let page = args.page;
+    let communityPosts = await CommunityPostService.filter(filter, limit, page, infos.edges);
 
     let isAuthenticated = await authenticateUser(context, context.res);
 
@@ -82,7 +82,7 @@ export const getCommunityPosts = async (source, args, context, info) => {
         ...{ edges },
         pageInfo: {
             length: countData,
-            hasNextPage: communityPosts.length >= args.limit,
+            hasNextPage: communityPosts.length >= limit,
             hasPreviousPage: page > 1
         }
     };

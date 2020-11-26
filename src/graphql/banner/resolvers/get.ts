@@ -21,8 +21,9 @@ export function getBanner(source, args, context, info) {
 export function getBanners(source, args, context, info) {
     let infos = rootInfo(info);
     let filter = filterObject(args.filter);
-    let page = args.page > 4000 ? 10 : args.page;
-    return BannerService.filter(filter, args.limit, page, infos.edges)
+    let limit = args.limit > 1000 ? 10 : args.limit;
+    let page = args.page;
+    return BannerService.filter(filter, limit, page, infos.edges)
         .then(async (banners) => {
             let edges = [];
             for (let i = 0; i < banners.length; i++) {
@@ -45,7 +46,7 @@ export function getBanners(source, args, context, info) {
                 ...{ edges },
                 pageInfo: {
                     length: countData,
-                    hasNextPage: banners.length >= args.limit,
+                    hasNextPage: banners.length >= limit,
                     hasPreviousPage: page > 1
                 }
             };

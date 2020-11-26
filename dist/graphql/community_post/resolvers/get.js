@@ -51,8 +51,9 @@ exports.getCommunityPost = (source, args, context, info) => __awaiter(void 0, vo
 exports.getCommunityPosts = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
-    let page = args.page > 4000 ? 10 : args.page;
-    let communityPosts = yield CommunityPostRepository_1.default.filter(filter, args.limit, page, infos.edges);
+    let limit = args.limit > 1000 ? 10 : args.limit;
+    let page = args.page;
+    let communityPosts = yield CommunityPostRepository_1.default.filter(filter, limit, page, infos.edges);
     let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
     let edges = [];
     for (let i = 0; i < communityPosts.length; i++) {
@@ -87,7 +88,7 @@ exports.getCommunityPosts = (source, args, context, info) => __awaiter(void 0, v
     let countData = (infos.pageInfo && infos.pageInfo.length) ? yield CommunityPostRepository_1.default.count(filter) : 0;
     let dataRet = Object.assign({ edges }, { pageInfo: {
             length: countData,
-            hasNextPage: communityPosts.length >= args.limit,
+            hasNextPage: communityPosts.length >= limit,
             hasPreviousPage: page > 1
         } });
     return dataRet;

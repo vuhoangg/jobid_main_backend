@@ -37,8 +37,8 @@ exports.getJobPostWishlist = (source, args, context, info) => __awaiter(void 0, 
 function getJobPostWishlists(source, args, context, info) {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
-    let limit = args.limit > 50 ? 10 : args.limit;
-    return JobPostWishlistRepository_1.default.filter(filter, limit, args.page, infos.edges).then((jobPostWishlists) => __awaiter(this, void 0, void 0, function* () {
+    let limit = args.limit > 1000 ? 10 : args.limit;
+    return JobPostWishlistRepository_1.default.filter(filter, limit, page, infos.edges).then((jobPostWishlists) => __awaiter(this, void 0, void 0, function* () {
         let edges = [];
         for (let i = 0; i < jobPostWishlists.length; i++) {
             let jobPostWishlist = {
@@ -54,11 +54,13 @@ function getJobPostWishlists(source, args, context, info) {
             edges.push(jobPostWishlist);
         }
         let countData = infos.pageInfo && infos.pageInfo.length ? yield JobPostWishlistRepository_1.default.count(filter) : 0;
-        let dataRet = Object.assign({ edges }, { pageInfo: {
+        let dataRet = Object.assign({ edges }, {
+            pageInfo: {
                 length: countData,
                 hasNextPage: jobPostWishlists.length >= limit,
                 hasPreviousPage: args.page > 1,
-            } });
+            }
+        });
         return dataRet;
     }));
 }

@@ -1,5 +1,5 @@
 import SuggestionService from "../../../db/repositories/SuggestionRepository";
-import {filterObject, rootField, rootInfo} from "../../helpers";
+import { filterObject, rootField, rootInfo } from "../../helpers";
 
 export function getSuggestion(source, args, context, info) {
     const fields = rootField(info);
@@ -41,7 +41,7 @@ export function getSuggestions(source, args, context, info) {
             }
             let countData = (infos.pageInfo && infos.pageInfo.length) ? await SuggestionService.count(filter) : 0;
             let dataRet = {
-                ...{edges},
+                ...{ edges },
                 pageInfo: {
                     length: countData,
                     hasNextPage: suggestions.length >= args.limit,

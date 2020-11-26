@@ -72,8 +72,9 @@ exports.getJobPost = (source, args, context, info) => __awaiter(void 0, void 0, 
 function getJobPosts(source, args, context, info) {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
-    let limit = args.limit > 50 ? 10 : args.limit;
-    return JobPostRepository_1.default.filter(filter, limit, args.page, infos.edges).then((jobPosts) => __awaiter(this, void 0, void 0, function* () {
+    let limit = args.limit > 1000 ? 10 : args.limit;
+    let page = args.page;
+    return JobPostRepository_1.default.filter(filter, limit, page, infos.edges).then((jobPosts) => __awaiter(this, void 0, void 0, function* () {
         let edges = [];
         let loggedUser = null;
         if (yield authenticate_1.authenticateUser(context, context.res)) {

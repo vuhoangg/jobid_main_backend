@@ -32,8 +32,9 @@ exports.getCompanyFeature = getCompanyFeature;
 function getCompanyFeatures(source, args, context, info) {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
-    let page = args.page > 4000 ? 10 : args.page;
-    return CompanyFeatureRepository_1.default.filter(filter, args.limit, page, infos.edges).then((companyFeature) => __awaiter(this, void 0, void 0, function* () {
+    let limit = args.limit > 1000 ? 10 : args.limit;
+    let page = args.page;
+    return CompanyFeatureRepository_1.default.filter(filter, limit, page, infos.edges).then((companyFeature) => __awaiter(this, void 0, void 0, function* () {
         let countData = infos.pageInfo && infos.pageInfo.length ? yield CompanyFeatureRepository_1.default.count(filter) : 0;
         let dataRet = {
             edges: companyFeature.map((item) => ({
@@ -48,7 +49,7 @@ function getCompanyFeatures(source, args, context, info) {
             })),
             pageInfo: {
                 length: countData,
-                hasNextPage: companyFeature.length >= args.limit,
+                hasNextPage: companyFeature.length >= limit,
                 hasPreviousPage: page > 1,
             },
         };

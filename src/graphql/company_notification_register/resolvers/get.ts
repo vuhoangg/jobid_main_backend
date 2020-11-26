@@ -27,14 +27,14 @@ export const getCompanyNotificationRegister = async (source, args, context, info
 export const getCompanyNotificationRegisters = async (source, args, context, info) => {
     let infos = rootInfo(info);
     let filter = filterObject(args.filter);
-    let page = args.page > 4000 ? 10 : args.page;
-
+    let limit = args.limit > 1000 ? 10 : args.limit;
+    let page = args.page;
     let isAuthenticated = await authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         filter = Object.assign(filter, { user: loggedUser._id });
 
-        let companyNotificationRegisters = await CompanyNotificationRegisterService.filter(filter, args.limit, page, infos.edges);
+        let companyNotificationRegisters = await CompanyNotificationRegisterService.filter(filter, limit, page, infos.edges);
         let edges = [];
         for (let i = 0; i < companyNotificationRegisters.length; i++) {
             let companyNotificationRegister = {
@@ -54,7 +54,7 @@ export const getCompanyNotificationRegisters = async (source, args, context, inf
             ...{ edges },
             pageInfo: {
                 length: countData,
-                hasNextPage: companyNotificationRegisters.length >= args.limit,
+                hasNextPage: companyNotificationRegisters.length >= limit,
                 hasPreviousPage: page > 1,
             },
         };

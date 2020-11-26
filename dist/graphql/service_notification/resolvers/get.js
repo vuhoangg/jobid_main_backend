@@ -38,8 +38,9 @@ exports.getServiceWorkerNotification = getServiceWorkerNotification;
 function getServiceWorkerNotifications(source, args, context, info) {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
-    let page = args.page > 4000 ? 10 : args.page;
-    return ServiceNotificationRepository_1.default.filter(filter, args.limit, page, infos.edges)
+    let limit = args.limit > 1000 ? 10 : args.limit;
+    let page = args.page;
+    return ServiceNotificationRepository_1.default.filter(filter, limit, page, infos.edges)
         .then((notifications) => __awaiter(this, void 0, void 0, function* () {
         let edges = [];
         for (let i = 0; i < notifications.length; i++) {
@@ -63,7 +64,7 @@ function getServiceWorkerNotifications(source, args, context, info) {
         let countData = (infos.pageInfo && infos.pageInfo.length) ? yield ServiceNotificationRepository_1.default.count(filter) : 0;
         let dataRet = Object.assign({ edges }, { pageInfo: {
                 length: countData,
-                hasNextPage: notifications.length >= args.limit,
+                hasNextPage: notifications.length >= limit,
                 hasPreviousPage: page > 1
             } });
         return dataRet;

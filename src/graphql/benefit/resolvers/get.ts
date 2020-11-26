@@ -21,8 +21,9 @@ export function getBenefit(source, args, context, info) {
 export function getBenefits(source, args, context, info) {
     let infos = rootInfo(info);
     let filter = filterObject(args.filter);
-    let page = args.page > 4000 ? 10 : args.page;
-    return BenefitService.filter(filter, args.limit, page, infos.edges)
+    let limit = args.limit > 1000 ? 10 : args.limit;
+    let page = args.page;
+    return BenefitService.filter(filter, limit, page, infos.edges)
         .then(async (benefits) => {
             let edges = [];
             for (let i = 0; i < benefits.length; i++) {
@@ -46,7 +47,7 @@ export function getBenefits(source, args, context, info) {
                 ...{ edges },
                 pageInfo: {
                     length: countData,
-                    hasNextPage: benefits.length >= args.limit,
+                    hasNextPage: benefits.length >= limit,
                     hasPreviousPage: page > 1
                 }
             };

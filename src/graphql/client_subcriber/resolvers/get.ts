@@ -20,8 +20,9 @@ export function getClientSubcriber(source, args, context, info) {
 export function getClientSubcribers(source, args, context, info) {
     let infos = rootInfo(info);
     let filter = filterObject(args.filter);
-    let page = args.page > 4000 ? 10 : args.page;
-    return ClientSubscriberService.filter(filter, args.limit, page, infos.edges)
+    let limit = args.limit > 1000 ? 10 : args.limit;
+    let page = args.page;
+    return ClientSubscriberService.filter(filter, limit, page, infos.edges)
         .then(async (clients) => {
             let edges = [];
             for (let i = 0; i < clients.length; i++) {
@@ -43,7 +44,7 @@ export function getClientSubcribers(source, args, context, info) {
                 ...{ edges },
                 pageInfo: {
                     length: countData,
-                    hasNextPage: clients.length >= args.limit,
+                    hasNextPage: clients.length >= limit,
                     hasPreviousPage: page > 1
                 }
             };

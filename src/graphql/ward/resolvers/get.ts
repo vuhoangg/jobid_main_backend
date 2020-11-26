@@ -1,12 +1,12 @@
 import WardService from "../../../db/repositories/WardRepository";
 
-import {filterObject, rootField, rootInfo} from "../../helpers";
-import {seoDescription} from "../../../helpers/seo";
+import { filterObject, rootField, rootInfo } from "../../helpers";
+import { seoDescription } from "../../../helpers/seo";
 
 export const getWard = (source, args, context, info) => {
   const fieldsRoot = rootField(info);
 
-  let getBy = args._id ? {_id: args._id} : {slug: args.slug};
+  let getBy = args._id ? { _id: args._id } : { slug: args.slug };
 
 
   return WardService.get(getBy, fieldsRoot).then((ward) => {
@@ -58,7 +58,7 @@ export const getWards = (source, args, context, info) => {
     }
     let countData = infos.pageInfo && infos.pageInfo.length ? await WardService.count(filter) : 0;
     const dataRet = {
-      ...{edges},
+      ...{ edges },
       pageInfo: {
         length: countData,
         hasNextPage: wards.length >= args.limit,

@@ -23,8 +23,9 @@ export function getJobRegister(source, args, context, info) {
 export function getJobRegisters(source, args, context, info) {
     let infos = rootInfo(info);
     let filter = filterObject(args.filter);
-    let limit = args.limit > 50 ? 10 : args.limit;
-    return JobRegisterService.filter(filter, limit, args.page, infos.edges)
+    let limit = args.limit > 1000 ? 10 : args.limit;
+    let page = args.page;
+    return JobRegisterService.filter(filter, limit, page, infos.edges)
         .then(async (jobRegisters) => {
             let edges = [];
             for (let i = 0; i < jobRegisters.length; i++) {

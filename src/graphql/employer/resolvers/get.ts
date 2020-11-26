@@ -61,7 +61,7 @@ export const getEmployers = async (source, args, context, info) => {
             ...{ edges },
             pageInfo: {
                 length: countData,
-                hasNextPage: employers.length >= args.limit,
+                hasNextPage: employers.length >= limit,
                 hasPreviousPage: args.page > 1,
             },
         };

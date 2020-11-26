@@ -1,5 +1,5 @@
 import JobPreferLanguageService from "../../../db/repositories/JobPreferLanguageRepository";
-import {filterObject, rootField, rootInfo} from "../../helpers";
+import { filterObject, rootField, rootInfo } from "../../helpers";
 
 export function getJobPreferLanguage(source, args, context, info) {
   const fields = rootField(info);
@@ -41,7 +41,7 @@ export function getJobPreferLanguages(source, args, context, info) {
       }
       let countData = (infos.pageInfo && infos.pageInfo.length) ? await JobPreferLanguageService.count(filter) : 0;
       let dataRet = {
-        ...{edges},
+        ...{ edges },
         pageInfo: {
           length: countData,
           hasNextPage: jobPreferLanguages.length >= args.limit,

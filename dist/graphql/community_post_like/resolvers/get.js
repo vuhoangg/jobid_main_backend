@@ -30,8 +30,9 @@ exports.getCommunityPostLike = (source, args, context, info) => __awaiter(void 0
 exports.getCommunityPostLikes = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
-    let page = args.page > 4000 ? 10 : args.page;
-    let communityPostLikes = yield CommunityPostLikeRepository_1.default.filter(filter, args.limit, page, infos.edges);
+    let limit = args.limit > 1000 ? 10 : args.limit;
+    let page = args.page;
+    let communityPostLikes = yield CommunityPostLikeRepository_1.default.filter(filter, limit, page, infos.edges);
     let edges = [];
     for (let i = 0; i < communityPostLikes.length; i++) {
         let communityPostLike = {
@@ -49,7 +50,7 @@ exports.getCommunityPostLikes = (source, args, context, info) => __awaiter(void 
     let countData = (infos.pageInfo && infos.pageInfo.length) ? yield CommunityPostLikeRepository_1.default.count(filter) : 0;
     let dataRet = Object.assign({ edges }, { pageInfo: {
             length: countData,
-            hasNextPage: communityPostLikes.length >= args.limit,
+            hasNextPage: communityPostLikes.length >= limit,
             hasPreviousPage: page > 1
         } });
     return dataRet;

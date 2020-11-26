@@ -40,12 +40,13 @@ exports.getJobPostWishlist = (source, args, context, info) => __awaiter(void 0, 
 exports.getJobPostWishlists = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
-    let limit = args.limit > 50 ? 10 : args.limit;
+    let limit = args.limit > 1000 ? 10 : args.limit;
+    let page = args.page;
     let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         filter = Object.assign(filter, { user: loggedUser._id });
-        let jobPostWishlists = yield JobPostWishlistRepository_1.default.filter(filter, limit, args.page, infos.edges);
+        let jobPostWishlists = yield JobPostWishlistRepository_1.default.filter(filter, limit, page, infos.edges);
         let edges = [];
         for (let i = 0; i < jobPostWishlists.length; i++) {
             let job_post = jobPostWishlists[i].job_post;

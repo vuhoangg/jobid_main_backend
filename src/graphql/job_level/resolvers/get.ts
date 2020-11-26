@@ -1,5 +1,5 @@
 import JobLevelService from "../../../db/repositories/JobLevelRepository";
-import {filterObject, rootField, rootInfo} from "../../helpers";
+import { filterObject, rootField, rootInfo } from "../../helpers";
 
 export function getJobLevel(source, args, context, info) {
   const fields = rootField(info);
@@ -41,7 +41,7 @@ export function getJobLevels(source, args, context, info) {
       }
       let countData = (infos.pageInfo && infos.pageInfo.length) ? await JobLevelService.count(filter) : 0;
       let dataRet = {
-        ...{edges},
+        ...{ edges },
         pageInfo: {
           length: countData,
           hasNextPage: jobLevels.length >= args.limit,

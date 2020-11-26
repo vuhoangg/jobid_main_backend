@@ -19,8 +19,8 @@ export function getCompanyView(source, args, context, info) {
 export function getCompanyViews(source, args, context, info) {
   let infos = rootInfo(info);
   let filter = filterObject(args.filter);
-  let page = args.page > 4000 ? 10 : args.page;
-  return CompanyViewService.filter(filter, args.limit, page, infos.edges)
+  let limit = args.limit > 1000 ? 10 : args.limit;
+  return CompanyViewService.filter(filter, limit, page, infos.edges)
     .then(async (companyViews) => {
       let edges = [];
       for (let i = 0; i < companyViews.length; i++) {
@@ -41,7 +41,7 @@ export function getCompanyViews(source, args, context, info) {
         ...{ edges },
         pageInfo: {
           length: countData,
-          hasNextPage: companyViews.length >= args.limit,
+          hasNextPage: companyViews.length >= limit,
           hasPreviousPage: page > 1
         }
       };

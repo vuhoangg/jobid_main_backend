@@ -1,12 +1,12 @@
 import DistrictService from "../../../db/repositories/DistrictRepository";
 
-import {filterObject, rootField, rootInfo} from "../../helpers";
-import {seoDescription} from "../../../helpers/seo";
+import { filterObject, rootField, rootInfo } from "../../helpers";
+import { seoDescription } from "../../../helpers/seo";
 
 export const getDistrict = (source, args, context, info) => {
   const fieldsRoot = rootField(info);
 
-  let getBy = args._id ? {_id: args._id} : {slug: args.slug};
+  let getBy = args._id ? { _id: args._id } : { slug: args.slug };
 
 
   return DistrictService.get(getBy, fieldsRoot).then((district) => {
@@ -58,7 +58,7 @@ export const getDistricts = (source, args, context, info) => {
     }
     let countData = infos.pageInfo && infos.pageInfo.length ? await DistrictService.count(filter) : 0;
     const dataRet = {
-      ...{edges},
+      ...{ edges },
       pageInfo: {
         length: countData,
         hasNextPage: districts.length >= args.limit,

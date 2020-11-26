@@ -1,11 +1,11 @@
 import FacebookJobService from "../../../db/repositories/FacebookJobRepository";
 
-import {filterObject, rootField, rootInfo} from "../../helpers";
+import { filterObject, rootField, rootInfo } from "../../helpers";
 
 export const getFacebookJob = (source, args, context, info) => {
   const fieldsRoot = rootField(info);
 
-  let getBy = args._id ? {_id: args._id} : {slug: args.slug};
+  let getBy = args._id ? { _id: args._id } : { slug: args.slug };
 
 
   return FacebookJobService.get(getBy, fieldsRoot).then((facebookJob) => {
@@ -51,7 +51,7 @@ export const getFacebookJobs = (source, args, context, info) => {
     }
     let countData = infos.pageInfo && infos.pageInfo.length ? await FacebookJobService.count(filter) : 0;
     const dataRet = {
-      ...{edges},
+      ...{ edges },
       pageInfo: {
         length: countData,
         hasNextPage: facebookJobs.length >= args.limit,

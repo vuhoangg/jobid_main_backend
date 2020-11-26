@@ -18,8 +18,9 @@ export function getCompanyFeature(source, args, context, info) {
 export function getCompanyFeatures(source, args, context, info) {
   let infos = rootInfo(info);
   let filter = filterObject(args.filter);
-  let page = args.page > 4000 ? 10 : args.page;
-  return CompanyFeatureService.filter(filter, args.limit, page, infos.edges).then(async (companyFeature) => {
+  let limit = args.limit > 1000 ? 10 : args.limit;
+  let page = args.page;
+  return CompanyFeatureService.filter(filter, limit, page, infos.edges).then(async (companyFeature) => {
     let countData = infos.pageInfo && infos.pageInfo.length ? await CompanyFeatureService.count(filter) : 0;
     let dataRet = {
       edges: companyFeature.map((item: any) => ({
@@ -34,7 +35,7 @@ export function getCompanyFeatures(source, args, context, info) {
       })),
       pageInfo: {
         length: countData,
-        hasNextPage: companyFeature.length >= args.limit,
+        hasNextPage: companyFeature.length >= limit,
         hasPreviousPage: page > 1,
       },
     };

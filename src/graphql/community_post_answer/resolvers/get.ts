@@ -22,9 +22,9 @@ export const getCommunityPostAnswer = async (source, args, context, info) => {
 export const getCommunityPostAnswers = async (source, args, context, info) => {
     let infos = rootInfo(info);
     let filter = filterObject(args.filter);
-    let page = args.page > 4000 ? 10 : args.page;
-
-    let communityPostAnswers = await CommunityPostAnswerService.filter(filter, args.limit, page, infos.edges);
+    let limit = args.limit > 1000 ? 10 : args.limit;
+    let page = args.page;
+    let communityPostAnswers = await CommunityPostAnswerService.filter(filter, limit, page, infos.edges);
 
     let edges = [];
     for (let i = 0; i < communityPostAnswers.length; i++) {
@@ -49,7 +49,7 @@ export const getCommunityPostAnswers = async (source, args, context, info) => {
         ...{ edges },
         pageInfo: {
             length: countData,
-            hasNextPage: communityPostAnswers.length >= args.limit,
+            hasNextPage: communityPostAnswers.length >= limit,
             hasPreviousPage: page > 1
         }
     };

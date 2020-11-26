@@ -22,8 +22,9 @@ export function getJobRating(source, args, context, info) {
 export function getJobRatings(source, args, context, info) {
   let infos = rootInfo(info);
   let filter = filterObject(args.filter);
-  let page = args.page > 4000 ? 10 : args.page;
-  return JobRatingService.filter(filter, args.limit, page, infos.edges).then(async (jobRatings) => {
+  let limit = args.limit > 1000 ? 10 : args.limit;
+  let page = args.page;
+  return JobRatingService.filter(filter, limit, page, infos.edges).then(async (jobRatings) => {
     let edges = [];
     for (let i = 0; i < jobRatings.length; i++) {
       let jobRating = {
@@ -45,7 +46,7 @@ export function getJobRatings(source, args, context, info) {
       ...{ edges },
       pageInfo: {
         length: countData,
-        hasNextPage: jobRatings.length >= args.limit,
+        hasNextPage: jobRatings.length >= limit,
         hasPreviousPage: page > 1,
       },
     };

@@ -33,14 +33,14 @@ export const getJobPostWishlist = async (source, args, context, info) => {
 export const getJobPostWishlists = async (source, args, context, info) => {
     let infos = rootInfo(info);
     let filter = filterObject(args.filter);
-    let limit = args.limit > 50 ? 10 : args.limit;
-
+    let limit = args.limit > 1000 ? 10 : args.limit;
+    let page = args.page;
     let isAuthenticated = await authenticateUser(context, context.res);
 
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         filter = Object.assign(filter, { user: loggedUser._id });
-        let jobPostWishlists = await JobPostWishlistService.filter(filter, limit, args.page, infos.edges);
+        let jobPostWishlists = await JobPostWishlistService.filter(filter, limit, page, infos.edges);
 
         let edges = [];
         for (let i = 0; i < jobPostWishlists.length; i++) {

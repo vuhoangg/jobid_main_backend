@@ -28,8 +28,9 @@ exports.getCurriculumVitaes = (source, args, context, info) => __awaiter(void 0,
     if (yield authenticate_1.authenticateUser(context, context.res)) {
         let infos = helpers_1.rootInfo(info);
         let filter = Object.assign({ user_created: context.res.locals.fullUser._id, status: "active" }, helpers_1.filterObject(args.filter));
-        let page = args.page > 4000 ? 10 : args.page;
-        return CurriculumVitaeRepository_1.default.filter(filter, args.limit, page, infos.edges).then((curriculumVitae) => __awaiter(void 0, void 0, void 0, function* () {
+        let limit = args.limit > 1000 ? 10 : args.limit;
+        let page = args.page;
+        return CurriculumVitaeRepository_1.default.filter(filter, limit, page, infos.edges).then((curriculumVitae) => __awaiter(void 0, void 0, void 0, function* () {
             let countData = infos.pageInfo && infos.pageInfo.length ? yield CurriculumVitaeRepository_1.default.count(filter) : 0;
             let dataRet = {
                 edges: curriculumVitae.map((item) => ({
@@ -38,7 +39,7 @@ exports.getCurriculumVitaes = (source, args, context, info) => __awaiter(void 0,
                 })),
                 pageInfo: {
                     length: countData,
-                    hasNextPage: curriculumVitae.length >= args.limit,
+                    hasNextPage: curriculumVitae.length >= limit,
                     hasPreviousPage: page > 1,
                 },
             };

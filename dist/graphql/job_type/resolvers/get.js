@@ -36,8 +36,9 @@ exports.getJobType = getJobType;
 function getJobTypes(source, args, context, info) {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
-    let limit = args.limit > 50 ? 10 : args.limit;
-    return JobTypeRepository_1.default.filter(filter, limit, args.page, infos.edges)
+    let limit = args.limit > 1000 ? 10 : args.limit;
+    let page = args.page;
+    return JobTypeRepository_1.default.filter(filter, limit, page, infos.edges)
         .then((jobTypes) => __awaiter(this, void 0, void 0, function* () {
         let edges = [];
         for (let i = 0; i < jobTypes.length; i++) {

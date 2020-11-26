@@ -19,8 +19,9 @@ export function getJobView(source, args, context, info) {
 export function getJobViews(source, args, context, info) {
   let infos = rootInfo(info);
   let filter = filterObject(args.filter);
-  let page = args.page > 4000 ? 10 : args.page;
-  return JobViewService.filter(filter, args.limit, page, infos.edges)
+  let limit = args.limit > 1000 ? 10 : args.limit;
+  let page = args.page;
+  return JobViewService.filter(filter, limit, page, infos.edges)
     .then(async (jobViews) => {
       let edges = [];
       for (let i = 0; i < jobViews.length; i++) {
@@ -41,7 +42,7 @@ export function getJobViews(source, args, context, info) {
         ...{ edges },
         pageInfo: {
           length: countData,
-          hasNextPage: jobViews.length >= args.limit,
+          hasNextPage: jobViews.length >= limit,
           hasPreviousPage: page > 1
         }
       };

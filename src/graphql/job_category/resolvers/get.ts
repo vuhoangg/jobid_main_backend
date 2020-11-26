@@ -1,9 +1,9 @@
 import JobCategoryService from "../../../db/repositories/JobCategoryRepository";
-import {filterObject, rootField, rootInfo} from "../../helpers";
+import { filterObject, rootField, rootInfo } from "../../helpers";
 
 export function getJobCategory(source, args, context, info) {
   const fields = rootField(info);
-  let getBy = args._id ? {_id: args._id} : {slug: args.slug};
+  let getBy = args._id ? { _id: args._id } : { slug: args.slug };
   return JobCategoryService.getBy(getBy, fields)
     .then(async (jobCategory) => {
       let node = {
@@ -42,7 +42,7 @@ export function getJobCategorys(source, args, context, info) {
       }
       let countData = (infos.pageInfo && infos.pageInfo.length) ? await JobCategoryService.count(filter) : 0;
       let dataRet = {
-        ...{edges},
+        ...{ edges },
         pageInfo: {
           length: countData,
           hasNextPage: jobCategorys.length >= args.limit,

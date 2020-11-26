@@ -33,8 +33,9 @@ exports.getJobView = getJobView;
 function getJobViews(source, args, context, info) {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
-    let page = args.page > 4000 ? 10 : args.page;
-    return JobViewRepository_1.default.filter(filter, args.limit, page, infos.edges)
+    let limit = args.limit > 1000 ? 10 : args.limit;
+    let page = args.page;
+    return JobViewRepository_1.default.filter(filter, limit, page, infos.edges)
         .then((jobViews) => __awaiter(this, void 0, void 0, function* () {
         let edges = [];
         for (let i = 0; i < jobViews.length; i++) {
@@ -53,7 +54,7 @@ function getJobViews(source, args, context, info) {
         let countData = (infos.pageInfo && infos.pageInfo.length) ? yield JobViewRepository_1.default.count(filter) : 0;
         let dataRet = Object.assign({ edges }, { pageInfo: {
                 length: countData,
-                hasNextPage: jobViews.length >= args.limit,
+                hasNextPage: jobViews.length >= limit,
                 hasPreviousPage: page > 1
             } });
         return dataRet;

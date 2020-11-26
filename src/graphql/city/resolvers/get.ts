@@ -1,12 +1,12 @@
 import CityService from "../../../db/repositories/CityRepository";
 
-import {filterObject, rootField, rootInfo} from "../../helpers";
-import {seoDescription} from "../../../helpers/seo";
+import { filterObject, rootField, rootInfo } from "../../helpers";
+import { seoDescription } from "../../../helpers/seo";
 
 export const getCity = (source, args, context, info) => {
   const fieldsRoot = rootField(info);
 
-  let getBy = args._id ? {_id: args._id} : {slug: args.slug};
+  let getBy = args._id ? { _id: args._id } : { slug: args.slug };
 
 
   return CityService.get(getBy, fieldsRoot).then((city) => {
@@ -56,7 +56,7 @@ export const getCitys = (source, args, context, info) => {
     }
     let countData = infos.pageInfo && infos.pageInfo.length ? await CityService.count(filter) : 0;
     const dataRet = {
-      ...{edges},
+      ...{ edges },
       pageInfo: {
         length: countData,
         hasNextPage: citys.length >= args.limit,

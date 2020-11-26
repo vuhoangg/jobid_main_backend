@@ -17,8 +17,9 @@ export function getGroupPermission(source, args, context, info) {
 export function getGroupPermissions(source, args, context, info) {
   let infos = rootInfo(info);
   let filter = filterObject(args.filter);
-  let page = args.page > 4000 ? 10 : args.page;
-  return GroupPermissionService.filter(filter, args.limit, page, infos.edges).then(async (groupPermission) => {
+  let limit = args.limit > 1000 ? 10 : args.limit;
+  let page = args.page;
+  return GroupPermissionService.filter(filter, limit, page, infos.edges).then(async (groupPermission) => {
     let countData = infos.pageInfo && infos.pageInfo.length ? await GroupPermissionService.count(filter) : 0;
     let dataRet = {
       edges: groupPermission.map((item: any) => ({
@@ -32,7 +33,7 @@ export function getGroupPermissions(source, args, context, info) {
       })),
       pageInfo: {
         length: countData,
-        hasNextPage: groupPermission.length >= args.limit,
+        hasNextPage: groupPermission.length >= limit,
         hasPreviousPage: page > 1,
       },
     };

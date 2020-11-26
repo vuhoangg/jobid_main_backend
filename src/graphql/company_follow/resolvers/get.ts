@@ -27,14 +27,14 @@ export const getCompanyFollow = async (source, args, context, info) => {
 export const getCompanyFollows = async (source, args, context, info) => {
   let infos = rootInfo(info);
   let filter = filterObject(args.filter);
-  let page = args.page > 4000 ? 10 : args.page;
-
+  let limit = args.limit > 1000 ? 10 : args.limit;
+  let page = args.page;
   let isAuthenticated = await authenticateUser(context, context.res);
   if (isAuthenticated) {
     let loggedUser = context.res.locals.fullUser;
     filter = Object.assign(filter, { user: loggedUser._id });
 
-    let companyFollows = await CompanyFollowService.filter(filter, args.limit, page, infos.edges);
+    let companyFollows = await CompanyFollowService.filter(filter, limit, page, infos.edges);
     let edges = [];
     for (let i = 0; i < companyFollows.length; i++) {
       let companyFollow = {
@@ -54,7 +54,7 @@ export const getCompanyFollows = async (source, args, context, info) => {
       ...{ edges },
       pageInfo: {
         length: countData,
-        hasNextPage: companyFollows.length >= args.limit,
+        hasNextPage: companyFollows.length >= limit,
         hasPreviousPage: page > 1,
       },
     };

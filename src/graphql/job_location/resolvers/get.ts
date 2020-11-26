@@ -1,9 +1,9 @@
 import JobLocationService from "../../../db/repositories/JobLocationRepository";
-import {filterObject, rootField, rootInfo} from "../../helpers";
+import { filterObject, rootField, rootInfo } from "../../helpers";
 
 export function getJobLocation(source, args, context, info) {
   const fields = rootField(info);
-  let getBy = args._id ? {_id: args._id} : {slug: args.slug};
+  let getBy = args._id ? { _id: args._id } : { slug: args.slug };
   return JobLocationService.getBy(getBy, fields)
     .then(async (jobLocation) => {
       let node = {
@@ -44,7 +44,7 @@ export function getJobLocations(source, args, context, info) {
       }
       let countData = (infos.pageInfo && infos.pageInfo.length) ? await JobLocationService.count(filter) : 0;
       let dataRet = {
-        ...{edges},
+        ...{ edges },
         pageInfo: {
           length: countData,
           hasNextPage: jobLocations.length >= args.limit,
