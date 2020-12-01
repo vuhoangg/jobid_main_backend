@@ -55,6 +55,7 @@ exports.handleRefreshTokenUser = (res, user) => __awaiter(void 0, void 0, void 0
             domain: process.env.COOKIE_SHARE_DOMAIN,
             httpOnly: true,
             path: "/",
+            maxAge: Number(process.env.USER_EXPIRES_ACCESS_TOKEN),
         });
         res.locals.user = decoded.data._id;
         res.locals.fullUser = decoded.data;
@@ -104,6 +105,7 @@ exports.handleRefreshTokenEmployer = (res, employer) => __awaiter(void 0, void 0
             domain: process.env.COOKIE_SHARE_DOMAIN,
             httpOnly: true,
             path: "/",
+            maxAge: Number(process.env.EMPLOYER_EXPIRES_ACCESS_TOKEN),
         });
         res.locals.employer = decoded.data._id;
         res.locals.fullEmployer = decoded.data;

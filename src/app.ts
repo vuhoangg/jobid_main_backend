@@ -1,28 +1,26 @@
 require("dotenv").config();
-import express from "express";
-import cors from "cors";
 import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import express from "express";
+import graphqlHTTP from "express-graphql";
 import multer from "multer";
 import passport from "passport";
-import passportGoogle from "passport-google-oauth20";
 import passportFacebook from "passport-facebook";
-import cookieSession from "cookie-session";
-import cookieParser from "cookie-parser";
-import graphqlHTTP from "express-graphql";
+import passportGoogle from "passport-google-oauth20";
 import { Connection } from "./db/connection";
+import {
+  handleTokenAuthEmployer,
+  handleTokenAuthUser,
+  isExistingEmailEmployer,
+  isExistingEmailUser,
+  saveNewGoogleEmployer, saveNewGoogleUser
+} from "./modules/auth/handles";
 import { AuthRouter } from "./modules/auth/router";
 import { UploadRouter } from "./modules/upload/router";
-import { MailRouter } from "./modules/mail";
-import { ServiceNotificationRouter } from "./modules/clientRegistration";
+import { CvRouter } from "./modules/cv/router";
+
 import AppSchema from "./schema";
-import {
-  isExistingEmailUser,
-  saveNewGoogleUser,
-  handleTokenAuthUser,
-  handleTokenAuthEmployer,
-  isExistingEmailEmployer,
-  saveNewGoogleEmployer,
-} from "./modules/auth/handles";
 Connection.connect();
 const app = express();
 const upload = multer({
@@ -32,15 +30,10 @@ const upload = multer({
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(upload.array());
-// app.use(
-//   cookieSession({
-//     keys: [process.env.COOKIE_KEY],
-//     maxAge: parseInt(process.env.COOKIE_AGE),
-//   })
-// );
+
 app.use(cookieParser());
 app.use(passport.initialize());
-// app.use(passport.session());
+
 app.use(
   cors({
     credentials: true,
@@ -65,13 +58,6 @@ passport.serializeUser((user: any, done) => {
 passport.deserializeUser((obj: any, done) => {
   console.log("deserializeUser");
   done(null, obj);
-  // isExistingIdUser(_id)
-  //   .then((user) => {
-  //     done(null, user);
-  //   })
-  //   .catch(function (err) {
-  //     done(null, {});
-  //   });
 });
 
 const GoogleStrategy = passportGoogle.Strategy;
@@ -83,6 +69,7 @@ const googleUserStrategy = new GoogleStrategy(
   },
   async (accessToken, refreshToken, profile, cb) => {
     const r1 = await isExistingEmailUser(profile.emails[0].value);
+
     if (r1) {
       const accessToken = await handleTokenAuthUser(r1);
       cb(null, { user: { accessToken: accessToken } });
@@ -101,6 +88,7 @@ const googleEmployerStrategy = new GoogleStrategy(
   },
   async (accessToken, refreshToken, profile, cb) => {
     const r1 = await isExistingEmailEmployer(profile.emails[0].value);
+
     if (r1) {
       const accessToken = await handleTokenAuthEmployer(r1);
       cb(null, { employer: { accessToken: accessToken } });
@@ -138,6 +126,7 @@ const facebookUserStrategy = new FacebookStrategy(
     ],
   },
   async function (accessToken, refreshToken, profile, cb) {
+
     if (profile.emails) {
       const r1 = await isExistingEmailUser(profile.emails[0].value);
       if (r1) {
@@ -192,11 +181,11 @@ facebookEmployerStrategy.name = "facebook_employer";
 passport.use(facebookUserStrategy);
 passport.use(facebookEmployerStrategy);
 
+// modules
 app.use("/upload", UploadRouter);
 app.use("/auth", AuthRouter);
+app.use("/cv", CvRouter);
 
-app.use("/", ServiceNotificationRouter);
-app.use("/noreply", MailRouter);
 app.use(
   "/graphql",
   graphqlHTTP({

@@ -13,22 +13,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv").config();
-const express_1 = __importDefault(require("express"));
-const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = __importDefault(require("body-parser"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const cors_1 = __importDefault(require("cors"));
+const express_1 = __importDefault(require("express"));
+const express_graphql_1 = __importDefault(require("express-graphql"));
 const multer_1 = __importDefault(require("multer"));
 const passport_1 = __importDefault(require("passport"));
-const passport_google_oauth20_1 = __importDefault(require("passport-google-oauth20"));
 const passport_facebook_1 = __importDefault(require("passport-facebook"));
-const cookie_parser_1 = __importDefault(require("cookie-parser"));
-const express_graphql_1 = __importDefault(require("express-graphql"));
+const passport_google_oauth20_1 = __importDefault(require("passport-google-oauth20"));
 const connection_1 = require("./db/connection");
+const handles_1 = require("./modules/auth/handles");
 const router_1 = require("./modules/auth/router");
 const router_2 = require("./modules/upload/router");
-const mail_1 = require("./modules/mail");
-const clientRegistration_1 = require("./modules/clientRegistration");
+const router_3 = require("./modules/cv/router");
 const schema_1 = __importDefault(require("./schema"));
-const handles_1 = require("./modules/auth/handles");
 connection_1.Connection.connect();
 const app = express_1.default();
 const upload = multer_1.default({
@@ -37,15 +36,8 @@ const upload = multer_1.default({
 app.use(body_parser_1.default.json({ limit: "50mb" }));
 app.use(body_parser_1.default.urlencoded({ limit: "50mb", extended: true }));
 app.use(upload.array());
-// app.use(
-//   cookieSession({
-//     keys: [process.env.COOKIE_KEY],
-//     maxAge: parseInt(process.env.COOKIE_AGE),
-//   })
-// );
 app.use(cookie_parser_1.default());
 app.use(passport_1.default.initialize());
-// app.use(passport.session());
 app.use(cors_1.default({
     credentials: true,
     origin: [
@@ -66,13 +58,6 @@ passport_1.default.serializeUser((user, done) => {
 passport_1.default.deserializeUser((obj, done) => {
     console.log("deserializeUser");
     done(null, obj);
-    // isExistingIdUser(_id)
-    //   .then((user) => {
-    //     done(null, user);
-    //   })
-    //   .catch(function (err) {
-    //     done(null, {});
-    //   });
 });
 const GoogleStrategy = passport_google_oauth20_1.default.Strategy;
 const googleUserStrategy = new GoogleStrategy({
@@ -184,10 +169,10 @@ facebookUserStrategy.name = "facebook_user";
 facebookEmployerStrategy.name = "facebook_employer";
 passport_1.default.use(facebookUserStrategy);
 passport_1.default.use(facebookEmployerStrategy);
+// modules
 app.use("/upload", router_2.UploadRouter);
 app.use("/auth", router_1.AuthRouter);
-app.use("/", clientRegistration_1.ServiceNotificationRouter);
-app.use("/noreply", mail_1.MailRouter);
+app.use("/cv", router_3.CvRouter);
 app.use("/graphql", express_graphql_1.default({
     graphiql: process.env.APP_ENV !== "production",
     schema: schema_1.default,

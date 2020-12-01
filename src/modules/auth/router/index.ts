@@ -27,10 +27,12 @@ router.get(
   passport.authenticate("google_user", { failureRedirect: "/user/login" }),
   async (req: any, res) => {
     const accessToken = req.user.user.accessToken;
+
     res.cookie("knv_accessToken", accessToken, {
       domain: process.env.COOKIE_SHARE_DOMAIN,
       httpOnly: true,
       path: "/",
+      maxAge: Number(process.env.USER_EXPIRES_ACCESS_TOKEN),
     });
     res.redirect(`${process.env.SITE_URL}`);
   }
@@ -47,6 +49,7 @@ router.get(
       domain: process.env.COOKIE_SHARE_DOMAIN,
       httpOnly: true,
       path: "/",
+      maxAge: Number(process.env.EMPLOYER_EXPIRES_ACCESS_TOKEN),
     });
     res.redirect(`${process.env.STUDIO_URL}`);
   }
@@ -64,6 +67,7 @@ router.get(
         domain: process.env.COOKIE_SHARE_DOMAIN,
         httpOnly: true,
         path: "/",
+        maxAge: Number(process.env.USER_EXPIRES_ACCESS_TOKEN),
       });
     }
     res.redirect(`${process.env.SITE_URL}`);
@@ -72,9 +76,9 @@ router.get(
 
 router.get("/user/zalo", passport.authenticate("zalo"));
 router.get("/user/zalo/callback", passport.authenticate("zalo", { failureRedirect: "/user/login" }), async (req, res) => {
-  res.cookie("user", req.user, {
+  res.cookie("knv_accessToken", req.user, {
     domain: process.env.COOKIE_SHARE_DOMAIN,
-    maxAge: parseInt(process.env.COOKIE_AGE),
+    maxAge: Number(process.env.USER_EXPIRES_ACCESS_TOKEN),
     httpOnly: true,
   });
   res.redirect(process.env.SITE_URL);

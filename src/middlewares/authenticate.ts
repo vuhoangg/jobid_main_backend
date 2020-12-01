@@ -65,6 +65,7 @@ export const handleRefreshTokenUser = async (res: any, user: any) => {
       domain: process.env.COOKIE_SHARE_DOMAIN,
       httpOnly: true,
       path: "/",
+      maxAge: Number(process.env.USER_EXPIRES_ACCESS_TOKEN),
     });
     res.locals.user = decoded.data._id;
     res.locals.fullUser = decoded.data;
@@ -137,6 +138,7 @@ export const handleRefreshTokenEmployer = async (res: any, employer: any) => {
       domain: process.env.COOKIE_SHARE_DOMAIN,
       httpOnly: true,
       path: "/",
+      maxAge: Number(process.env.EMPLOYER_EXPIRES_ACCESS_TOKEN),
     });
     res.locals.employer = decoded.data._id;
     res.locals.fullEmployer = decoded.data;

@@ -33,6 +33,7 @@ router.get("/user/google/callback", passport_1.default.authenticate("google_user
         domain: process.env.COOKIE_SHARE_DOMAIN,
         httpOnly: true,
         path: "/",
+        maxAge: Number(process.env.USER_EXPIRES_ACCESS_TOKEN),
     });
     res.redirect(`${process.env.SITE_URL}`);
 }));
@@ -42,6 +43,7 @@ router.get("/employer/google/callback", passport_1.default.authenticate("google_
         domain: process.env.COOKIE_SHARE_DOMAIN,
         httpOnly: true,
         path: "/",
+        maxAge: Number(process.env.EMPLOYER_EXPIRES_ACCESS_TOKEN),
     });
     res.redirect(`${process.env.STUDIO_URL}`);
 }));
@@ -54,15 +56,16 @@ router.get("/user/facebook/callback", passport_1.default.authenticate("facebook_
             domain: process.env.COOKIE_SHARE_DOMAIN,
             httpOnly: true,
             path: "/",
+            maxAge: Number(process.env.USER_EXPIRES_ACCESS_TOKEN),
         });
     }
     res.redirect(`${process.env.SITE_URL}`);
 }));
 router.get("/user/zalo", passport_1.default.authenticate("zalo"));
 router.get("/user/zalo/callback", passport_1.default.authenticate("zalo", { failureRedirect: "/user/login" }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.cookie("user", req.user, {
+    res.cookie("knv_accessToken", req.user, {
         domain: process.env.COOKIE_SHARE_DOMAIN,
-        maxAge: parseInt(process.env.COOKIE_AGE),
+        maxAge: Number(process.env.USER_EXPIRES_ACCESS_TOKEN),
         httpOnly: true,
     });
     res.redirect(process.env.SITE_URL);
