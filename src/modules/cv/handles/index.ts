@@ -50,3 +50,29 @@ export const createTheme = async (req, res) => {
         res.json({ status: false });
     }
 }
+
+export const previewCv = async (req, res) => {
+    let isAuthenticated = await authenticateUser(req, res);
+    if (isAuthenticated) {
+        let data = req.body;
+        let title = data.title;
+        let html = data.html;
+        let height = data.height;
+
+        const pdfBase64 = await CvThemeService.preview(title, html, height);
+
+        res.json({ status: true, pdf: pdfBase64 });
+    } else {
+        res.json({ status: false, pdf: null });
+    }
+}
+
+export const createCv = async (req, res) => {
+    let isAuthenticated = await authenticateUser(req, res);
+    if (isAuthenticated) {
+        let data = req.body;
+
+    } else {
+        res.json({ status: false });
+    }
+}

@@ -1,12 +1,13 @@
 import express from "express";
-import { getListTheme, getTheme, putTheme, createTheme } from "../handles";
+import { getListTheme, getTheme, putTheme, createTheme, previewCv, createCv } from "../handles";
 
 const router = express.Router();
 
 // cv
 router.get("/cv/list", getListTheme);
 router.get('/cv/:id', getTheme);
-router.put("/cv/:id", putTheme);
+router.post("/cv/preview", previewCv);
+router.post("/cv", createCv);
 
 // theme
 router.get("/theme/list", getListTheme);

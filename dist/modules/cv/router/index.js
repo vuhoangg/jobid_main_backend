@@ -11,7 +11,8 @@ exports.CvRouter = router;
 // cv
 router.get("/cv/list", handles_1.getListTheme);
 router.get('/cv/:id', handles_1.getTheme);
-router.put("/cv/:id", handles_1.putTheme);
+router.post("/cv/preview", handles_1.previewCv);
+router.post("/cv", handles_1.createCv);
 // theme
 router.get("/theme/list", handles_1.getListTheme);
 router.get('/theme/:id', handles_1.getTheme);

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createTheme = exports.putTheme = exports.getTheme = exports.getListTheme = void 0;
+exports.createCv = exports.previewCv = exports.createTheme = exports.putTheme = exports.getTheme = exports.getListTheme = void 0;
 const CvThemeRepository_1 = __importDefault(require("../../../db/repositories/CvThemeRepository"));
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.getListTheme = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -61,6 +61,29 @@ exports.createTheme = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         data = Object.assign(data, { created_by: userId });
         const theme = yield CvThemeRepository_1.default.create(data);
         res.json({ status: true, theme: theme });
+    }
+    else {
+        res.json({ status: false });
+    }
+});
+exports.previewCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield authenticate_1.authenticateUser(req, res);
+    if (isAuthenticated) {
+        let data = req.body;
+        let title = data.title;
+        let html = data.html;
+        let height = data.height;
+        const pdfBase64 = yield CvThemeRepository_1.default.preview(title, html, height);
+        res.json({ status: true, pdf: pdfBase64 });
+    }
+    else {
+        res.json({ status: false, pdf: null });
+    }
+});
+exports.createCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield authenticate_1.authenticateUser(req, res);
+    if (isAuthenticated) {
+        let data = req.body;
     }
     else {
         res.json({ status: false });

@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -6,6 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const log_1 = require("../../helpers/log");
 const promise_1 = require("../../helpers/promise");
 const CvTheme_1 = __importDefault(require("../schemas/CvTheme"));
+const puppeteer_1 = __importDefault(require("puppeteer"));
+const pdf_lib_1 = require("pdf-lib");
 const getCondition = (filter) => {
     let condition = {};
     if (filter.created_by) {
@@ -76,6 +87,56 @@ class CvThemeRepository {
                 log_1.errorLog(`CvTheme::count ${e.message}`);
                 return promise_1.promiseNull();
             }
+        };
+        this.preview = (title, html, height) => {
+            const document = `
+            <!DOCTYPE html>
+            <html>
+                <style>
+                @page { 
+                    size: A4 portrait; 
+                    margin:0px 0px 0px 0px;
+                }
+                #cv-container{
+                    // height:${Math.ceil(height / 1122.2) * 1122.2}px;
+                    height: 100vh;
+                    margin-top: 0px;
+                    box-sizing: border-box;
+                }
+                </style>
+                ${html}
+            </html>
+            `;
+            return puppeteer_1.default
+                .launch({
+                ignoreDefaultArgs: ["--disable-extensions"],
+                args: ["--no-sandbox", "--disable-setuid-sandbox"],
+                headless: true,
+            })
+                .then((browser) => __awaiter(this, void 0, void 0, function* () {
+                let page = yield browser.newPage();
+                page.on("console", consoleObj => console.log(consoleObj.text()));
+                yield page.setContent(document, {
+                    waitUntil: ["networkidle0", "networkidle2"],
+                });
+                const bufferPdf = yield page.pdf({
+                    displayHeaderFooter: true,
+                    printBackground: true,
+                    preferCSSPageSize: true,
+                    deviceScaleFactor: 1,
+                });
+                const pdfDoc = yield pdf_lib_1.PDFDocument.load(bufferPdf);
+                // pdfDoc.removePage(pdfDoc.getPageCount() - 1);
+                pdfDoc.setTitle(`Xem CV Online ${title}`);
+                // pdfDoc.setAuthor("Humpty Dumpty");
+                // pdfDoc.setSubject("📘 An Epic Tale of Woe 📖");
+                // pdfDoc.setKeywords(["eggs", "wall", "fall", "king", "horses", "men"]);
+                // pdfDoc.setProducer("PDF App 9000 🤖");
+                // pdfDoc.setCreator("pdf-lib (https://github.com/Hopding/pdf-lib)");
+                const pdfDocSave = yield pdfDoc.saveAsBase64();
+                yield browser.close();
+                return pdfDocSave;
+            }));
         };
     }
     getBy(getBy, projection) {

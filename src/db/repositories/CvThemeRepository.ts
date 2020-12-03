@@ -2,6 +2,8 @@ import { errorLog } from "../../helpers/log";
 import { promiseNull } from "../../helpers/promise";
 import { CrudContract } from "../contracts/CrudContract";
 import CvTheme from "../schemas/CvTheme";
+import puppeteer from "puppeteer";
+import { PDFDocument } from 'pdf-lib';
 
 interface ICvThemeFilterType {
     created_by?: string;
@@ -96,6 +98,64 @@ class CvThemeRepository implements CrudContract {
             errorLog(`CvTheme::count ${e.message}`);
             return promiseNull();
         }
+    };
+
+    public preview = (title, html, height) => {
+        const document = `
+            <!DOCTYPE html>
+            <html>
+                <style>
+                @page { 
+                    size: A4 portrait; 
+                    margin:0px 0px 0px 0px;
+                }
+                #cv-container{
+                    // height:${Math.ceil(height / 1122.2) * 1122.2}px;
+                    height: 100vh;
+                    margin-top: 0px;
+                    box-sizing: border-box;
+                }
+                </style>
+                ${html}
+            </html>
+            `;
+
+        return puppeteer
+            .launch({
+                ignoreDefaultArgs: ["--disable-extensions"],
+                args: ["--no-sandbox", "--disable-setuid-sandbox"],
+                headless: true,
+            })
+            .then(async (browser) => {
+                let page = await browser.newPage();
+                page.on("console", consoleObj => console.log(consoleObj.text()));
+                await page.setContent(document, {
+                    waitUntil: ["networkidle0", "networkidle2"],
+                });
+
+                const bufferPdf = await page.pdf({
+                    displayHeaderFooter: true,
+                    printBackground: true,
+                    preferCSSPageSize: true,
+                    deviceScaleFactor: 1,
+                });
+
+                const pdfDoc = await PDFDocument.load(bufferPdf);
+
+                // pdfDoc.removePage(pdfDoc.getPageCount() - 1);
+
+                pdfDoc.setTitle(`Xem CV Online ${title}`);
+                // pdfDoc.setAuthor("Humpty Dumpty");
+                // pdfDoc.setSubject("📘 An Epic Tale of Woe 📖");
+                // pdfDoc.setKeywords(["eggs", "wall", "fall", "king", "horses", "men"]);
+                // pdfDoc.setProducer("PDF App 9000 🤖");
+                // pdfDoc.setCreator("pdf-lib (https://github.com/Hopding/pdf-lib)");
+
+                const pdfDocSave = await pdfDoc.saveAsBase64();
+
+                await browser.close();
+                return pdfDocSave;
+            });
     };
 }
 
