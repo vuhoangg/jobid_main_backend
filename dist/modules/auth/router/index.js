@@ -85,7 +85,7 @@ router.post("/user/login", (req, res, next) => {
         res.json({ user });
     }
     else {
-        res.json({});
+        res.json({ user: null });
     }
 }));
 router.post("/employer/login", (req, res, next) => {

@@ -7,13 +7,10 @@ interface ICvRequestFilterType {
 
 }
 
-interface IGetCvRequestType {
-    _id?: string;
-    slug?: string;
-}
-
 interface IGetBy {
     _id?: string;
+    cv_user?: string;
+    status?: string;
 }
 
 const getCondition = (filter: ICvRequestFilterType) => {
@@ -39,13 +36,9 @@ class CvRequestRepository implements CrudContract {
             return promiseNull();
         }
     };
-    public get = (getBy: IGetCvRequestType, projection = {}) => {
+    public get = (_id, projection = {}) => {
         try {
-            if (getBy._id) {
-                return CvRequest.findById(getBy._id, projection);
-            } else {
-                return CvRequest.findOne({ slug: getBy.slug }, projection);
-            }
+            return CvRequest.findById(_id, projection);
         } catch (e) {
             errorLog(`CvRequest::find ${e.message}`);
             return promiseNull();
@@ -75,11 +68,7 @@ class CvRequestRepository implements CrudContract {
 
     public getBy(getBy: IGetBy, projection) {
         try {
-            if (getBy._id) {
-                return CvRequest.findById(getBy._id, projection);
-            } else {
-                return promiseNull();
-            }
+            return CvRequest.findOne(getBy, projection);
         } catch (e) {
             errorLog(`CvRequest::getBy ${e.message}`)
             return promiseNull();

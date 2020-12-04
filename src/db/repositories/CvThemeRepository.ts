@@ -4,6 +4,7 @@ import { CrudContract } from "../contracts/CrudContract";
 import CvTheme from "../schemas/CvTheme";
 import puppeteer from "puppeteer";
 import { PDFDocument } from 'pdf-lib';
+import { s3Upload } from "../../aws/s3";
 
 interface ICvThemeFilterType {
     created_by?: string;

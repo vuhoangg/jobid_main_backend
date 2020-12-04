@@ -100,7 +100,7 @@ router.post(
       const user = await UserService.getById(user_id);
       res.json({ user });
     } else {
-      res.json({});
+      res.json({ user: null });
     }
   }
 );

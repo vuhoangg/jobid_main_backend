@@ -9,8 +9,12 @@ const handles_1 = require("../handles");
 const router = express_1.default.Router();
 exports.CvRouter = router;
 // cv
-router.get("/cv/list", handles_1.getListTheme);
-router.get('/cv/:id', handles_1.getTheme);
+router.get("/cv/list", handles_1.getListCv);
+router.get('/cv/:id', handles_1.getCv);
+router.put("/cv/:id", handles_1.updateCv);
+router.delete("/cv/:id", handles_1.deleteCv);
+router.post("/cv/main", handles_1.makeMainCv);
+router.post("/cv/request", handles_1.requestCv);
 router.post("/cv/preview", handles_1.previewCv);
 router.post("/cv", handles_1.createCv);
 // theme

@@ -1,6 +1,7 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose = require("mongoose");
-const Schema: any = mongoose.Schema;
-
+const Schema = mongoose.Schema;
 const cvUserSchema = new mongoose.Schema({
     user: {
         required: true,
@@ -231,7 +232,6 @@ const cvUserSchema = new mongoose.Schema({
             },
         },
     ],
-
     main_cv: {
         type: Boolean,
         default: false,
@@ -240,7 +240,6 @@ const cvUserSchema = new mongoose.Schema({
         type: String,
         default: "",
     },
-
     status: {
         type: String,
         default: "active",
@@ -249,6 +248,6 @@ const cvUserSchema = new mongoose.Schema({
 }, {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" }
 });
-
 const CvUser = mongoose.model("CvUser", cvUserSchema);
-export default CvUser;
+exports.default = CvUser;
+//# sourceMappingURL=CvUser.js.map
