@@ -24,7 +24,6 @@ export const Employer = new GraphQLObjectType({
         gender: { type: GraphQLString },
         login_type: { type: GraphQLString },
         spam: { type: GraphQLInt },
-        info: { type: EmployerInfo },
         created_at: { type: new GraphQLNonNull(GraphQLString) },
         updated_at: { type: new GraphQLNonNull(GraphQLString) },
     },

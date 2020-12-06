@@ -42,6 +42,8 @@ import communityPostLikeMutations from "./community_post_like/mutations";
 import communityPostAnswerMutations from "./community_post_answer/mutations";
 import bannerMutations from "./banner/mutations";
 import jobRegisterMutations from "./job_register/mutations";
+import cvWarehouseMutations from "./cv_warehouse/mutations";
+import cvEmployerMutations from "./cv_employer/mutations";
 
 const Mutation = new GraphQLObjectType({
   fields: {
@@ -90,7 +92,9 @@ const Mutation = new GraphQLObjectType({
     ...communityPostLikeMutations,
     ...communityPostAnswerMutations,
     ...bannerMutations,
-    ...jobRegisterMutations
+    ...jobRegisterMutations,
+    ...cvWarehouseMutations,
+    ...cvEmployerMutations,
   },
   name: "Mutation",
 });

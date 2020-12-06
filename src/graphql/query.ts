@@ -47,6 +47,8 @@ import communityPostLikeQueries from "./community_post_like/queries";
 import communityPostAnswerQueries from "./community_post_answer/queries";
 import bannerQueries from "./banner/queries";
 import jobRegisterQueries from "./job_register/queries";
+import cvWarehouseQueries from "./cv_warehouse/queries";
+import cvEmployerQueries from "./cv_employer/queries";
 
 const QueryRoot = new GraphQLObjectType({
   fields: {
@@ -100,7 +102,9 @@ const QueryRoot = new GraphQLObjectType({
     ...communityPostLikeQueries,
     ...communityPostAnswerQueries,
     ...bannerQueries,
-    ...jobRegisterQueries
+    ...jobRegisterQueries,
+    ...cvWarehouseQueries,
+    ...cvEmployerQueries,
   },
   name: "QueryRoot",
 });

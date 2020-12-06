@@ -204,5 +204,24 @@ router.post("/company_avatar", async (req, res) => {
   }
 });
 
+router.post("/cv_warehouse", async (req, res) => {
+  let isAuthenticated = await authenticateEmployer(req, res);
+  if (isAuthenticated) {
+    let loggedInEmployer = res.locals.employer;
+    let timestamp = new Date().getTime();
+
+    let fileContent = req.body.file;
+    let fileName = `${loggedInEmployer}_${timestamp}`;
+
+    let url = await s3Upload("cv_warehouse", fileName, fileContent);
+
+    res.send({
+      location: url
+    })
+  } else {
+    res.status(404);
+  }
+});
+
 
 export { router as UploadRouter };
