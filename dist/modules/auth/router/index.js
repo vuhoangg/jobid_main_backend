@@ -35,7 +35,8 @@ router.get("/user/google/callback", passport_1.default.authenticate("google_user
         path: "/",
         maxAge: Number(process.env.USER_EXPIRES_ACCESS_TOKEN),
     });
-    res.redirect(`${process.env.SITE_URL}`);
+    let redirect = req.cookies.pathname ? `${process.env.SITE_URL}${req.cookies.pathname}` : process.env.SITE_URL;
+    res.redirect(redirect);
 }));
 router.get("/employer/google/callback", passport_1.default.authenticate("google_employer", { failureRedirect: "/employer/login" }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const accessToken = req.user.employer.accessToken;

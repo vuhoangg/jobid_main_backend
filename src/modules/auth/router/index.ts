@@ -34,7 +34,8 @@ router.get(
       path: "/",
       maxAge: Number(process.env.USER_EXPIRES_ACCESS_TOKEN),
     });
-    res.redirect(`${process.env.SITE_URL}`);
+    let redirect = req.cookies.pathname ? `${process.env.SITE_URL}${req.cookies.pathname}` : process.env.SITE_URL;
+    res.redirect(redirect);
   }
 );
 
