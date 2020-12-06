@@ -1,5 +1,5 @@
 import express from "express";
-import { getListTheme, getTheme, putTheme, createTheme, previewCv, createCv, getListCv, getCv, updateCv, deleteCv, makeMainCv, requestCv } from "../handles";
+import { getListTheme, getTheme, putTheme, createTheme, previewCv, createCv, getListCv, getCv, updateCv, deleteCv, makeMainCv, requestCv, getHistoryRequestCv, getAllRequestCv, getRequestCv, putRequestCv } from "../handles";
 
 const router = express.Router();
 
@@ -10,6 +10,11 @@ router.put("/cv/:id", updateCv);
 router.delete("/cv/:id", deleteCv);
 router.post("/cv/main", makeMainCv);
 router.post("/cv/request", requestCv);
+router.get("/cv/request/all", getAllRequestCv);
+router.get("/cv/request-history/:cv_user_id", getHistoryRequestCv);
+router.get("/cv/request/:id", getRequestCv);
+router.put("/cv/request/:id", putRequestCv);
+
 
 router.post("/cv/preview", previewCv);
 router.post("/cv", createCv);

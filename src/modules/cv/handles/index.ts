@@ -2,6 +2,7 @@ import CvThemeService from "../../../db/repositories/CvThemeRepository";
 import CvUserService from "../../../db/repositories/CvUserRepository";
 import CvRequestService from "../../../db/repositories/CvRequestRepository";
 import { authenticateUser } from "../../../middlewares/authenticate";
+import { isSuperUser } from "../../../helpers/permission";
 
 export const getListTheme = async (req, res) => {
     let page = Number(req.query.page);
@@ -192,6 +193,93 @@ export const requestCv = async (req, res) => {
             }
         } else {
             res.json({ status: false, message: "CV không phải của bạn" });
+        }
+    } else {
+        res.json({ status: false });
+    }
+}
+
+export const getRequestCv = async (req, res) => {
+    let isAuthenticated = await authenticateUser(req, res);
+    if (isAuthenticated) {
+        let user = res.locals.user;
+        let fullUser = res.locals.fullUser;
+        if (isSuperUser(fullUser.email)) {
+            let id = req.params.id;
+            let request = await CvRequestService.get(id, {});
+            let cv_user = await CvUserService.get(request.cv_user, {});
+
+            let page = Number(req.query.page);
+            let limit = Number(req.query.limit);
+            let history = await CvRequestService.filter({ cv_user: request.cv_user }, page, limit, {});
+
+            res.json({ status: true, request: request, cv_user: cv_user, history: history });
+        } else {
+            res.json({ status: false, message: "Không phải là Admin" });
+        }
+    } else {
+        res.json({ status: false });
+    }
+};
+
+export const getHistoryRequestCv = async (req, res) => {
+    let isAuthenticated = await authenticateUser(req, res);
+    if (isAuthenticated) {
+        let user = res.locals.user;
+        let cv_user = req.params.cv_user_id;
+
+        let page = Number(req.query.page);
+        let limit = Number(req.query.limit);
+
+        let findCv = await CvUserService.getBy({ user: user, _id: cv_user }, {});
+        if (findCv) {
+            let findRequest = await CvRequestService.filter({ cv_user: cv_user }, page, limit, {});
+            res.json({ status: true, request: findRequest });
+        } else {
+            res.json({ status: false, message: "CV không phải của bạn" });
+        }
+    } else {
+        res.json({ status: false });
+    }
+}
+
+export const getAllRequestCv = async (req, res) => {
+    let isAuthenticated = await authenticateUser(req, res);
+    if (isAuthenticated) {
+        let user = res.locals.user;
+        let fullUser = res.locals.fullUser;
+        if (isSuperUser(fullUser.email)) {
+            let page = Number(req.query.page);
+            let limit = Number(req.query.limit);
+            let findRequest = await CvRequestService.filter({}, page, limit, {});
+            let requests = [];
+            for (let i = 0; i < findRequest.length; i++) {
+                let cv_user = await CvUserService.get(findRequest[i].cv_user, {});
+                let item = findRequest[i].toObject();
+                item = Object.assign(item, { cv: cv_user });
+                requests.push(item);
+            }
+            res.json({ status: true, requests: requests });
+        } else {
+            res.json({ status: false, message: "Không phải là Admin" });
+        }
+    } else {
+        res.json({ status: false });
+    }
+}
+
+export const putRequestCv = async (req, res) => {
+    let isAuthenticated = await authenticateUser(req, res);
+    if (isAuthenticated) {
+        let user = res.locals.user;
+        let fullUser = res.locals.fullUser;
+        if (isSuperUser(fullUser.email)) {
+            let data = req.body;
+            data = Object.assign(data, { _id: req.params.id });
+            let request = await CvRequestService.update(data);
+            res.json({ status: true, request: request });
+        } else {
+            res.json({ status: false, message: "Không phải là Admin" });
         }
     } else {
         res.json({ status: false });

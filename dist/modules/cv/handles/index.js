@@ -12,11 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.requestCv = exports.makeMainCv = exports.deleteCv = exports.updateCv = exports.getCv = exports.getListCv = exports.createCv = exports.previewCv = exports.createTheme = exports.putTheme = exports.getTheme = exports.getListTheme = void 0;
+exports.putRequestCv = exports.getAllRequestCv = exports.getHistoryRequestCv = exports.getRequestCv = exports.requestCv = exports.makeMainCv = exports.deleteCv = exports.updateCv = exports.getCv = exports.getListCv = exports.createCv = exports.previewCv = exports.createTheme = exports.putTheme = exports.getTheme = exports.getListTheme = void 0;
 const CvThemeRepository_1 = __importDefault(require("../../../db/repositories/CvThemeRepository"));
 const CvUserRepository_1 = __importDefault(require("../../../db/repositories/CvUserRepository"));
 const CvRequestRepository_1 = __importDefault(require("../../../db/repositories/CvRequestRepository"));
 const authenticate_1 = require("../../../middlewares/authenticate");
+const permission_1 = require("../../../helpers/permission");
 exports.getListTheme = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let page = Number(req.query.page);
     let limit = Number(req.query.limit);
@@ -207,6 +208,93 @@ exports.requestCv = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         }
         else {
             res.json({ status: false, message: "CV không phải của bạn" });
+        }
+    }
+    else {
+        res.json({ status: false });
+    }
+});
+exports.getRequestCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield authenticate_1.authenticateUser(req, res);
+    if (isAuthenticated) {
+        let user = res.locals.user;
+        let fullUser = res.locals.fullUser;
+        if (permission_1.isSuperUser(fullUser.email)) {
+            let id = req.params.id;
+            let request = yield CvRequestRepository_1.default.get(id, {});
+            let cv_user = yield CvUserRepository_1.default.get(request.cv_user, {});
+            let page = Number(req.query.page);
+            let limit = Number(req.query.limit);
+            let history = yield CvRequestRepository_1.default.filter({ cv_user: request.cv_user }, page, limit, {});
+            res.json({ status: true, request: request, cv_user: cv_user, history: history });
+        }
+        else {
+            res.json({ status: false, message: "Không phải là Admin" });
+        }
+    }
+    else {
+        res.json({ status: false });
+    }
+});
+exports.getHistoryRequestCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield authenticate_1.authenticateUser(req, res);
+    if (isAuthenticated) {
+        let user = res.locals.user;
+        let cv_user = req.params.cv_user_id;
+        let page = Number(req.query.page);
+        let limit = Number(req.query.limit);
+        let findCv = yield CvUserRepository_1.default.getBy({ user: user, _id: cv_user }, {});
+        if (findCv) {
+            let findRequest = yield CvRequestRepository_1.default.filter({ cv_user: cv_user }, page, limit, {});
+            res.json({ status: true, request: findRequest });
+        }
+        else {
+            res.json({ status: false, message: "CV không phải của bạn" });
+        }
+    }
+    else {
+        res.json({ status: false });
+    }
+});
+exports.getAllRequestCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield authenticate_1.authenticateUser(req, res);
+    if (isAuthenticated) {
+        let user = res.locals.user;
+        let fullUser = res.locals.fullUser;
+        if (permission_1.isSuperUser(fullUser.email)) {
+            let page = Number(req.query.page);
+            let limit = Number(req.query.limit);
+            let findRequest = yield CvRequestRepository_1.default.filter({}, page, limit, {});
+            let requests = [];
+            for (let i = 0; i < findRequest.length; i++) {
+                let cv_user = yield CvUserRepository_1.default.get(findRequest[i].cv_user, {});
+                let item = findRequest[i].toObject();
+                item = Object.assign(item, { cv: cv_user });
+                requests.push(item);
+            }
+            res.json({ status: true, requests: requests });
+        }
+        else {
+            res.json({ status: false, message: "Không phải là Admin" });
+        }
+    }
+    else {
+        res.json({ status: false });
+    }
+});
+exports.putRequestCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield authenticate_1.authenticateUser(req, res);
+    if (isAuthenticated) {
+        let user = res.locals.user;
+        let fullUser = res.locals.fullUser;
+        if (permission_1.isSuperUser(fullUser.email)) {
+            let data = req.body;
+            data = Object.assign(data, { _id: req.params.id });
+            let request = yield CvRequestRepository_1.default.update(data);
+            res.json({ status: true, request: request });
+        }
+        else {
+            res.json({ status: false, message: "Không phải là Admin" });
         }
     }
     else {

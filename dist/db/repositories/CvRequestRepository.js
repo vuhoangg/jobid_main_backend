@@ -8,6 +8,9 @@ const promise_1 = require("../../helpers/promise");
 const CvRequest_1 = __importDefault(require("../schemas/CvRequest"));
 const getCondition = (filter) => {
     let condition = {};
+    if (filter.cv_user) {
+        condition = Object.assign(condition, { cv_user: filter.cv_user });
+    }
     return condition;
 };
 class CvRequestRepository {
@@ -48,11 +51,11 @@ class CvRequestRepository {
                 return promise_1.promiseNull();
             }
         };
-        this.filter = (filter, limit, page, projection = {}) => {
+        this.filter = (filter, page, limit, projection = {}) => {
             try {
                 let condition = getCondition(filter);
                 return CvRequest_1.default.find(condition, projection)
-                    .sort({ name: "asc" })
+                    .sort({ _id: "desc" })
                     .skip(limit * (page - 1))
                     .limit(limit);
             }

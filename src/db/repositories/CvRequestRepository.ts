@@ -4,7 +4,7 @@ import { CrudContract } from "../contracts/CrudContract";
 import CvRequest from "../schemas/CvRequest";
 
 interface ICvRequestFilterType {
-
+    cv_user?: string;
 }
 
 interface IGetBy {
@@ -15,7 +15,9 @@ interface IGetBy {
 
 const getCondition = (filter: ICvRequestFilterType) => {
     let condition = {};
-
+    if (filter.cv_user) {
+        condition = Object.assign(condition, { cv_user: filter.cv_user });
+    }
     return condition;
 };
 
@@ -53,11 +55,11 @@ class CvRequestRepository implements CrudContract {
         }
     };
 
-    public filter = (filter: ICvRequestFilterType, limit: number, page: number, projection = {}) => {
+    public filter = (filter: ICvRequestFilterType, page: number, limit: number, projection = {}) => {
         try {
             let condition = getCondition(filter);
             return CvRequest.find(condition, projection)
-                .sort({ name: "asc" })
+                .sort({ _id: "desc" })
                 .skip(limit * (page - 1))
                 .limit(limit);
         } catch (e) {

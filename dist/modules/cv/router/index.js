@@ -15,6 +15,10 @@ router.put("/cv/:id", handles_1.updateCv);
 router.delete("/cv/:id", handles_1.deleteCv);
 router.post("/cv/main", handles_1.makeMainCv);
 router.post("/cv/request", handles_1.requestCv);
+router.get("/cv/request/all", handles_1.getAllRequestCv);
+router.get("/cv/request-history/:cv_user_id", handles_1.getHistoryRequestCv);
+router.get("/cv/request/:id", handles_1.getRequestCv);
+router.put("/cv/request/:id", handles_1.putRequestCv);
 router.post("/cv/preview", handles_1.previewCv);
 router.post("/cv", handles_1.createCv);
 // theme
