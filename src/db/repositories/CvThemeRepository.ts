@@ -137,7 +137,7 @@ class CvThemeRepository implements CrudContract {
                 const bufferPdf = await page.pdf({
                     displayHeaderFooter: true,
                     printBackground: true,
-                    preferCSSPageSize: false,
+                    // preferCSSPageSize: false,
                     deviceScaleFactor: 1,
                     format: 'A4'
                 });

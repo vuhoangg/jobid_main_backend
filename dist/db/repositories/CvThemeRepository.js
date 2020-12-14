@@ -121,7 +121,7 @@ class CvThemeRepository {
                 const bufferPdf = yield page.pdf({
                     displayHeaderFooter: true,
                     printBackground: true,
-                    preferCSSPageSize: false,
+                    // preferCSSPageSize: false,
                     deviceScaleFactor: 1,
                     format: 'A4'
                 });
