@@ -129,10 +129,10 @@ class CvUserRepository implements CrudContract {
             <!DOCTYPE html>
             <html>
                 <style>
-                @page { 
-                    size: A4 portrait; 
-                    margin:0px 0px 0px 0px;
-                }
+                // @page { 
+                //     size: A4 portrait; 
+                //     margin:0px 0px 0px 0px;
+                // }
                 #cv-container{
                     // height:${Math.ceil(html_view_height / 1122.2) * 1122.2}px;
                     height: 100vh;
@@ -157,8 +157,9 @@ class CvUserRepository implements CrudContract {
                 const bufferPdf = await page.pdf({
                     displayHeaderFooter: true,
                     printBackground: true,
-                    preferCSSPageSize: true,
+                    // preferCSSPageSize: false,
                     deviceScaleFactor: 1,
+                    format: 'A4'
                 });
 
                 const pdfDoc = await PDFDocument.load(bufferPdf);
@@ -263,10 +264,10 @@ class CvUserRepository implements CrudContract {
             <!DOCTYPE html>
             <html>
                 <style>
-                @page { 
-                    size: A4 portrait; 
-                    margin:0px 0px 0px 0px;
-                }
+                // @page { 
+                //     size: A4 portrait; 
+                //     margin:0px 0px 0px 0px;
+                // }
                 #cv-container{
                     // height:${Math.ceil(html_view_height / 1122.2) * 1122.2}px;
                     height: 100vh;
@@ -291,8 +292,9 @@ class CvUserRepository implements CrudContract {
                 const bufferPdf = await page.pdf({
                     displayHeaderFooter: true,
                     printBackground: true,
-                    preferCSSPageSize: true,
+                    // preferCSSPageSize: false,
                     deviceScaleFactor: 1,
+                    format: 'A4'
                 });
 
                 const pdfDoc = await PDFDocument.load(bufferPdf);

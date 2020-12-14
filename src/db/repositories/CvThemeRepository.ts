@@ -106,10 +106,10 @@ class CvThemeRepository implements CrudContract {
             <!DOCTYPE html>
             <html>
                 <style>
-                @page { 
-                    size: A4 portrait; 
-                    margin:0px 0px 0px 0px;
-                }
+                // @page { 
+                //     size: A4 portrait; 
+                //     margin:0px 0px 0px 0px;
+                // }
                 #cv-container{
                     // height:${Math.ceil(height / 1122.2) * 1122.2}px;
                     height: 100vh;
@@ -129,7 +129,7 @@ class CvThemeRepository implements CrudContract {
             })
             .then(async (browser) => {
                 let page = await browser.newPage();
-                page.on("console", consoleObj => console.log(consoleObj.text()));
+
                 await page.setContent(document, {
                     waitUntil: ["networkidle0", "networkidle2"],
                 });
@@ -137,8 +137,9 @@ class CvThemeRepository implements CrudContract {
                 const bufferPdf = await page.pdf({
                     displayHeaderFooter: true,
                     printBackground: true,
-                    preferCSSPageSize: true,
+                    preferCSSPageSize: false,
                     deviceScaleFactor: 1,
+                    format: 'A4'
                 });
 
                 const pdfDoc = await PDFDocument.load(bufferPdf);

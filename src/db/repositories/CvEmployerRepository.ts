@@ -5,7 +5,7 @@ import CvEmployer from "../schemas/CvEmployer";
 
 
 interface ICvEmployerFilterType {
-    employer?: string;
+    cv_warehouse?: string;
     status?: string;
     public?: string;
 }
@@ -17,8 +17,8 @@ interface IGetBy {
 
 const getCondition = (filter: ICvEmployerFilterType) => {
     let condition = {};
-    if (filter.employer) {
-        condition = Object.assign(condition, { user: filter.employer });
+    if (filter.cv_warehouse) {
+        condition = Object.assign(condition, { cv_warehouse: filter.cv_warehouse });
     }
     if (filter.public) {
         condition = Object.assign(condition, { public: filter.public });

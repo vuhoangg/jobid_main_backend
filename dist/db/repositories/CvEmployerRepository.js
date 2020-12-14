@@ -8,8 +8,8 @@ const promise_1 = require("../../helpers/promise");
 const CvEmployer_1 = __importDefault(require("../schemas/CvEmployer"));
 const getCondition = (filter) => {
     let condition = {};
-    if (filter.employer) {
-        condition = Object.assign(condition, { user: filter.employer });
+    if (filter.cv_warehouse) {
+        condition = Object.assign(condition, { cv_warehouse: filter.cv_warehouse });
     }
     if (filter.public) {
         condition = Object.assign(condition, { public: filter.public });
