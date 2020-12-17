@@ -44,6 +44,7 @@ const jobPostSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Ward',
     },
+    specific: String,
     text: String,
     lat: Number,
     lng: Number,
