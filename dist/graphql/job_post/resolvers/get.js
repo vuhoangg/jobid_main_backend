@@ -17,9 +17,9 @@ const JobPostRepository_1 = __importDefault(require("../../../db/repositories/Jo
 const helpers_1 = require("../../helpers");
 const authenticate_1 = require("../../../middlewares/authenticate");
 const JobPostWishlistRepository_1 = __importDefault(require("../../../db/repositories/JobPostWishlistRepository"));
-const JobSaveRepository_1 = __importDefault(require("../../../db/repositories/JobSaveRepository"));
 const JobApplyRepository_1 = __importDefault(require("../../../db/repositories/JobApplyRepository"));
 const seo_1 = require("../../../helpers/seo");
+const JobPostReportRepository_1 = __importDefault(require("../../../db/repositories/JobPostReportRepository"));
 exports.getJobPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     const fields = helpers_1.rootField(info);
     let getBy = args._id ? { _id: args._id } : { slug: args.slug };
@@ -34,7 +34,8 @@ exports.getJobPost = (source, args, context, info) => __awaiter(void 0, void 0, 
     if (loggedUser) {
         is_wishlist = !!(yield JobPostWishlistRepository_1.default.count({ job_post: jobPost._id, user: loggedUser._id }));
     }
-    let save_count = yield JobSaveRepository_1.default.count({ job_post: jobPost._id });
+    let save_count = yield JobPostWishlistRepository_1.default.count({ job_post: jobPost._id });
+    let report_count = yield JobPostReportRepository_1.default.count({ job_post: jobPost._id });
     let apply_count = yield JobApplyRepository_1.default.count({ job_post: jobPost._id });
     let node = {
         _id: jobPost._id,
@@ -59,6 +60,7 @@ exports.getJobPost = (source, args, context, info) => __awaiter(void 0, void 0, 
         view_count: jobPost.view_count,
         save_count: save_count,
         apply_count: apply_count,
+        report_count: report_count,
         status: jobPost.status,
         seo_title: jobPost.seo_title || jobPost.title,
         seo_description: jobPost.seo_description || seo_1.seoDescription(jobPost.description),

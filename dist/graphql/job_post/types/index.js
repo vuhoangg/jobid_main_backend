@@ -130,6 +130,7 @@ exports.JobPost = new graphql_1.GraphQLObjectType({
         user: { type: types_6.User },
         view_count: { type: graphql_1.GraphQLInt },
         save_count: { type: graphql_1.GraphQLInt },
+        report_count: { type: graphql_1.GraphQLInt },
         apply_count: { type: graphql_1.GraphQLInt },
         status: { type: graphql_1.GraphQLString },
         seo_title: { type: graphql_1.GraphQLString },

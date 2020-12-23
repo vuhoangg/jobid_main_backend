@@ -2,9 +2,9 @@ import JobPostService from "../../../db/repositories/JobPostRepository";
 import { filterObject, rootField, rootInfo } from "../../helpers";
 import { authenticateUser } from "../../../middlewares/authenticate";
 import JobPostWishlistService from "../../../db/repositories/JobPostWishlistRepository";
-import JobSaveService from "../../../db/repositories/JobSaveRepository";
 import JobApplyService from "../../../db/repositories/JobApplyRepository";
 import { seoDescription } from "../../../helpers/seo";
+import JobPostReportService from "../../../db/repositories/JobPostReportRepository";
 
 export const getJobPost = async (source, args, context, info) => {
   const fields = rootField(info);
@@ -24,7 +24,8 @@ export const getJobPost = async (source, args, context, info) => {
     is_wishlist = !! await JobPostWishlistService.count({ job_post: jobPost._id, user: loggedUser._id });
   }
 
-  let save_count = await JobSaveService.count({ job_post: jobPost._id });
+  let save_count = await JobPostWishlistService.count({ job_post: jobPost._id });
+  let report_count = await JobPostReportService.count({ job_post: jobPost._id });
   let apply_count = await JobApplyService.count({ job_post: jobPost._id });
 
   let node = {
@@ -50,6 +51,7 @@ export const getJobPost = async (source, args, context, info) => {
     view_count: jobPost.view_count,
     save_count: save_count,
     apply_count: apply_count,
+    report_count: report_count,
     status: jobPost.status,
     seo_title: jobPost.seo_title || jobPost.title,
     seo_description: jobPost.seo_description || seoDescription(jobPost.description),

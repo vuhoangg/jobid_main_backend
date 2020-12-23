@@ -146,6 +146,7 @@ export const JobPost = new GraphQLObjectType({
     user: { type: User },
     view_count: { type: GraphQLInt },
     save_count: { type: GraphQLInt },
+    report_count: { type: GraphQLInt },
     apply_count: { type: GraphQLInt },
     status: { type: GraphQLString },
     seo_title: { type: GraphQLString },
