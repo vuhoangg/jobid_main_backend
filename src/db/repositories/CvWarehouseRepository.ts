@@ -34,7 +34,7 @@ class CvWarehouseRepository implements CrudContract {
         try {
             return CvWarehouse.create(data);
         } catch (e) {
-            errorLog(`CvWarehouse::create ${e.message}`);
+          errorLog(e);
             return promiseNull();
         }
     };
@@ -42,7 +42,7 @@ class CvWarehouseRepository implements CrudContract {
         try {
             return CvWarehouse.findByIdAndRemove(_id);
         } catch (e) {
-            errorLog(`CvWarehouse::delete ${e.message}`);
+          errorLog(e);
             return promiseNull();
         }
     };
@@ -50,7 +50,7 @@ class CvWarehouseRepository implements CrudContract {
         try {
             return CvWarehouse.findById(_id, projection);
         } catch (e) {
-            errorLog(`CvWarehouse::find ${e.message}`);
+          errorLog(e);
             return promiseNull();
         }
     };
@@ -58,7 +58,7 @@ class CvWarehouseRepository implements CrudContract {
         try {
             return CvWarehouse.findByIdAndUpdate(data._id, data, { new: true });
         } catch (e) {
-            errorLog(`CvWarehouse::update ${e.message}`);
+          errorLog(e);
             return promiseNull();
         }
     };
@@ -71,7 +71,7 @@ class CvWarehouseRepository implements CrudContract {
                 .skip(limit * (page - 1))
                 .limit(limit);
         } catch (e) {
-            errorLog(`CvWarehouse::filter ${e.message}`);
+          errorLog(e);
             return promiseNull();
         }
     };
@@ -80,7 +80,7 @@ class CvWarehouseRepository implements CrudContract {
         try {
             return CvWarehouse.findOne(getBy, projection);
         } catch (e) {
-            errorLog(`CvWarehouse::getBy ${e.message}`)
+          errorLog(e);
             return promiseNull();
         }
     }
@@ -88,7 +88,7 @@ class CvWarehouseRepository implements CrudContract {
         try {
             return CvWarehouse.find(filter);
         } catch (e) {
-            errorLog(`CvWarehouse::getBy ${e.message}`)
+          errorLog(e);
             return promiseNull();
         }
     }
@@ -98,7 +98,7 @@ class CvWarehouseRepository implements CrudContract {
             let condition = getCondition(filter);
             return CvWarehouse.countDocuments(condition);
         } catch (e) {
-            errorLog(`CvWarehouse::count ${e.message}`);
+          errorLog(e);
             return promiseNull();
         }
     };

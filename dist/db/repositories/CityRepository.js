@@ -20,7 +20,7 @@ class CityRepository {
                 return City_1.default.create(data);
             }
             catch (e) {
-                log_1.errorLog(`City::create ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -29,7 +29,7 @@ class CityRepository {
                 return City_1.default.findByIdAndRemove(_id);
             }
             catch (e) {
-                log_1.errorLog(`City::delete ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -43,7 +43,7 @@ class CityRepository {
                 }
             }
             catch (e) {
-                log_1.errorLog(`City::find ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -52,7 +52,7 @@ class CityRepository {
                 return City_1.default.findByIdAndUpdate(data._id, data, { new: true });
             }
             catch (e) {
-                log_1.errorLog(`City::update ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -65,7 +65,7 @@ class CityRepository {
                     .limit(limit);
             }
             catch (e) {
-                log_1.errorLog(`City::filter ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -75,7 +75,7 @@ class CityRepository {
                 return City_1.default.countDocuments(condition);
             }
             catch (e) {
-                log_1.errorLog(`City::count ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -90,7 +90,7 @@ class CityRepository {
             }
         }
         catch (e) {
-            log_1.errorLog(`City::getBy ${e.message}`);
+            log_1.errorLog(e);
             return promise_1.promiseNull();
         }
     }

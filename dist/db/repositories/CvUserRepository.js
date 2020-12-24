@@ -35,7 +35,7 @@ class CvUserRepository {
                 return CvUser_1.default.create(data);
             }
             catch (e) {
-                log_1.errorLog(`CvUser::create ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -44,7 +44,7 @@ class CvUserRepository {
                 return CvUser_1.default.findByIdAndRemove(_id);
             }
             catch (e) {
-                log_1.errorLog(`CvUser::delete ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -53,7 +53,7 @@ class CvUserRepository {
                 return CvUser_1.default.findById(_id, projection);
             }
             catch (e) {
-                log_1.errorLog(`CvUser::find ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -62,7 +62,7 @@ class CvUserRepository {
                 return CvUser_1.default.findByIdAndUpdate(data._id, data, { new: true });
             }
             catch (e) {
-                log_1.errorLog(`CvUser::update ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -75,7 +75,7 @@ class CvUserRepository {
                     .limit(limit);
             }
             catch (e) {
-                log_1.errorLog(`CvUser::filter ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -84,7 +84,7 @@ class CvUserRepository {
                 return CvUser_1.default.find(filter);
             }
             catch (e) {
-                log_1.errorLog(`CvUser::getBy ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -94,7 +94,7 @@ class CvUserRepository {
                 return CvUser_1.default.countDocuments(condition);
             }
             catch (e) {
-                log_1.errorLog(`CvUser::count ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -104,8 +104,8 @@ class CvUserRepository {
             <!DOCTYPE html>
             <html>
                 <style>
-                // @page { 
-                //     size: A4 portrait; 
+                // @page {
+                //     size: A4 portrait;
                 //     margin:0px 0px 0px 0px;
                 // }
                 #cv-container{
@@ -196,8 +196,8 @@ class CvUserRepository {
             <!DOCTYPE html>
             <html>
                 <style>
-                // @page { 
-                //     size: A4 portrait; 
+                // @page {
+                //     size: A4 portrait;
                 //     margin:0px 0px 0px 0px;
                 // }
                 #cv-container{
@@ -287,7 +287,7 @@ class CvUserRepository {
             return CvUser_1.default.findOne(getBy, projection);
         }
         catch (e) {
-            log_1.errorLog(`CvUser::getBy ${e.message}`);
+            log_1.errorLog(e);
             return promise_1.promiseNull();
         }
     }

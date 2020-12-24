@@ -19,7 +19,7 @@ interface IGetBy {
 const getCondition = (filter: ICityFilterType) => {
   let condition = {};
   if (filter.name) {
-    condition = Object.assign(condition, { name: new RegExp(filter.name, "i") });
+    condition = Object.assign(condition, {name: new RegExp(filter.name, "i")});
   }
   return condition;
 };
@@ -29,7 +29,7 @@ class CityRepository implements CrudContract {
     try {
       return City.create(data);
     } catch (e) {
-      errorLog(`City::create ${e.message}`);
+      errorLog(e);
       return promiseNull();
     }
   };
@@ -37,7 +37,7 @@ class CityRepository implements CrudContract {
     try {
       return City.findByIdAndRemove(_id);
     } catch (e) {
-      errorLog(`City::delete ${e.message}`);
+      errorLog(e);
       return promiseNull();
     }
   };
@@ -46,18 +46,18 @@ class CityRepository implements CrudContract {
       if (getBy._id) {
         return City.findById(getBy._id, projection);
       } else {
-        return City.findOne({ slug: getBy.slug }, projection);
+        return City.findOne({slug: getBy.slug}, projection);
       }
     } catch (e) {
-      errorLog(`City::find ${e.message}`);
+      errorLog(e);
       return promiseNull();
     }
   };
   public update = (data: any) => {
     try {
-      return City.findByIdAndUpdate(data._id, data, { new: true });
+      return City.findByIdAndUpdate(data._id, data, {new: true});
     } catch (e) {
-      errorLog(`City::update ${e.message}`);
+      errorLog(e);
       return promiseNull();
     }
   };
@@ -66,11 +66,11 @@ class CityRepository implements CrudContract {
     try {
       let condition = getCondition(filter);
       return City.find(condition, projection)
-        .sort({ name: "asc" })
+        .sort({name: "asc"})
         .skip(limit * (page - 1))
         .limit(limit);
     } catch (e) {
-      errorLog(`City::filter ${e.message}`);
+      errorLog(e);
       return promiseNull();
     }
   };
@@ -83,7 +83,7 @@ class CityRepository implements CrudContract {
         return promiseNull();
       }
     } catch (e) {
-      errorLog(`City::getBy ${e.message}`)
+      errorLog(e);
       return promiseNull();
     }
   }
@@ -93,7 +93,7 @@ class CityRepository implements CrudContract {
       let condition = getCondition(filter);
       return City.countDocuments(condition);
     } catch (e) {
-      errorLog(`City::count ${e.message}`);
+      errorLog(e);
       return promiseNull();
     }
   };

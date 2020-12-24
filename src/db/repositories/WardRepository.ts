@@ -34,7 +34,7 @@ class WardRepository implements CrudContract {
     try {
       return Ward.create(data);
     } catch (e) {
-      errorLog(`Ward::create ${e.message}`);
+      errorLog(e);
       return promiseNull();
     }
   };
@@ -42,7 +42,7 @@ class WardRepository implements CrudContract {
     try {
       return Ward.findByIdAndRemove(_id);
     } catch (e) {
-      errorLog(`Ward::delete ${e.message}`);
+      errorLog(e);
       return promiseNull();
     }
   };
@@ -54,7 +54,7 @@ class WardRepository implements CrudContract {
         return Ward.findOne({slug: getBy.slug}, projection);
       }
     } catch (e) {
-      errorLog(`Ward::find ${e.message}`);
+      errorLog(e);
       return promiseNull();
     }
   };
@@ -62,7 +62,7 @@ class WardRepository implements CrudContract {
     try {
       return Ward.findByIdAndUpdate(data._id, data, {new: true});
     } catch (e) {
-      errorLog(`Ward::update ${e.message}`);
+      errorLog(e);
       return promiseNull();
     }
   };
@@ -75,7 +75,7 @@ class WardRepository implements CrudContract {
         .skip(limit * (page - 1))
         .limit(limit);
     } catch (e) {
-      errorLog(`Ward::filter ${e.message}`);
+      errorLog(e);
       return promiseNull();
     }
   };
@@ -88,7 +88,7 @@ class WardRepository implements CrudContract {
         return promiseNull();
       }
     } catch (e) {
-      errorLog(`Ward::getBy ${e.message}`)
+      errorLog(e);
       return promiseNull();
     }
   }
@@ -98,7 +98,7 @@ class WardRepository implements CrudContract {
       let condition = getCondition(filter);
       return Ward.countDocuments(condition);
     } catch (e) {
-      errorLog(`Ward::count ${e.message}`);
+      errorLog(e);
       return promiseNull();
     }
   };

@@ -4,37 +4,41 @@ const mongoose = require("mongoose");
 const Schema: any = mongoose.Schema;
 
 const communityCategorySchema: any = new Schema(
-    {
-        title: {
-            require: true,
-            type: String,
-        },
-        description: {
-            type: String,
-            default: "",
-        },
-        slug: {
-            required: true,
-            type: String,
-        },
-        image: {
-            type: String,
-            default: "",
-        },
-        count: {
-            type: Number,
-            default: 0,
-        },
-        seo_title: {
-            default: "",
-            type: String,
-        },
-        seo_description: {
-            type: String,
-            default: "",
-        },
+  {
+    parent_category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "CommunityCategory"
     },
-    { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
+    title: {
+      require: true,
+      type: String,
+    },
+    description: {
+      type: String,
+      default: "",
+    },
+    slug: {
+      required: true,
+      type: String,
+    },
+    image: {
+      type: String,
+      default: "",
+    },
+    count: {
+      type: Number,
+      default: 0,
+    },
+    seo_title: {
+      default: "",
+      type: String,
+    },
+    seo_description: {
+      type: String,
+      default: "",
+    },
+  },
+  {timestamps: {createdAt: "created_at", updatedAt: "updated_at"}}
 );
 
 const CommunityCategory = mongoose.model("CommunityCategory", communityCategorySchema);

@@ -26,7 +26,7 @@ class CvWarehouseRepository {
                 return CvWarehouse_1.default.create(data);
             }
             catch (e) {
-                log_1.errorLog(`CvWarehouse::create ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -35,7 +35,7 @@ class CvWarehouseRepository {
                 return CvWarehouse_1.default.findByIdAndRemove(_id);
             }
             catch (e) {
-                log_1.errorLog(`CvWarehouse::delete ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -44,7 +44,7 @@ class CvWarehouseRepository {
                 return CvWarehouse_1.default.findById(_id, projection);
             }
             catch (e) {
-                log_1.errorLog(`CvWarehouse::find ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -53,7 +53,7 @@ class CvWarehouseRepository {
                 return CvWarehouse_1.default.findByIdAndUpdate(data._id, data, { new: true });
             }
             catch (e) {
-                log_1.errorLog(`CvWarehouse::update ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -66,7 +66,7 @@ class CvWarehouseRepository {
                     .limit(limit);
             }
             catch (e) {
-                log_1.errorLog(`CvWarehouse::filter ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -75,7 +75,7 @@ class CvWarehouseRepository {
                 return CvWarehouse_1.default.find(filter);
             }
             catch (e) {
-                log_1.errorLog(`CvWarehouse::getBy ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -85,7 +85,7 @@ class CvWarehouseRepository {
                 return CvWarehouse_1.default.countDocuments(condition);
             }
             catch (e) {
-                log_1.errorLog(`CvWarehouse::count ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -95,7 +95,7 @@ class CvWarehouseRepository {
             return CvWarehouse_1.default.findOne(getBy, projection);
         }
         catch (e) {
-            log_1.errorLog(`CvWarehouse::getBy ${e.message}`);
+            log_1.errorLog(e);
             return promise_1.promiseNull();
         }
     }

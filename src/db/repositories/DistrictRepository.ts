@@ -34,7 +34,7 @@ class DistrictRepository implements CrudContract {
     try {
       return District.create(data);
     } catch (e) {
-      errorLog(`District::create ${e.message}`);
+      errorLog(e);
       return promiseNull();
     }
   };
@@ -42,7 +42,7 @@ class DistrictRepository implements CrudContract {
     try {
       return District.findByIdAndRemove(_id);
     } catch (e) {
-      errorLog(`District::delete ${e.message}`);
+      errorLog(e);
       return promiseNull();
     }
   };
@@ -54,7 +54,7 @@ class DistrictRepository implements CrudContract {
         return District.findOne({slug: getBy.slug}, projection);
       }
     } catch (e) {
-      errorLog(`District::find ${e.message}`);
+      errorLog(e);
       return promiseNull();
     }
   };
@@ -62,7 +62,7 @@ class DistrictRepository implements CrudContract {
     try {
       return District.findByIdAndUpdate(data._id, data, {new: true});
     } catch (e) {
-      errorLog(`District::update ${e.message}`);
+      errorLog(e);
       return promiseNull();
     }
   };
@@ -75,7 +75,7 @@ class DistrictRepository implements CrudContract {
         .skip(limit * (page - 1))
         .limit(limit);
     } catch (e) {
-      errorLog(`District::filter ${e.message}`);
+      errorLog(e);
       return promiseNull();
     }
   };
@@ -88,7 +88,7 @@ class DistrictRepository implements CrudContract {
         return promiseNull();
       }
     } catch (e) {
-      errorLog(`District::getBy ${e.message}`)
+      errorLog(e);
       return promiseNull();
     }
   }
@@ -98,7 +98,7 @@ class DistrictRepository implements CrudContract {
       let condition = getCondition(filter);
       return District.countDocuments(condition);
     } catch (e) {
-      errorLog(`District::count ${e.message}`);
+      errorLog(e);
       return promiseNull();
     }
   };

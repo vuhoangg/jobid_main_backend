@@ -29,7 +29,7 @@ class FacebookJobRepository implements CrudContract {
     try {
       return FacebookJob.create(data);
     } catch (e) {
-      errorLog(`FacebookJob::create ${e.message}`);
+      errorLog(e);
       return promiseNull();
     }
   };
@@ -37,7 +37,7 @@ class FacebookJobRepository implements CrudContract {
     try {
       return FacebookJob.findByIdAndRemove(_id);
     } catch (e) {
-      errorLog(`FacebookJob::delete ${e.message}`);
+      errorLog(e);
       return promiseNull();
     }
   };
@@ -49,7 +49,7 @@ class FacebookJobRepository implements CrudContract {
         return promiseNull();
       }
     } catch (e) {
-      errorLog(`FacebookJob::find ${e.message}`);
+      errorLog(e);
       return promiseNull();
     }
   };
@@ -57,7 +57,7 @@ class FacebookJobRepository implements CrudContract {
     try {
       return FacebookJob.findByIdAndUpdate(data._id, data, {new: true});
     } catch (e) {
-      errorLog(`FacebookJob::update ${e.message}`);
+      errorLog(e);
       return promiseNull();
     }
   };
@@ -70,7 +70,7 @@ class FacebookJobRepository implements CrudContract {
         .skip(limit * (page - 1))
         .limit(limit);
     } catch (e) {
-      errorLog(`FacebookJob::filter ${e.message}`);
+      errorLog(e);
       return promiseNull();
     }
   };
@@ -83,7 +83,7 @@ class FacebookJobRepository implements CrudContract {
         return promiseNull();
       }
     } catch (e) {
-      errorLog(`FacebookJob::getBy ${e.message}`)
+      errorLog(e);
       return promiseNull();
     }
   }
@@ -93,7 +93,7 @@ class FacebookJobRepository implements CrudContract {
       let condition = getCondition(filter);
       return FacebookJob.countDocuments(condition);
     } catch (e) {
-      errorLog(`FacebookJob::count ${e.message}`);
+      errorLog(e);
       return promiseNull();
     }
   };

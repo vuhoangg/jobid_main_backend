@@ -4,6 +4,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const communityCategorySchema = new Schema({
+    parent_category: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "CommunityCategory"
+    },
     title: {
         require: true,
         type: String,

@@ -20,7 +20,7 @@ class CvRequestRepository {
                 return CvRequest_1.default.create(data);
             }
             catch (e) {
-                log_1.errorLog(`CvRequest::create ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -29,7 +29,7 @@ class CvRequestRepository {
                 return CvRequest_1.default.findByIdAndRemove(_id);
             }
             catch (e) {
-                log_1.errorLog(`CvRequest::delete ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -38,7 +38,7 @@ class CvRequestRepository {
                 return CvRequest_1.default.findById(_id, projection);
             }
             catch (e) {
-                log_1.errorLog(`CvRequest::find ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -47,7 +47,7 @@ class CvRequestRepository {
                 return CvRequest_1.default.findByIdAndUpdate(data._id, data, { new: true });
             }
             catch (e) {
-                log_1.errorLog(`CvRequest::update ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -60,7 +60,7 @@ class CvRequestRepository {
                     .limit(limit);
             }
             catch (e) {
-                log_1.errorLog(`CvRequest::filter ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -70,7 +70,7 @@ class CvRequestRepository {
                 return CvRequest_1.default.countDocuments(condition);
             }
             catch (e) {
-                log_1.errorLog(`CvRequest::count ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -80,7 +80,7 @@ class CvRequestRepository {
             return CvRequest_1.default.findOne(getBy, projection);
         }
         catch (e) {
-            log_1.errorLog(`CvRequest::getBy ${e.message}`);
+            log_1.errorLog(e);
             return promise_1.promiseNull();
         }
     }

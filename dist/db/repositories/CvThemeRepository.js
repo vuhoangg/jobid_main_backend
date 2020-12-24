@@ -34,7 +34,7 @@ class CvThemeRepository {
                 return CvTheme_1.default.create(data);
             }
             catch (e) {
-                log_1.errorLog(`CvTheme::create ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -43,7 +43,7 @@ class CvThemeRepository {
                 return CvTheme_1.default.findByIdAndRemove(_id);
             }
             catch (e) {
-                log_1.errorLog(`CvTheme::delete ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -52,7 +52,7 @@ class CvThemeRepository {
                 return CvTheme_1.default.findById(_id, projection);
             }
             catch (e) {
-                log_1.errorLog(`CvTheme::find ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -61,7 +61,7 @@ class CvThemeRepository {
                 return CvTheme_1.default.findByIdAndUpdate(data._id, data, { new: true });
             }
             catch (e) {
-                log_1.errorLog(`CvTheme::update ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -74,7 +74,7 @@ class CvThemeRepository {
                     .limit(limit);
             }
             catch (e) {
-                log_1.errorLog(`CvTheme::filter ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -84,7 +84,7 @@ class CvThemeRepository {
                 return CvTheme_1.default.countDocuments(condition);
             }
             catch (e) {
-                log_1.errorLog(`CvTheme::count ${e.message}`);
+                log_1.errorLog(e);
                 return promise_1.promiseNull();
             }
         };
@@ -93,8 +93,8 @@ class CvThemeRepository {
             <!DOCTYPE html>
             <html>
                 <style>
-                // @page { 
-                //     size: A4 portrait; 
+                // @page {
+                //     size: A4 portrait;
                 //     margin:0px 0px 0px 0px;
                 // }
                 #cv-container{
@@ -149,7 +149,7 @@ class CvThemeRepository {
             }
         }
         catch (e) {
-            log_1.errorLog(`CvTheme::getBy ${e.message}`);
+            log_1.errorLog(e);
             return promise_1.promiseNull();
         }
     }
