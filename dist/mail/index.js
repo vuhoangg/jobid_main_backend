@@ -17,7 +17,7 @@ const WELCOME_EMPLOYER_TEMPLATE = 1;
 const NEW_USER_APPLY = 1;
 const NEW_JOB_POST = 4;
 exports.sendWelcome = (email, name, data) => {
-    axios_1.default.post(`${process.env.MAIL_API_URL}`, {
+    axios_1.default.post(`${process.env.MAIL_API_URL}/api/email-queue`, {
         apiKey: process.env.MAIL_API_KEY,
         email: email,
         name: name,

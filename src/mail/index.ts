@@ -17,7 +17,7 @@ const NEW_JOB_POST = 4;
 
 
 export const sendWelcome = (email: string, name: string, data: string) => {
-    axios.post(`${process.env.MAIL_API_URL}`, {
+    axios.post(`${process.env.MAIL_API_URL}/api/email-queue`, {
         apiKey: process.env.MAIL_API_KEY,
         email: email,
         name: name,
