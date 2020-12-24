@@ -1,18 +1,18 @@
 import axios from "axios";
 
-export const errorLog = (error) => {
+export const errorLog = (error: Error) => {
   process.env.APP_DEBUG === "true" ? console.log(`error: ${error.name} ${error.message}`) : null;
 
   if (process.env.APP_ENV == "production") {
     if (process.env.APP_LOG === "mattermost") {
       let payload = {
-        "text": error.toString(),
+        "text": `${error.name} - ${error.message} - ${error.stack}`,
         "username": "Bug Bot"
       }
       axios.post(process.env.LOG_WEBHOOK, payload).then(r => {
 
       }).catch(e => {
-        console.log(e.toString())
+        console.log(`${error.name} - ${error.message} - ${error.stack}`)
       })
     }
   }

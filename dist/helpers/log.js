@@ -10,12 +10,12 @@ exports.errorLog = (error) => {
     if (process.env.APP_ENV == "production") {
         if (process.env.APP_LOG === "mattermost") {
             let payload = {
-                "text": error.toString(),
+                "text": `${error.name} - ${error.message} - ${error.stack}`,
                 "username": "Bug Bot"
             };
             axios_1.default.post(process.env.LOG_WEBHOOK, payload).then(r => {
             }).catch(e => {
-                console.log(e.toString());
+                console.log(`${error.name} - ${error.message} - ${error.stack}`);
             });
         }
     }
