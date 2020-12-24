@@ -24,8 +24,8 @@ exports.sendWelcome = (email, name, data) => {
         campaign_id: SYSTEM_CAMPAIGN,
         template_id: WELCOME_USER_TEMPLATE,
         data: data
-    }).then(r => log_1.debugLog(`send welcome email success ${email}`))
-        .catch(e => log_1.debugLog(`send welcome email fail ${email}`));
+    }).then(r => log_1.activityLog(`Gửi email (${email}) chào người dùng mới thành công!`))
+        .catch(e => log_1.errorLog(e));
 };
 exports.sendUserApproveCv = (email, name, data) => {
     axios_1.default.post(`${process.env.MAIL_API_URL}/api/email-queue`, {
@@ -35,8 +35,8 @@ exports.sendUserApproveCv = (email, name, data) => {
         campaign_id: SYSTEM_CAMPAIGN,
         template_id: APPROVE_CV,
         data: data
-    }).then(r => log_1.debugLog(`send email success ${email}`))
-        .catch(e => log_1.debugLog(`send email fail ${email} - ${e.message}`));
+    }).then(r => log_1.activityLog(`Gửi email (${email}) nhà tuyển dụng đã duyệt hồ sơ của ứng viên thành công!`))
+        .catch(e => log_1.errorLog(e));
 };
 exports.sendUserDeclineCv = (email, name, data) => {
     axios_1.default.post(`${process.env.MAIL_API_URL}/api/email-queue`, {
@@ -46,8 +46,8 @@ exports.sendUserDeclineCv = (email, name, data) => {
         campaign_id: SYSTEM_CAMPAIGN,
         template_id: DECLINE_CV,
         data: data
-    }).then(r => log_1.debugLog(`send email success ${email}`))
-        .catch(e => log_1.debugLog(`send email fail ${email} - ${e.message}`));
+    }).then(r => log_1.activityLog(`Gửi email (${email}) nhà tuyển dụng đã từ chối hồ sơ của ứng viên thành công!`))
+        .catch(e => log_1.errorLog(e));
 };
 exports.sendWelcomeEmployer = (email, name, data) => {
 };
@@ -59,8 +59,8 @@ exports.sendEmployerNewJobPost = (email, name, data) => {
         campaign_id: SYSTEM_CAMPAIGN,
         template_id: NEW_JOB_POST,
         data: data
-    }).then(r => log_1.debugLog(`send email success ${email}`))
-        .catch(e => log_1.debugLog(`send email fail ${email} - ${e.message}`));
+    }).then(r => log_1.activityLog(`Gửi email (${email}) nhà tuyển dụng đã đăng tin mới thành công!`))
+        .catch(e => log_1.errorLog(e));
 };
 exports.sendEmployerUserApply = (email, name, data) => {
     axios_1.default.post(`${process.env.MAIL_API_URL}/api/email-queue`, {
@@ -70,7 +70,7 @@ exports.sendEmployerUserApply = (email, name, data) => {
         campaign_id: SYSTEM_CAMPAIGN,
         template_id: NEW_USER_APPLY,
         data: data
-    }).then(r => log_1.debugLog(`send email success ${email}`))
-        .catch(e => log_1.debugLog(`send email fail ${email} - ${e.message}`));
+    }).then(r => log_1.activityLog(`Gửi email (${email}) nhà tuyển dụng có ứng viên ứng tuyển mới thành công!`))
+        .catch(e => log_1.errorLog(e));
 };
 //# sourceMappingURL=index.js.map
