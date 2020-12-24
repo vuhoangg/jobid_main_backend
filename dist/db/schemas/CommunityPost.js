@@ -8,6 +8,10 @@ const communityPostSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
     },
+    thumbnail: {
+        type: String,
+        default: "",
+    },
     title: {
         type: String,
         default: "",
@@ -29,6 +33,10 @@ const communityPostSchema = new Schema({
     description: {
         default: "",
         type: String,
+    },
+    seo_robots: {
+        type: String,
+        default: ""
     },
     seo_title: {
         type: String,
