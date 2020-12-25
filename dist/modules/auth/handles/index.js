@@ -45,7 +45,10 @@ exports.saveNewGoogleUser = (profile) => {
         login_type: "google",
         user_chiase: mongoose_1.default.Types.ObjectId(),
     };
-    mail_1.sendWelcome(payload.email, payload.full_name, "");
+    let mailData = JSON.stringify({
+        "{{name}}": payload.full_name,
+    });
+    mail_1.sendWelcome(payload.email, payload.full_name, mailData);
     return UserRepository_1.default.create(payload);
 };
 exports.saveNewGoogleEmployer = (profile) => {
@@ -57,7 +60,10 @@ exports.saveNewGoogleEmployer = (profile) => {
         avatar: profile.photos[0].value,
         login_type: "google",
     };
-    mail_1.sendWelcomeEmployer(payload.email, payload.full_name, "");
+    let mailData = JSON.stringify({
+        "{{name}}": payload.full_name,
+    });
+    mail_1.sendWelcomeEmployer(payload.email, payload.full_name, mailData);
     return Employer_1.default.create(payload);
 };
 exports.saveNewFacebookUser = (profile) => {

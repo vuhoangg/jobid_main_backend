@@ -33,7 +33,10 @@ export const saveNewGoogleUser = (profile) => {
     login_type: "google",
     user_chiase: mongoose.Types.ObjectId(),
   };
-  sendWelcome(payload.email, payload.full_name, "");
+  let mailData = JSON.stringify({
+    "{{name}}": payload.full_name,
+  });
+  sendWelcome(payload.email, payload.full_name, mailData);
   return UserService.create(payload);
 };
 
@@ -46,7 +49,10 @@ export const saveNewGoogleEmployer = (profile) => {
     avatar: profile.photos[0].value,
     login_type: "google",
   };
-  sendWelcomeEmployer(payload.email, payload.full_name, "");
+  let mailData = JSON.stringify({
+    "{{name}}": payload.full_name,
+  });
+  sendWelcomeEmployer(payload.email, payload.full_name, mailData);
   return Employer.create(payload);
 };
 

@@ -9,11 +9,11 @@ const log_1 = require("../helpers/log");
 // campaign
 const SYSTEM_CAMPAIGN = 1;
 // template user
-const WELCOME_USER_TEMPLATE = 1;
+const WELCOME_USER_TEMPLATE = 10;
 const APPROVE_CV = 2;
 const DECLINE_CV = 3;
 // template employer
-const WELCOME_EMPLOYER_TEMPLATE = 1;
+const WELCOME_EMPLOYER_TEMPLATE = 11;
 const NEW_USER_APPLY = 1;
 const NEW_JOB_POST = 4;
 exports.sendWelcome = (email, name, data) => {
@@ -50,6 +50,15 @@ exports.sendUserDeclineCv = (email, name, data) => {
         .catch(e => log_1.errorLog(e));
 };
 exports.sendWelcomeEmployer = (email, name, data) => {
+    axios_1.default.post(`${process.env.MAIL_API_URL}/api/email-queue`, {
+        apiKey: process.env.MAIL_API_KEY,
+        email: email,
+        name: name,
+        campaign_id: SYSTEM_CAMPAIGN,
+        template_id: WELCOME_EMPLOYER_TEMPLATE,
+        data: data
+    }).then(r => log_1.activityLog(`Gửi email (${email}) chào nhà tuyển dụng mới thành công!`))
+        .catch(e => log_1.errorLog(e));
 };
 exports.sendEmployerNewJobPost = (email, name, data) => {
     axios_1.default.post(`${process.env.MAIL_API_URL}/api/email-queue`, {
