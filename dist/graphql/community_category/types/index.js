@@ -45,6 +45,7 @@ exports.CommunityCategoryInput = new graphql_1.GraphQLInputObjectType({
     fields: {
         _id: { type: graphql_1.GraphQLString },
         title: { type: graphql_1.GraphQLString },
+        slug: { type: graphql_1.GraphQLString },
         description: { type: graphql_1.GraphQLString },
         image: { type: graphql_1.GraphQLString },
         seo_title: { type: graphql_1.GraphQLString },

@@ -15,6 +15,7 @@ interface IFilter {
 
 interface IGetBy {
     _id?: string;
+    slug?: string;
 }
 
 function getCondition(filter: IFilter) {

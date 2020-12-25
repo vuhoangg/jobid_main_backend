@@ -3,7 +3,9 @@ import { filterObject, rootField, rootInfo } from "../../helpers";
 
 export const getCommunityCategory = async (source, args, context, info) => {
     const fields = rootField(info);
-    let communityCategory = await CommunityCategoryService.get(args._id, fields);
+
+  let getBy = args._id ? {_id: args._id} : {slug: args.slug};
+    let communityCategory = await CommunityCategoryService.getBy(getBy, fields);
 
     let node = {
         _id: communityCategory._id,

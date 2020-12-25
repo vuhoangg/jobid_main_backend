@@ -17,7 +17,8 @@ const CommunityTagRepository_1 = __importDefault(require("../../../db/repositori
 const helpers_1 = require("../../helpers");
 exports.getCommunityTag = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     const fields = helpers_1.rootField(info);
-    let communityTag = yield CommunityTagRepository_1.default.get(args._id, fields);
+    let getBy = args._id ? { _id: args._id } : { slug: args.slug };
+    let communityTag = yield CommunityTagRepository_1.default.getBy(getBy, fields);
     let node = {
         _id: communityTag._id,
         title: communityTag.title,

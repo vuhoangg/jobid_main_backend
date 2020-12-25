@@ -50,6 +50,7 @@ export const CommunityTagInput = new GraphQLInputObjectType({
     fields: {
         _id: { type: GraphQLString },
         title: { type: GraphQLString },
+        slug: { type: GraphQLString },
         description: { type: GraphQLString },
         image: { type: GraphQLString },
         seo_title: { type: GraphQLString },

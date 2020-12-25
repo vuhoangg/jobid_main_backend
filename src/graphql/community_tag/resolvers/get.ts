@@ -3,7 +3,8 @@ import { filterObject, rootField, rootInfo } from "../../helpers";
 
 export const getCommunityTag = async (source, args, context, info) => {
     const fields = rootField(info);
-    let communityTag = await CommunityTagService.get(args._id, fields);
+    let getBy = args._id ? {_id: args._id} : {slug: args.slug};
+    let communityTag = await CommunityTagService.getBy(getBy, fields);
 
     let node = {
         _id: communityTag._id,

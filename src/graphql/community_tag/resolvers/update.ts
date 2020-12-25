@@ -12,6 +12,7 @@ export const updateCommunityTag = async (source, args, context, info) => {
     }
 };
 export const createCommunityTag = async (source, args, context, info) => {
+    return CommunityTagService.create(args.input);
     let isAuthenticated = await authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;

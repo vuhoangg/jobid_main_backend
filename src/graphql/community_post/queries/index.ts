@@ -7,7 +7,7 @@ const communityPostQueries = {
     communityPost: {
         args: CommunityPostArguments,
         resolve: (source, args, context, info) => getCommunityPost(source, args, context, info),
-        type: new GraphQLNonNull(CommunityPost),
+        type: CommunityPost,
     },
     communityPosts: {
         args: PaginationArguments,

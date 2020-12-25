@@ -8,7 +8,7 @@ const communityPostQueries = {
     communityPost: {
         args: types_2.CommunityPostArguments,
         resolve: (source, args, context, info) => get_1.getCommunityPost(source, args, context, info),
-        type: new graphql_1.GraphQLNonNull(types_2.CommunityPost),
+        type: types_2.CommunityPost,
     },
     communityPosts: {
         args: types_1.PaginationArguments,
