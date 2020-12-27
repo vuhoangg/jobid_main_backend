@@ -18,6 +18,7 @@ export const CommunityPost = new GraphQLObjectType({
         _id: { type: new GraphQLNonNull(GraphQLString) },
         user: { type: User },
         title: { type: GraphQLString },
+        thumbnail: { type: GraphQLString },
         community_category: { type: CommunityCategory },
         slug: { type: GraphQLString },
         community_tag: { type: new GraphQLList(CommunityTag) },

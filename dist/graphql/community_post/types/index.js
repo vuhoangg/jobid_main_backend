@@ -12,6 +12,7 @@ exports.CommunityPost = new graphql_1.GraphQLObjectType({
         _id: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         user: { type: types_1.User },
         title: { type: graphql_1.GraphQLString },
+        thumbnail: { type: graphql_1.GraphQLString },
         community_category: { type: types_3.CommunityCategory },
         slug: { type: graphql_1.GraphQLString },
         community_tag: { type: new graphql_1.GraphQLList(types_4.CommunityTag) },

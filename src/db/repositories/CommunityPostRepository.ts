@@ -102,7 +102,7 @@ class CommunityPostRepository implements CrudContract {
     filter(filter: IFilter, limit, page, projection) {
         try {
             let condition = getCondition(filter);
-            let sort = filter.sort_by ? getSort(filter.sort_by) : { updated_at: "desc" };
+            let sort = filter.sort_by ? getSort(filter.sort_by) : { created_at: "desc" };
 
             if (filter.suggestion) {
                 return CommunityPost.findById(filter.suggestion, {}).then(r1 => {
