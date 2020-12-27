@@ -124,7 +124,7 @@ class CommunityPostRepository implements CrudContract {
 
     getBy(getBy: IGetBy, projection) {
         try {
-            return CommunityPost.findOne(getBy, projection).populate('user').populate('community_category');
+            return CommunityPost.findOne(getBy, projection).populate('user').populate('community_category').populate('community_tag');
         } catch (e) {
             errorLog(e);
             return promiseNull();

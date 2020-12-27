@@ -99,7 +99,7 @@ class CommunityPostRepository {
     }
     getBy(getBy, projection) {
         try {
-            return CommunityPost_1.default.findOne(getBy, projection).populate('user').populate('community_category');
+            return CommunityPost_1.default.findOne(getBy, projection).populate('user').populate('community_category').populate('community_tag');
         }
         catch (e) {
             log_1.errorLog(e);

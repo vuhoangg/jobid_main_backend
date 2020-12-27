@@ -29,7 +29,6 @@ exports.updateCommunityPost = (source, args, context, info) => __awaiter(void 0,
     }
 });
 exports.createCommunityPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    return CommunityPostRepository_1.default.create(args.input);
     let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
