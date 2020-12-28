@@ -12,6 +12,7 @@ export const updateCommunityCategory = async (source, args, context, info) => {
     }
 };
 export const createCommunityCategory = async (source, args, context, info) => {
+    return CommunityCategoryService.create(args.input);
     let isAuthenticated = await authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;

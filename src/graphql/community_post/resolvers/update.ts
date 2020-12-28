@@ -17,6 +17,7 @@ export const updateCommunityPost = async (source, args, context, info) => {
     }
 };
 export const createCommunityPost = async (source, args, context, info) => {
+    return CommunityPostService.create(args.input);
     let isAuthenticated = await authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;

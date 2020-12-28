@@ -26,6 +26,7 @@ exports.updateCommunityCategory = (source, args, context, info) => __awaiter(voi
     }
 });
 exports.createCommunityCategory = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    return CommunityCategoryRepository_1.default.create(args.input);
     let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
