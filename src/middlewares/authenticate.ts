@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 
 import UserService from "../db/repositories/UserRepository";
 import EmployerService from "../db/repositories/EmployerRepository";
+import AdminService from "../db/repositories/AdminRepository";
 
 export const authenticateUser = async (req, res) => {
   const accessToken = req.cookies.knv_accessToken;
@@ -145,6 +146,72 @@ export const handleRefreshTokenEmployer = async (res: any, employer: any) => {
     return true;
   } catch (err) {
     res.clearCookie("employer_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: true });
+    return false;
+  }
+};
+
+
+export const authenticateAdmin = async (req, res) => {
+  const accessToken = req.cookies.admin_accessToken;
+  if (!accessToken) {
+    res.clearCookie("admin_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: true });
+    return false;
+  } else {
+    try {
+      const decoded = jwt.verify(accessToken, process.env.ADMIN_JWT_SECRET);
+      res.locals.admin = decoded.data._id;
+      res.locals.fullAdmin = decoded.data;
+      return true;
+    } catch (err) {
+      if (err.name === "JsonWebTokenError") {
+        res.clearCookie("admin_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: true });
+        return false;
+      } else if (err.name === "TokenExpiredError") {
+        const admin = await AdminService.findAdminRefreshToken(accessToken);
+        return handleRefreshTokenAdmin(res, admin);
+      }
+    }
+  }
+};
+
+export const handleRefreshTokenAdmin = async (res: any, admin: any) => {
+  try {
+    const decoded = jwt.verify(admin.refreshToken, process.env.ADMIN_JWT_SECRET);
+    const accessToken = jwt.sign(
+      {
+        data: {
+          ...admin.toObject(),
+          accessToken: "",
+          refreshToken: "",
+        },
+      },
+      process.env.ADMIN_JWT_SECRET,
+      { expiresIn: process.env.ADMIN_EXPIRES_ACCESS_TOKEN }
+    );
+    const refreshToken = jwt.sign(
+      {
+        data: {
+          ...admin.toObject(),
+          accessToken: "",
+          refreshToken: "",
+        },
+      },
+      process.env.ADMIN_JWT_SECRET,
+      { expiresIn: process.env.ADMIN_EXPIRES_REFRESH_TOKEN }
+    );
+    await AdminService.refreshToken(admin._id, accessToken, refreshToken);
+
+    res.cookie("admin_accessToken", accessToken, {
+      domain: process.env.COOKIE_SHARE_DOMAIN,
+      httpOnly: true,
+      path: "/",
+      maxAge: Number(process.env.ADMIN_EXPIRES_ACCESS_TOKEN),
+    });
+    res.locals.admin = decoded.data._id;
+    res.locals.fullAdmin = decoded.data;
+    return true;
+  } catch (err) {
+    res.clearCookie("admin_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: true });
     return false;
   }
 };

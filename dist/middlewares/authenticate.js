@@ -12,10 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.handleRefreshTokenEmployer = exports.authenticateEmployer = exports.handleRefreshTokenUser = exports.authenticateUser = void 0;
+exports.handleRefreshTokenAdmin = exports.authenticateAdmin = exports.handleRefreshTokenEmployer = exports.authenticateEmployer = exports.handleRefreshTokenUser = exports.authenticateUser = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const UserRepository_1 = __importDefault(require("../db/repositories/UserRepository"));
 const EmployerRepository_1 = __importDefault(require("../db/repositories/EmployerRepository"));
+const AdminRepository_1 = __importDefault(require("../db/repositories/AdminRepository"));
 exports.authenticateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const accessToken = req.cookies.knv_accessToken;
     if (!accessToken) {
@@ -113,6 +114,56 @@ exports.handleRefreshTokenEmployer = (res, employer) => __awaiter(void 0, void 0
     }
     catch (err) {
         res.clearCookie("employer_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: true });
+        return false;
+    }
+});
+exports.authenticateAdmin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const accessToken = req.cookies.admin_accessToken;
+    if (!accessToken) {
+        res.clearCookie("admin_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: true });
+        return false;
+    }
+    else {
+        try {
+            const decoded = jsonwebtoken_1.default.verify(accessToken, process.env.ADMIN_JWT_SECRET);
+            res.locals.admin = decoded.data._id;
+            res.locals.fullAdmin = decoded.data;
+            return true;
+        }
+        catch (err) {
+            if (err.name === "JsonWebTokenError") {
+                res.clearCookie("admin_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: true });
+                return false;
+            }
+            else if (err.name === "TokenExpiredError") {
+                const admin = yield AdminRepository_1.default.findAdminRefreshToken(accessToken);
+                return exports.handleRefreshTokenAdmin(res, admin);
+            }
+        }
+    }
+});
+exports.handleRefreshTokenAdmin = (res, admin) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const decoded = jsonwebtoken_1.default.verify(admin.refreshToken, process.env.ADMIN_JWT_SECRET);
+        const accessToken = jsonwebtoken_1.default.sign({
+            data: Object.assign(Object.assign({}, admin.toObject()), { accessToken: "", refreshToken: "" }),
+        }, process.env.ADMIN_JWT_SECRET, { expiresIn: process.env.ADMIN_EXPIRES_ACCESS_TOKEN });
+        const refreshToken = jsonwebtoken_1.default.sign({
+            data: Object.assign(Object.assign({}, admin.toObject()), { accessToken: "", refreshToken: "" }),
+        }, process.env.ADMIN_JWT_SECRET, { expiresIn: process.env.ADMIN_EXPIRES_REFRESH_TOKEN });
+        yield AdminRepository_1.default.refreshToken(admin._id, accessToken, refreshToken);
+        res.cookie("admin_accessToken", accessToken, {
+            domain: process.env.COOKIE_SHARE_DOMAIN,
+            httpOnly: true,
+            path: "/",
+            maxAge: Number(process.env.ADMIN_EXPIRES_ACCESS_TOKEN),
+        });
+        res.locals.admin = decoded.data._id;
+        res.locals.fullAdmin = decoded.data;
+        return true;
+    }
+    catch (err) {
+        res.clearCookie("admin_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: true });
         return false;
     }
 });
