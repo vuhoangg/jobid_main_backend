@@ -25,6 +25,16 @@ const jobApplyQueries = {
         resolve: (source, args, context, info) => get_1.getEmployerJobApplys(source, args, context, info),
         type: new graphql_1.GraphQLNonNull(types_2.JobApplyConnection),
     },
+    adminJobApply: {
+        args: types_2.JobApplyArguments,
+        resolve: (source, args, context, info) => get_1.getAdminJobApply(source, args, context, info),
+        type: types_2.JobApply,
+    },
+    adminJobApplys: {
+        args: types_1.PaginationArguments,
+        resolve: (source, args, context, info) => get_1.getAdminJobApplys(source, args, context, info),
+        type: types_2.JobApplyConnection,
+    },
 };
 exports.default = jobApplyQueries;
 //# sourceMappingURL=index.js.map

@@ -1,6 +1,13 @@
 import { GraphQLNonNull } from "graphql";
 import { PaginationArguments, SpecificArgument } from "../../types";
-import { getJobApply, getJobApplys, getEmployerJobApply, getEmployerJobApplys } from "../resolvers/get";
+import {
+  getJobApply,
+  getJobApplys,
+  getEmployerJobApply,
+  getEmployerJobApplys,
+  getAdminJobApply,
+  getAdminJobApplys
+} from "../resolvers/get";
 import { JobApply, JobApplyArguments, JobApplyConnection } from "../types";
 
 const jobApplyQueries = {
@@ -24,6 +31,16 @@ const jobApplyQueries = {
     args: PaginationArguments,
     resolve: (source, args, context, info) => getEmployerJobApplys(source, args, context, info),
     type: new GraphQLNonNull(JobApplyConnection),
+  },
+  adminJobApply: {
+    args: JobApplyArguments,
+    resolve: (source, args, context, info) => getAdminJobApply(source, args, context, info),
+    type: JobApply,
+  },
+  adminJobApplys: {
+    args: PaginationArguments,
+    resolve: (source, args, context, info) => getAdminJobApplys(source, args, context, info),
+    type: JobApplyConnection,
   },
 };
 export default jobApplyQueries;
