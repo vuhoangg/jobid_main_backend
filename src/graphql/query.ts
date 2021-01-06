@@ -50,6 +50,7 @@ import jobRegisterQueries from "./job_register/queries";
 import cvWarehouseQueries from "./cv_warehouse/queries";
 import cvEmployerQueries from "./cv_employer/queries";
 import jobPostReportQueries from "./job_post_report/queries";
+import addressLatLngQueries from "./address_latlng/queries";
 
 const QueryRoot = new GraphQLObjectType({
   fields: {
@@ -107,6 +108,7 @@ const QueryRoot = new GraphQLObjectType({
     ...cvWarehouseQueries,
     ...cvEmployerQueries,
     ...jobPostReportQueries,
+    ...addressLatLngQueries,
   },
   name: "QueryRoot",
 });
