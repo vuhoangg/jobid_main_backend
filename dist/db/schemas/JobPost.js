@@ -2,6 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose = require("mongoose");
 const jobPostSchema = new mongoose.Schema({
+    source: {
+        type: String,
+    },
     title: {
         type: String,
     },
@@ -17,10 +20,12 @@ const jobPostSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'JobLevel',
     },
-    job_category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'JobCategory',
-    },
+    job_category: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'JobCategory',
+        }
+    ],
     number: Number,
     description: String,
     requirement: String,
@@ -32,24 +37,32 @@ const jobPostSchema = new mongoose.Schema({
             default: true
         }
     },
-    address: {
-        city: {
+    job_skill: [
+        {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'City',
-        },
-        district: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'District',
-        },
-        ward: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Ward',
-        },
-        specific: String,
-        text: String,
-        lat: Number,
-        lng: Number,
-    },
+            ref: 'JobSkill',
+        }
+    ],
+    address: [
+        {
+            city: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'City',
+            },
+            district: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'District',
+            },
+            ward: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Ward',
+            },
+            specific: String,
+            text: String,
+            lat: Number,
+            lng: Number,
+        }
+    ],
     company: {
         ref: {
             type: mongoose.Schema.Types.ObjectId,
@@ -74,6 +87,8 @@ const jobPostSchema = new mongoose.Schema({
             content: String,
         },
     ],
+    exp: Number,
+    gender: String,
     end_date: Date,
     user: {
         type: mongoose.Schema.Types.ObjectId,

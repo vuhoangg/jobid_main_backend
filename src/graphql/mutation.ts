@@ -45,6 +45,7 @@ import jobRegisterMutations from "./job_register/mutations";
 import cvWarehouseMutations from "./cv_warehouse/mutations";
 import cvEmployerMutations from "./cv_employer/mutations";
 import jobPostReportMutations from "./job_post_report/mutations";
+import jobKeywordMutations from "./job_keyword/mutations";
 
 const Mutation = new GraphQLObjectType({
   fields: {
@@ -97,6 +98,7 @@ const Mutation = new GraphQLObjectType({
     ...cvWarehouseMutations,
     ...cvEmployerMutations,
     ...jobPostReportMutations,
+    ...jobKeywordMutations,
   },
   name: "Mutation",
 });

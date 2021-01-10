@@ -27,6 +27,7 @@ const handles_1 = require("./modules/auth/handles");
 const router_1 = require("./modules/auth/router");
 const router_2 = require("./modules/upload/router");
 const router_3 = require("./modules/cv/router");
+const router_4 = require("./modules/crawl/router");
 const schema_1 = __importDefault(require("./schema"));
 connection_1.Connection.connect();
 const app = express_1.default();
@@ -173,6 +174,7 @@ passport_1.default.use(facebookEmployerStrategy);
 app.use("/upload", router_2.UploadRouter);
 app.use("/auth", router_1.AuthRouter);
 app.use("/cv", router_3.CvRouter);
+app.use("/crawl", router_4.CrawlRouter);
 app.use("/graphql", express_graphql_1.default({
     graphiql: process.env.APP_ENV !== "production",
     schema: schema_1.default,

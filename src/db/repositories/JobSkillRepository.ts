@@ -1,7 +1,7 @@
-import {CrudContract} from "../contracts/CrudContract";
+import { CrudContract } from "../contracts/CrudContract";
 import JobSkill from "../schemas/JobSkill";
-import {errorLog} from "../../helpers/log";
-import {promiseNull} from "../../helpers/promise";
+import { errorLog } from "../../helpers/log";
+import { promiseNull } from "../../helpers/promise";
 
 interface ISort {
   created?: "newest" | "oldest",
@@ -15,12 +15,13 @@ interface IFilter {
 
 interface IGetBy {
   _id?: string;
+  slug?: string;
 }
 
 function getCondition(filter: IFilter) {
   let condition = {};
   if (filter.title) {
-    condition = Object.assign(condition, {title: new RegExp(filter.title, "i")});
+    condition = Object.assign(condition, { title: new RegExp(filter.title, "i") });
   }
   return condition;
 }
@@ -28,10 +29,10 @@ function getCondition(filter: IFilter) {
 function getSort(sortBy: ISort) {
   let sort = {};
   if (sortBy.created) {
-    sort = Object.assign(sort, {_id: (sortBy.created === "newest" ? "desc" : "asc")})
+    sort = Object.assign(sort, { _id: (sortBy.created === "newest" ? "desc" : "asc") })
   }
   if (sortBy.updated) {
-    sort = Object.assign(sort, {updated_at: (sortBy.updated === "newest" ? "desc" : "asc")})
+    sort = Object.assign(sort, { updated_at: (sortBy.updated === "newest" ? "desc" : "asc") })
   }
   return sort;
 }
@@ -77,7 +78,7 @@ class JobSkillRepository implements CrudContract {
   filter(filter: IFilter, limit, page, projection) {
     try {
       let condition = getCondition(filter);
-      let sort = filter.sort_by ? getSort(filter.sort_by) : {_id: "desc"};
+      let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
       return JobSkill.find(condition, projection).sort(sort).skip(limit * (page - 1)).limit(limit);
     } catch (e) {
       errorLog(e);
@@ -87,11 +88,8 @@ class JobSkillRepository implements CrudContract {
 
   getBy(getBy: IGetBy, projection) {
     try {
-      if (getBy._id) {
-        return JobSkill.findById(getBy._id, projection);
-      } else {
-        return promiseNull();
-      }
+      return JobSkill.findOne(getBy, projection);;
+
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -100,7 +98,7 @@ class JobSkillRepository implements CrudContract {
 
   update(data) {
     try {
-      return JobSkill.findByIdAndUpdate(data._id, data, {new: true});
+      return JobSkill.findByIdAndUpdate(data._id, data, { new: true });
     } catch (e) {
       errorLog(e);
       return promiseNull();

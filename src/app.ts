@@ -19,6 +19,7 @@ import {
 import { AuthRouter } from "./modules/auth/router";
 import { UploadRouter } from "./modules/upload/router";
 import { CvRouter } from "./modules/cv/router";
+import { CrawlRouter } from "./modules/crawl/router";
 
 import AppSchema from "./schema";
 Connection.connect();
@@ -185,6 +186,7 @@ passport.use(facebookEmployerStrategy);
 app.use("/upload", UploadRouter);
 app.use("/auth", AuthRouter);
 app.use("/cv", CvRouter);
+app.use("/crawl", CrawlRouter);
 
 app.use(
   "/graphql",
