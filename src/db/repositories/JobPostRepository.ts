@@ -46,7 +46,7 @@ function getCondition(filter: IFilter) {
   let condition = {};
   if (filter.title) {
     // condition = Object.assign(condition, { title: new RegExp(filter.title, "i") });
-    condition = Object.assign(condition, { "$text": { "$search": filter.title } });
+    condition = Object.assign(condition, { "$text": { "$search": `${filter.title}` } });
   }
   if (filter.city) {
     condition = Object.assign(condition, { "address.city": filter.city });
@@ -191,6 +191,11 @@ class JobPostRepository implements CrudContract {
             .limit(limit);
         })
       } else {
+        projection = Object.assign(projection, { score: { $meta: "textScore" } });
+
+        let sortScore = { score: { $meta: "textScore" } };
+        sort = Object.assign(sortScore, sort);
+
         return JobPost.find(condition, projection)
           .sort(sort)
           .skip(limit * (page - 1))

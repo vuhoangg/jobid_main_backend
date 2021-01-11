@@ -11,7 +11,7 @@ function getCondition(filter) {
     let condition = {};
     if (filter.title) {
         // condition = Object.assign(condition, { title: new RegExp(filter.title, "i") });
-        condition = Object.assign(condition, { "$text": { "$search": filter.title } });
+        condition = Object.assign(condition, { "$text": { "$search": `${filter.title}` } });
     }
     if (filter.city) {
         condition = Object.assign(condition, { "address.city": filter.city });
@@ -146,6 +146,9 @@ class JobPostRepository {
                 });
             }
             else {
+                projection = Object.assign(projection, { score: { $meta: "textScore" } });
+                let sortScore = { score: { $meta: "textScore" } };
+                sort = Object.assign(sortScore, sort);
                 return JobPost_1.default.find(condition, projection)
                     .sort(sort)
                     .skip(limit * (page - 1))

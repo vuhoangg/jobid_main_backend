@@ -109,7 +109,19 @@ const jobPostSchema = new mongoose.Schema({
         enum: ['active', 'trash', 'draft'],
     }
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
-jobPostSchema.index({ '$**': 'text' });
+jobPostSchema.index({
+    title: "text",
+    "company.name": "text",
+    "description": "text",
+    "requirement": "text",
+}, {
+    weights: {
+        "title": 10,
+        "company.name": 6,
+        "description": 4,
+        "requirement": 3,
+    }
+});
 const JobPost = mongoose.model('JobPost', jobPostSchema);
 exports.default = JobPost;
 //# sourceMappingURL=JobPost.js.map
