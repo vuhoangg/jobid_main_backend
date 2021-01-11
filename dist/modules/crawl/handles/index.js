@@ -150,7 +150,6 @@ exports.importJobPost = (req, res) => __awaiter(void 0, void 0, void 0, function
             employer: "5fe57dd04644239e63f57e88",
             source: "topcv",
         };
-        console.log(data);
         let jobPost = yield JobPostRepository_1.default.create(data);
         res.json({
             jobPost: jobPost

@@ -145,7 +145,7 @@ export const importJobPost = async (req, res) => {
             source: "topcv",
         }
 
-        console.log(data);
+
 
         let jobPost = await JobPostService.create(data);
 
