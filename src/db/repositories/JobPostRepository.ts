@@ -45,7 +45,8 @@ interface IGetBy {
 function getCondition(filter: IFilter) {
   let condition = {};
   if (filter.title) {
-    condition = Object.assign(condition, { title: new RegExp(filter.title, "i") });
+    // condition = Object.assign(condition, { title: new RegExp(filter.title, "i") });
+    condition = Object.assign(condition, { "$text": { "$search": filter.title } });
   }
   if (filter.city) {
     condition = Object.assign(condition, { "address.city": filter.city });
