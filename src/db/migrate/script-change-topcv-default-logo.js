@@ -26,7 +26,7 @@ const changeTopcvLogo = async () => {
             console.log(`${index} - ${id}`);
             try {
                 return dbKetnoiviec.collection("companies").updateMany(
-                    { _id: id },
+                    { _id: mongoose.Types.ObjectId(id) },
                     {
                         $set: {
                             "logo": "https://ketnoiviec.s3-ap-southeast-1.amazonaws.com/company_logo/ketnoiviec_default_logo.jpg",
