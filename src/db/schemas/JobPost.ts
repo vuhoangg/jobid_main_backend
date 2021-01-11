@@ -117,9 +117,9 @@ jobPostSchema.index({
 }, {
   weights: {
     "title": 10,
-    "company.name": 6,
-    "description": 4,
-    "requirement": 3,
+    "company.name": 8,
+    "description": 2,
+    "requirement": 2,
   }
 });
 
