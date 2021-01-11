@@ -23,15 +23,21 @@ const changeTopcvLogo = async () => {
 
     await Promise.all(
         ids.map((id, index) => {
-            console.log(index);
-            return dbKetnoiviec.collection("companies").updateMany(
-                { _id: id },
-                {
-                    $set: {
-                        "logo": "https://ketnoiviec.s3-ap-southeast-1.amazonaws.com/company_logo/ketnoiviec_default_logo.jpg",
+            console.log(`${index} - ${id}`);
+            try {
+                return dbKetnoiviec.collection("companies").updateMany(
+                    { _id: id },
+                    {
+                        $set: {
+                            "logo": "https://ketnoiviec.s3-ap-southeast-1.amazonaws.com/company_logo/ketnoiviec_default_logo.jpg",
+                        },
                     },
-                },
-            );
+                );
+            } catch (e) {
+                console.log(e.message);
+                return null
+            }
+
         })
     );
 
