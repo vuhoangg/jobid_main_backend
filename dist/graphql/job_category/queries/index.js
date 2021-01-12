@@ -8,7 +8,7 @@ const jobCategoryQueries = {
     jobCategory: {
         args: types_2.JobCategoryArguments,
         resolve: (source, args, context, info) => get_1.getJobCategory(source, args, context, info),
-        type: new graphql_1.GraphQLNonNull(types_2.JobCategory),
+        type: types_2.JobCategory,
     },
     jobCategorys: {
         args: types_1.PaginationArguments,

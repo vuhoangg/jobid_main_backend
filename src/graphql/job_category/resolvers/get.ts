@@ -1,22 +1,23 @@
 import JobCategoryService from "../../../db/repositories/JobCategoryRepository";
 import { filterObject, rootField, rootInfo } from "../../helpers";
 
-export function getJobCategory(source, args, context, info) {
+export const getJobCategory = async (source, args, context, info) => {
   const fields = rootField(info);
   let getBy = args._id ? { _id: args._id } : { slug: args.slug };
-  return JobCategoryService.getBy(getBy, fields)
-    .then(async (jobCategory) => {
-      let node = {
-        _id: jobCategory._id,
-        title: jobCategory.title,
-        slug: jobCategory.slug,
-        seo_title: jobCategory.seo_title,
-        seo_description: jobCategory.seo_description,
-        created_at: jobCategory.created_at,
-        updated_at: jobCategory.updated_at,
-      };
-      return node;
-    });
+  let jobCategory = await JobCategoryService.getBy(getBy, fields);
+
+  if (jobCategory) {
+    let node = {
+      _id: jobCategory._id,
+      title: jobCategory.title,
+      slug: jobCategory.slug,
+      seo_title: jobCategory.seo_title,
+      seo_description: jobCategory.seo_description,
+      created_at: jobCategory.created_at,
+      updated_at: jobCategory.updated_at,
+    };
+    return node;
+  }
 }
 
 export function getJobCategorys(source, args, context, info) {

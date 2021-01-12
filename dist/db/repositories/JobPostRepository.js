@@ -134,7 +134,7 @@ class JobPostRepository {
     filter(filter, limit, page, projection) {
         try {
             let condition = getCondition(filter);
-            let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
+            let sort = filter.sort_by ? getSort(filter.sort_by) : { end_date: "desc" };
             if (filter.suggestion) {
                 return User_1.default.findById(filter.suggestion).then(r1 => {
                     let favorite_job = r1.info.favorite_job || [];

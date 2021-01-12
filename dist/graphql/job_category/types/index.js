@@ -6,9 +6,9 @@ const types_1 = require("../../types");
 exports.JobCategory = new graphql_1.GraphQLObjectType({
     description: "Represents a job category.",
     fields: {
-        _id: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
-        title: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
-        slug: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
+        _id: { type: graphql_1.GraphQLString },
+        title: { type: graphql_1.GraphQLString },
+        slug: { type: graphql_1.GraphQLString },
         seo_title: { type: graphql_1.GraphQLString },
         seo_description: { type: graphql_1.GraphQLString },
         created_at: { type: graphql_1.GraphQLString },
@@ -42,7 +42,7 @@ exports.JobCategoryConnection = new graphql_1.GraphQLObjectType({
 exports.JobCategoryInput = new graphql_1.GraphQLInputObjectType({
     fields: {
         _id: { type: graphql_1.GraphQLString },
-        title: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
+        title: { type: graphql_1.GraphQLString },
         slug: { type: graphql_1.GraphQLString },
         seo_title: { type: graphql_1.GraphQLString },
         seo_description: { type: graphql_1.GraphQLString },

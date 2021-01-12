@@ -15,11 +15,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getJobCategorys = exports.getJobCategory = void 0;
 const JobCategoryRepository_1 = __importDefault(require("../../../db/repositories/JobCategoryRepository"));
 const helpers_1 = require("../../helpers");
-function getJobCategory(source, args, context, info) {
+exports.getJobCategory = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     const fields = helpers_1.rootField(info);
     let getBy = args._id ? { _id: args._id } : { slug: args.slug };
-    return JobCategoryRepository_1.default.getBy(getBy, fields)
-        .then((jobCategory) => __awaiter(this, void 0, void 0, function* () {
+    let jobCategory = yield JobCategoryRepository_1.default.getBy(getBy, fields);
+    if (jobCategory) {
         let node = {
             _id: jobCategory._id,
             title: jobCategory.title,
@@ -30,9 +30,8 @@ function getJobCategory(source, args, context, info) {
             updated_at: jobCategory.updated_at,
         };
         return node;
-    }));
-}
-exports.getJobCategory = getJobCategory;
+    }
+});
 function getJobCategorys(source, args, context, info) {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
