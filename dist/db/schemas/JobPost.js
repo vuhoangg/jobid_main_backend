@@ -112,14 +112,10 @@ const jobPostSchema = new mongoose.Schema({
 jobPostSchema.index({
     title: "text",
     "company.name": "text",
-    "description": "text",
-    "requirement": "text",
 }, {
     weights: {
         "title": 10,
         "company.name": 8,
-        "description": 2,
-        "requirement": 2,
     }
 });
 const JobPost = mongoose.model('JobPost', jobPostSchema);
