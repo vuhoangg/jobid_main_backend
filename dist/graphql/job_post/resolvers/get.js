@@ -82,7 +82,7 @@ exports.getJobPosts = (source, args, context, info) => __awaiter(void 0, void 0,
         let latitude = Number(filter.latitude);
         let longitude = Number(filter.longitude);
         if (latitude && longitude) {
-            const bound = geolib_1.getBoundsOfDistance({ lat: latitude, lng: longitude }, range * 1000);
+            const bound = geolib_1.getBoundsOfDistance({ lat: latitude, lng: longitude }, range * 1000 / Math.sqrt(2));
             let coordinate = geolib_1.getBounds(bound);
             filter = Object.assign(filter, { coordinate: coordinate });
         }

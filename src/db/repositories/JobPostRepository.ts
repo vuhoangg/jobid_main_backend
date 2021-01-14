@@ -100,11 +100,8 @@ function getCondition(filter: IFilter) {
   }
 
   if (filter.coordinate) {
-    condition = Object.assign(
-      condition,
-      { "address.lat": { $gte: filter.coordinate.minLat, $lte: filter.coordinate.maxLat } },
-      { "address.lng": { $gte: filter.coordinate.minLng, $lte: filter.coordinate.maxLng } }
-    );
+    condition = Object.assign(condition, { "address.lat": { $gte: filter.coordinate.minLat, $lte: filter.coordinate.maxLat } });
+    condition = Object.assign(condition, { "address.lng": { $gte: filter.coordinate.minLng, $lte: filter.coordinate.maxLng } });
   }
 
   if (filter.status) {
@@ -201,11 +198,11 @@ class JobPostRepository implements CrudContract {
 
         let sortScore = { score: { $meta: "textScore" } };
         sort = Object.assign(sortScore, sort);
-
         let response = JobPost.find(condition, projection)
           .sort(sort)
           .skip(limit * (page - 1))
           .limit(limit);
+
         if (projection.job_category) {
           response = response.populate("job_category");
         }

@@ -56,7 +56,8 @@ function getCondition(filter) {
         condition = Object.assign(condition, { "salary.max": { $lte: filter.salary_max } });
     }
     if (filter.coordinate) {
-        condition = Object.assign(condition, { "address.lat": { $gte: filter.coordinate.minLat, $lte: filter.coordinate.maxLat } }, { "address.lng": { $gte: filter.coordinate.minLng, $lte: filter.coordinate.maxLng } });
+        condition = Object.assign(condition, { "address.lat": { $gte: filter.coordinate.minLat, $lte: filter.coordinate.maxLat } });
+        condition = Object.assign(condition, { "address.lng": { $gte: filter.coordinate.minLng, $lte: filter.coordinate.maxLng } });
     }
     if (filter.status) {
         condition = Object.assign(condition, { status: filter.status });

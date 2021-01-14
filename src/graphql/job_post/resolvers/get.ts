@@ -78,12 +78,13 @@ export const getJobPosts = async (source, args, context, info) => {
     if (latitude && longitude) {
       const bound = getBoundsOfDistance(
         { lat: latitude, lng: longitude },
-        range * 1000,
+        range * 1000 / Math.sqrt(2),
       );
       let coordinate = getBounds(bound);
       filter = Object.assign(filter, { coordinate: coordinate });
     }
   }
+
 
   let jobPosts = await JobPostService.filter(filter, limit, page, infos.edges);
   if (jobPosts) {
