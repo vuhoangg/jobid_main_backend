@@ -103,13 +103,13 @@ class CompanyRepository {
                     .sort(sort)
                     .skip(limit * (page - 1))
                     .limit(limit);
-                if (response["office.city"]) {
+                if (response["office"]) {
                     response = response.populate("office.city");
                 }
-                if (response["office.district"]) {
+                if (response["office"]) {
                     response = response.populate("office.district");
                 }
-                if (response["office.ward"]) {
+                if (response["office"]) {
                     response = response.populate("office.ward");
                 }
                 if (response["created_by"]) {

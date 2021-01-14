@@ -159,22 +159,22 @@ class JobPostRepository {
                 if (projection.job_level) {
                     response = response.populate("job_level");
                 }
-                if (projection["address.city"]) {
+                if (projection["address"]) {
                     response = response.populate("address.city");
                 }
-                if (projection["address.district"]) {
+                if (projection["address"]) {
                     response = response.populate("address.district");
                 }
-                if (projection["address.ward"]) {
+                if (projection["address"]) {
                     response = response.populate("address.ward");
                 }
                 if (projection.job_type) {
                     response = response.populate("job_type");
                 }
-                if (projection['benefit.benefit_id']) {
+                if (projection['benefit']) {
                     response = response.populate("benefit.benefit_id");
                 }
-                if (projection["company.ref"]) {
+                if (projection["company"]) {
                     response = response.populate("company.ref");
                 }
                 if (projection.user) {

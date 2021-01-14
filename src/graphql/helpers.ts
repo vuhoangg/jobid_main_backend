@@ -35,7 +35,7 @@ export const rootInfo = (info) => {
       pageInfo = getProjection(root[i]);
     } else if (root[i].name.value == "edges") {
       edges = getProjection(root[i].selectionSet.selections[0]);
-      edges = flattenNestedObject(edges);
+      // edges = flattenNestedObject(edges);
     }
   }
   return {

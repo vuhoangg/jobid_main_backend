@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.filterObject = exports.rootInfo = exports.getProjection = exports.rootField = void 0;
-const flattenNestedObject_1 = require("../helpers/flattenNestedObject");
 exports.rootField = (info) => {
     return info.fieldNodes[0].selectionSet.selections.reduce((roots, selection) => {
         roots[selection.name.value] = true;
@@ -36,7 +35,7 @@ exports.rootInfo = (info) => {
         }
         else if (root[i].name.value == "edges") {
             edges = exports.getProjection(root[i].selectionSet.selections[0]);
-            edges = flattenNestedObject_1.flattenNestedObject(edges);
+            // edges = flattenNestedObject(edges);
         }
     }
     return {
