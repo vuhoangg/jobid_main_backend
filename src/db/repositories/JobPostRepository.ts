@@ -218,10 +218,10 @@ class JobPostRepository implements CrudContract {
         if (projection.job_type) {
           response = response.populate("job_type");
         }
-        if (projection.benefit) {
+        if (projection['benefit.benefit_id']) {
           response = response.populate("benefit.benefit_id");
         }
-        if (projection.company) {
+        if (projection["company.ref"]) {
           response = response.populate("company.ref");
         }
         if (projection.user) {
