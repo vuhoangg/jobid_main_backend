@@ -82,10 +82,15 @@ exports.getCompanys = (source, args, context, info) => __awaiter(void 0, void 0,
         let is_register = false;
         if (isAuthenticated) {
             let loggedUser = context.res.locals.fullUser;
-            is_follow = !!(yield CompanyFollowRepository_1.default.count({ company: companys[i]._id, user: loggedUser._id }));
-            is_register = !!(yield CompanyNotificationRegisterRepository_1.default.count({ company: companys[i]._id, user: loggedUser._id }));
+            if (infos.edges['is_follow']) {
+                is_follow = !!(yield CompanyFollowRepository_1.default.count({ company: companys[i]._id, user: loggedUser._id }));
+            }
+            if (infos.edges['is_register']) {
+                is_register = !!(yield CompanyNotificationRegisterRepository_1.default.count({ company: companys[i]._id, user: loggedUser._id }));
+            }
         }
-        let job_count = yield JobPostRepository_1.default.count({ company_ref: companys[i]._id, status: "active" });
+        let job_count = 0;
+        // let job_count = await JobPostService.count({ company_ref: companys[i]._id, status: "active" });
         let company = {
             cursor: companys[i]._id,
             node: {

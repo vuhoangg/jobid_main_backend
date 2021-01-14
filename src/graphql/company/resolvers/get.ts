@@ -75,10 +75,15 @@ export const getCompanys = async (source, args, context, info) => {
     let is_register = false;
     if (isAuthenticated) {
       let loggedUser = context.res.locals.fullUser;
-      is_follow = !! await CompanyFollowService.count({ company: companys[i]._id, user: loggedUser._id });
-      is_register = !! await CompanyNotificationRegisterService.count({ company: companys[i]._id, user: loggedUser._id });
+      if (infos.edges['is_follow']) {
+        is_follow = !! await CompanyFollowService.count({ company: companys[i]._id, user: loggedUser._id });
+      }
+      if (infos.edges['is_register']) {
+        is_register = !! await CompanyNotificationRegisterService.count({ company: companys[i]._id, user: loggedUser._id });
+      }
     }
-    let job_count = await JobPostService.count({ company_ref: companys[i]._id, status: "active" });
+    let job_count = 0;
+    // let job_count = await JobPostService.count({ company_ref: companys[i]._id, status: "active" });
     let company = {
       cursor: companys[i]._id,
       node: {

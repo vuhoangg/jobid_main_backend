@@ -80,7 +80,9 @@ export function getJobPosts(source, args, context, info) {
       let is_featured = false;
       let is_wishlist = false;
       if (loggedUser) {
-        is_wishlist = !! await JobPostWishlistService.count({ job_post: jobPosts[i]._id, user: loggedUser._id });
+        if (infos.edges['is_wishlist']) {
+          is_wishlist = !! await JobPostWishlistService.count({ job_post: jobPosts[i]._id, user: loggedUser._id });
+        }
       }
 
       let jobPost = {
