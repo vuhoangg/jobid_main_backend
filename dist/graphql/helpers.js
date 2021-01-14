@@ -8,21 +8,20 @@ exports.rootField = (info) => {
     }, {});
 };
 exports.getProjection = (fieldASTs) => {
-    let selections = fieldASTs.selectionSet.selections;
-    let projections = {};
-    for (let i = 0; i < selections.length; i++) {
-        if (selections[i].selectionSet) {
-            projections[`${selections[i].name.value}`] = exports.getProjection(selections[i]);
-        }
-        else {
-            projections[`${selections[i].name.value}`] = true;
-        }
-    }
-    return projections;
-    // return fieldASTs.selectionSet.selections.reduce((projections, selection) => {
-    //   projections[selection.name.value] = true;
-    //   return projections;
-    // }, {});
+    // let selections = fieldASTs.selectionSet.selections;
+    // let projections = {};
+    // for (let i = 0; i < selections.length; i++) {
+    //   if (selections[i].selectionSet) {
+    //     projections[`${selections[i].name.value}`] = getProjection(selections[i]);
+    //   } else {
+    //     projections[`${selections[i].name.value}`] = true;
+    //   }
+    // }
+    // return projections;
+    return fieldASTs.selectionSet.selections.reduce((projections, selection) => {
+        projections[selection.name.value] = true;
+        return projections;
+    }, {});
 };
 exports.rootInfo = (info) => {
     const root = info.fieldNodes[0].selectionSet.selections;
