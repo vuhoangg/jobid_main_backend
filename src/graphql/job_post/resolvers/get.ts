@@ -5,6 +5,7 @@ import JobPostWishlistService from "../../../db/repositories/JobPostWishlistRepo
 import JobApplyService from "../../../db/repositories/JobApplyRepository";
 import { seoDescription } from "../../../helpers/seo";
 import JobPostReportService from "../../../db/repositories/JobPostReportRepository";
+import { getBounds, getBoundsOfDistance, getDistance } from "geolib";
 
 export const getJobPost = async (source, args, context, info) => {
   const fields = rootField(info);
@@ -63,12 +64,29 @@ export const getJobPost = async (source, args, context, info) => {
   return node;
 };
 
-export function getJobPosts(source, args, context, info) {
+export const getJobPosts = async (source, args, context, info) => {
   let infos = rootInfo(info);
   let filter = filterObject(args.filter);
   let limit = args.limit > 1000 ? 10 : args.limit;
   let page = args.page;
-  return JobPostService.filter(filter, limit, page, infos.edges).then(async (jobPosts) => {
+
+  if (filter.job_near) {
+    let range = Number(filter.job_near);
+    let latitude = Number(filter.latitude);
+    let longitude = Number(filter.longitude);
+
+    if (latitude && longitude) {
+      const bound = getBoundsOfDistance(
+        { lat: latitude, lng: longitude },
+        range * 1000,
+      );
+      let coordinate = getBounds(bound);
+      filter = Object.assign(filter, { coordinate: coordinate });
+    }
+  }
+
+  let jobPosts = await JobPostService.filter(filter, limit, page, infos.edges);
+  if (jobPosts) {
     let edges = [];
 
     let loggedUser = null;
@@ -84,6 +102,28 @@ export function getJobPosts(source, args, context, info) {
           is_wishlist = !! await JobPostWishlistService.count({ job_post: jobPosts[i]._id, user: loggedUser._id });
         }
       }
+
+      let minRange = 1000000;
+      let rangeLat = 0;
+      let rangeLng = 0;
+
+      if (filter.coordinate) {
+        let address = jobPosts[i].address;
+        for (let x = 0; x < address.length; x++) {
+          if (address[x].lat && address[x].lng) {
+            let computedRange = getDistance(
+              { latitude: Number(filter.latitude), longitude: Number(filter.longitude) },
+              { latitude: Number(address[x].lat), longitude: Number(address[x].lng) },
+            )
+            if (computedRange < minRange) {
+              minRange = computedRange;
+              rangeLat = Number(filter.latitude);
+              rangeLng = Number(filter.longitude);
+            }
+          }
+        }
+      }
+      let range = minRange == 1000000 ? 0 : minRange;
 
       let jobPost = {
         cursor: jobPosts[i]._id,
@@ -108,6 +148,9 @@ export function getJobPosts(source, args, context, info) {
           end_date: jobPosts[i].end_date,
           user: jobPosts[i].user,
           view_count: jobPosts[i].view_count,
+          range: range,
+          range_lat: rangeLat,
+          range_lng: rangeLng,
           status: jobPosts[i].status,
           seo_title: jobPosts[i].seo_title || jobPosts[i].title,
           seo_description: jobPosts[i].seo_description || seoDescription(jobPosts[i].seo_description),
@@ -129,5 +172,5 @@ export function getJobPosts(source, args, context, info) {
       },
     };
     return dataRet;
-  });
+  }
 }

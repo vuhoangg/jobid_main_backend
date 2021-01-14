@@ -20,6 +20,7 @@ const JobPostWishlistRepository_1 = __importDefault(require("../../../db/reposit
 const JobApplyRepository_1 = __importDefault(require("../../../db/repositories/JobApplyRepository"));
 const seo_1 = require("../../../helpers/seo");
 const JobPostReportRepository_1 = __importDefault(require("../../../db/repositories/JobPostReportRepository"));
+const geolib_1 = require("geolib");
 exports.getJobPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     const fields = helpers_1.rootField(info);
     let getBy = args._id ? { _id: args._id } : { slug: args.slug };
@@ -71,12 +72,23 @@ exports.getJobPost = (source, args, context, info) => __awaiter(void 0, void 0, 
     };
     return node;
 });
-function getJobPosts(source, args, context, info) {
+exports.getJobPosts = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
     let limit = args.limit > 1000 ? 10 : args.limit;
     let page = args.page;
-    return JobPostRepository_1.default.filter(filter, limit, page, infos.edges).then((jobPosts) => __awaiter(this, void 0, void 0, function* () {
+    if (filter.job_near) {
+        let range = Number(filter.job_near);
+        let latitude = Number(filter.latitude);
+        let longitude = Number(filter.longitude);
+        if (latitude && longitude) {
+            const bound = geolib_1.getBoundsOfDistance({ lat: latitude, lng: longitude }, range * 1000);
+            let coordinate = geolib_1.getBounds(bound);
+            filter = Object.assign(filter, { coordinate: coordinate });
+        }
+    }
+    let jobPosts = yield JobPostRepository_1.default.filter(filter, limit, page, infos.edges);
+    if (jobPosts) {
         let edges = [];
         let loggedUser = null;
         if (yield authenticate_1.authenticateUser(context, context.res)) {
@@ -90,6 +102,23 @@ function getJobPosts(source, args, context, info) {
                     is_wishlist = !!(yield JobPostWishlistRepository_1.default.count({ job_post: jobPosts[i]._id, user: loggedUser._id }));
                 }
             }
+            let minRange = 1000000;
+            let rangeLat = 0;
+            let rangeLng = 0;
+            if (filter.coordinate) {
+                let address = jobPosts[i].address;
+                for (let x = 0; x < address.length; x++) {
+                    if (address[x].lat && address[x].lng) {
+                        let computedRange = geolib_1.getDistance({ latitude: Number(filter.latitude), longitude: Number(filter.longitude) }, { latitude: Number(address[x].lat), longitude: Number(address[x].lng) });
+                        if (computedRange < minRange) {
+                            minRange = computedRange;
+                            rangeLat = Number(filter.latitude);
+                            rangeLng = Number(filter.longitude);
+                        }
+                    }
+                }
+            }
+            let range = minRange == 1000000 ? 0 : minRange;
             let jobPost = {
                 cursor: jobPosts[i]._id,
                 node: {
@@ -113,6 +142,9 @@ function getJobPosts(source, args, context, info) {
                     end_date: jobPosts[i].end_date,
                     user: jobPosts[i].user,
                     view_count: jobPosts[i].view_count,
+                    range: range,
+                    range_lat: rangeLat,
+                    range_lng: rangeLng,
                     status: jobPosts[i].status,
                     seo_title: jobPosts[i].seo_title || jobPosts[i].title,
                     seo_description: jobPosts[i].seo_description || seo_1.seoDescription(jobPosts[i].seo_description),
@@ -131,7 +163,6 @@ function getJobPosts(source, args, context, info) {
                 hasPreviousPage: args.page > 1,
             } });
         return dataRet;
-    }));
-}
-exports.getJobPosts = getJobPosts;
+    }
+});
 //# sourceMappingURL=get.js.map

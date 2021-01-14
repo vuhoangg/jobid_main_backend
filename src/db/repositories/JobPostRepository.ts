@@ -34,6 +34,12 @@ interface IFilter {
   salary_max?: number;
   except?: string;
 
+
+  // near by here
+  job_near?: string;
+  latitude?: string;
+  longitude?: string;
+
   suggestion?: string;
 }
 
@@ -96,8 +102,8 @@ function getCondition(filter: IFilter) {
   if (filter.coordinate) {
     condition = Object.assign(
       condition,
-      { "location.lat": { $gte: filter.coordinate.minLat, $lte: filter.coordinate.maxLat } },
-      { "location.lng": { $gte: filter.coordinate.minLng, $lte: filter.coordinate.maxLng } }
+      { "address.lat": { $gte: filter.coordinate.minLat, $lte: filter.coordinate.maxLat } },
+      { "address.lng": { $gte: filter.coordinate.minLng, $lte: filter.coordinate.maxLng } }
     );
   }
 
