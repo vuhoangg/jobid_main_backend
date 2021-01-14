@@ -99,15 +99,26 @@ class CompanyRepository {
                 });
             }
             else {
-                return Company_1.default.find(condition, projection)
-                    .populate("office.city")
-                    .populate("office.district")
-                    .populate("office.ward")
-                    .populate("created_by")
-                    .populate("job_category")
+                let response = Company_1.default.find(condition, projection)
                     .sort(sort)
                     .skip(limit * (page - 1))
                     .limit(limit);
+                if (response["office.city"]) {
+                    response = response.populate("office.city");
+                }
+                if (response["office.district"]) {
+                    response = response.populate("office.district");
+                }
+                if (response["office.ward"]) {
+                    response = response.populate("office.ward");
+                }
+                if (response["created_by"]) {
+                    response = response.populate("created_by");
+                }
+                if (response["job_category"]) {
+                    response = response.populate("job_category");
+                }
+                return response;
             }
         }
         catch (e) {

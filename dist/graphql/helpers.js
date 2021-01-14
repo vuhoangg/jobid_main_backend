@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.filterObject = exports.rootInfo = exports.getProjection = exports.rootField = void 0;
+const flattenNestedObject_1 = require("../helpers/flattenNestedObject");
 exports.rootField = (info) => {
     return info.fieldNodes[0].selectionSet.selections.reduce((roots, selection) => {
         roots[selection.name.value] = true;
@@ -8,10 +9,21 @@ exports.rootField = (info) => {
     }, {});
 };
 exports.getProjection = (fieldASTs) => {
-    return fieldASTs.selectionSet.selections.reduce((projections, selection) => {
-        projections[selection.name.value] = true;
-        return projections;
-    }, {});
+    let selections = fieldASTs.selectionSet.selections;
+    let projections = {};
+    for (let i = 0; i < selections.length; i++) {
+        if (selections[i].selectionSet) {
+            projections[`${selections[i].name.value}`] = exports.getProjection(selections[i]);
+        }
+        else {
+            projections[`${selections[i].name.value}`] = true;
+        }
+    }
+    return projections;
+    // return fieldASTs.selectionSet.selections.reduce((projections, selection) => {
+    //   projections[selection.name.value] = true;
+    //   return projections;
+    // }, {});
 };
 exports.rootInfo = (info) => {
     const root = info.fieldNodes[0].selectionSet.selections;
@@ -24,6 +36,7 @@ exports.rootInfo = (info) => {
         }
         else if (root[i].name.value == "edges") {
             edges = exports.getProjection(root[i].selectionSet.selections[0]);
+            edges = flattenNestedObject_1.flattenNestedObject(edges);
         }
     }
     return {

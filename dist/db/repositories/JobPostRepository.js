@@ -149,19 +149,38 @@ class JobPostRepository {
                 projection = Object.assign(projection, { score: { $meta: "textScore" } });
                 let sortScore = { score: { $meta: "textScore" } };
                 sort = Object.assign(sortScore, sort);
-                return JobPost_1.default.find(condition, projection)
+                let response = JobPost_1.default.find(condition, projection)
                     .sort(sort)
                     .skip(limit * (page - 1))
-                    .limit(limit)
-                    .populate("job_category")
-                    .populate("job_level")
-                    .populate("address.city")
-                    .populate("address.district")
-                    .populate("address.ward")
-                    .populate("job_type")
-                    .populate("benefit.benefit_id")
-                    .populate("company.ref")
-                    .populate("user");
+                    .limit(limit);
+                if (projection.job_category) {
+                    response = response.populate("job_category");
+                }
+                if (projection.job_level) {
+                    response = response.populate("job_level");
+                }
+                if (projection["address.city"]) {
+                    response = response.populate("address.city");
+                }
+                if (projection["address.district"]) {
+                    response = response.populate("address.district");
+                }
+                if (projection["address.ward"]) {
+                    response = response.populate("address.ward");
+                }
+                if (projection.job_type) {
+                    response = response.populate("job_type");
+                }
+                if (projection.benefit) {
+                    response = response.populate("benefit.benefit_id");
+                }
+                if (projection.company) {
+                    response = response.populate("company.ref");
+                }
+                if (projection.user) {
+                    response = response.populate("user");
+                }
+                return response;
             }
         }
         catch (e) {
