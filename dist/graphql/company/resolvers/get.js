@@ -21,8 +21,15 @@ const seo_1 = require("../../../helpers/seo");
 const authenticate_1 = require("../../../middlewares/authenticate");
 const helpers_1 = require("../../helpers");
 exports.getCompany = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    const fields = helpers_1.rootField(info);
+    let fields = helpers_1.rootField(info);
     let getBy = args._id ? { _id: args._id } : { slug: args.slug };
+    fields = Object.assign(fields, {
+        one_star_count: true,
+        two_star_count: true,
+        three_star_count: true,
+        four_star_count: true,
+        five_star_count: true,
+    });
     let company = yield CompanyRepository_1.default.getBy(getBy, fields);
     let is_follow = false;
     let is_register = false;
@@ -33,6 +40,15 @@ exports.getCompany = (source, args, context, info) => __awaiter(void 0, void 0, 
         is_register = !!(yield CompanyNotificationRegisterRepository_1.default.count({ company: company._id, user: loggedUser._id }));
     }
     let job_count = yield JobPostRepository_1.default.count({ company_ref: company._id, status: "active" });
+    let one_star_count = company.one_star_count;
+    let two_star_count = company.two_star_count;
+    let three_star_count = company.three_star_count;
+    let four_star_count = company.four_star_count;
+    let five_star_count = company.five_star_count;
+    let rate_value = (one_star_count + two_star_count * 2 + three_star_count * 3 + four_star_count * 4 + five_star_count * 5) / (one_star_count + two_star_count + three_star_count + four_star_count + five_star_count);
+    if (!rate_value) {
+        rate_value = 5;
+    }
     let node = {
         _id: company._id,
         name: company.name,
@@ -61,6 +77,7 @@ exports.getCompany = (source, args, context, info) => __awaiter(void 0, void 0, 
         follow: company.follow,
         view_count: company.view_count,
         job_count: job_count,
+        rate_value: rate_value,
         is_follow: is_follow,
         is_register: is_register,
         size: company.size,
@@ -74,6 +91,13 @@ exports.getCompany = (source, args, context, info) => __awaiter(void 0, void 0, 
 exports.getCompanys = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     let infos = helpers_1.rootInfo(info);
     let filter = helpers_1.filterObject(args.filter);
+    infos.edges = Object.assign(infos.edges, {
+        one_star_count: true,
+        two_star_count: true,
+        three_star_count: true,
+        four_star_count: true,
+        five_star_count: true,
+    });
     let companys = yield CompanyRepository_1.default.filter(filter, args.limit, args.page, infos.edges);
     let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
     let edges = [];
@@ -91,6 +115,15 @@ exports.getCompanys = (source, args, context, info) => __awaiter(void 0, void 0,
         }
         let job_count = 0;
         // let job_count = await JobPostService.count({ company_ref: companys[i]._id, status: "active" });
+        let one_star_count = companys[i].one_star_count;
+        let two_star_count = companys[i].two_star_count;
+        let three_star_count = companys[i].three_star_count;
+        let four_star_count = companys[i].four_star_count;
+        let five_star_count = companys[i].five_star_count;
+        let rate_value = (one_star_count + two_star_count * 2 + three_star_count * 3 + four_star_count * 4 + five_star_count * 5) / (one_star_count + two_star_count + three_star_count + four_star_count + five_star_count);
+        if (!rate_value) {
+            rate_value = 5;
+        }
         let company = {
             cursor: companys[i]._id,
             node: {
@@ -121,6 +154,7 @@ exports.getCompanys = (source, args, context, info) => __awaiter(void 0, void 0,
                 follow: companys[i].follow,
                 view_count: companys[i].view_count,
                 job_count: job_count,
+                rate_value: rate_value,
                 is_follow: is_follow,
                 is_register: is_register,
                 size: companys[i].size,

@@ -4,14 +4,19 @@ exports.CompanyRatingArguments = exports.CompanyRatingInput = exports.CompanyRat
 const graphql_1 = require("graphql");
 const types_1 = require("../../types");
 const types_2 = require("../../user/types");
+const types_3 = require("../../company/types");
 exports.CompanyRating = new graphql_1.GraphQLObjectType({
     description: "Represents a company rating reply.",
     fields: {
         _id: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
         user: { type: types_2.User },
-        company: { type: graphql_1.GraphQLString },
-        rat_value: { type: graphql_1.GraphQLInt },
-        rat_comment: { type: graphql_1.GraphQLString },
+        company: { type: types_3.Company },
+        rate_value: { type: graphql_1.GraphQLInt },
+        rate_title: { type: graphql_1.GraphQLString },
+        rate_detail: { type: graphql_1.GraphQLString },
+        rate_pros: { type: graphql_1.GraphQLString },
+        rate_cons: { type: graphql_1.GraphQLString },
+        rate_improve: { type: graphql_1.GraphQLString },
         created_at: { type: graphql_1.GraphQLString },
         updated_at: { type: graphql_1.GraphQLString },
     },
@@ -43,10 +48,13 @@ exports.CompanyRatingConnection = new graphql_1.GraphQLObjectType({
 exports.CompanyRatingInput = new graphql_1.GraphQLInputObjectType({
     fields: {
         _id: { type: graphql_1.GraphQLString },
-        user: { type: graphql_1.GraphQLString },
         company: { type: graphql_1.GraphQLString },
-        rat_value: { type: graphql_1.GraphQLInt },
-        rat_comment: { type: graphql_1.GraphQLString },
+        rate_value: { type: graphql_1.GraphQLInt },
+        rate_title: { type: graphql_1.GraphQLString },
+        rate_detail: { type: graphql_1.GraphQLString },
+        rate_pros: { type: graphql_1.GraphQLString },
+        rate_cons: { type: graphql_1.GraphQLString },
+        rate_improve: { type: graphql_1.GraphQLString },
     },
     name: "CompanyRatingInput",
     description: "The updated properties for a company rating input.",

@@ -12,19 +12,38 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createJobRating = exports.updateJobRating = void 0;
+exports.createJobRating = void 0;
 const CompanyRatingRepository_1 = __importDefault(require("../../../db/repositories/CompanyRatingRepository"));
+const CompanyRepository_1 = __importDefault(require("../../../db/repositories/CompanyRepository"));
 const authenticate_1 = require("../../../middlewares/authenticate");
-exports.updateJobRating = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
-        let input = args.input;
-        return CompanyRatingRepository_1.default.update(input).then((data) => __awaiter(void 0, void 0, void 0, function* () { return data; }));
-    }
-});
+// export const updateJobRating = async (source, args, context, info) => {
+//   if (await authenticateUser(context, context.res)) {
+//     let input = args.input;
+//     return CompanyRatingService.update(input).then(async (data) => data);
+//   }
+// };
 exports.createJobRating = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     if (yield authenticate_1.authenticateUser(context, context.res)) {
         let input = args.input;
-        return CompanyRatingRepository_1.default.create(input).then((r) => r);
+        let loggedUser = context.res.locals.fullUser;
+        let findRating = yield CompanyRatingRepository_1.default.getBy({ user: loggedUser._id, company: input.company }, {});
+        let new_rate = input.rate_value;
+        if (findRating) {
+            let old_rate = findRating.rate_value;
+            input = Object.assign(input, { _id: findRating._id });
+            let companyRating = yield CompanyRatingRepository_1.default.update(input);
+            if (new_rate != old_rate) {
+                yield CompanyRepository_1.default.decreaseRating(input.company, old_rate);
+                yield CompanyRepository_1.default.increaseRating(input.company, new_rate);
+            }
+            return companyRating;
+        }
+        else {
+            input = Object.assign(input, { user: loggedUser._id });
+            yield CompanyRepository_1.default.increaseRating(input.company, new_rate);
+            let companyRating = yield CompanyRatingRepository_1.default.create(input);
+            return companyRating;
+        }
     }
 });
 //# sourceMappingURL=update.js.map

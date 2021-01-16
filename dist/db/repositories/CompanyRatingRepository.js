@@ -8,8 +8,11 @@ const log_1 = require("../../helpers/log");
 const promise_1 = require("../../helpers/promise");
 function getCondition(filter) {
     let condition = {};
-    if (filter.job_post) {
-        condition = Object.assign(condition, { job: filter.job_post });
+    if (filter.company) {
+        condition = Object.assign(condition, { company: filter.company });
+    }
+    if (filter.user) {
+        condition = Object.assign(condition, { company: filter.user });
     }
     return condition;
 }
@@ -36,10 +39,7 @@ class CompanyRatingRepository {
     }
     create(data) {
         try {
-            return CompanyRating_1.default.findOneAndUpdate({
-                company: data.company,
-                user: data.user,
-            }, data, { upsert: true, new: true });
+            return CompanyRating_1.default.create(data);
         }
         catch (e) {
             log_1.errorLog(e);
@@ -81,15 +81,7 @@ class CompanyRatingRepository {
     }
     getBy(getBy, projection) {
         try {
-            if (getBy._id) {
-                return CompanyRating_1.default.findById(getBy._id, projection);
-            }
-            else if (getBy.job_post) {
-                return CompanyRating_1.default.findOne({ job: getBy.job_post }, projection).populate("user");
-            }
-            else {
-                return promise_1.promiseNull();
-            }
+            return CompanyRating_1.default.findOne(getBy, projection).populate("user");
         }
         catch (e) {
             log_1.errorLog(e);

@@ -10,18 +10,23 @@ interface ISort {
 
 interface IFilter {
   sort_by?: ISort;
-  job_post?: string;
+  company?: string;
+  user?: string;
 }
 
 interface IGetBy {
   _id?: string;
-  job_post?: string;
+  company?: string;
+  user?: string;
 }
 
 function getCondition(filter: IFilter) {
   let condition = {};
-  if (filter.job_post) {
-    condition = Object.assign(condition, { job: filter.job_post });
+  if (filter.company) {
+    condition = Object.assign(condition, { company: filter.company });
+  }
+  if (filter.user) {
+    condition = Object.assign(condition, { company: filter.user });
   }
   return condition;
 }
@@ -50,14 +55,7 @@ class CompanyRatingRepository implements CrudContract {
 
   create(data) {
     try {
-      return CompanyRating.findOneAndUpdate(
-        {
-          company: data.company,
-          user: data.user,
-        },
-        data,
-        { upsert: true, new: true }
-      );
+      return CompanyRating.create(data);
     } catch (e) {
       errorLog(e);
       return promiseNull();
@@ -99,13 +97,7 @@ class CompanyRatingRepository implements CrudContract {
 
   getBy(getBy: IGetBy, projection) {
     try {
-      if (getBy._id) {
-        return CompanyRating.findById(getBy._id, projection);
-      } else if (getBy.job_post) {
-        return CompanyRating.findOne({ job: getBy.job_post }, projection).populate("user");
-      } else {
-        return promiseNull();
-      }
+      return CompanyRating.findOne(getBy, projection).populate("user");
     } catch (e) {
       errorLog(e);
       return promiseNull();

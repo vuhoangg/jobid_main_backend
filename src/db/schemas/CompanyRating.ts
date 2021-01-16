@@ -10,8 +10,12 @@ const companyRatingSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Company",
     },
-    rat_value: Number,
-    rat_comment: String,
+    rate_value: Number,
+    rate_title: String,
+    rate_detail: String,
+    rate_pros: String,
+    rate_cons: String,
+    rate_improve: String,
   },
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );

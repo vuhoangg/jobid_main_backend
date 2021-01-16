@@ -225,6 +225,74 @@ class CompanyRepository {
             return promise_1.promiseNull();
         }
     }
+    increaseRating(_id, rateValue) {
+        try {
+            let rateField = "";
+            switch (rateValue) {
+                case 1:
+                    rateField = "one_star_count";
+                    break;
+                case 2:
+                    rateField = "two_star_count";
+                    break;
+                case 3:
+                    rateField = "three_star_count";
+                    break;
+                case 4:
+                    rateField = "four_star_count";
+                    break;
+                case 5:
+                    rateField = "five_star_count";
+                    break;
+            }
+            if (rateField) {
+                let objChange = {};
+                objChange[rateField] = 1;
+                return Company_1.default.findOneAndUpdate({ _id: _id }, { $inc: objChange }, { new: true });
+            }
+            else {
+                return promise_1.promiseNull();
+            }
+        }
+        catch (e) {
+            log_1.errorLog(e);
+            return promise_1.promiseNull();
+        }
+    }
+    decreaseRating(_id, rateValue) {
+        try {
+            let rateField = "";
+            switch (rateValue) {
+                case 1:
+                    rateField = "one_star_count";
+                    break;
+                case 2:
+                    rateField = "two_star_count";
+                    break;
+                case 3:
+                    rateField = "three_star_count";
+                    break;
+                case 4:
+                    rateField = "four_star_count";
+                    break;
+                case 5:
+                    rateField = "five_star_count";
+                    break;
+            }
+            if (rateField) {
+                let objChange = {};
+                objChange[rateField] = -1;
+                return Company_1.default.findOneAndUpdate({ _id: _id }, { $inc: objChange }, { new: true });
+            }
+            else {
+                return promise_1.promiseNull();
+            }
+        }
+        catch (e) {
+            log_1.errorLog(e);
+            return promise_1.promiseNull();
+        }
+    }
 }
 const CompanyService = new CompanyRepository();
 exports.default = CompanyService;

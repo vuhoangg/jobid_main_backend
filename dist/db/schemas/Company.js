@@ -106,6 +106,26 @@ const companySchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
+    one_star_count: {
+        type: Number,
+        default: 0,
+    },
+    two_star_count: {
+        type: Number,
+        default: 0,
+    },
+    three_star_count: {
+        type: Number,
+        default: 0,
+    },
+    four_star_count: {
+        type: Number,
+        default: 0,
+    },
+    five_star_count: {
+        type: Number,
+        default: 0,
+    },
     created_by: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Employer",

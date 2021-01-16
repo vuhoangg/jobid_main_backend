@@ -7,8 +7,16 @@ import { authenticateUser } from "../../../middlewares/authenticate";
 import { filterObject, rootField, rootInfo } from "../../helpers";
 
 export const getCompany = async (source, args, context, info) => {
-  const fields = rootField(info);
+  let fields = rootField(info);
   let getBy = args._id ? { _id: args._id } : { slug: args.slug };
+
+  fields = Object.assign(fields, {
+    one_star_count: true,
+    two_star_count: true,
+    three_star_count: true,
+    four_star_count: true,
+    five_star_count: true,
+  })
 
   let company = await CompanyService.getBy(getBy, fields);
 
@@ -21,6 +29,18 @@ export const getCompany = async (source, args, context, info) => {
     is_register = !! await CompanyNotificationRegisterService.count({ company: company._id, user: loggedUser._id });
   }
   let job_count = await JobPostService.count({ company_ref: company._id, status: "active" });
+
+  let one_star_count = company.one_star_count;
+  let two_star_count = company.two_star_count;
+  let three_star_count = company.three_star_count;
+  let four_star_count = company.four_star_count;
+  let five_star_count = company.five_star_count;
+
+  let rate_value = (one_star_count + two_star_count * 2 + three_star_count * 3 + four_star_count * 4 + five_star_count * 5) / (one_star_count + two_star_count + three_star_count + four_star_count + five_star_count);
+
+  if (!rate_value) {
+    rate_value = 5;
+  }
 
   let node = {
     _id: company._id,
@@ -50,6 +70,7 @@ export const getCompany = async (source, args, context, info) => {
     follow: company.follow,
     view_count: company.view_count,
     job_count: job_count,
+    rate_value: rate_value,
     is_follow: is_follow,
     is_register: is_register,
     size: company.size,
@@ -64,6 +85,14 @@ export const getCompany = async (source, args, context, info) => {
 export const getCompanys = async (source, args, context, info) => {
   let infos = rootInfo(info);
   let filter = filterObject(args.filter);
+
+  infos.edges = Object.assign(infos.edges, {
+    one_star_count: true,
+    two_star_count: true,
+    three_star_count: true,
+    four_star_count: true,
+    five_star_count: true,
+  });
 
   let companys = await CompanyService.filter(filter, args.limit, args.page, infos.edges);
   let isAuthenticated = await authenticateUser(context, context.res);
@@ -84,6 +113,18 @@ export const getCompanys = async (source, args, context, info) => {
     }
     let job_count = 0;
     // let job_count = await JobPostService.count({ company_ref: companys[i]._id, status: "active" });
+
+    let one_star_count = companys[i].one_star_count;
+    let two_star_count = companys[i].two_star_count;
+    let three_star_count = companys[i].three_star_count;
+    let four_star_count = companys[i].four_star_count;
+    let five_star_count = companys[i].five_star_count;
+    let rate_value = (one_star_count + two_star_count * 2 + three_star_count * 3 + four_star_count * 4 + five_star_count * 5) / (one_star_count + two_star_count + three_star_count + four_star_count + five_star_count);
+
+    if (!rate_value) {
+      rate_value = 5;
+    }
+
     let company = {
       cursor: companys[i]._id,
       node: {
@@ -115,6 +156,7 @@ export const getCompanys = async (source, args, context, info) => {
         follow: companys[i].follow,
         view_count: companys[i].view_count,
         job_count: job_count,
+        rate_value: rate_value,
         is_follow: is_follow,
         is_register: is_register,
         size: companys[i].size,
