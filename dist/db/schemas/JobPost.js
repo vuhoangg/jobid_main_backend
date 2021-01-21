@@ -118,6 +118,9 @@ jobPostSchema.index({
         "company.name": 8,
     }
 });
+jobPostSchema.index({
+    end_date: 1,
+});
 const JobPost = mongoose.model('JobPost', jobPostSchema);
 exports.default = JobPost;
 //# sourceMappingURL=JobPost.js.map

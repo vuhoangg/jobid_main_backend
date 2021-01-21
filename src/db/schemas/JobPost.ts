@@ -123,5 +123,9 @@ jobPostSchema.index({
   }
 });
 
+jobPostSchema.index({
+  end_date: 1,
+})
+
 const JobPost = mongoose.model('JobPost', jobPostSchema);
 export default JobPost;
