@@ -134,7 +134,7 @@ jobPostSchema.index({
     employer: 1,
 });
 jobPostSchema.index({
-    "employer.ref": 1,
+    "company.ref": 1,
 });
 // if (process.env.ELASTICSEARCH_ENABLE === "true") {
 //   jobPostSchema.plugin(mongoosastic, {

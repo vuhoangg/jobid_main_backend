@@ -142,7 +142,7 @@ jobPostSchema.index({
 });
 
 jobPostSchema.index({
-  "employer.ref": 1,
+  "company.ref": 1,
 });
 
 // if (process.env.ELASTICSEARCH_ENABLE === "true") {
