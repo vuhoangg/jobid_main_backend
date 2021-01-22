@@ -1,6 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose = require("mongoose");
+const mongoosastic = require("mongoosastic");
+const elasticsearch_1 = require("@elastic/elasticsearch");
+const elClient = new elasticsearch_1.Client({
+    node: process.env.ELASTICSEARCH_HOST,
+    auth: {
+        username: process.env.ELASTICSEARCH_AUTH_USERNAME,
+        password: process.env.ELASTICSEARCH_AUTH_PASSWORD,
+    },
+});
 const jobPostSchema = new mongoose.Schema({
     source: {
         type: String,
@@ -121,6 +130,32 @@ jobPostSchema.index({
 jobPostSchema.index({
     end_date: 1,
 });
+jobPostSchema.index({
+    employer: 1,
+});
+jobPostSchema.index({
+    "employer.ref": 1,
+});
+// if (process.env.ELASTICSEARCH_ENABLE === "true") {
+//   jobPostSchema.plugin(mongoosastic, {
+//     esClient: elClient,
+//   });
+// }
 const JobPost = mongoose.model('JobPost', jobPostSchema);
+// First time sync db from mongodb to elasticsearch
+// if (process.env.ELASTICSEARCH_ENABLE === "true" && process.env.ELASTICSEARCH_ENABLE_FIRST_TIME === "true") {
+//   const stream = JobPost.synchronize();
+//   let count = 0;
+//   stream.on("data", (err, doc) => {
+//     console.log(`jobpost ${count}`);
+//     count++;
+//   });
+//   stream.on('close', function () {
+//     console.log("Indexed " + count + " documents");
+//   });
+//   stream.on('error', function (err) {
+//     console.log(err);
+//   });
+// }
 exports.default = JobPost;
 //# sourceMappingURL=JobPost.js.map

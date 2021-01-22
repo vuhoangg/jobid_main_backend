@@ -1,5 +1,17 @@
 const mongoose = require("mongoose");
 
+const mongoosastic = require("mongoosastic");
+import { Client } from "@elastic/elasticsearch";
+
+const elClient = new Client({
+  node: process.env.ELASTICSEARCH_HOST,
+  auth: {
+    username: process.env.ELASTICSEARCH_AUTH_USERNAME,
+    password: process.env.ELASTICSEARCH_AUTH_PASSWORD,
+  },
+});
+
+
 const companySchema = new mongoose.Schema(
   {
     name: String,
@@ -139,5 +151,31 @@ const companySchema = new mongoose.Schema(
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );
 
+// if (process.env.ELASTICSEARCH_ENABLE === "true") {
+//   companySchema.plugin(mongoosastic, {
+//     esClient: elClient,
+//   });
+// }
+
 const Company = mongoose.model("Company", companySchema);
+
+// First time sync db from mongodb to elasticsearch
+// if (process.env.ELASTICSEARCH_ENABLE === "true" && process.env.ELASTICSEARCH_ENABLE_FIRST_TIME === "true") {
+//   const stream = Company.synchronize();
+//   let count = 0;
+
+//   stream.on("data", (err, doc) => {
+//     console.log(`company ${count}`);
+//     count++;
+//   });
+
+//   stream.on('close', function () {
+//     console.log("Indexed " + count + " documents");
+//   });
+
+//   stream.on('error', function (err) {
+//     console.log(err);
+//   });
+// }
+
 export default Company;
