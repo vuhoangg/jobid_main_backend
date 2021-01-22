@@ -52,7 +52,7 @@ class JobApplyRepository {
             let condition = getCondition(filter);
             if (filter.employer) {
                 let employer = filter.employer;
-                return JobPost_1.default.find({ employer: employer }, { _id: 1 }).then(r1 => {
+                return JobPost_1.default.find({ employer: employer }, { _id: 1 }).limit(100).then(r1 => {
                     let _ids = r1.map(i => i._id);
                     condition = Object.assign(condition, { job_post: { $in: _ids } });
                     return JobApply_1.default.countDocuments(condition);
@@ -100,10 +100,13 @@ class JobApplyRepository {
             let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
             if (filter.employer) {
                 let employer = filter.employer;
-                return JobPost_1.default.find({ employer: employer }, { _id: 1 }).then(r1 => {
+                return JobPost_1.default.find({ employer: employer }, { _id: 1 }).limit(100).then(r1 => {
                     let _ids = r1.map(i => i._id);
                     condition = Object.assign(condition, { job_post: { $in: _ids } });
                     return JobApply_1.default.find(condition, projection)
+                        .sort(sort)
+                        .skip(limit * (page - 1))
+                        .limit(limit)
                         .populate({
                         path: "job_post",
                         populate: [
@@ -112,10 +115,7 @@ class JobApplyRepository {
                             { path: "job_type" }
                         ]
                     })
-                        .populate("user")
-                        .sort(sort)
-                        .skip(limit * (page - 1))
-                        .limit(limit);
+                        .populate("user");
                 });
             }
             else {
