@@ -88,7 +88,10 @@ exports.saveNewFacebookUser = (profile) => {
         },
         login_type: "facebook",
     };
-    mail_1.sendWelcome(payload.email, payload.full_name, "");
+    let mailData = JSON.stringify({
+        "{{name}}": payload.full_name,
+    });
+    mail_1.sendWelcome(payload.email, payload.full_name, mailData);
     return UserRepository_1.default.create(payload);
 };
 exports.handleTokenAuthUser = (user) => __awaiter(void 0, void 0, void 0, function* () {

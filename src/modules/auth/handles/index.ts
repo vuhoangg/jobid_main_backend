@@ -78,7 +78,10 @@ export const saveNewFacebookUser = (profile: any) => {
     },
     login_type: "facebook",
   };
-  sendWelcome(payload.email, payload.full_name, "");
+  let mailData = JSON.stringify({
+    "{{name}}": payload.full_name,
+  });
+  sendWelcome(payload.email, payload.full_name, mailData);
   return UserService.create(payload);
 };
 
