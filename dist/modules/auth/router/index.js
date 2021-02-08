@@ -50,17 +50,15 @@ router.get("/employer/google/callback", passport_1.default.authenticate("google_
 }));
 router.get("/user/facebook", passport_1.default.authenticate("facebook_user", { scope: ["email"] }));
 router.get("/user/facebook/callback", passport_1.default.authenticate("facebook_user", { failureRedirect: "/user/login" }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = req.user.user;
-    if (user._id) {
-        const accessToken = req.user.accessToken;
-        res.cookie("knv_accessToken", accessToken, {
-            domain: process.env.COOKIE_SHARE_DOMAIN,
-            httpOnly: true,
-            path: "/",
-            maxAge: Number(process.env.USER_EXPIRES_ACCESS_TOKEN),
-        });
-    }
-    res.redirect(`${process.env.SITE_URL}`);
+    const accessToken = req.user.user.accessToken;
+    res.cookie("knv_accessToken", accessToken, {
+        domain: process.env.COOKIE_SHARE_DOMAIN,
+        httpOnly: true,
+        path: "/",
+        maxAge: Number(process.env.USER_EXPIRES_ACCESS_TOKEN),
+    });
+    let redirect = req.cookies.pathname ? `${process.env.SITE_URL}${req.cookies.pathname}` : process.env.SITE_URL;
+    res.redirect(redirect);
 }));
 router.get("/user/zalo", passport_1.default.authenticate("zalo"));
 router.get("/user/zalo/callback", passport_1.default.authenticate("zalo", { failureRedirect: "/user/login" }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {

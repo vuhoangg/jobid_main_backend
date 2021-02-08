@@ -61,17 +61,15 @@ router.get(
   "/user/facebook/callback",
   passport.authenticate("facebook_user", { failureRedirect: "/user/login" }),
   async (req: any, res) => {
-    const user = req.user.user;
-    if (user._id) {
-      const accessToken = req.user.accessToken;
-      res.cookie("knv_accessToken", accessToken, {
-        domain: process.env.COOKIE_SHARE_DOMAIN,
-        httpOnly: true,
-        path: "/",
-        maxAge: Number(process.env.USER_EXPIRES_ACCESS_TOKEN),
-      });
-    }
-    res.redirect(`${process.env.SITE_URL}`);
+    const accessToken = req.user.user.accessToken;
+    res.cookie("knv_accessToken", accessToken, {
+      domain: process.env.COOKIE_SHARE_DOMAIN,
+      httpOnly: true,
+      path: "/",
+      maxAge: Number(process.env.USER_EXPIRES_ACCESS_TOKEN),
+    });
+    let redirect = req.cookies.pathname ? `${process.env.SITE_URL}${req.cookies.pathname}` : process.env.SITE_URL;
+    res.redirect(redirect);
   }
 );
 
