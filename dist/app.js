@@ -115,21 +115,15 @@ const facebookUserStrategy = new FacebookStrategy({
     ],
 }, function (accessToken, refreshToken, profile, cb) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log(profile);
-        if (profile.emails) {
-            const r1 = yield handles_1.isExistingFbUser(profile.emails[0].value);
-            if (r1) {
-                const accessToken = yield handles_1.handleTokenAuthUser(r1);
-                cb(null, { user: { accessToken: accessToken } });
-            }
-            else {
-                const r2 = yield handles_1.saveNewFacebookUser(profile);
-                const accessToken = yield handles_1.handleTokenAuthUser(r2);
-                cb(null, { user: { accessToken: accessToken } });
-            }
+        const r1 = yield handles_1.isExistingFbUser(profile.id);
+        if (r1) {
+            const accessToken = yield handles_1.handleTokenAuthUser(r1);
+            cb(null, { user: { accessToken: accessToken } });
         }
         else {
-            cb(null, { user: { accessToken: null } });
+            const r2 = yield handles_1.saveNewFacebookUser(profile);
+            const accessToken = yield handles_1.handleTokenAuthUser(r2);
+            cb(null, { user: { accessToken: accessToken } });
         }
     });
 });
