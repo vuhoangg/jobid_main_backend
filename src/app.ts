@@ -14,6 +14,8 @@ import {
   handleTokenAuthUser,
   isExistingEmailEmployer,
   isExistingEmailUser,
+  isExistingFbUser,
+  saveNewFacebookUser,
   saveNewGoogleEmployer, saveNewGoogleUser
 } from "./modules/auth/handles";
 import { AuthRouter } from "./modules/auth/router";
@@ -127,14 +129,14 @@ const facebookUserStrategy = new FacebookStrategy(
     ],
   },
   async function (accessToken, refreshToken, profile, cb) {
-
+    console.log(profile);
     if (profile.emails) {
-      const r1 = await isExistingEmailUser(profile.emails[0].value);
+      const r1 = await isExistingFbUser(profile.emails[0].value);
       if (r1) {
         const accessToken = await handleTokenAuthUser(r1);
         cb(null, { user: { accessToken: accessToken } });
       } else {
-        const r2 = await saveNewGoogleUser(profile);
+        const r2 = await saveNewFacebookUser(profile);
         const accessToken = await handleTokenAuthUser(r2);
         cb(null, { user: { accessToken: accessToken } });
       }

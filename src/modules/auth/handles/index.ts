@@ -11,6 +11,12 @@ export const isExistingEmailUser = (email: string) => {
   }
   return UserService.getBy(getBy, {});
 }
+export const isExistingFbUser = (fbid: string) => {
+  let getBy = {
+    fbid: fbid
+  }
+  return UserService.getBy(getBy, {});
+}
 
 export const isExistingEmailEmployer = (email: string) => {
   let getBy = {
@@ -58,6 +64,7 @@ export const saveNewGoogleEmployer = (profile) => {
 
 export const saveNewFacebookUser = (profile: any) => {
   let payload = {
+    fbid: profile.id,
     first_name: profile.name.familyName,
     last_name: profile.name.givenName,
     full_name: `${profile.name.familyName} ${profile.name.givenName}`.trim(),
@@ -70,7 +77,6 @@ export const saveNewFacebookUser = (profile: any) => {
       avatar: profile.photos[0].value,
     },
     login_type: "facebook",
-    user_chiaser: mongoose.Types.ObjectId(),
   };
   sendWelcome(payload.email, payload.full_name, "");
   return UserService.create(payload);

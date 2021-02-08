@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.handleTokenAuthEmployer = exports.handleTokenAuthUser = exports.saveNewFacebookUser = exports.saveNewGoogleEmployer = exports.saveNewGoogleUser = exports.isExistingEmailEmployer = exports.isExistingEmailUser = void 0;
+exports.handleTokenAuthEmployer = exports.handleTokenAuthUser = exports.saveNewFacebookUser = exports.saveNewGoogleEmployer = exports.saveNewGoogleUser = exports.isExistingEmailEmployer = exports.isExistingFbUser = exports.isExistingEmailUser = void 0;
 const UserRepository_1 = __importDefault(require("../../../db/repositories/UserRepository"));
 const EmployerRepository_1 = __importDefault(require("../../../db/repositories/EmployerRepository"));
 const mail_1 = require("../../../mail");
@@ -22,6 +22,12 @@ const Employer_1 = __importDefault(require("../../../db/schemas/Employer"));
 exports.isExistingEmailUser = (email) => {
     let getBy = {
         email: email,
+    };
+    return UserRepository_1.default.getBy(getBy, {});
+};
+exports.isExistingFbUser = (fbid) => {
+    let getBy = {
+        fbid: fbid
     };
     return UserRepository_1.default.getBy(getBy, {});
 };
@@ -68,6 +74,7 @@ exports.saveNewGoogleEmployer = (profile) => {
 };
 exports.saveNewFacebookUser = (profile) => {
     let payload = {
+        fbid: profile.id,
         first_name: profile.name.familyName,
         last_name: profile.name.givenName,
         full_name: `${profile.name.familyName} ${profile.name.givenName}`.trim(),
@@ -80,7 +87,6 @@ exports.saveNewFacebookUser = (profile) => {
             avatar: profile.photos[0].value,
         },
         login_type: "facebook",
-        user_chiaser: mongoose_1.default.Types.ObjectId(),
     };
     mail_1.sendWelcome(payload.email, payload.full_name, "");
     return UserRepository_1.default.create(payload);

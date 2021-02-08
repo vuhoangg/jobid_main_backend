@@ -37,6 +37,7 @@ interface IFilter {
 interface IGetBy {
   _id?: string;
   email?: string;
+  fbid?: string;
 }
 
 function getCondition(filter: IFilter) {
