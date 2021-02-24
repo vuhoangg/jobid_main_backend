@@ -62,6 +62,9 @@ function getCondition(filter) {
     if (filter.status) {
         condition = Object.assign(condition, { status: filter.status });
     }
+    if (filter.staff_pick) {
+        condition = Object.assign(condition, { staff_pick: filter.staff_pick });
+    }
     if (filter.expire != undefined) {
         if (Boolean(filter.expire)) {
             condition = Object.assign(condition, { end_date: { $lte: new Date() } });
@@ -135,7 +138,7 @@ class JobPostRepository {
     filter(filter, limit, page, projection) {
         try {
             let condition = getCondition(filter);
-            let sort = filter.sort_by ? getSort(filter.sort_by) : { end_date: "desc" };
+            let sort = filter.sort_by ? getSort(filter.sort_by) : { created_at: "desc" };
             if (filter.suggestion) {
                 return User_1.default.findById(filter.suggestion).then(r1 => {
                     let favorite_job = r1.info.favorite_job || [];

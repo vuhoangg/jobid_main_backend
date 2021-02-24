@@ -117,6 +117,10 @@ const jobPostSchema = new mongoose.Schema({
   status: {
     type: String,
     enum: ['active', 'trash', 'draft'],
+  },
+  staff_pick: {
+    type: Boolean,
+    default: false
   }
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
 

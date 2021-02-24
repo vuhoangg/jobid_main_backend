@@ -41,6 +41,8 @@ interface IFilter {
   longitude?: string;
 
   suggestion?: string;
+
+  staff_pick?: boolean;
 }
 
 interface IGetBy {
@@ -107,6 +109,11 @@ function getCondition(filter: IFilter) {
   if (filter.status) {
     condition = Object.assign(condition, { status: filter.status });
   }
+
+  if (filter.staff_pick) {
+    condition = Object.assign(condition, { staff_pick: filter.staff_pick });
+  }
+
   if (filter.expire != undefined) {
     if (Boolean(filter.expire)) {
       condition = Object.assign(condition, { end_date: { $lte: new Date() } });
@@ -182,7 +189,7 @@ class JobPostRepository implements CrudContract {
   filter(filter: IFilter, limit, page, projection) {
     try {
       let condition = getCondition(filter);
-      let sort = filter.sort_by ? getSort(filter.sort_by) : { end_date: "desc" };
+      let sort = filter.sort_by ? getSort(filter.sort_by) : { created_at: "desc" };
 
       if (filter.suggestion) {
         return User.findById(filter.suggestion).then(r1 => {
@@ -197,6 +204,7 @@ class JobPostRepository implements CrudContract {
         projection = Object.assign(projection, { score: { $meta: "textScore" } });
 
         let sortScore = { score: { $meta: "textScore" } };
+
         sort = Object.assign(sortScore, sort);
         let response = JobPost.find(condition, projection)
           .sort(sort)
