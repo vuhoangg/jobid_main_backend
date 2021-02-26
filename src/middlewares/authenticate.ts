@@ -5,11 +5,6 @@ import EmployerService from "../db/repositories/EmployerRepository";
 import AdminService from "../db/repositories/AdminRepository";
 
 export const authenticateUser = async (req, res) => {
-  res.locals.user = "5e9d6af01f7fc09100553fb1";
-  res.locals.fullUser = {
-    email: "khanhnq.nd@gmail.com",
-  };
-  return true;
   const accessToken = req.cookies.knv_accessToken;
   if (!accessToken) {
     res.clearCookie("knv_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: true });

@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isSuperUser = void 0;
 exports.isSuperUser = (email) => {
     return true;
     let superUsers = process.env.APP_SUPER_USER;

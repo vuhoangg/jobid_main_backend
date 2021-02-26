@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.flattenNestedObject = exports.processDataUpdate = void 0;
 exports.processDataUpdate = (object) => {
     const dataNonId = Object.keys(object).reduce((obj, key) => {
         if (key != "_id") {

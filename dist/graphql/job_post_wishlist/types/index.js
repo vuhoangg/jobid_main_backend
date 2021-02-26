@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.JobPostWishlistArguments = exports.JobPostWishlistInput = exports.JobPostWishlistConnection = exports.JobPostWishlistEdge = exports.JobPostWishlist = void 0;
 const graphql_1 = require("graphql");
 const types_1 = require("../../job_post/types");
 const types_2 = require("../../types");

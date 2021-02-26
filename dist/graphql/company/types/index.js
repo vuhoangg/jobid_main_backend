@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CompanyArguments = exports.CompanyTrackingBySlugInput = exports.CompanyTrackingBySlug = exports.AssignPermissionOnput = exports.AssignPermissionInput = exports.CompanyInput = exports.CompanyConnection = exports.CompanyEdge = exports.Company = exports.CompanySizeInput = exports.CompanySize = exports.AlbumInput = exports.Album = exports.AlbumImageInput = exports.AlbumImage = exports.OfficeInput = exports.Office = exports.BenefitContentInput = exports.BenefitContent = exports.PeopleInput = exports.People = exports.StoryInput = exports.Story = void 0;
 const types_1 = require("./../../user/types");
 const graphql_1 = require("graphql");
 const types_2 = require("../../types");

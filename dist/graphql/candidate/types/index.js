@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CandidateArguments = exports.CandidateInput = exports.CandidateConnection = exports.CandidateEdge = exports.Candidate = exports.CandidateProjectInput = exports.CandidateProject = exports.CandidateExpInput = exports.CandidateExp = exports.CandidateStudyInput = exports.CandidateStudy = exports.CandidateFileInput = exports.CandidateFile = void 0;
 const graphql_1 = require("graphql");
 const types_1 = require("../../types");
 const types_2 = require("../../user/types");

@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.filterObject = exports.rootInfo = exports.getProjection = exports.rootField = void 0;
 exports.rootField = (info) => {
     return info.fieldNodes[0].selectionSet.selections.reduce((roots, selection) => {
         roots[selection.name.value] = true;

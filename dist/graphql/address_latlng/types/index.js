@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AddressLatLngArguments = exports.AddressLatLng = void 0;
 const graphql_1 = require("graphql");
 exports.AddressLatLng = new graphql_1.GraphQLObjectType({
     name: "AddressLatLng",

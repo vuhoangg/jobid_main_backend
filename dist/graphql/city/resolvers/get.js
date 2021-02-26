@@ -12,7 +12,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCitys = exports.getCity = void 0;
 const CityRepository_1 = __importDefault(require("../../../db/repositories/CityRepository"));
 const helpers_1 = require("../../helpers");
 const seo_1 = require("../../../helpers/seo");

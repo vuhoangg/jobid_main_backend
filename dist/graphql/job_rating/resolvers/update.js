@@ -12,7 +12,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createJobRating = exports.updateJobRating = void 0;
 const JobRatingRepository_1 = __importDefault(require("../../../db/repositories/JobRatingRepository"));
 const authenticate_1 = require("../../../middlewares/authenticate");
 exports.updateJobRating = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {

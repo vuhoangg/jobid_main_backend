@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CityArguments = exports.CityInput = exports.CityConnection = exports.CityEdge = exports.City = void 0;
 const graphql_1 = require("graphql");
 const types_1 = require("../../types");
 exports.City = new graphql_1.GraphQLObjectType({

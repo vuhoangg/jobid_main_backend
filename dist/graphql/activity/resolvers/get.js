@@ -12,7 +12,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getActivitys = void 0;
 const helpers_1 = require("../../helpers");
 const ActivityRepository_1 = __importDefault(require("../../../db/repositories/ActivityRepository"));
 function getActivitys(source, args, context, info) {

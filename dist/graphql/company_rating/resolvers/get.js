@@ -12,7 +12,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCompanyRatings = exports.getCompanyRating = void 0;
 const CompanyRatingRepository_1 = __importDefault(require("../../../db/repositories/CompanyRatingRepository"));
 const helpers_1 = require("../../helpers");
 function getCompanyRating(source, args, context, info) {

@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.JobLevelArguments = exports.JobLevelInput = exports.JobLevelConnection = exports.JobLevelEdge = exports.JobLevel = void 0;
 const graphql_1 = require("graphql");
 const types_1 = require("../../types");
 exports.JobLevel = new graphql_1.GraphQLObjectType({

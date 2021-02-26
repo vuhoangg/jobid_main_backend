@@ -9,7 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCoordinatesFromLatLong = exports.getCoordinatesFromText = void 0;
 const elasticsearch_1 = require("@elastic/elasticsearch");
 const { ELASTICSEARCH_HOST, ELASTICSEARCH_AUTH_USERNAME, ELASTICSEARCH_AUTH_PASSWORD, STREET_WEIGHT, WARD_WEIGHT, DISTRICT_WEIGHT, CITY_WEIGHT, TEXT_WEIGHT, } = process.env;
 const elClient = new elasticsearch_1.Client({

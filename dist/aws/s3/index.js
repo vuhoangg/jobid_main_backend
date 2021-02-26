@@ -3,7 +3,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.s3Upload = exports.s3UploadPdf = exports.s3UploadFile = exports.s3UploadImage = exports.s3 = void 0;
 const aws_sdk_1 = __importDefault(require("aws-sdk"));
 const data_uri_to_buffer_1 = __importDefault(require("data-uri-to-buffer"));
 exports.s3 = new aws_sdk_1.default.S3({

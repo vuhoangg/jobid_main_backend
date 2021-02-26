@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.NotificationRead = exports.NotificationArguments = exports.NotificationInput = exports.NotificationConnection = exports.NotificationEdge = exports.Notification = exports.NotificationTargetInput = exports.NotificationTarget = void 0;
 const graphql_1 = require("graphql");
 const types_1 = require("../../types");
 exports.NotificationTarget = new graphql_1.GraphQLObjectType({

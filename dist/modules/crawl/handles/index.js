@@ -12,7 +12,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.importJobPost = exports.importCompany = exports.importJobSkill = exports.importJobKeyword = void 0;
 const CompanyRepository_1 = __importDefault(require("../../../db/repositories/CompanyRepository"));
 const JobKeywordRepository_1 = __importDefault(require("../../../db/repositories/JobKeywordRepository"));
 const JobPostRepository_1 = __importDefault(require("../../../db/repositories/JobPostRepository"));

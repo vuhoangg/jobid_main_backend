@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CoordinateLatLongArgument = exports.CoordinateTextArgument = exports.CoordinateConnection = exports.CoordinateEdge = exports.CoordinateType = void 0;
 const graphql_1 = require("graphql");
 exports.CoordinateType = new graphql_1.GraphQLObjectType({
     description: "CoordinateType",

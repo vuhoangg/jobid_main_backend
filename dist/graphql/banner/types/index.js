@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BannerArguments = exports.BannerInput = exports.BannerConnection = exports.BannerEdge = exports.Banner = void 0;
 const graphql_1 = require("graphql");
 const types_1 = require("../../types");
 exports.Banner = new graphql_1.GraphQLObjectType({

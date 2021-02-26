@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.seoDescription = exports.convertDescription = exports.truncateString = exports.freshText = exports.stripProperties = exports.stripTags = void 0;
 const he = require("he");
 exports.stripTags = (input, allowed) => {
     allowed = (((allowed || "") + "").toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join("");
