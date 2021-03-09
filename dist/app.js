@@ -42,6 +42,7 @@ app.use(passport_1.default.initialize());
 app.use(cors_1.default({
     credentials: true,
     origin: [
+        /\.ketnoiviec\.net$/,
         process.env.SITE_URL,
         process.env.STUDIO_URL,
         process.env.ADMIN_URL,
