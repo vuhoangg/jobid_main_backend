@@ -114,8 +114,8 @@ passport.use(googleEmployerStrategy);
 const FacebookStrategy = passportFacebook.Strategy;
 const facebookUserStrategy = new FacebookStrategy(
   {
-    clientID: process.env.FACEBOOk_APP_ID,
-    clientSecret: process.env.FACEBOOk_APP_SECRET,
+    clientID: process.env.FACEBOOK_APP_ID,
+    clientSecret: process.env.FACEBOOK_APP_SECRET,
     callbackURL: `${process.env.API_URL}/auth/user/facebook/callback`,
     profileFields: [
       "id",
@@ -144,8 +144,8 @@ const facebookUserStrategy = new FacebookStrategy(
 
 const facebookEmployerStrategy = new FacebookStrategy(
   {
-    clientID: process.env.FACEBOOk_APP_ID,
-    clientSecret: process.env.FACEBOOk_APP_SECRET,
+    clientID: process.env.FACEBOOK_APP_ID,
+    clientSecret: process.env.FACEBOOK_APP_SECRET,
     callbackURL: `${process.env.API_URL}/auth/employer/facebook/callback`,
     profileFields: [
       "id",
