@@ -67,7 +67,7 @@ passport.deserializeUser((obj: any, done) => {
 const GoogleStrategy = passportGoogle.Strategy;
 const googleUserStrategy = new GoogleStrategy(
   {
-    callbackURL: "/auth/user/google/callback",
+    callbackURL: `${process.env.API_URL}/auth/user/google/callback`,
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   },
@@ -86,7 +86,7 @@ const googleUserStrategy = new GoogleStrategy(
 );
 const googleEmployerStrategy = new GoogleStrategy(
   {
-    callbackURL: "/auth/employer/google/callback",
+    callbackURL: `${process.env.API_URL}/auth/employer/google/callback`,
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   },
