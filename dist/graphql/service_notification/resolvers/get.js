@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getServiceWorkerNotifications = exports.getServiceWorkerNotification = void 0;
 const ServiceNotificationRepository_1 = __importDefault(require("../../../db/repositories/ServiceNotificationRepository"));
 const helpers_1 = require("../../helpers");
 function getServiceWorkerNotification(source, args, context, info) {

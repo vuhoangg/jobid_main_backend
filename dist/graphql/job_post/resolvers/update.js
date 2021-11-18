@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.trackingBySlug = exports.createJobPost = exports.updateJobPost = void 0;
 const JobPostRepository_1 = __importDefault(require("../../../db/repositories/JobPostRepository"));
 const string_1 = require("../../../helpers/string");
 const permission_1 = require("../../../helpers/permission");

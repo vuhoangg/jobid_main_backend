@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.JobApplyArguments = exports.JobApplyInput = exports.JobApplyConnection = exports.JobApplyEdge = exports.JobApply = void 0;
 const graphql_1 = require("graphql");
 const types_1 = require("../../types");
 const types_2 = require("../../user/types");

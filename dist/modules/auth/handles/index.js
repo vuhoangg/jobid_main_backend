@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.handleTokenAuthEmployer = exports.handleTokenAuthUser = exports.saveNewFacebookUser = exports.saveNewGoogleEmployer = exports.saveNewGoogleUser = exports.isExistingEmailEmployer = exports.isExistingFbUser = exports.isExistingEmailUser = void 0;
 const UserRepository_1 = __importDefault(require("../../../db/repositories/UserRepository"));
 const EmployerRepository_1 = __importDefault(require("../../../db/repositories/EmployerRepository"));
 const mail_1 = require("../../../mail");

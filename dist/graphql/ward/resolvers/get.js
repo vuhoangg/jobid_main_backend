@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getWards = exports.getWard = void 0;
 const WardRepository_1 = __importDefault(require("../../../db/repositories/WardRepository"));
 const helpers_1 = require("../../helpers");
 const seo_1 = require("../../../helpers/seo");

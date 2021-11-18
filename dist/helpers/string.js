@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.toSlug = exports.removeAllSpace = void 0;
 exports.removeAllSpace = (text) => {
     return text.replace(/\s/g, "");
 };

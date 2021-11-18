@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getCvWarehouses = exports.getCvWarehouse = void 0;
 const CvWarehouseRepository_1 = __importDefault(require("../../../db/repositories/CvWarehouseRepository"));
 const helpers_1 = require("../../helpers");
 exports.getCvWarehouse = (source, args, context, info) => {

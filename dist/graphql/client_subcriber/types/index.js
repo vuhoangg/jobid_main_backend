@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ClientSubcriberArguments = exports.ClientSubcriberInput = exports.ClientSubcriberConnection = exports.ClientSubcriberEdge = exports.ClientSubcriber = void 0;
 const graphql_1 = require("graphql");
 const types_1 = require("../../types");
 exports.ClientSubcriber = new graphql_1.GraphQLObjectType({

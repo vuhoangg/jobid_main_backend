@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getFacebookJobs = exports.getFacebookJob = void 0;
 const FacebookJobRepository_1 = __importDefault(require("../../../db/repositories/FacebookJobRepository"));
 const helpers_1 = require("../../helpers");
 exports.getFacebookJob = (source, args, context, info) => {

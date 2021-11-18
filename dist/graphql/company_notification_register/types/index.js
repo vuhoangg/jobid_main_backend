@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CompanyNotificationRegisterArguments = exports.CompanyNotificationRegisterInput = exports.CompanyNotificationRegisterConnection = exports.CompanyNotificationRegisterEdge = exports.CompanyNotificationRegister = void 0;
 const graphql_1 = require("graphql");
 const types_1 = require("../../types");
 const types_2 = require("../../user/types");
