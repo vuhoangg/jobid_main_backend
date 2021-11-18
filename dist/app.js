@@ -63,7 +63,7 @@ passport_1.default.deserializeUser((obj, done) => {
 });
 const GoogleStrategy = passport_google_oauth20_1.default.Strategy;
 const googleUserStrategy = new GoogleStrategy({
-    callbackURL: "/auth/user/google/callback",
+    callbackURL: `${process.env.API_URL}/auth/user/google/callback`,
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 }, (accessToken, refreshToken, profile, cb) => __awaiter(void 0, void 0, void 0, function* () {
@@ -79,7 +79,7 @@ const googleUserStrategy = new GoogleStrategy({
     }
 }));
 const googleEmployerStrategy = new GoogleStrategy({
-    callbackURL: "/auth/employer/google/callback",
+    callbackURL: `${process.env.API_URL}/auth/employer/google/callback`,
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 }, (accessToken, refreshToken, profile, cb) => __awaiter(void 0, void 0, void 0, function* () {

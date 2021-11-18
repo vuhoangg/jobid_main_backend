@@ -1,1 +1,1 @@
-{"version":3,"file":"promise.js","sourceRoot":"","sources":["../../src/helpers/promise.ts"],"names":[],"mappings":";;AAAa,QAAA,WAAW,GAAG,GAAG,EAAE;IAC5B,OAAO,IAAI,OAAO,CAAC,OAAO,CAAC,EAAE;QACzB,OAAO,CAAC,IAAI,CAAC,CAAC;IAClB,CAAC,CAAC,CAAA;AACN,CAAC,CAAC"}
+{"version":3,"file":"promise.js","sourceRoot":"","sources":["../../src/helpers/promise.ts"],"names":[],"mappings":";;;AAAa,QAAA,WAAW,GAAG,GAAG,EAAE;IAC5B,OAAO,IAAI,OAAO,CAAC,OAAO,CAAC,EAAE;QACzB,OAAO,CAAC,IAAI,CAAC,CAAC;IAClB,CAAC,CAAC,CAAA;AACN,CAAC,CAAC"}

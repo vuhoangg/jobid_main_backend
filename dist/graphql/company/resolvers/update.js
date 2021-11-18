@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.trackingBySlug = exports.premiumCompany = exports.verifyCompany = exports.assignPermission = exports.createCompany = exports.updateCompany = void 0;
 const CompanyRepository_1 = __importDefault(require("../../../db/repositories/CompanyRepository"));
 const CompanyViewRepository_1 = __importDefault(require("../../../db/repositories/CompanyViewRepository"));
 const permission_1 = require("../../../helpers/permission");

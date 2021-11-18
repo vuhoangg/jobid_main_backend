@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getJobComments = exports.getJobComment = void 0;
 const JobCommentRepository_1 = __importDefault(require("../../../db/repositories/JobCommentRepository"));
 const helpers_1 = require("../../helpers");
 function getJobComment(source, args, context, info) {

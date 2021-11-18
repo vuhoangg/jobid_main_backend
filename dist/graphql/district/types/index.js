@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.DistrictArguments = exports.DistrictInput = exports.DistrictConnection = exports.DistrictEdge = exports.District = void 0;
 const graphql_1 = require("graphql");
 const types_1 = require("../../types");
 const types_2 = require("../../city/types");

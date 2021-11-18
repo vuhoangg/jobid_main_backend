@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getCommunityTags = exports.getCommunityTag = void 0;
 const CommunityTagRepository_1 = __importDefault(require("../../../db/repositories/CommunityTagRepository"));
 const helpers_1 = require("../../helpers");
 exports.getCommunityTag = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {

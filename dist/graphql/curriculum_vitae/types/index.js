@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CurriculumVitaeArguments = exports.CurriculumVitaeConnection = exports.CurriculumVitaeEdge = exports.CurriculumVitae = exports.CurriculumVitaeInput = exports.Person = exports.Skill = exports.Experience = exports.Interest = exports.Target = exports.Education = exports.Info = exports.PersonInput = exports.SkillInput = exports.ExperienceInput = exports.InterestInput = exports.TargetInput = exports.EducationInput = exports.InfoInput = void 0;
 const graphql_1 = require("graphql");
 const types_1 = require("../../types");
 exports.InfoInput = new graphql_1.GraphQLInputObjectType({

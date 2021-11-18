@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.createCvEmployer = exports.updateCvEmployer = void 0;
 const CvEmployerRepository_1 = __importDefault(require("../../../db/repositories/CvEmployerRepository"));
 const CvWarehouseRepository_1 = __importDefault(require("../../../db/repositories/CvWarehouseRepository"));
 const authenticate_1 = require("../../../middlewares/authenticate");

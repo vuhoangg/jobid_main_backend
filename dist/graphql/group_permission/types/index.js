@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.GroupPermissionArguments = exports.GroupPermissionConnection = exports.GroupPermissionEdge = exports.GroupPermissionInput = exports.GroupPermission = exports.Permission = exports.PermissionInput = exports.Action = exports.ActionInput = void 0;
 const graphql_1 = require("graphql");
 const types_1 = require("../../types");
 exports.ActionInput = new graphql_1.GraphQLInputObjectType({

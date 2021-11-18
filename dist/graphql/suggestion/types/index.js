@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.SuggestionArguments = exports.SuggestionInput = exports.SuggestionConnection = exports.SuggestionEdge = exports.Suggestion = void 0;
 const graphql_1 = require("graphql");
 const types_1 = require("../../types");
 exports.Suggestion = new graphql_1.GraphQLObjectType({

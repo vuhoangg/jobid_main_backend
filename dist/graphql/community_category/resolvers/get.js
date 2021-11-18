@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getCommunityCategorys = exports.getCommunityCategory = void 0;
 const CommunityCategoryRepository_1 = __importDefault(require("../../../db/repositories/CommunityCategoryRepository"));
 const helpers_1 = require("../../helpers");
 exports.getCommunityCategory = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
