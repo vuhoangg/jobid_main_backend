@@ -2,8 +2,11 @@ import AWS from "aws-sdk";
 import dataUriToBuffer from "data-uri-to-buffer";
 
 export const s3 = new AWS.S3({
+  endpoint: process.env.AWS_ENPOINT,
   accessKeyId: process.env.AWS_ID,
   secretAccessKey: process.env.AWS_SECRET,
+  signatureVersion: "v4",
+  region: process.env.AWS_REGION
 });
 export const s3UploadImage = (fileContent, fileName, typeUpload) => {
   const type = fileContent.split(";")[0].split("/")[1];

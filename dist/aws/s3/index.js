@@ -7,8 +7,11 @@ exports.s3Upload = exports.s3UploadPdf = exports.s3UploadFile = exports.s3Upload
 const aws_sdk_1 = __importDefault(require("aws-sdk"));
 const data_uri_to_buffer_1 = __importDefault(require("data-uri-to-buffer"));
 exports.s3 = new aws_sdk_1.default.S3({
+    endpoint: process.env.AWS_ENPOINT,
     accessKeyId: process.env.AWS_ID,
     secretAccessKey: process.env.AWS_SECRET,
+    signatureVersion: "v4",
+    region: process.env.AWS_REGION
 });
 const s3UploadImage = (fileContent, fileName, typeUpload) => {
     const type = fileContent.split(";")[0].split("/")[1];
