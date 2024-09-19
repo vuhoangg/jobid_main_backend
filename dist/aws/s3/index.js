@@ -26,10 +26,15 @@ const s3UploadImage = (fileContent, fileName, typeUpload) => {
         };
         // Uploading files to the bucket
         exports.s3.upload(params, (err, data) => {
+            var _a;
             if (err) {
                 throw err;
             }
-            resolve(data.Location);
+            let dataReturn = (_a = data === null || data === void 0 ? void 0 : data.Location) === null || _a === void 0 ? void 0 : _a.replace(process.env.CLOUDFLARE_ACCOUNT_URL_FIRST, process.env.CLOUDFLARE_PUBLIC_URL);
+            dataReturn = dataReturn === null || dataReturn === void 0 ? void 0 : dataReturn.replace(process.env.CLOUDFLARE_ACCOUNT_URL, process.env.CLOUDFLARE_PUBLIC_URL);
+            dataReturn = dataReturn === null || dataReturn === void 0 ? void 0 : dataReturn.replace(process.env.CLOUDFLARE_ACCOUNT_URL_SECOND, process.env.CLOUDFLARE_PUBLIC_URL);
+            dataReturn = dataReturn === null || dataReturn === void 0 ? void 0 : dataReturn.replace(process.env.CLOUDFLARE_ACCOUNT_URL_THIRD, process.env.CLOUDFLARE_PUBLIC_URL);
+            resolve(dataReturn);
         });
     });
     // Read content from the file
@@ -50,10 +55,15 @@ const s3UploadFile = (fileContent, fileName, typeUpload) => {
         };
         // Uploading files to the bucket
         exports.s3.upload(params, (err, data) => {
+            var _a;
             if (err) {
                 throw err;
             }
-            resolve(data.Location);
+            let dataReturn = (_a = data === null || data === void 0 ? void 0 : data.Location) === null || _a === void 0 ? void 0 : _a.replace(process.env.CLOUDFLARE_ACCOUNT_URL_FIRST, process.env.CLOUDFLARE_PUBLIC_URL);
+            dataReturn = dataReturn === null || dataReturn === void 0 ? void 0 : dataReturn.replace(process.env.CLOUDFLARE_ACCOUNT_URL, process.env.CLOUDFLARE_PUBLIC_URL);
+            dataReturn = dataReturn === null || dataReturn === void 0 ? void 0 : dataReturn.replace(process.env.CLOUDFLARE_ACCOUNT_URL_SECOND, process.env.CLOUDFLARE_PUBLIC_URL);
+            dataReturn = dataReturn === null || dataReturn === void 0 ? void 0 : dataReturn.replace(process.env.CLOUDFLARE_ACCOUNT_URL_THIRD, process.env.CLOUDFLARE_PUBLIC_URL);
+            resolve(dataReturn);
         });
     });
     // Read content from the file
@@ -74,10 +84,15 @@ const s3UploadPdf = (fileContent, fileName, typeUpload) => {
         };
         // Uploading files to the bucket
         exports.s3.upload(params, (err, data) => {
+            var _a;
             if (err) {
                 throw err;
             }
-            resolve(data.Location);
+            let dataReturn = (_a = data === null || data === void 0 ? void 0 : data.Location) === null || _a === void 0 ? void 0 : _a.replace(process.env.CLOUDFLARE_ACCOUNT_URL_FIRST, process.env.CLOUDFLARE_PUBLIC_URL);
+            dataReturn = dataReturn === null || dataReturn === void 0 ? void 0 : dataReturn.replace(process.env.CLOUDFLARE_ACCOUNT_URL, process.env.CLOUDFLARE_PUBLIC_URL);
+            dataReturn = dataReturn === null || dataReturn === void 0 ? void 0 : dataReturn.replace(process.env.CLOUDFLARE_ACCOUNT_URL_SECOND, process.env.CLOUDFLARE_PUBLIC_URL);
+            dataReturn = dataReturn === null || dataReturn === void 0 ? void 0 : dataReturn.replace(process.env.CLOUDFLARE_ACCOUNT_URL_THIRD, process.env.CLOUDFLARE_PUBLIC_URL);
+            resolve(dataReturn);
         });
     });
     // Read content from the file
@@ -101,10 +116,15 @@ const s3Upload = (directory, fileName, fileContent) => {
         };
         // Uploading files to the bucket
         exports.s3.upload(params, (err, data) => {
+            var _a;
             if (err) {
                 throw err;
             }
-            resolve(data.Location);
+            let dataReturn = (_a = data === null || data === void 0 ? void 0 : data.Location) === null || _a === void 0 ? void 0 : _a.replace(process.env.CLOUDFLARE_ACCOUNT_URL_FIRST, process.env.CLOUDFLARE_PUBLIC_URL);
+            dataReturn = dataReturn === null || dataReturn === void 0 ? void 0 : dataReturn.replace(process.env.CLOUDFLARE_ACCOUNT_URL, process.env.CLOUDFLARE_PUBLIC_URL);
+            dataReturn = dataReturn === null || dataReturn === void 0 ? void 0 : dataReturn.replace(process.env.CLOUDFLARE_ACCOUNT_URL_SECOND, process.env.CLOUDFLARE_PUBLIC_URL);
+            dataReturn = dataReturn === null || dataReturn === void 0 ? void 0 : dataReturn.replace(process.env.CLOUDFLARE_ACCOUNT_URL_THIRD, process.env.CLOUDFLARE_PUBLIC_URL);
+            resolve(dataReturn);
         });
     });
 };

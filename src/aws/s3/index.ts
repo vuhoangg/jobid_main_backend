@@ -25,7 +25,11 @@ export const s3UploadImage = (fileContent, fileName, typeUpload) => {
       if (err) {
         throw err;
       }
-      resolve(data.Location);
+      let dataReturn = data?.Location?.replace(process.env.CLOUDFLARE_ACCOUNT_URL_FIRST, process.env.CLOUDFLARE_PUBLIC_URL);
+      dataReturn = dataReturn?.replace(process.env.CLOUDFLARE_ACCOUNT_URL, process.env.CLOUDFLARE_PUBLIC_URL);
+      dataReturn = dataReturn?.replace(process.env.CLOUDFLARE_ACCOUNT_URL_SECOND, process.env.CLOUDFLARE_PUBLIC_URL);
+      dataReturn = dataReturn?.replace(process.env.CLOUDFLARE_ACCOUNT_URL_THIRD, process.env.CLOUDFLARE_PUBLIC_URL);
+      resolve(dataReturn);
     });
   });
   // Read content from the file
@@ -51,7 +55,11 @@ export const s3UploadFile = (fileContent, fileName, typeUpload) => {
       if (err) {
         throw err;
       }
-      resolve(data.Location);
+      let dataReturn = data?.Location?.replace(process.env.CLOUDFLARE_ACCOUNT_URL_FIRST, process.env.CLOUDFLARE_PUBLIC_URL);
+      dataReturn = dataReturn?.replace(process.env.CLOUDFLARE_ACCOUNT_URL, process.env.CLOUDFLARE_PUBLIC_URL);
+      dataReturn = dataReturn?.replace(process.env.CLOUDFLARE_ACCOUNT_URL_SECOND, process.env.CLOUDFLARE_PUBLIC_URL);
+      dataReturn = dataReturn?.replace(process.env.CLOUDFLARE_ACCOUNT_URL_THIRD, process.env.CLOUDFLARE_PUBLIC_URL);
+      resolve(dataReturn);
     });
   });
   // Read content from the file
@@ -77,7 +85,11 @@ export const s3UploadPdf = (fileContent, fileName, typeUpload) => {
       if (err) {
         throw err;
       }
-      resolve(data.Location);
+      let dataReturn = data?.Location?.replace(process.env.CLOUDFLARE_ACCOUNT_URL_FIRST, process.env.CLOUDFLARE_PUBLIC_URL);
+      dataReturn = dataReturn?.replace(process.env.CLOUDFLARE_ACCOUNT_URL, process.env.CLOUDFLARE_PUBLIC_URL);
+      dataReturn = dataReturn?.replace(process.env.CLOUDFLARE_ACCOUNT_URL_SECOND, process.env.CLOUDFLARE_PUBLIC_URL);
+      dataReturn = dataReturn?.replace(process.env.CLOUDFLARE_ACCOUNT_URL_THIRD, process.env.CLOUDFLARE_PUBLIC_URL);
+      resolve(dataReturn);
     });
   });
   // Read content from the file
@@ -108,7 +120,11 @@ export const s3Upload = (directory, fileName, fileContent) => {
       if (err) {
         throw err;
       }
-      resolve(data.Location);
+      let dataReturn = data?.Location?.replace(process.env.CLOUDFLARE_ACCOUNT_URL_FIRST, process.env.CLOUDFLARE_PUBLIC_URL);
+      dataReturn = dataReturn?.replace(process.env.CLOUDFLARE_ACCOUNT_URL, process.env.CLOUDFLARE_PUBLIC_URL);
+      dataReturn = dataReturn?.replace(process.env.CLOUDFLARE_ACCOUNT_URL_SECOND, process.env.CLOUDFLARE_PUBLIC_URL);
+      dataReturn = dataReturn?.replace(process.env.CLOUDFLARE_ACCOUNT_URL_THIRD, process.env.CLOUDFLARE_PUBLIC_URL);
+      resolve(dataReturn);
     });
   });
 }
