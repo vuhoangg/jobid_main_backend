@@ -30,8 +30,8 @@ class CurriculumVitaeRepository {
             return CurriculumVitae_1.default.countDocuments(condition);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     create(data) {
@@ -39,8 +39,8 @@ class CurriculumVitaeRepository {
             return CurriculumVitae_1.default.create(data);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     delete(id) {
@@ -48,8 +48,8 @@ class CurriculumVitaeRepository {
             return CurriculumVitae_1.default.findByIdAndRemove(id);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     get(condition, projection) {
@@ -57,8 +57,8 @@ class CurriculumVitaeRepository {
             return CurriculumVitae_1.default.findOne(condition, projection);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     filter(filter, limit, page, projection) {
@@ -71,8 +71,8 @@ class CurriculumVitaeRepository {
                 .limit(limit);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     getBy(getBy, projection) {
@@ -81,12 +81,12 @@ class CurriculumVitaeRepository {
                 return CurriculumVitae_1.default.find({ _id: getBy.user_create }, projection);
             }
             else {
-                return promise_1.promiseNull();
+                return (0, promise_1.promiseNull)();
             }
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     update(data) {
@@ -94,8 +94,8 @@ class CurriculumVitaeRepository {
             return CurriculumVitae_1.default.findByIdAndUpdate(data._id, data, { new: true });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
 }

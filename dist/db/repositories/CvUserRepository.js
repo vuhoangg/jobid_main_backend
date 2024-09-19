@@ -35,8 +35,8 @@ class CvUserRepository {
                 return CvUser_1.default.create(data);
             }
             catch (e) {
-                log_1.errorLog(e);
-                return promise_1.promiseNull();
+                (0, log_1.errorLog)(e);
+                return (0, promise_1.promiseNull)();
             }
         };
         this.delete = (_id) => {
@@ -44,8 +44,8 @@ class CvUserRepository {
                 return CvUser_1.default.findByIdAndRemove(_id);
             }
             catch (e) {
-                log_1.errorLog(e);
-                return promise_1.promiseNull();
+                (0, log_1.errorLog)(e);
+                return (0, promise_1.promiseNull)();
             }
         };
         this.get = (_id, projection = {}) => {
@@ -53,8 +53,8 @@ class CvUserRepository {
                 return CvUser_1.default.findById(_id, projection);
             }
             catch (e) {
-                log_1.errorLog(e);
-                return promise_1.promiseNull();
+                (0, log_1.errorLog)(e);
+                return (0, promise_1.promiseNull)();
             }
         };
         this.update = (data) => {
@@ -62,8 +62,8 @@ class CvUserRepository {
                 return CvUser_1.default.findByIdAndUpdate(data._id, data, { new: true });
             }
             catch (e) {
-                log_1.errorLog(e);
-                return promise_1.promiseNull();
+                (0, log_1.errorLog)(e);
+                return (0, promise_1.promiseNull)();
             }
         };
         this.filter = (filter, page, limit, projection = {}) => {
@@ -75,8 +75,8 @@ class CvUserRepository {
                     .limit(limit);
             }
             catch (e) {
-                log_1.errorLog(e);
-                return promise_1.promiseNull();
+                (0, log_1.errorLog)(e);
+                return (0, promise_1.promiseNull)();
             }
         };
         this.all = (filter) => {
@@ -84,8 +84,8 @@ class CvUserRepository {
                 return CvUser_1.default.find(filter);
             }
             catch (e) {
-                log_1.errorLog(e);
-                return promise_1.promiseNull();
+                (0, log_1.errorLog)(e);
+                return (0, promise_1.promiseNull)();
             }
         };
         this.count = (filter) => {
@@ -94,8 +94,8 @@ class CvUserRepository {
                 return CvUser_1.default.countDocuments(condition);
             }
             catch (e) {
-                log_1.errorLog(e);
-                return promise_1.promiseNull();
+                (0, log_1.errorLog)(e);
+                return (0, promise_1.promiseNull)();
             }
         };
         this.makeCv = (title, html_view, html_full, html_view_height, cv_data, user) => {
@@ -132,6 +132,7 @@ class CvUserRepository {
                     displayHeaderFooter: true,
                     printBackground: true,
                     // preferCSSPageSize: false,
+                    //@ts-ignore
                     deviceScaleFactor: 1,
                     format: 'A4'
                 });
@@ -142,6 +143,7 @@ class CvUserRepository {
                 page.setViewport({
                     width: 794,
                     height: 1122,
+                    //@ts-ignore
                     deviceScaleFactor: 1,
                 });
                 let base64Image = yield page.screenshot({
@@ -158,8 +160,8 @@ class CvUserRepository {
                 let fileNameCv = `${user}_${timestamp}`;
                 base64Image = `data:image/png;base64,${base64Image}`;
                 pdfDocBase64 = `data:application/pdf;base64,${pdfDocBase64}`;
-                const imageUrl = yield s3_1.s3Upload("cv_user", fileNameThumnail, base64Image);
-                const pdfUrl = yield s3_1.s3Upload("cv_user", fileNameCv, pdfDocBase64);
+                const imageUrl = yield (0, s3_1.s3Upload)("cv_user", fileNameThumnail, base64Image);
+                const pdfUrl = yield (0, s3_1.s3Upload)("cv_user", fileNameCv, pdfDocBase64);
                 let cvUser = yield CvUser_1.default.create({
                     user: user,
                     title: title,
@@ -224,6 +226,7 @@ class CvUserRepository {
                     displayHeaderFooter: true,
                     printBackground: true,
                     // preferCSSPageSize: false,
+                    //@ts-ignore
                     deviceScaleFactor: 1,
                     format: 'A4'
                 });
@@ -234,6 +237,7 @@ class CvUserRepository {
                 page.setViewport({
                     width: 794,
                     height: 1122,
+                    //@ts-ignore
                     deviceScaleFactor: 1,
                 });
                 let base64Image = yield page.screenshot({
@@ -250,8 +254,8 @@ class CvUserRepository {
                 let fileNameCv = `${user}_${timestamp}`;
                 base64Image = `data:image/png;base64,${base64Image}`;
                 pdfDocBase64 = `data:application/pdf;base64,${pdfDocBase64}`;
-                const imageUrl = yield s3_1.s3Upload("cv_user", fileNameThumnail, base64Image);
-                const pdfUrl = yield s3_1.s3Upload("cv_user", fileNameCv, pdfDocBase64);
+                const imageUrl = yield (0, s3_1.s3Upload)("cv_user", fileNameThumnail, base64Image);
+                const pdfUrl = yield (0, s3_1.s3Upload)("cv_user", fileNameCv, pdfDocBase64);
                 let cvUser = yield CvUser_1.default.findOneAndUpdate({ _id: _id, user: user }, {
                     title: title,
                     html: html_full,
@@ -287,8 +291,8 @@ class CvUserRepository {
             return CvUser_1.default.findOne(getBy, projection);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
 }

@@ -7,12 +7,12 @@ const types_2 = require("../types");
 const communityPostAnswerQueries = {
     communityPostAnswer: {
         args: types_2.CommunityPostAnswerArguments,
-        resolve: (source, args, context, info) => get_1.getCommunityPostAnswer(source, args, context, info),
+        resolve: (source, args, context, info) => (0, get_1.getCommunityPostAnswer)(source, args, context, info),
         type: new graphql_1.GraphQLNonNull(types_2.CommunityPostAnswer),
     },
     communityPostAnswers: {
         args: types_1.PaginationArguments,
-        resolve: (source, args, context, info) => get_1.getCommunityPostAnswers(source, args, context, info),
+        resolve: (source, args, context, info) => (0, get_1.getCommunityPostAnswers)(source, args, context, info),
         type: new graphql_1.GraphQLNonNull(types_2.CommunityPostAnswerConnection),
     }
 };

@@ -19,25 +19,28 @@ const mail_1 = require("../../../mail");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const Employer_1 = __importDefault(require("../../../db/schemas/Employer"));
-exports.isExistingEmailUser = (email) => {
+const isExistingEmailUser = (email) => {
     let getBy = {
         email: email,
     };
     return UserRepository_1.default.getBy(getBy, {});
 };
-exports.isExistingFbUser = (fbid) => {
+exports.isExistingEmailUser = isExistingEmailUser;
+const isExistingFbUser = (fbid) => {
     let getBy = {
         fbid: fbid
     };
     return UserRepository_1.default.getBy(getBy, {});
 };
-exports.isExistingEmailEmployer = (email) => {
+exports.isExistingFbUser = isExistingFbUser;
+const isExistingEmailEmployer = (email) => {
     let getBy = {
         email: email,
     };
     return EmployerRepository_1.default.getBy(getBy, {});
 };
-exports.saveNewGoogleUser = (profile) => {
+exports.isExistingEmailEmployer = isExistingEmailEmployer;
+const saveNewGoogleUser = (profile) => {
     let payload = {
         first_name: profile.name.familyName,
         last_name: profile.name.givenName,
@@ -54,10 +57,11 @@ exports.saveNewGoogleUser = (profile) => {
     let mailData = JSON.stringify({
         "{{name}}": payload.full_name,
     });
-    mail_1.sendWelcome(payload.email, payload.full_name, mailData);
+    (0, mail_1.sendWelcome)(payload.email, payload.full_name, mailData);
     return UserRepository_1.default.create(payload);
 };
-exports.saveNewGoogleEmployer = (profile) => {
+exports.saveNewGoogleUser = saveNewGoogleUser;
+const saveNewGoogleEmployer = (profile) => {
     let payload = {
         first_name: profile.name.familyName,
         last_name: profile.name.givenName,
@@ -69,10 +73,11 @@ exports.saveNewGoogleEmployer = (profile) => {
     let mailData = JSON.stringify({
         "{{name}}": payload.full_name,
     });
-    mail_1.sendWelcomeEmployer(payload.email, payload.full_name, mailData);
+    (0, mail_1.sendWelcomeEmployer)(payload.email, payload.full_name, mailData);
     return Employer_1.default.create(payload);
 };
-exports.saveNewFacebookUser = (profile) => {
+exports.saveNewGoogleEmployer = saveNewGoogleEmployer;
+const saveNewFacebookUser = (profile) => {
     let payload = {
         fbid: profile.id,
         first_name: profile.name.familyName,
@@ -91,10 +96,11 @@ exports.saveNewFacebookUser = (profile) => {
     let mailData = JSON.stringify({
         "{{name}}": payload.full_name,
     });
-    mail_1.sendWelcome(payload.email, payload.full_name, mailData);
+    (0, mail_1.sendWelcome)(payload.email, payload.full_name, mailData);
     return UserRepository_1.default.create(payload);
 };
-exports.handleTokenAuthUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
+exports.saveNewFacebookUser = saveNewFacebookUser;
+const handleTokenAuthUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
     const accessToken = jsonwebtoken_1.default.sign({
         data: Object.assign(Object.assign({}, user.toObject()), { accessToken: "", refreshToken: "", info: {}, company_role: [], manager_cv: [], customize_info: {} }),
     }, process.env.USER_JWT_SECRET, { expiresIn: process.env.USER_EXPIRES_ACCESS_TOKEN });
@@ -108,7 +114,8 @@ exports.handleTokenAuthUser = (user) => __awaiter(void 0, void 0, void 0, functi
     });
     return accessToken;
 });
-exports.handleTokenAuthEmployer = (employer) => __awaiter(void 0, void 0, void 0, function* () {
+exports.handleTokenAuthUser = handleTokenAuthUser;
+const handleTokenAuthEmployer = (employer) => __awaiter(void 0, void 0, void 0, function* () {
     const accessToken = jsonwebtoken_1.default.sign({
         data: Object.assign(Object.assign({}, employer.toObject()), { accessToken: "", refreshToken: "" }),
     }, process.env.EMPLOYER_JWT_SECRET, { expiresIn: process.env.EMPLOYER_EXPIRES_ACCESS_TOKEN });
@@ -122,4 +129,5 @@ exports.handleTokenAuthEmployer = (employer) => __awaiter(void 0, void 0, void 0
     });
     return accessToken;
 });
+exports.handleTokenAuthEmployer = handleTokenAuthEmployer;
 //# sourceMappingURL=index.js.map

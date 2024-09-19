@@ -30,8 +30,8 @@ class JobCommentRepository {
             return JobComment_1.default.countDocuments(condition);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     create(data) {
@@ -39,8 +39,8 @@ class JobCommentRepository {
             return JobComment_1.default.create(data);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     delete(id) {
@@ -48,8 +48,8 @@ class JobCommentRepository {
             return JobComment_1.default.findByIdAndRemove(id);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     get(id, projection) {
@@ -57,8 +57,8 @@ class JobCommentRepository {
             return JobComment_1.default.findById(id, projection);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     filter(filter, limit, page, projection) {
@@ -72,8 +72,8 @@ class JobCommentRepository {
                 .limit(limit);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     getBy(getBy, projection) {
@@ -82,12 +82,12 @@ class JobCommentRepository {
                 return JobComment_1.default.findById(getBy._id, projection);
             }
             else {
-                return promise_1.promiseNull();
+                return (0, promise_1.promiseNull)();
             }
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     update(data) {
@@ -95,8 +95,8 @@ class JobCommentRepository {
             return JobComment_1.default.findByIdAndUpdate(data._id, data, { new: true });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
 }

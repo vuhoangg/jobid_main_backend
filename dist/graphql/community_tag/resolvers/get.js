@@ -15,8 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCommunityTags = exports.getCommunityTag = void 0;
 const CommunityTagRepository_1 = __importDefault(require("../../../db/repositories/CommunityTagRepository"));
 const helpers_1 = require("../../helpers");
-exports.getCommunityTag = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    const fields = helpers_1.rootField(info);
+const getCommunityTag = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    const fields = (0, helpers_1.rootField)(info);
     let getBy = args._id ? { _id: args._id } : { slug: args.slug };
     let communityTag = yield CommunityTagRepository_1.default.getBy(getBy, fields);
     let node = {
@@ -32,9 +32,10 @@ exports.getCommunityTag = (source, args, context, info) => __awaiter(void 0, voi
     };
     return node;
 });
-exports.getCommunityTags = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+exports.getCommunityTag = getCommunityTag;
+const getCommunityTags = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     let limit = args.limit > 1000 ? 10 : args.limit;
     let page = args.page;
     let communityTags = yield CommunityTagRepository_1.default.filter(filter, limit, page, infos.edges);
@@ -63,4 +64,5 @@ exports.getCommunityTags = (source, args, context, info) => __awaiter(void 0, vo
         } });
     return dataRet;
 });
+exports.getCommunityTags = getCommunityTags;
 //# sourceMappingURL=get.js.map

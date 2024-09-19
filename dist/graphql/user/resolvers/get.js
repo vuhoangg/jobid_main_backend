@@ -16,10 +16,10 @@ exports.getUsers = exports.getUser = void 0;
 const UserRepository_1 = __importDefault(require("../../../db/repositories/UserRepository"));
 const helpers_1 = require("../../helpers");
 const authenticate_1 = require("../../../middlewares/authenticate");
-exports.getUser = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    const fields = helpers_1.rootField(info);
+const getUser = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    const fields = (0, helpers_1.rootField)(info);
     let getBy = {
-        _id: (yield authenticate_1.authenticateUser(context, context.res)) ? context.res.locals.fullUser._id : "",
+        _id: (yield (0, authenticate_1.authenticateUser)(context, context.res)) ? context.res.locals.fullUser._id : "",
     };
     if (args._id || args.email) {
         getBy = args;
@@ -45,9 +45,10 @@ exports.getUser = (source, args, context, info) => __awaiter(void 0, void 0, voi
         return node;
     }));
 });
-exports.getUsers = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+exports.getUser = getUser;
+const getUsers = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     return UserRepository_1.default.filter(filter, args.limit, args.page, infos.edges).then((users) => __awaiter(void 0, void 0, void 0, function* () {
         let edges = [];
         // console.log(users);
@@ -83,4 +84,5 @@ exports.getUsers = (source, args, context, info) => __awaiter(void 0, void 0, vo
         return dataRet;
     }));
 });
+exports.getUsers = getUsers;
 //# sourceMappingURL=get.js.map

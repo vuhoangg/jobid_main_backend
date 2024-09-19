@@ -16,22 +16,24 @@ exports.createCommunityTag = exports.updateCommunityTag = void 0;
 const CommunityTagRepository_1 = __importDefault(require("../../../db/repositories/CommunityTagRepository"));
 const permission_1 = require("../../../helpers/permission");
 const authenticate_1 = require("../../../middlewares/authenticate");
-exports.updateCommunityTag = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+const updateCommunityTag = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
-        if (permission_1.isSuperUser(loggedUser.email)) {
+        if ((0, permission_1.isSuperUser)(loggedUser.email)) {
             return CommunityTagRepository_1.default.update(args.input);
         }
     }
 });
-exports.createCommunityTag = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+exports.updateCommunityTag = updateCommunityTag;
+const createCommunityTag = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
-        if (permission_1.isSuperUser(loggedUser.email)) {
+        if ((0, permission_1.isSuperUser)(loggedUser.email)) {
             return CommunityTagRepository_1.default.create(args.input);
         }
     }
 });
+exports.createCommunityTag = createCommunityTag;
 //# sourceMappingURL=update.js.map

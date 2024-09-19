@@ -15,8 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCvEmployers = exports.getCvEmployer = void 0;
 const CvEmployerRepository_1 = __importDefault(require("../../../db/repositories/CvEmployerRepository"));
 const helpers_1 = require("../../helpers");
-exports.getCvEmployer = (source, args, context, info) => {
-    const fieldsRoot = helpers_1.rootField(info);
+const getCvEmployer = (source, args, context, info) => {
+    const fieldsRoot = (0, helpers_1.rootField)(info);
     let getBy = args._id ? { _id: args._id } : { slug: args.slug };
     return CvEmployerRepository_1.default.get(getBy, fieldsRoot).then((cvEmployer) => {
         const dataCvEmployer = {
@@ -41,9 +41,10 @@ exports.getCvEmployer = (source, args, context, info) => {
         return dataCvEmployer;
     });
 };
-exports.getCvEmployers = (source, args, context, info) => {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+exports.getCvEmployer = getCvEmployer;
+const getCvEmployers = (source, args, context, info) => {
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     return CvEmployerRepository_1.default.filter(filter, args.page, args.limit, infos.edges).then((cvEmployers) => __awaiter(void 0, void 0, void 0, function* () {
         let edges = [];
         for (let i = 0; i < cvEmployers.length; i++) {
@@ -80,4 +81,5 @@ exports.getCvEmployers = (source, args, context, info) => {
         return dataRet;
     }));
 };
+exports.getCvEmployers = getCvEmployers;
 //# sourceMappingURL=get.js.map

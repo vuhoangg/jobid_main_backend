@@ -16,15 +16,17 @@ exports.createJobRegister = exports.updateJobRegister = void 0;
 const JobRegisterRepository_1 = __importDefault(require("../../../db/repositories/JobRegisterRepository"));
 const permission_1 = require("../../../helpers/permission");
 const authenticate_1 = require("../../../middlewares/authenticate");
-exports.updateJobRegister = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
+const updateJobRegister = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
-        if (permission_1.isSuperUser(loggedUser.email)) {
+        if ((0, permission_1.isSuperUser)(loggedUser.email)) {
             return JobRegisterRepository_1.default.update(args.input);
         }
     }
 });
-exports.createJobRegister = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+exports.updateJobRegister = updateJobRegister;
+const createJobRegister = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     return JobRegisterRepository_1.default.create(args.input);
 });
+exports.createJobRegister = createJobRegister;
 //# sourceMappingURL=update.js.map

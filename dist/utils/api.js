@@ -8,7 +8,7 @@ const axios_1 = __importDefault(require("axios"));
 const client = axios_1.default.create({
     timeout: 30000,
 });
-exports.api = (method, url, params, data) => client
+const api = (method, url, params, data) => client
     .request({
     data: JSON.stringify(data),
     headers: {
@@ -21,4 +21,5 @@ exports.api = (method, url, params, data) => client
     withCredentials: true,
 })
     .then((response) => response.data);
+exports.api = api;
 //# sourceMappingURL=api.js.map

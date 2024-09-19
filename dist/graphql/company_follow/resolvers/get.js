@@ -16,9 +16,9 @@ exports.getCompanyFollows = exports.getCompanyFollow = void 0;
 const CompanyFollowRepository_1 = __importDefault(require("../../../db/repositories/CompanyFollowRepository"));
 const helpers_1 = require("../../helpers");
 const authenticate_1 = require("../../../middlewares/authenticate");
-exports.getCompanyFollow = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    const fields = helpers_1.rootField(info);
-    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+const getCompanyFollow = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    const fields = (0, helpers_1.rootField)(info);
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let getBy = {
@@ -36,12 +36,13 @@ exports.getCompanyFollow = (source, args, context, info) => __awaiter(void 0, vo
         return node;
     }
 });
-exports.getCompanyFollows = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+exports.getCompanyFollow = getCompanyFollow;
+const getCompanyFollows = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     let limit = args.limit > 1000 ? 10 : args.limit;
     let page = args.page;
-    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         filter = Object.assign(filter, { user: loggedUser._id });
@@ -69,4 +70,5 @@ exports.getCompanyFollows = (source, args, context, info) => __awaiter(void 0, v
         return dataRet;
     }
 });
+exports.getCompanyFollows = getCompanyFollows;
 //# sourceMappingURL=get.js.map

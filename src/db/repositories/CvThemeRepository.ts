@@ -138,6 +138,7 @@ class CvThemeRepository implements CrudContract {
           displayHeaderFooter: true,
           printBackground: true,
           // preferCSSPageSize: false,
+          //@ts-ignore
           deviceScaleFactor: 1,
           format: 'A4'
         });

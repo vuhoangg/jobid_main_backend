@@ -5,13 +5,13 @@ const types_1 = require("../types");
 const update_1 = require("../resolvers/update");
 const jobPostReportMutations = {
     jobPostReportCreate: {
-        args: { input: { type: graphql_1.GraphQLNonNull(types_1.JobPostReportInput) } },
-        resolve: (source, args, context, info) => update_1.createJobPostReport(source, args, context, info),
+        args: { input: { type: (0, graphql_1.GraphQLNonNull)(types_1.JobPostReportInput) } },
+        resolve: (source, args, context, info) => (0, update_1.createJobPostReport)(source, args, context, info),
         type: new graphql_1.GraphQLNonNull(types_1.JobPostReport),
     },
     jobPostReportDelete: {
-        args: { input: { type: graphql_1.GraphQLNonNull(types_1.JobPostReportInput) } },
-        resolve: (source, args, context, info) => update_1.deleteJobPostReport(source, args, context, info),
+        args: { input: { type: (0, graphql_1.GraphQLNonNull)(types_1.JobPostReportInput) } },
+        resolve: (source, args, context, info) => (0, update_1.deleteJobPostReport)(source, args, context, info),
         type: new graphql_1.GraphQLNonNull(types_1.JobPostReport),
     },
 };

@@ -15,8 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCommunityCategorys = exports.getCommunityCategory = void 0;
 const CommunityCategoryRepository_1 = __importDefault(require("../../../db/repositories/CommunityCategoryRepository"));
 const helpers_1 = require("../../helpers");
-exports.getCommunityCategory = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    const fields = helpers_1.rootField(info);
+const getCommunityCategory = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    const fields = (0, helpers_1.rootField)(info);
     let getBy = args._id ? { _id: args._id } : { slug: args.slug };
     let communityCategory = yield CommunityCategoryRepository_1.default.getBy(getBy, fields);
     let node = {
@@ -32,9 +32,10 @@ exports.getCommunityCategory = (source, args, context, info) => __awaiter(void 0
     };
     return node;
 });
-exports.getCommunityCategorys = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+exports.getCommunityCategory = getCommunityCategory;
+const getCommunityCategorys = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     let limit = args.limit > 1000 ? 10 : args.limit;
     let page = args.page;
     let communityCategorys = yield CommunityCategoryRepository_1.default.filter(filter, limit, page, infos.edges);
@@ -63,4 +64,5 @@ exports.getCommunityCategorys = (source, args, context, info) => __awaiter(void 
         } });
     return dataRet;
 });
+exports.getCommunityCategorys = getCommunityCategorys;
 //# sourceMappingURL=get.js.map

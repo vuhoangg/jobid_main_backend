@@ -18,7 +18,7 @@ const JobKeywordRepository_1 = __importDefault(require("../../../db/repositories
 const JobPostRepository_1 = __importDefault(require("../../../db/repositories/JobPostRepository"));
 const JobSkillRepository_1 = __importDefault(require("../../../db/repositories/JobSkillRepository"));
 const string_1 = require("../../../helpers/string");
-exports.importJobKeyword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const importJobKeyword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let token = req.body.token;
     if (token === process.env.CRAWL_IMPORT_TOKEN) {
         let title = req.body.title;
@@ -38,11 +38,12 @@ exports.importJobKeyword = (req, res) => __awaiter(void 0, void 0, void 0, funct
         res.json({});
     }
 });
-exports.importJobSkill = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.importJobKeyword = importJobKeyword;
+const importJobSkill = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let token = req.body.token;
     if (token === process.env.CRAWL_IMPORT_TOKEN) {
         let title = req.body.title;
-        let slug = string_1.toSlug(title);
+        let slug = (0, string_1.toSlug)(title);
         let data = {
             title: title,
             slug: slug,
@@ -64,11 +65,12 @@ exports.importJobSkill = (req, res) => __awaiter(void 0, void 0, void 0, functio
         res.json({});
     }
 });
-exports.importCompany = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.importJobSkill = importJobSkill;
+const importCompany = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let token = req.body.token;
     if (token === process.env.CRAWL_IMPORT_TOKEN) {
         let name = req.body.name;
-        let slug = string_1.toSlug(name);
+        let slug = (0, string_1.toSlug)(name);
         let logo = req.body.logo;
         let website = req.body.website;
         let youtube = req.body.youtube;
@@ -81,7 +83,7 @@ exports.importCompany = (req, res) => __awaiter(void 0, void 0, void 0, function
             name: name,
             slug: slug,
             verify_status: true,
-            created_by: "5fe57dd04644239e63f57e88",
+            created_by: "5fe57dd04644239e63f57e88", // khanhnq@ketnoiviec.net
             logo: logo,
             website: website,
             youtube: youtube,
@@ -108,11 +110,12 @@ exports.importCompany = (req, res) => __awaiter(void 0, void 0, void 0, function
         res.json({});
     }
 });
-exports.importJobPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.importCompany = importCompany;
+const importJobPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let token = req.body.token;
     if (token === process.env.CRAWL_IMPORT_TOKEN) {
         let title = req.body.title;
-        let slug = string_1.toSlug(title, true);
+        let slug = (0, string_1.toSlug)(title, true);
         let job_type = req.body.job_type;
         let job_level = req.body.job_level;
         let job_category = req.body.job_category;
@@ -147,7 +150,7 @@ exports.importJobPost = (req, res) => __awaiter(void 0, void 0, void 0, function
             gender: gender,
             end_date: end_date,
             status: "active",
-            employer: "5fe57dd04644239e63f57e88",
+            employer: "5fe57dd04644239e63f57e88", // khanhnq@ketnoiviec.net
             source: "topcv",
         };
         let jobPost = yield JobPostRepository_1.default.create(data);
@@ -159,4 +162,5 @@ exports.importJobPost = (req, res) => __awaiter(void 0, void 0, void 0, function
         res.json({});
     }
 });
+exports.importJobPost = importJobPost;
 //# sourceMappingURL=index.js.map

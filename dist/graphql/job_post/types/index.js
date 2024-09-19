@@ -171,7 +171,7 @@ exports.JobPostConnection = new graphql_1.GraphQLObjectType({
 exports.JobPostInput = new graphql_1.GraphQLInputObjectType({
     fields: {
         _id: { type: graphql_1.GraphQLString },
-        title: { type: graphql_1.GraphQLString },
+        title: { type: graphql_1.GraphQLString }, // create
         job_type: { type: graphql_1.GraphQLString },
         job_level: { type: graphql_1.GraphQLString },
         job_category: { type: new graphql_1.GraphQLList(graphql_1.GraphQLString) },

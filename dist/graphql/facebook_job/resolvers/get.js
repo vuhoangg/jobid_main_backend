@@ -15,8 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getFacebookJobs = exports.getFacebookJob = void 0;
 const FacebookJobRepository_1 = __importDefault(require("../../../db/repositories/FacebookJobRepository"));
 const helpers_1 = require("../../helpers");
-exports.getFacebookJob = (source, args, context, info) => {
-    const fieldsRoot = helpers_1.rootField(info);
+const getFacebookJob = (source, args, context, info) => {
+    const fieldsRoot = (0, helpers_1.rootField)(info);
     let getBy = args._id ? { _id: args._id } : { slug: args.slug };
     return FacebookJobRepository_1.default.get(getBy, fieldsRoot).then((facebookJob) => {
         const dataFacebookJob = {
@@ -34,9 +34,10 @@ exports.getFacebookJob = (source, args, context, info) => {
         return dataFacebookJob;
     });
 };
-exports.getFacebookJobs = (source, args, context, info) => {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+exports.getFacebookJob = getFacebookJob;
+const getFacebookJobs = (source, args, context, info) => {
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     return FacebookJobRepository_1.default.filter(filter, args.limit, args.page, infos.edges).then((facebookJobs) => __awaiter(void 0, void 0, void 0, function* () {
         let edges = [];
         for (let i = 0; i < facebookJobs.length; i++) {
@@ -66,4 +67,5 @@ exports.getFacebookJobs = (source, args, context, info) => {
         return dataRet;
     }));
 };
+exports.getFacebookJobs = getFacebookJobs;
 //# sourceMappingURL=get.js.map

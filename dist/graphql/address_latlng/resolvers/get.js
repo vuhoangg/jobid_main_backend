@@ -16,7 +16,7 @@ exports.getAddressLatLng = void 0;
 const axios_1 = __importDefault(require("axios"));
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
-exports.getAddressLatLng = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+const getAddressLatLng = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     let search = args.search;
     let searchEncode = encodeURIComponent(search);
     let address = "";
@@ -58,4 +58,5 @@ exports.getAddressLatLng = (source, args, context, info) => __awaiter(void 0, vo
         lng: lng,
     };
 });
+exports.getAddressLatLng = getAddressLatLng;
 //# sourceMappingURL=get.js.map

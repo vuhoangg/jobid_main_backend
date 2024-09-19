@@ -16,12 +16,12 @@ exports.updateCity = void 0;
 const permission_1 = require("../../../helpers/permission");
 const CityRepository_1 = __importDefault(require("../../../db/repositories/CityRepository"));
 const authenticate_1 = require("../../../middlewares/authenticate");
-exports.updateCity = (args, context) => __awaiter(void 0, void 0, void 0, function* () {
+const updateCity = (args, context) => __awaiter(void 0, void 0, void 0, function* () {
     // TODO Admin and User has permission
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
-        if (permission_1.isSuperUser(loggedUser.email)) {
+        if ((0, permission_1.isSuperUser)(loggedUser.email)) {
             return CityRepository_1.default.update(input);
         }
     }
@@ -29,4 +29,5 @@ exports.updateCity = (args, context) => __awaiter(void 0, void 0, void 0, functi
         return null;
     }
 });
+exports.updateCity = updateCity;
 //# sourceMappingURL=update.js.map

@@ -16,20 +16,22 @@ exports.createJobCategory = exports.updateJobCategory = void 0;
 const JobCategoryRepository_1 = __importDefault(require("../../../db/repositories/JobCategoryRepository"));
 const permission_1 = require("../../../helpers/permission");
 const authenticate_1 = require("../../../middlewares/authenticate");
-exports.updateJobCategory = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
+const updateJobCategory = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
-        if (permission_1.isSuperUser(loggedUser.email)) {
+        if ((0, permission_1.isSuperUser)(loggedUser.email)) {
             return JobCategoryRepository_1.default.update(args.input);
         }
     }
 });
-exports.createJobCategory = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
+exports.updateJobCategory = updateJobCategory;
+const createJobCategory = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
-        if (permission_1.isSuperUser(loggedUser.email)) {
+        if ((0, permission_1.isSuperUser)(loggedUser.email)) {
             return JobCategoryRepository_1.default.create(args.input);
         }
     }
 });
+exports.createJobCategory = createJobCategory;
 //# sourceMappingURL=update.js.map

@@ -12,11 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getJobApplyOthers = exports.getJobApplyOther = void 0;
+exports.getJobApplyOther = getJobApplyOther;
+exports.getJobApplyOthers = getJobApplyOthers;
 const JobApplyOtherRepository_1 = __importDefault(require("../../../db/repositories/JobApplyOtherRepository"));
 const helpers_1 = require("../../helpers");
 function getJobApplyOther(source, args, context, info) {
-    const fields = helpers_1.rootField(info);
+    const fields = (0, helpers_1.rootField)(info);
     return JobApplyOtherRepository_1.default.get(args._id, fields).then((jobApplyOther) => __awaiter(this, void 0, void 0, function* () {
         let node = {
             _id: jobApplyOther._id,
@@ -33,10 +34,9 @@ function getJobApplyOther(source, args, context, info) {
         return node;
     }));
 }
-exports.getJobApplyOther = getJobApplyOther;
 function getJobApplyOthers(source, args, context, info) {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     let limit = args.limit > 1000 ? 10 : args.limit;
     let page = args.page;
     return JobApplyOtherRepository_1.default.filter(filter, limit, page, infos.edges).then((jobApplyOthers) => __awaiter(this, void 0, void 0, function* () {
@@ -68,5 +68,4 @@ function getJobApplyOthers(source, args, context, info) {
         return dataRet;
     }));
 }
-exports.getJobApplyOthers = getJobApplyOthers;
 //# sourceMappingURL=get.js.map

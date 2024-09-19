@@ -16,28 +16,31 @@ exports.updateReadAllNotification = exports.updateReadNotification = exports.upd
 const NotificationRepository_1 = __importDefault(require("../../../db/repositories/NotificationRepository"));
 const permission_1 = require("../../../helpers/permission");
 const authenticate_1 = require("../../../middlewares/authenticate");
-exports.updateNotification = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
+const updateNotification = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
-        if (permission_1.isSuperUser(loggedUser.email)) {
+        if ((0, permission_1.isSuperUser)(loggedUser.email)) {
             return NotificationRepository_1.default.update(input);
         }
     }
 });
-exports.updateReadNotification = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
+exports.updateNotification = updateNotification;
+const updateReadNotification = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
         let input = args.input;
         let loggedUser = context.res.locals.fullUser;
         input = Object.assign(input, { target: loggedUser._id });
         return NotificationRepository_1.default.readNotification(input).then((r) => ({ status: true }));
     }
 });
-exports.updateReadAllNotification = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
+exports.updateReadNotification = updateReadNotification;
+const updateReadAllNotification = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
         let input = { target: loggedUser._id };
         return NotificationRepository_1.default.readAllNotification(input).then((r) => ({ status: true }));
     }
 });
+exports.updateReadAllNotification = updateReadAllNotification;
 //# sourceMappingURL=update.js.map

@@ -1,13 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.filterObject = exports.rootInfo = exports.getProjection = exports.rootField = void 0;
-exports.rootField = (info) => {
+const rootField = (info) => {
     return info.fieldNodes[0].selectionSet.selections.reduce((roots, selection) => {
         roots[selection.name.value] = true;
         return roots;
     }, {});
 };
-exports.getProjection = (fieldASTs) => {
+exports.rootField = rootField;
+const getProjection = (fieldASTs) => {
     // let selections = fieldASTs.selectionSet.selections;
     // let projections = {};
     // for (let i = 0; i < selections.length; i++) {
@@ -23,17 +24,18 @@ exports.getProjection = (fieldASTs) => {
         return projections;
     }, {});
 };
-exports.rootInfo = (info) => {
+exports.getProjection = getProjection;
+const rootInfo = (info) => {
     const root = info.fieldNodes[0].selectionSet.selections;
     // console.log(root);
     let pageInfo = null;
     let edges = null;
     for (let i in root) {
         if (root[i].name.value === "pageInfo") {
-            pageInfo = exports.getProjection(root[i]);
+            pageInfo = (0, exports.getProjection)(root[i]);
         }
         else if (root[i].name.value == "edges") {
-            edges = exports.getProjection(root[i].selectionSet.selections[0]);
+            edges = (0, exports.getProjection)(root[i].selectionSet.selections[0]);
             // edges = flattenNestedObject(edges);
         }
     }
@@ -42,8 +44,10 @@ exports.rootInfo = (info) => {
         edges,
     };
 };
-exports.filterObject = (filter) => {
+exports.rootInfo = rootInfo;
+const filterObject = (filter) => {
     const replaceString = filter.split("'").join('"');
     return JSON.parse(replaceString);
 };
+exports.filterObject = filterObject;
 //# sourceMappingURL=helpers.js.map

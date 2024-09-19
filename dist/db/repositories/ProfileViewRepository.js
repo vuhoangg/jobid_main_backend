@@ -33,8 +33,8 @@ class ProfileViewRepository {
             return ProfileView_1.default.countDocuments(condition);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     create(data) {
@@ -42,8 +42,8 @@ class ProfileViewRepository {
             return ProfileView_1.default.create(data);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     delete(id) {
@@ -51,8 +51,8 @@ class ProfileViewRepository {
             return ProfileView_1.default.findByIdAndRemove(id);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     get(id, projection) {
@@ -60,8 +60,8 @@ class ProfileViewRepository {
             return ProfileView_1.default.findById(id, projection).populate('user_hunter').populate('user_profile');
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     filter(filter, limit, page, projection) {
@@ -71,8 +71,8 @@ class ProfileViewRepository {
             return ProfileView_1.default.find(condition, projection).populate('user_hunter').populate('user_profile').sort(sort).skip(limit * (page - 1)).limit(limit);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     getBy(getBy, projection) {
@@ -81,12 +81,12 @@ class ProfileViewRepository {
                 return ProfileView_1.default.findById(getBy._id, projection);
             }
             else {
-                return promise_1.promiseNull();
+                return (0, promise_1.promiseNull)();
             }
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     update(data) {
@@ -94,8 +94,8 @@ class ProfileViewRepository {
             return ProfileView_1.default.findByIdAndUpdate(data._id, data, { new: true });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     profileView(data) {
@@ -104,8 +104,8 @@ class ProfileViewRepository {
             return ProfileView_1.default.findOneAndUpdate({ user_hunter: data.user_hunter, user_profile: data.user_profile }, updateData, { new: true, upsert: true });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
 }

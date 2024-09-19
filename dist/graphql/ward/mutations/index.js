@@ -5,8 +5,8 @@ const graphql_1 = require("graphql");
 const update_1 = require("../resolvers/update");
 const wardMutations = {
     ward: {
-        args: { input: { type: graphql_1.GraphQLNonNull(types_1.WardInput) } },
-        resolve: (source, args, context) => update_1.updateWard(args, context),
+        args: { input: { type: (0, graphql_1.GraphQLNonNull)(types_1.WardInput) } },
+        resolve: (source, args, context) => (0, update_1.updateWard)(args, context),
         type: new graphql_1.GraphQLNonNull(types_1.Ward),
     },
 };

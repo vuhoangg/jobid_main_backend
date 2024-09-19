@@ -18,8 +18,8 @@ const NotificationRepository_1 = __importDefault(require("../../../db/repositori
 const api_1 = require("../../../utils/api");
 const UserRepository_1 = __importDefault(require("../../../db/repositories/UserRepository"));
 const authenticate_1 = require("../../../middlewares/authenticate");
-exports.updateProfileView = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
+const updateProfileView = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
         input = Object.assign(input, { user_hunter: loggedUser._id });
@@ -40,7 +40,7 @@ exports.updateProfileView = (source, args, context, info) => __awaiter(void 0, v
                     const params = {
                         token: process.env.SOCKET_TOKEN,
                     };
-                    api_1.api("POST", `${process.env.SOCKET_SERVER_URL}/socket/notify/${data.user_profile}`, params, {
+                    (0, api_1.api)("POST", `${process.env.SOCKET_SERVER_URL}/socket/notify/${data.user_profile}`, params, {
                         data: Object.assign(Object.assign({}, r.toObject()), { created_at: new Date(r.created_at).getTime().toString(), updated_at: new Date(r.updated_at).getTime().toString() }),
                         type: "main",
                     })
@@ -49,7 +49,7 @@ exports.updateProfileView = (source, args, context, info) => __awaiter(void 0, v
                 }
                 UserRepository_1.default.get(data.user_profile, {}).then((r) => {
                     if (r && r.psid) {
-                        api_1.api("POST", `${process.env.BOT_URL}/send_notification`, null, {
+                        (0, api_1.api)("POST", `${process.env.BOT_URL}/send_notification`, null, {
                             psid: r.psid,
                             message_type: "profile_view",
                             message_text: `${loggedUser.first_name} ${loggedUser.last_name} đã xem hồ sơ của bạn`,
@@ -63,4 +63,5 @@ exports.updateProfileView = (source, args, context, info) => __awaiter(void 0, v
         }));
     }
 });
+exports.updateProfileView = updateProfileView;
 //# sourceMappingURL=update.js.map

@@ -20,8 +20,8 @@ class CityRepository {
                 return City_1.default.create(data);
             }
             catch (e) {
-                log_1.errorLog(e);
-                return promise_1.promiseNull();
+                (0, log_1.errorLog)(e);
+                return (0, promise_1.promiseNull)();
             }
         };
         this.delete = (_id) => {
@@ -29,8 +29,8 @@ class CityRepository {
                 return City_1.default.findByIdAndRemove(_id);
             }
             catch (e) {
-                log_1.errorLog(e);
-                return promise_1.promiseNull();
+                (0, log_1.errorLog)(e);
+                return (0, promise_1.promiseNull)();
             }
         };
         this.get = (getBy, projection = {}) => {
@@ -43,8 +43,8 @@ class CityRepository {
                 }
             }
             catch (e) {
-                log_1.errorLog(e);
-                return promise_1.promiseNull();
+                (0, log_1.errorLog)(e);
+                return (0, promise_1.promiseNull)();
             }
         };
         this.update = (data) => {
@@ -52,8 +52,8 @@ class CityRepository {
                 return City_1.default.findByIdAndUpdate(data._id, data, { new: true });
             }
             catch (e) {
-                log_1.errorLog(e);
-                return promise_1.promiseNull();
+                (0, log_1.errorLog)(e);
+                return (0, promise_1.promiseNull)();
             }
         };
         this.filter = (filter, limit, page, projection = {}) => {
@@ -65,8 +65,8 @@ class CityRepository {
                     .limit(limit);
             }
             catch (e) {
-                log_1.errorLog(e);
-                return promise_1.promiseNull();
+                (0, log_1.errorLog)(e);
+                return (0, promise_1.promiseNull)();
             }
         };
         this.count = (filter) => {
@@ -75,8 +75,8 @@ class CityRepository {
                 return City_1.default.countDocuments(condition);
             }
             catch (e) {
-                log_1.errorLog(e);
-                return promise_1.promiseNull();
+                (0, log_1.errorLog)(e);
+                return (0, promise_1.promiseNull)();
             }
         };
     }
@@ -86,12 +86,12 @@ class CityRepository {
                 return City_1.default.findById(getBy._id, projection);
             }
             else {
-                return promise_1.promiseNull();
+                return (0, promise_1.promiseNull)();
             }
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
 }

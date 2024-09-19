@@ -16,20 +16,22 @@ exports.createSuggestion = exports.updateSuggestion = void 0;
 const SuggestionRepository_1 = __importDefault(require("../../../db/repositories/SuggestionRepository"));
 const permission_1 = require("../../../helpers/permission");
 const authenticate_1 = require("../../../middlewares/authenticate");
-exports.updateSuggestion = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
+const updateSuggestion = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
-        if (permission_1.isSuperUser(loggedUser.email)) {
+        if ((0, permission_1.isSuperUser)(loggedUser.email)) {
             return SuggestionRepository_1.default.update(args.input);
         }
     }
 });
-exports.createSuggestion = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
+exports.updateSuggestion = updateSuggestion;
+const createSuggestion = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
-        if (permission_1.isSuperUser(loggedUser.email)) {
+        if ((0, permission_1.isSuperUser)(loggedUser.email)) {
             return SuggestionRepository_1.default.create(args.input);
         }
     }
 });
+exports.createSuggestion = createSuggestion;
 //# sourceMappingURL=update.js.map

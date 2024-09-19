@@ -15,8 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCvWarehouse = exports.updateCvWarehouse = void 0;
 const CvWarehouseRepository_1 = __importDefault(require("../../../db/repositories/CvWarehouseRepository"));
 const authenticate_1 = require("../../../middlewares/authenticate");
-exports.updateCvWarehouse = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = authenticate_1.authenticateEmployer(context, context.res);
+const updateCvWarehouse = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = (0, authenticate_1.authenticateEmployer)(context, context.res);
     if (isAuthenticated) {
         let loggedEmployer = context.res.locals.fullEmployer;
         let _id = args.input._id;
@@ -29,13 +29,15 @@ exports.updateCvWarehouse = (source, args, context, info) => __awaiter(void 0, v
         }
     }
 });
-exports.createCvWarehouse = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+exports.updateCvWarehouse = updateCvWarehouse;
+const createCvWarehouse = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     let input = args.input;
-    let isAuthenticated = yield authenticate_1.authenticateEmployer(context, context.res);
+    let isAuthenticated = yield (0, authenticate_1.authenticateEmployer)(context, context.res);
     if (isAuthenticated) {
         let loggedEmployer = context.res.locals.fullEmployer;
         input = Object.assign(input, { employer: loggedEmployer._id });
         return CvWarehouseRepository_1.default.create(input);
     }
 });
+exports.createCvWarehouse = createCvWarehouse;
 //# sourceMappingURL=update.js.map

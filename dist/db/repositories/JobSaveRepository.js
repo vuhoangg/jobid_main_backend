@@ -33,8 +33,8 @@ class JobSaveRepository {
             return JobSave_1.default.countDocuments(condition);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     create(data) {
@@ -42,8 +42,8 @@ class JobSaveRepository {
             return JobSave_1.default.create(data);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     delete(id) {
@@ -51,8 +51,8 @@ class JobSaveRepository {
             return JobSave_1.default.findByIdAndRemove(id);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     get(id, projection) {
@@ -60,8 +60,8 @@ class JobSaveRepository {
             return JobSave_1.default.findById(id, projection);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     filter(filter, limit, page, projection) {
@@ -74,8 +74,8 @@ class JobSaveRepository {
                 .sort(sort).skip(limit * (page - 1)).limit(limit);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     getBy(getBy, projection) {
@@ -84,12 +84,12 @@ class JobSaveRepository {
                 return JobSave_1.default.findById(getBy._id, projection);
             }
             else {
-                return promise_1.promiseNull();
+                return (0, promise_1.promiseNull)();
             }
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     update(data) {
@@ -97,8 +97,8 @@ class JobSaveRepository {
             return JobSave_1.default.findOneAndUpdate(data._id, data, { new: true });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     saveJob(data) {
@@ -106,8 +106,8 @@ class JobSaveRepository {
             return JobSave_1.default.findOneAndUpdate({ job_post: data.job_post, user: data.user }, data, { upsert: true, new: true });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
 }

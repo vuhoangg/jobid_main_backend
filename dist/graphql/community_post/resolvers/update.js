@@ -17,8 +17,8 @@ const CommunityPostRepository_1 = __importDefault(require("../../../db/repositor
 const CommunityPostViewRepository_1 = __importDefault(require("../../../db/repositories/CommunityPostViewRepository"));
 const string_1 = require("../../../helpers/string");
 const authenticate_1 = require("../../../middlewares/authenticate");
-exports.updateCommunityPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+const updateCommunityPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
@@ -28,20 +28,22 @@ exports.updateCommunityPost = (source, args, context, info) => __awaiter(void 0,
         }
     }
 });
-exports.createCommunityPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+exports.updateCommunityPost = updateCommunityPost;
+const createCommunityPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
-        let slug = string_1.toSlug(input.title, true);
+        let slug = (0, string_1.toSlug)(input.title, true);
         input = Object.assign(input, { user: loggedUser._id, slug: slug });
         return CommunityPostRepository_1.default.create(input);
     }
 });
-exports.trackingBySlug = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+exports.createCommunityPost = createCommunityPost;
+const trackingBySlug = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     let input = args.input;
     let community_post = yield CommunityPostRepository_1.default.increaseViewCountBySlug(input.slug);
-    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let payload = {
@@ -54,4 +56,5 @@ exports.trackingBySlug = (source, args, context, info) => __awaiter(void 0, void
         status: true
     };
 });
+exports.trackingBySlug = trackingBySlug;
 //# sourceMappingURL=update.js.map

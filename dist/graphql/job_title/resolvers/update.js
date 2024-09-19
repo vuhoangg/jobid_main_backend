@@ -16,20 +16,22 @@ exports.createJobTitle = exports.updateJobTitle = void 0;
 const JobTitleRepository_1 = __importDefault(require("../../../db/repositories/JobTitleRepository"));
 const permission_1 = require("../../../helpers/permission");
 const authenticate_1 = require("../../../middlewares/authenticate");
-exports.updateJobTitle = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
+const updateJobTitle = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
-        if (permission_1.isSuperUser(loggedUser.email)) {
+        if ((0, permission_1.isSuperUser)(loggedUser.email)) {
             return JobTitleRepository_1.default.update(args.input);
         }
     }
 });
-exports.createJobTitle = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
+exports.updateJobTitle = updateJobTitle;
+const createJobTitle = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
-        if (permission_1.isSuperUser(loggedUser.email)) {
+        if ((0, permission_1.isSuperUser)(loggedUser.email)) {
             return JobTitleRepository_1.default.create(args.input);
         }
     }
 });
+exports.createJobTitle = createJobTitle;
 //# sourceMappingURL=update.js.map

@@ -1,10 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.toSlug = exports.removeAllSpace = void 0;
-exports.removeAllSpace = (text) => {
+const removeAllSpace = (text) => {
     return text.replace(/\s/g, "");
 };
-exports.toSlug = (str, unique = false) => {
+exports.removeAllSpace = removeAllSpace;
+const toSlug = (str, unique = false) => {
     // Chuyển hết sang chữ thường
     str = str.toLowerCase();
     // xóa dấu
@@ -30,4 +31,5 @@ exports.toSlug = (str, unique = false) => {
     // return
     return str + date;
 };
+exports.toSlug = toSlug;
 //# sourceMappingURL=string.js.map

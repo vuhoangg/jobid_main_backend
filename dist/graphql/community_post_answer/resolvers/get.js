@@ -15,8 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCommunityPostAnswers = exports.getCommunityPostAnswer = void 0;
 const CommunityPostAnswerRepository_1 = __importDefault(require("../../../db/repositories/CommunityPostAnswerRepository"));
 const helpers_1 = require("../../helpers");
-exports.getCommunityPostAnswer = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    const fields = helpers_1.rootField(info);
+const getCommunityPostAnswer = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    const fields = (0, helpers_1.rootField)(info);
     let communityPostAnswer = yield CommunityPostAnswerRepository_1.default.get(args._id, fields);
     let node = {
         _id: communityPostAnswer._id,
@@ -31,9 +31,10 @@ exports.getCommunityPostAnswer = (source, args, context, info) => __awaiter(void
     };
     return node;
 });
-exports.getCommunityPostAnswers = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+exports.getCommunityPostAnswer = getCommunityPostAnswer;
+const getCommunityPostAnswers = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     let limit = args.limit > 1000 ? 10 : args.limit;
     let page = args.page;
     let communityPostAnswers = yield CommunityPostAnswerRepository_1.default.filter(filter, limit, page, infos.edges);
@@ -63,4 +64,5 @@ exports.getCommunityPostAnswers = (source, args, context, info) => __awaiter(voi
         } });
     return dataRet;
 });
+exports.getCommunityPostAnswers = getCommunityPostAnswers;
 //# sourceMappingURL=get.js.map

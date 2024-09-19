@@ -5,13 +5,13 @@ const types_1 = require("../types");
 const update_1 = require("../resolvers/update");
 const jobReplyommentMutations = {
     jobReplyCommentCreate: {
-        args: { input: { type: graphql_1.GraphQLNonNull(types_1.JobCommentReplyInput) } },
-        resolve: (source, args, context, info) => update_1.createJobReplyComment(source, args, context, info),
+        args: { input: { type: (0, graphql_1.GraphQLNonNull)(types_1.JobCommentReplyInput) } },
+        resolve: (source, args, context, info) => (0, update_1.createJobReplyComment)(source, args, context, info),
         type: new graphql_1.GraphQLNonNull(types_1.JobCommentReply),
     },
     jobReplyCommentUpdate: {
-        args: { input: { type: graphql_1.GraphQLNonNull(types_1.JobCommentReplyInput) } },
-        resolve: (source, args, context, info) => update_1.updateJobReplyComment(source, args, context, info),
+        args: { input: { type: (0, graphql_1.GraphQLNonNull)(types_1.JobCommentReplyInput) } },
+        resolve: (source, args, context, info) => (0, update_1.updateJobReplyComment)(source, args, context, info),
         type: new graphql_1.GraphQLNonNull(types_1.JobCommentReply),
     },
 };

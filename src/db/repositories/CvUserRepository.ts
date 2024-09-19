@@ -159,6 +159,7 @@ class CvUserRepository implements CrudContract {
           displayHeaderFooter: true,
           printBackground: true,
           // preferCSSPageSize: false,
+          //@ts-ignore
           deviceScaleFactor: 1,
           format: 'A4'
         });
@@ -174,6 +175,7 @@ class CvUserRepository implements CrudContract {
         page.setViewport({
           width: 794,
           height: 1122,
+          //@ts-ignore
           deviceScaleFactor: 1,
         });
 
@@ -294,6 +296,7 @@ class CvUserRepository implements CrudContract {
           displayHeaderFooter: true,
           printBackground: true,
           // preferCSSPageSize: false,
+          //@ts-ignore
           deviceScaleFactor: 1,
           format: 'A4'
         });
@@ -309,6 +312,7 @@ class CvUserRepository implements CrudContract {
         page.setViewport({
           width: 794,
           height: 1122,
+          //@ts-ignore
           deviceScaleFactor: 1,
         });
 

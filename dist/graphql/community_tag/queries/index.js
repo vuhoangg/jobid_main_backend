@@ -7,12 +7,12 @@ const types_2 = require("../types");
 const communityTagQueries = {
     communityTag: {
         args: types_2.CommunityTagArguments,
-        resolve: (source, args, context, info) => get_1.getCommunityTag(source, args, context, info),
+        resolve: (source, args, context, info) => (0, get_1.getCommunityTag)(source, args, context, info),
         type: new graphql_1.GraphQLNonNull(types_2.CommunityTag),
     },
     communityTags: {
         args: types_1.PaginationArguments,
-        resolve: (source, args, context, info) => get_1.getCommunityTags(source, args, context, info),
+        resolve: (source, args, context, info) => (0, get_1.getCommunityTags)(source, args, context, info),
         type: new graphql_1.GraphQLNonNull(types_2.CommunityTagConnection),
     }
 };

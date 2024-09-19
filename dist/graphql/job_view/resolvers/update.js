@@ -15,12 +15,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateJobView = void 0;
 const JobViewRepository_1 = __importDefault(require("../../../db/repositories/JobViewRepository"));
 const authenticate_1 = require("../../../middlewares/authenticate");
-exports.updateJobView = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
+const updateJobView = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
         input = Object.assign(input, { user: loggedUser._id });
         return JobViewRepository_1.default.viewJob(input);
     }
 });
+exports.updateJobView = updateJobView;
 //# sourceMappingURL=update.js.map

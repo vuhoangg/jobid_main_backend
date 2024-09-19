@@ -104,8 +104,8 @@ class JobPostRepository {
             return JobPost_1.default.countDocuments(condition);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     create(data) {
@@ -113,8 +113,8 @@ class JobPostRepository {
             return JobPost_1.default.create(data);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     delete(id) {
@@ -122,8 +122,8 @@ class JobPostRepository {
             return JobPost_1.default.findByIdAndRemove(id);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     get(id, projection) {
@@ -131,8 +131,8 @@ class JobPostRepository {
             return JobPost_1.default.findById(id, projection);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     filter(filter, limit, page, projection) {
@@ -188,8 +188,8 @@ class JobPostRepository {
             }
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     getBy(getBy, projection) {
@@ -219,12 +219,12 @@ class JobPostRepository {
                     .populate("user");
             }
             else {
-                return promise_1.promiseNull();
+                return (0, promise_1.promiseNull)();
             }
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     update(data) {
@@ -241,8 +241,8 @@ class JobPostRepository {
                 .populate("user");
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     increaseViewCountBySlug(slug) {
@@ -250,8 +250,8 @@ class JobPostRepository {
             return JobPost_1.default.findOneAndUpdate({ slug: slug }, { $inc: { view_count: 1 } }, { new: true });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
 }

@@ -16,8 +16,8 @@ exports.createCvEmployer = exports.updateCvEmployer = void 0;
 const CvEmployerRepository_1 = __importDefault(require("../../../db/repositories/CvEmployerRepository"));
 const CvWarehouseRepository_1 = __importDefault(require("../../../db/repositories/CvWarehouseRepository"));
 const authenticate_1 = require("../../../middlewares/authenticate");
-exports.updateCvEmployer = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = authenticate_1.authenticateEmployer(context, context.res);
+const updateCvEmployer = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = (0, authenticate_1.authenticateEmployer)(context, context.res);
     if (isAuthenticated) {
         let loggedEmployer = context.res.locals.fullEmployer;
         let _id = args.input._id;
@@ -31,12 +31,14 @@ exports.updateCvEmployer = (source, args, context, info) => __awaiter(void 0, vo
         }
     }
 });
-exports.createCvEmployer = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+exports.updateCvEmployer = updateCvEmployer;
+const createCvEmployer = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     let input = args.input;
-    let isAuthenticated = yield authenticate_1.authenticateEmployer(context, context.res);
+    let isAuthenticated = yield (0, authenticate_1.authenticateEmployer)(context, context.res);
     if (isAuthenticated) {
         let loggedEmployer = context.res.locals.fullEmployer;
         return CvEmployerRepository_1.default.create(input);
     }
 });
+exports.createCvEmployer = createCvEmployer;
 //# sourceMappingURL=update.js.map

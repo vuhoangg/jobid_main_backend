@@ -12,11 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSuggestions = exports.getSuggestion = void 0;
+exports.getSuggestion = getSuggestion;
+exports.getSuggestions = getSuggestions;
 const SuggestionRepository_1 = __importDefault(require("../../../db/repositories/SuggestionRepository"));
 const helpers_1 = require("../../helpers");
 function getSuggestion(source, args, context, info) {
-    const fields = helpers_1.rootField(info);
+    const fields = (0, helpers_1.rootField)(info);
     return SuggestionRepository_1.default.get(args._id, fields)
         .then((suggestion) => __awaiter(this, void 0, void 0, function* () {
         let node = {
@@ -31,10 +32,9 @@ function getSuggestion(source, args, context, info) {
         return node;
     }));
 }
-exports.getSuggestion = getSuggestion;
 function getSuggestions(source, args, context, info) {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     return SuggestionRepository_1.default.filter(filter, args.limit, args.page, infos.edges)
         .then((suggestions) => __awaiter(this, void 0, void 0, function* () {
         let edges = [];
@@ -62,5 +62,4 @@ function getSuggestions(source, args, context, info) {
         return dataRet;
     }));
 }
-exports.getSuggestions = getSuggestions;
 //# sourceMappingURL=get.js.map

@@ -53,8 +53,8 @@ class CompanyRepository {
             return Company_1.default.countDocuments(condition);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     create(data) {
@@ -62,8 +62,8 @@ class CompanyRepository {
             return Company_1.default.create(data);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     delete(id) {
@@ -71,8 +71,8 @@ class CompanyRepository {
             return Company_1.default.findByIdAndRemove(id);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     get(_id, projection) {
@@ -80,8 +80,8 @@ class CompanyRepository {
             return Company_1.default.findById(_id, projection);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     filter(filter, limit, page, projection) {
@@ -122,8 +122,8 @@ class CompanyRepository {
             }
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     getBy(getBy, projection) {
@@ -147,17 +147,17 @@ class CompanyRepository {
                     .populate("created_by");
             }
             else {
-                return promise_1.promiseNull();
+                return (0, promise_1.promiseNull)();
             }
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     update(data) {
         try {
-            let dataUpdate = flattenNestedObject_1.processDataUpdate(data);
+            let dataUpdate = (0, flattenNestedObject_1.processDataUpdate)(data);
             return Company_1.default.findByIdAndUpdate(data._id, data, { new: true })
                 .populate("office.city")
                 .populate("office.district")
@@ -167,8 +167,8 @@ class CompanyRepository {
                 .populate("created_by");
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     updateUserPermission(data) {
@@ -176,8 +176,8 @@ class CompanyRepository {
             return Company_1.default.findByIdAndUpdate(data._id, { $addToSet: { users: data.users } });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     verify(_id, status = true) {
@@ -185,8 +185,8 @@ class CompanyRepository {
             return Company_1.default.findByIdAndUpdate(_id, { verify_status: status }, { new: true });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     premium(_id, status = true) {
@@ -194,8 +194,8 @@ class CompanyRepository {
             return Company_1.default.findByIdAndUpdate(_id, { premium_status: status }, { new: true });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     increaseFollow(_id) {
@@ -203,8 +203,8 @@ class CompanyRepository {
             return Company_1.default.findByIdAndUpdate(_id, { $inc: { follow: 1 } }, { new: true });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     decreaseFollow(_id) {
@@ -212,8 +212,8 @@ class CompanyRepository {
             return Company_1.default.findByIdAndUpdate(_id, { $inc: { follow: -1 } }, { new: true });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     increaseViewCountBySlug(slug) {
@@ -221,8 +221,8 @@ class CompanyRepository {
             return Company_1.default.findOneAndUpdate({ slug: slug }, { $inc: { view_count: 1 } }, { new: true });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     increaseRating(_id, rateValue) {
@@ -251,12 +251,12 @@ class CompanyRepository {
                 return Company_1.default.findOneAndUpdate({ _id: _id }, { $inc: objChange }, { new: true });
             }
             else {
-                return promise_1.promiseNull();
+                return (0, promise_1.promiseNull)();
             }
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     decreaseRating(_id, rateValue) {
@@ -285,12 +285,12 @@ class CompanyRepository {
                 return Company_1.default.findOneAndUpdate({ _id: _id }, { $inc: objChange }, { new: true });
             }
             else {
-                return promise_1.promiseNull();
+                return (0, promise_1.promiseNull)();
             }
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
 }

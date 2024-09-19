@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.activityLog = exports.errorLog = void 0;
 const axios_1 = __importDefault(require("axios"));
-exports.errorLog = (error) => {
+const errorLog = (error) => {
     process.env.APP_DEBUG === "true" ? console.log(`error: ${error.name} ${error.message}`) : null;
     if (process.env.APP_ENV == "production") {
         if (process.env.APP_LOG === "mattermost") {
@@ -20,7 +20,8 @@ exports.errorLog = (error) => {
         }
     }
 };
-exports.activityLog = (message) => {
+exports.errorLog = errorLog;
+const activityLog = (message) => {
     if (process.env.APP_ENV == "production") {
         if (process.env.APP_LOG === "mattermost") {
             let payload = {
@@ -34,4 +35,5 @@ exports.activityLog = (message) => {
         }
     }
 };
+exports.activityLog = activityLog;
 //# sourceMappingURL=log.js.map

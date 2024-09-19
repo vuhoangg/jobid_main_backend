@@ -17,17 +17,18 @@ const CommunityPostLikeRepository_1 = __importDefault(require("../../../db/repos
 const CommunityPostRepository_1 = __importDefault(require("../../../db/repositories/CommunityPostRepository"));
 const permission_1 = require("../../../helpers/permission");
 const authenticate_1 = require("../../../middlewares/authenticate");
-exports.updateCommunityPostLike = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+const updateCommunityPostLike = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
-        if (permission_1.isSuperUser(loggedUser.email)) {
+        if ((0, permission_1.isSuperUser)(loggedUser.email)) {
             return CommunityPostLikeRepository_1.default.update(args.input);
         }
     }
 });
-exports.createCommunityPostLike = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+exports.updateCommunityPostLike = updateCommunityPostLike;
+const createCommunityPostLike = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
@@ -43,8 +44,9 @@ exports.createCommunityPostLike = (source, args, context, info) => __awaiter(voi
         }
     }
 });
-exports.deleteCommunityPostLike = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+exports.createCommunityPostLike = createCommunityPostLike;
+const deleteCommunityPostLike = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
@@ -57,4 +59,5 @@ exports.deleteCommunityPostLike = (source, args, context, info) => __awaiter(voi
         }
     }
 });
+exports.deleteCommunityPostLike = deleteCommunityPostLike;
 //# sourceMappingURL=update.js.map

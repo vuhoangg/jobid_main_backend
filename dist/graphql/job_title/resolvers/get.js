@@ -12,11 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getJobTitles = exports.getJobTitle = void 0;
+exports.getJobTitle = getJobTitle;
+exports.getJobTitles = getJobTitles;
 const JobTitleRepository_1 = __importDefault(require("../../../db/repositories/JobTitleRepository"));
 const helpers_1 = require("../../helpers");
 function getJobTitle(source, args, context, info) {
-    const fields = helpers_1.rootField(info);
+    const fields = (0, helpers_1.rootField)(info);
     let getBy = args._id ? { _id: args._id } : { slug: args.slug };
     return JobTitleRepository_1.default.getBy(getBy, fields)
         .then((jobTitle) => __awaiter(this, void 0, void 0, function* () {
@@ -32,10 +33,9 @@ function getJobTitle(source, args, context, info) {
         return node;
     }));
 }
-exports.getJobTitle = getJobTitle;
 function getJobTitles(source, args, context, info) {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     let limit = args.limit > 1000 ? 10 : args.limit;
     let page = args.page;
     return JobTitleRepository_1.default.filter(filter, limit, page, infos.edges)
@@ -65,5 +65,4 @@ function getJobTitles(source, args, context, info) {
         return dataRet;
     }));
 }
-exports.getJobTitles = getJobTitles;
 //# sourceMappingURL=get.js.map

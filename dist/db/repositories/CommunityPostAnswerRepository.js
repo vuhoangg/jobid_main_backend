@@ -39,8 +39,8 @@ class CommunityPostAnswerRepository {
             return CommunityPostAnswer_1.default.countDocuments(condition);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     create(data) {
@@ -48,8 +48,8 @@ class CommunityPostAnswerRepository {
             return CommunityPostAnswer_1.default.create(data);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     delete(id) {
@@ -57,8 +57,8 @@ class CommunityPostAnswerRepository {
             return CommunityPostAnswer_1.default.findByIdAndRemove(id);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     get(id, projection) {
@@ -66,8 +66,8 @@ class CommunityPostAnswerRepository {
             return CommunityPostAnswer_1.default.findById(id, projection);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     filter(filter, limit, page, projection) {
@@ -78,8 +78,8 @@ class CommunityPostAnswerRepository {
                 .populate("user");
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     getBy(getBy, projection) {
@@ -87,8 +87,8 @@ class CommunityPostAnswerRepository {
             return CommunityPostAnswer_1.default.findOne(getBy, projection);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     update(data) {
@@ -96,8 +96,8 @@ class CommunityPostAnswerRepository {
             return CommunityPostAnswer_1.default.findByIdAndUpdate(data._id, data, { new: true });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
 }

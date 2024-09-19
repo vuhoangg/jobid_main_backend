@@ -8,7 +8,7 @@ exports.JobApplyOther = new graphql_1.GraphQLObjectType({
     description: "Represents a job apply other.",
     fields: {
         _id: { type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
-        job_post: { type: graphql_1.GraphQLNonNull(graphql_1.GraphQLString) },
+        job_post: { type: (0, graphql_1.GraphQLNonNull)(graphql_1.GraphQLString) },
         user: { type: types_2.User },
         status: { type: graphql_1.GraphQLString },
         email: { type: graphql_1.GraphQLString },

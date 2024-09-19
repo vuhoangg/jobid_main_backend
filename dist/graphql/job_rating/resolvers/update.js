@@ -15,16 +15,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createJobRating = exports.updateJobRating = void 0;
 const JobRatingRepository_1 = __importDefault(require("../../../db/repositories/JobRatingRepository"));
 const authenticate_1 = require("../../../middlewares/authenticate");
-exports.updateJobRating = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
+const updateJobRating = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
         let input = args.input;
         return JobRatingRepository_1.default.update(input).then((data) => data);
     }
 });
-exports.createJobRating = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
+exports.updateJobRating = updateJobRating;
+const createJobRating = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
         let input = args.input;
         return JobRatingRepository_1.default.create(input).then((r) => r);
     }
 });
+exports.createJobRating = createJobRating;
 //# sourceMappingURL=update.js.map

@@ -194,9 +194,9 @@ const userSchema = new mongoose.Schema({
         current_experience_number: Number,
         phone: String,
         birthday: Date,
-        nation: String,
+        nation: String, //  Quốc tịch
         gender: String,
-        status: String,
+        status: String, // Tình trạng hôn nhân
         location: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "JobLocation",

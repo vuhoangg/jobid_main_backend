@@ -20,8 +20,8 @@ const JobPostRepository_1 = __importDefault(require("../../../db/repositories/Jo
 const seo_1 = require("../../../helpers/seo");
 const authenticate_1 = require("../../../middlewares/authenticate");
 const helpers_1 = require("../../helpers");
-exports.getCompany = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let fields = helpers_1.rootField(info);
+const getCompany = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let fields = (0, helpers_1.rootField)(info);
     let getBy = args._id ? { _id: args._id } : { slug: args.slug };
     fields = Object.assign(fields, {
         one_star_count: true,
@@ -33,7 +33,7 @@ exports.getCompany = (source, args, context, info) => __awaiter(void 0, void 0, 
     let company = yield CompanyRepository_1.default.getBy(getBy, fields);
     let is_follow = false;
     let is_register = false;
-    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         is_follow = !!(yield CompanyFollowRepository_1.default.count({ company: company._id, user: loggedUser._id }));
@@ -82,15 +82,16 @@ exports.getCompany = (source, args, context, info) => __awaiter(void 0, void 0, 
         is_register: is_register,
         size: company.size,
         seo_title: company.seo_title || company.name,
-        seo_description: company.seo_description || seo_1.seoDescription(company.description),
+        seo_description: company.seo_description || (0, seo_1.seoDescription)(company.description),
         created_at: company.created_at,
         updated_at: company.updated_at,
     };
     return node;
 });
-exports.getCompanys = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+exports.getCompany = getCompany;
+const getCompanys = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     infos.edges = Object.assign(infos.edges, {
         one_star_count: true,
         two_star_count: true,
@@ -99,7 +100,7 @@ exports.getCompanys = (source, args, context, info) => __awaiter(void 0, void 0,
         five_star_count: true,
     });
     let companys = yield CompanyRepository_1.default.filter(filter, args.limit, args.page, infos.edges);
-    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(context, context.res);
     let edges = [];
     for (let i = 0; i < companys.length; i++) {
         let is_follow = false;
@@ -159,7 +160,7 @@ exports.getCompanys = (source, args, context, info) => __awaiter(void 0, void 0,
                 is_register: is_register,
                 size: companys[i].size,
                 seo_title: companys[i].seo_title || companys[i].name,
-                seo_description: companys[i].seo_description || seo_1.seoDescription(companys[i].description),
+                seo_description: companys[i].seo_description || (0, seo_1.seoDescription)(companys[i].description),
                 created_at: companys[i].created_at,
                 updated_at: companys[i].updated_at,
             },
@@ -174,4 +175,5 @@ exports.getCompanys = (source, args, context, info) => __awaiter(void 0, void 0,
         } });
     return dataRet;
 });
+exports.getCompanys = getCompanys;
 //# sourceMappingURL=get.js.map

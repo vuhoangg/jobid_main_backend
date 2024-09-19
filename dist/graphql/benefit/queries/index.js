@@ -7,12 +7,12 @@ const types_2 = require("../types");
 const benefitQueries = {
     benefit: {
         args: types_2.BenefitArguments,
-        resolve: (source, args, context, info) => get_1.getBenefit(source, args, context, info),
+        resolve: (source, args, context, info) => (0, get_1.getBenefit)(source, args, context, info),
         type: new graphql_1.GraphQLNonNull(types_2.Benefit),
     },
     benefits: {
         args: types_1.PaginationArguments,
-        resolve: (source, args, context, info) => get_1.getBenefits(source, args, context, info),
+        resolve: (source, args, context, info) => (0, get_1.getBenefits)(source, args, context, info),
         type: new graphql_1.GraphQLNonNull(types_2.BenefitConnection),
     }
 };

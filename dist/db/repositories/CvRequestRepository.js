@@ -20,8 +20,8 @@ class CvRequestRepository {
                 return CvRequest_1.default.create(data);
             }
             catch (e) {
-                log_1.errorLog(e);
-                return promise_1.promiseNull();
+                (0, log_1.errorLog)(e);
+                return (0, promise_1.promiseNull)();
             }
         };
         this.delete = (_id) => {
@@ -29,8 +29,8 @@ class CvRequestRepository {
                 return CvRequest_1.default.findByIdAndRemove(_id);
             }
             catch (e) {
-                log_1.errorLog(e);
-                return promise_1.promiseNull();
+                (0, log_1.errorLog)(e);
+                return (0, promise_1.promiseNull)();
             }
         };
         this.get = (_id, projection = {}) => {
@@ -38,8 +38,8 @@ class CvRequestRepository {
                 return CvRequest_1.default.findById(_id, projection);
             }
             catch (e) {
-                log_1.errorLog(e);
-                return promise_1.promiseNull();
+                (0, log_1.errorLog)(e);
+                return (0, promise_1.promiseNull)();
             }
         };
         this.update = (data) => {
@@ -47,8 +47,8 @@ class CvRequestRepository {
                 return CvRequest_1.default.findByIdAndUpdate(data._id, data, { new: true });
             }
             catch (e) {
-                log_1.errorLog(e);
-                return promise_1.promiseNull();
+                (0, log_1.errorLog)(e);
+                return (0, promise_1.promiseNull)();
             }
         };
         this.filter = (filter, page, limit, projection = {}) => {
@@ -60,8 +60,8 @@ class CvRequestRepository {
                     .limit(limit);
             }
             catch (e) {
-                log_1.errorLog(e);
-                return promise_1.promiseNull();
+                (0, log_1.errorLog)(e);
+                return (0, promise_1.promiseNull)();
             }
         };
         this.count = (filter) => {
@@ -70,8 +70,8 @@ class CvRequestRepository {
                 return CvRequest_1.default.countDocuments(condition);
             }
             catch (e) {
-                log_1.errorLog(e);
-                return promise_1.promiseNull();
+                (0, log_1.errorLog)(e);
+                return (0, promise_1.promiseNull)();
             }
         };
     }
@@ -80,8 +80,8 @@ class CvRequestRepository {
             return CvRequest_1.default.findOne(getBy, projection);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
 }

@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.convertBase64toImage = exports.detectType = void 0;
 const crypto_1 = __importDefault(require("crypto"));
 const fs_1 = __importDefault(require("fs"));
-exports.detectType = (base64) => {
+const detectType = (base64) => {
     const result = base64.match(/[^:/]\w+(?=;|,)/)[0];
     if (result === "+xml") {
         return "svg";
@@ -24,12 +24,14 @@ exports.detectType = (base64) => {
         return result;
     }
 };
-exports.convertBase64toImage = (base64) => __awaiter(void 0, void 0, void 0, function* () {
+exports.detectType = detectType;
+const convertBase64toImage = (base64) => __awaiter(void 0, void 0, void 0, function* () {
     const base64Data = base64.substr(base64.indexOf(",") + 1);
     const time = Date.now();
     const random = crypto_1.default.randomBytes(10).toString("hex");
     const name = time + "_" + random;
-    yield fs_1.default.writeFileSync(`storage/static/${name}.${exports.detectType(base64)}`, base64Data, "base64");
+    yield fs_1.default.writeFileSync(`storage/static/${name}.${(0, exports.detectType)(base64)}`, base64Data, "base64");
     return name;
 });
+exports.convertBase64toImage = convertBase64toImage;
 //# sourceMappingURL=base64.js.map

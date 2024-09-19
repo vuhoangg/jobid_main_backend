@@ -19,7 +19,7 @@ const elClient = new elasticsearch_1.Client({
         password: ELASTICSEARCH_AUTH_PASSWORD,
     },
 });
-exports.getCoordinatesFromText = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+const getCoordinatesFromText = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     const { body: data } = yield elClient.search({
         index: "coordinates",
         body: {
@@ -66,7 +66,8 @@ exports.getCoordinatesFromText = (source, args, context, info) => __awaiter(void
     }
     return Object.assign({ edges });
 });
-exports.getCoordinatesFromLatLong = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getCoordinatesFromText = getCoordinatesFromText;
+const getCoordinatesFromLatLong = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     const { body: data } = yield elClient.search({
         index: "coordinates",
         body: {
@@ -119,4 +120,5 @@ exports.getCoordinatesFromLatLong = (source, args, context, info) => __awaiter(v
     }
     return Object.assign({ edges });
 });
+exports.getCoordinatesFromLatLong = getCoordinatesFromLatLong;
 //# sourceMappingURL=get.js.map

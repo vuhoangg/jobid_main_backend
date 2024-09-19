@@ -22,8 +22,8 @@ const authenticate_1 = require("../../../middlewares/authenticate");
 //     return CompanyRatingService.update(input).then(async (data) => data);
 //   }
 // };
-exports.createJobRating = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
+const createJobRating = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
         let input = args.input;
         let loggedUser = context.res.locals.fullUser;
         let findRating = yield CompanyRatingRepository_1.default.getBy({ user: loggedUser._id, company: input.company }, {});
@@ -46,4 +46,5 @@ exports.createJobRating = (source, args, context, info) => __awaiter(void 0, voi
         }
     }
 });
+exports.createJobRating = createJobRating;
 //# sourceMappingURL=update.js.map

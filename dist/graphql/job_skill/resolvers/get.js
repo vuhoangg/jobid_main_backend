@@ -12,11 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getJobSkills = exports.getJobSkill = void 0;
+exports.getJobSkill = getJobSkill;
+exports.getJobSkills = getJobSkills;
 const JobSkillRepository_1 = __importDefault(require("../../../db/repositories/JobSkillRepository"));
 const helpers_1 = require("../../helpers");
 function getJobSkill(source, args, context, info) {
-    const fields = helpers_1.rootField(info);
+    const fields = (0, helpers_1.rootField)(info);
     return JobSkillRepository_1.default.get(args._id, fields)
         .then((jobSkill) => __awaiter(this, void 0, void 0, function* () {
         let node = {
@@ -31,10 +32,9 @@ function getJobSkill(source, args, context, info) {
         return node;
     }));
 }
-exports.getJobSkill = getJobSkill;
 function getJobSkills(source, args, context, info) {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     return JobSkillRepository_1.default.filter(filter, args.limit, args.page, infos.edges)
         .then((jobSkills) => __awaiter(this, void 0, void 0, function* () {
         let edges = [];
@@ -62,5 +62,4 @@ function getJobSkills(source, args, context, info) {
         return dataRet;
     }));
 }
-exports.getJobSkills = getJobSkills;
 //# sourceMappingURL=get.js.map

@@ -16,18 +16,19 @@ exports.getCurriculumVitaes = exports.getCurriculumVitae = void 0;
 const helpers_1 = require("../../helpers");
 const CurriculumVitaeRepository_1 = __importDefault(require("../../../db/repositories/CurriculumVitaeRepository"));
 const authenticate_1 = require("../../../middlewares/authenticate");
-exports.getCurriculumVitae = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
-        const fields = helpers_1.rootField(info);
+const getCurriculumVitae = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
+        const fields = (0, helpers_1.rootField)(info);
         return CurriculumVitaeRepository_1.default.get({ _id: args._id, user_created: context.res.locals.fullUser._id, status: "active" }, fields).then((curriculumVitae) => __awaiter(void 0, void 0, void 0, function* () {
             return curriculumVitae;
         }));
     }
 });
-exports.getCurriculumVitaes = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
-        let infos = helpers_1.rootInfo(info);
-        let filter = Object.assign({ user_created: context.res.locals.fullUser._id, status: "active" }, helpers_1.filterObject(args.filter));
+exports.getCurriculumVitae = getCurriculumVitae;
+const getCurriculumVitaes = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
+        let infos = (0, helpers_1.rootInfo)(info);
+        let filter = Object.assign({ user_created: context.res.locals.fullUser._id, status: "active" }, (0, helpers_1.filterObject)(args.filter));
         let limit = args.limit > 1000 ? 10 : args.limit;
         let page = args.page;
         return CurriculumVitaeRepository_1.default.filter(filter, limit, page, infos.edges).then((curriculumVitae) => __awaiter(void 0, void 0, void 0, function* () {
@@ -47,4 +48,5 @@ exports.getCurriculumVitaes = (source, args, context, info) => __awaiter(void 0,
         }));
     }
 });
+exports.getCurriculumVitaes = getCurriculumVitaes;
 //# sourceMappingURL=get.js.map

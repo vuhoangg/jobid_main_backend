@@ -20,11 +20,11 @@ const authenticate_1 = require("../../../middlewares/authenticate");
 const router = express_1.default.Router();
 exports.UploadRouter = router;
 router.post("/upload_image", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(req, res)) {
+    if (yield (0, authenticate_1.authenticateUser)(req, res)) {
         let base64 = req.body.base64_image;
         let fileName = req.body.fileName;
         let typeUpload = req.body.typeUpload;
-        let url = yield s3_1.s3UploadImage(base64, fileName, typeUpload);
+        let url = yield (0, s3_1.s3UploadImage)(base64, fileName, typeUpload);
         res.send({ location: url });
     }
     else {
@@ -32,11 +32,11 @@ router.post("/upload_image", (req, res) => __awaiter(void 0, void 0, void 0, fun
     }
 }));
 router.post("/upload_file", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(req, res)) {
+    if (yield (0, authenticate_1.authenticateUser)(req, res)) {
         let base64 = req.body.base64_image;
         let fileName = req.body.fileName;
         let typeUpload = req.body.typeUpload;
-        let url = yield s3_1.s3UploadFile(base64, fileName, typeUpload);
+        let url = yield (0, s3_1.s3UploadFile)(base64, fileName, typeUpload);
         res.send({ location: url });
     }
     else {
@@ -44,11 +44,11 @@ router.post("/upload_file", (req, res) => __awaiter(void 0, void 0, void 0, func
     }
 }));
 router.post("/upload_file_pdf", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(req, res)) {
+    if (yield (0, authenticate_1.authenticateUser)(req, res)) {
         let baseData = req.body.baseData;
         let fileName = req.body.fileName;
         let typeUpload = req.body.typeUpload;
-        let url = yield s3_1.s3UploadPdf(baseData, fileName, typeUpload);
+        let url = yield (0, s3_1.s3UploadPdf)(baseData, fileName, typeUpload);
         res.send({ location: url });
     }
     else {
@@ -59,17 +59,17 @@ router.post("/private_upload_image_app", (req, res) => __awaiter(void 0, void 0,
     let base64 = req.body.base64_image;
     let fileName = req.body.fileName;
     let typeUpload = req.body.typeUpload;
-    let url = yield s3_1.s3UploadImage(base64, fileName, typeUpload);
+    let url = yield (0, s3_1.s3UploadImage)(base64, fileName, typeUpload);
     res.send({ location: url });
 }));
 router.post("/detect_upload_file", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(req, res)) {
+    if (yield (0, authenticate_1.authenticateUser)(req, res)) {
         let loggedInUser = req.user;
         let timestamp = new Date().getTime();
         let base64 = req.body.base64;
         let fileName = `${loggedInUser._id}_${timestamp}_${req.body.fileName}`;
         let typeUpload = req.body.typeUpload;
-        let url = yield s3_1.s3UploadPdf(base64, fileName, typeUpload);
+        let url = yield (0, s3_1.s3UploadPdf)(base64, fileName, typeUpload);
         let apiDetect = process.env.APP_ENV === "production" ? process.env.DETECT_URL : process.env.LOCAL_DETECT;
         let detected = yield axios_1.default.post(`${apiDetect}/pdf_detect`, {
             url: url,
@@ -85,13 +85,13 @@ router.post("/detect_upload_file", (req, res) => __awaiter(void 0, void 0, void 
 }));
 // ==== TODO new
 router.post("/apply", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(req, res);
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(req, res);
     if (isAuthenticated) {
         let loggedInUser = res.locals.user;
         let timestamp = new Date().getTime();
         let fileContent = req.body.file;
         let fileName = `${loggedInUser}_${timestamp}`;
-        let url = yield s3_1.s3Upload("apply", fileName, fileContent);
+        let url = yield (0, s3_1.s3Upload)("apply", fileName, fileContent);
         res.send({
             location: url
         });
@@ -101,13 +101,13 @@ router.post("/apply", (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 }));
 router.post("/user_avatar", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(req, res);
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(req, res);
     if (isAuthenticated) {
         let loggedInUser = res.locals.user;
         let timestamp = new Date().getTime();
         let fileContent = req.body.file;
         let fileName = `${loggedInUser}_${timestamp}`;
-        let url = yield s3_1.s3Upload("user_avatar", fileName, fileContent);
+        let url = yield (0, s3_1.s3Upload)("user_avatar", fileName, fileContent);
         res.send({
             location: url
         });
@@ -117,13 +117,13 @@ router.post("/user_avatar", (req, res) => __awaiter(void 0, void 0, void 0, func
     }
 }));
 router.post("/job_post_featured", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateEmployer(req, res);
+    let isAuthenticated = yield (0, authenticate_1.authenticateEmployer)(req, res);
     if (isAuthenticated) {
         let loggedInEmployer = res.locals.employer;
         let timestamp = new Date().getTime();
         let fileContent = req.body.file;
         let fileName = `${loggedInEmployer}_${timestamp}`;
-        let url = yield s3_1.s3Upload("job_post_featured", fileName, fileContent);
+        let url = yield (0, s3_1.s3Upload)("job_post_featured", fileName, fileContent);
         res.send({
             location: url
         });
@@ -133,13 +133,13 @@ router.post("/job_post_featured", (req, res) => __awaiter(void 0, void 0, void 0
     }
 }));
 router.post("/job_post_image", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateEmployer(req, res);
+    let isAuthenticated = yield (0, authenticate_1.authenticateEmployer)(req, res);
     if (isAuthenticated) {
         let loggedInEmployer = res.locals.employer;
         let timestamp = new Date().getTime();
         let fileContent = req.body.file;
         let fileName = `${loggedInEmployer}_${timestamp}`;
-        let url = yield s3_1.s3Upload("job_post_image", fileName, fileContent);
+        let url = yield (0, s3_1.s3Upload)("job_post_image", fileName, fileContent);
         res.send({
             location: url
         });
@@ -149,13 +149,13 @@ router.post("/job_post_image", (req, res) => __awaiter(void 0, void 0, void 0, f
     }
 }));
 router.post("/company_people", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateEmployer(req, res);
+    let isAuthenticated = yield (0, authenticate_1.authenticateEmployer)(req, res);
     if (isAuthenticated) {
         let loggedInEmployer = res.locals.employer;
         let timestamp = new Date().getTime();
         let fileContent = req.body.file;
         let fileName = `${loggedInEmployer}_${timestamp}`;
-        let url = yield s3_1.s3Upload("company_people", fileName, fileContent);
+        let url = yield (0, s3_1.s3Upload)("company_people", fileName, fileContent);
         res.send({
             location: url
         });
@@ -165,13 +165,13 @@ router.post("/company_people", (req, res) => __awaiter(void 0, void 0, void 0, f
     }
 }));
 router.post("/company_media", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateEmployer(req, res);
+    let isAuthenticated = yield (0, authenticate_1.authenticateEmployer)(req, res);
     if (isAuthenticated) {
         let loggedInEmployer = res.locals.employer;
         let timestamp = new Date().getTime();
         let fileContent = req.body.file;
         let fileName = `${loggedInEmployer}_${timestamp}`;
-        let url = yield s3_1.s3Upload("company_media", fileName, fileContent);
+        let url = yield (0, s3_1.s3Upload)("company_media", fileName, fileContent);
         res.send({
             location: url
         });
@@ -181,13 +181,13 @@ router.post("/company_media", (req, res) => __awaiter(void 0, void 0, void 0, fu
     }
 }));
 router.post("/company_avatar", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateEmployer(req, res);
+    let isAuthenticated = yield (0, authenticate_1.authenticateEmployer)(req, res);
     if (isAuthenticated) {
         let loggedInEmployer = res.locals.employer;
         let timestamp = new Date().getTime();
         let fileContent = req.body.file;
         let fileName = `${loggedInEmployer}_${timestamp}`;
-        let url = yield s3_1.s3Upload("company_avatar", fileName, fileContent);
+        let url = yield (0, s3_1.s3Upload)("company_avatar", fileName, fileContent);
         res.send({
             location: url
         });
@@ -197,13 +197,13 @@ router.post("/company_avatar", (req, res) => __awaiter(void 0, void 0, void 0, f
     }
 }));
 router.post("/cv_warehouse", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateEmployer(req, res);
+    let isAuthenticated = yield (0, authenticate_1.authenticateEmployer)(req, res);
     if (isAuthenticated) {
         let loggedInEmployer = res.locals.employer;
         let timestamp = new Date().getTime();
         let fileContent = req.body.file;
         let fileName = `${loggedInEmployer}_${timestamp}`;
-        let url = yield s3_1.s3Upload("cv_warehouse", fileName, fileContent);
+        let url = yield (0, s3_1.s3Upload)("cv_warehouse", fileName, fileContent);
         res.send({
             location: url
         });

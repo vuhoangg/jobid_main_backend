@@ -3,15 +3,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose = require("mongoose");
 const notificationSchema = new mongoose.Schema({
     type: {
-        type: String,
+        type: String, // user | system | employer Loại thông báo từ đâu
         required: true,
     },
     subject: {
-        type: String,
+        type: String, // user_apply_job Thông báo hành động gì
         required: true,
     },
     target: {
-        object_type: String,
+        object_type: String, // user | employer Thông báo đến đâu
         ref: String,
     },
     message: {

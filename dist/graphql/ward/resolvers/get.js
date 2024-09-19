@@ -16,8 +16,8 @@ exports.getWards = exports.getWard = void 0;
 const WardRepository_1 = __importDefault(require("../../../db/repositories/WardRepository"));
 const helpers_1 = require("../../helpers");
 const seo_1 = require("../../../helpers/seo");
-exports.getWard = (source, args, context, info) => {
-    const fieldsRoot = helpers_1.rootField(info);
+const getWard = (source, args, context, info) => {
+    const fieldsRoot = (0, helpers_1.rootField)(info);
     let getBy = args._id ? { _id: args._id } : { slug: args.slug };
     return WardRepository_1.default.get(getBy, fieldsRoot).then((ward) => {
         const dataWard = {
@@ -30,7 +30,7 @@ exports.getWard = (source, args, context, info) => {
             image: ward.image,
             image_description: ward.image_description,
             seo_title: ward.seo_title ? ward.seo_title : ward.title,
-            seo_description: ward.seo_description ? ward.seo_description : seo_1.seoDescription(ward.description),
+            seo_description: ward.seo_description ? ward.seo_description : (0, seo_1.seoDescription)(ward.description),
             focus_keyword: ward.focus_keyword,
             created_at: ward.created_at,
             updated_at: ward.updated_at,
@@ -38,9 +38,10 @@ exports.getWard = (source, args, context, info) => {
         return dataWard;
     });
 };
-exports.getWards = (source, args, context, info) => {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+exports.getWard = getWard;
+const getWards = (source, args, context, info) => {
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     return WardRepository_1.default.filter(filter, args.limit, args.page, infos.edges).then((wards) => __awaiter(void 0, void 0, void 0, function* () {
         let edges = [];
         for (let i = 0; i < wards.length; i++) {
@@ -56,7 +57,7 @@ exports.getWards = (source, args, context, info) => {
                     image: wards[i].image,
                     image_description: wards[i].image_description,
                     seo_title: wards[i].seo_title ? wards[i].seo_title : wards[i].title,
-                    seo_description: wards[i].seo_description ? wards[i].seo_description : seo_1.seoDescription(wards[i].description),
+                    seo_description: wards[i].seo_description ? wards[i].seo_description : (0, seo_1.seoDescription)(wards[i].description),
                     focus_keyword: wards[i].focus_keyword,
                     created_at: wards[i].created_at,
                     updated_at: wards[i].updated_at,
@@ -73,4 +74,5 @@ exports.getWards = (source, args, context, info) => {
         return dataRet;
     }));
 };
+exports.getWards = getWards;
 //# sourceMappingURL=get.js.map

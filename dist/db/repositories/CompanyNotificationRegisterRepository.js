@@ -33,8 +33,8 @@ class CompanyNotificationRegisterRepository {
             return CompanyNotificationRegister_1.default.countDocuments(condition);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     create(data) {
@@ -42,8 +42,8 @@ class CompanyNotificationRegisterRepository {
             return CompanyNotificationRegister_1.default.create(data);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     delete(id) {
@@ -51,8 +51,8 @@ class CompanyNotificationRegisterRepository {
             return CompanyNotificationRegister_1.default.findByIdAndRemove(id);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     get(id, projection) {
@@ -60,8 +60,8 @@ class CompanyNotificationRegisterRepository {
             return CompanyNotificationRegister_1.default.findById(id, projection);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     filter(filter, limit, page, projection) {
@@ -72,8 +72,8 @@ class CompanyNotificationRegisterRepository {
                 .populate('company');
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     getBy(getBy, projection) {
@@ -81,8 +81,8 @@ class CompanyNotificationRegisterRepository {
             return CompanyNotificationRegister_1.default.findOne(getBy, projection).populate('user').populate('company');
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     update(data) {
@@ -99,8 +99,8 @@ class CompanyNotificationRegisterRepository {
             });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
 }

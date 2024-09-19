@@ -5,7 +5,7 @@ const get_1 = require("../resolvers/get");
 const types_1 = require("../types");
 const logoutQueries = {
     logout: {
-        resolve: (source, args, context, info) => get_1.logout(args, context),
+        resolve: (source, args, context, info) => (0, get_1.logout)(args, context),
         type: new graphql_1.GraphQLNonNull(types_1.LogoutType),
     },
 };

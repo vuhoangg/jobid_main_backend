@@ -10,13 +10,13 @@ exports.s3 = new aws_sdk_1.default.S3({
     accessKeyId: process.env.AWS_ID,
     secretAccessKey: process.env.AWS_SECRET,
 });
-exports.s3UploadImage = (fileContent, fileName, typeUpload) => {
+const s3UploadImage = (fileContent, fileName, typeUpload) => {
     const type = fileContent.split(";")[0].split("/")[1];
     const base64Data = Buffer.from(fileContent.replace(/^data:image\/\w+;base64,/, ""), "base64");
     return new Promise((resolve) => {
         const params = {
             Bucket: `${process.env.S3_BUCKET_NAME}/${typeUpload}`,
-            Key: `${fileName}`,
+            Key: `${fileName}`, // File name you want to save as in S3
             Body: base64Data,
             ContentType: `image/${type}`,
             ACL: process.env.S3_FILE_PERMISSION,
@@ -33,13 +33,14 @@ exports.s3UploadImage = (fileContent, fileName, typeUpload) => {
     // const fileContent = fs.readFileSync(fileName);
     // Setting up S3 upload parameters
 };
-exports.s3UploadFile = (fileContent, fileName, typeUpload) => {
+exports.s3UploadImage = s3UploadImage;
+const s3UploadFile = (fileContent, fileName, typeUpload) => {
     const type = fileContent.split(";")[0].split("/")[1];
     const base64Data = Buffer.from(fileContent.replace(/^data:image\/\w+;base64,/, ""), "base64");
     return new Promise((resolve) => {
         const params = {
             Bucket: `${process.env.S3_BUCKET_NAME}/${typeUpload}`,
-            Key: fileName,
+            Key: fileName, // File name you want to save as in S3
             Body: base64Data,
             ContentType: `image/${type}`,
             ACL: process.env.S3_FILE_PERMISSION,
@@ -56,13 +57,14 @@ exports.s3UploadFile = (fileContent, fileName, typeUpload) => {
     // const fileContent = fs.readFileSync(fileName);
     // Setting up S3 upload parameters
 };
-exports.s3UploadPdf = (fileContent, fileName, typeUpload) => {
+exports.s3UploadFile = s3UploadFile;
+const s3UploadPdf = (fileContent, fileName, typeUpload) => {
     const type = fileContent.split(";")[0].split("/")[1];
-    const baseData = data_uri_to_buffer_1.default(fileContent);
+    const baseData = (0, data_uri_to_buffer_1.default)(fileContent);
     return new Promise((resolve) => {
         const params = {
             Bucket: `${process.env.S3_BUCKET_NAME}/${typeUpload}`,
-            Key: fileName,
+            Key: fileName, // File name you want to save as in S3
             Body: baseData,
             ContentType: `application/${type}`,
             ACL: process.env.S3_FILE_PERMISSION,
@@ -79,16 +81,17 @@ exports.s3UploadPdf = (fileContent, fileName, typeUpload) => {
     // const fileContent = fs.readFileSync(fileName);
     // Setting up S3 upload parameters
 };
-exports.s3Upload = (directory, fileName, fileContent) => {
+exports.s3UploadPdf = s3UploadPdf;
+const s3Upload = (directory, fileName, fileContent) => {
     let headerData = fileContent.split(";")[0];
     let contentType = headerData.replace("data:", "");
     let extension = contentType.split("/")[1];
     let key = `${fileName}.${extension}`;
-    const baseData = data_uri_to_buffer_1.default(fileContent);
+    const baseData = (0, data_uri_to_buffer_1.default)(fileContent);
     return new Promise((resolve) => {
         const params = {
             Bucket: `${process.env.S3_BUCKET_NAME}/${directory}`,
-            Key: key,
+            Key: key, // File name you want to save as in S3
             Body: baseData,
             ContentType: contentType,
             ACL: process.env.S3_FILE_PERMISSION,
@@ -102,4 +105,5 @@ exports.s3Upload = (directory, fileName, fileContent) => {
         });
     });
 };
+exports.s3Upload = s3Upload;
 //# sourceMappingURL=index.js.map

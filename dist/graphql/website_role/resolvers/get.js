@@ -12,11 +12,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getWebsiteRole = void 0;
 const permission_1 = require("../../../helpers/permission");
 const authenticate_1 = require("../../../middlewares/authenticate");
-exports.getWebsiteRole = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
+const getWebsiteRole = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
         let loggedInUser = context.res.locals.fullUser;
         let email = loggedInUser.email;
-        if (permission_1.isSuperUser(email)) {
+        if ((0, permission_1.isSuperUser)(email)) {
             return {
                 role: "super_admin",
             };
@@ -26,4 +26,5 @@ exports.getWebsiteRole = (source, args, context, info) => __awaiter(void 0, void
         role: "member",
     };
 });
+exports.getWebsiteRole = getWebsiteRole;
 //# sourceMappingURL=get.js.map

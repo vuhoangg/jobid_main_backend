@@ -12,11 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getBenefits = exports.getBenefit = void 0;
+exports.getBenefit = getBenefit;
+exports.getBenefits = getBenefits;
 const BenefitRepository_1 = __importDefault(require("../../../db/repositories/BenefitRepository"));
 const helpers_1 = require("../../helpers");
 function getBenefit(source, args, context, info) {
-    const fields = helpers_1.rootField(info);
+    const fields = (0, helpers_1.rootField)(info);
     return BenefitRepository_1.default.get(args._id, fields)
         .then((benefit) => __awaiter(this, void 0, void 0, function* () {
         let node = {
@@ -31,10 +32,9 @@ function getBenefit(source, args, context, info) {
         return node;
     }));
 }
-exports.getBenefit = getBenefit;
 function getBenefits(source, args, context, info) {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     let limit = args.limit > 1000 ? 10 : args.limit;
     let page = args.page;
     return BenefitRepository_1.default.filter(filter, limit, page, infos.edges)
@@ -65,5 +65,4 @@ function getBenefits(source, args, context, info) {
         return dataRet;
     }));
 }
-exports.getBenefits = getBenefits;
 //# sourceMappingURL=get.js.map

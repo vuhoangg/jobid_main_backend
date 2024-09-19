@@ -8,13 +8,13 @@ const candidateSchema = new mongoose.Schema({
     last_name: {
         type: String,
     },
-    interest: [String],
+    interest: [String], // important
     job_open: {
         type: Boolean,
         default: false,
     },
     user: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId, // nếu là user chủ up lên thì có, lấy thông tin trong user chủ
         ref: "User",
     },
     avatar: String,

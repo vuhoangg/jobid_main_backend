@@ -12,11 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getClientSubcribers = exports.getClientSubcriber = void 0;
+exports.getClientSubcriber = getClientSubcriber;
+exports.getClientSubcribers = getClientSubcribers;
 const ClientSubcriberRepository_1 = __importDefault(require("../../../db/repositories/ClientSubcriberRepository"));
 const helpers_1 = require("../../helpers");
 function getClientSubcriber(source, args, context, info) {
-    const fields = helpers_1.rootField(info);
+    const fields = (0, helpers_1.rootField)(info);
     return ClientSubcriberRepository_1.default.get(args._id, fields)
         .then((client) => __awaiter(this, void 0, void 0, function* () {
         let node = {
@@ -30,10 +31,9 @@ function getClientSubcriber(source, args, context, info) {
         return node;
     }));
 }
-exports.getClientSubcriber = getClientSubcriber;
 function getClientSubcribers(source, args, context, info) {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     let limit = args.limit > 1000 ? 10 : args.limit;
     let page = args.page;
     return ClientSubcriberRepository_1.default.filter(filter, limit, page, infos.edges)
@@ -62,5 +62,4 @@ function getClientSubcribers(source, args, context, info) {
         return dataRet;
     }));
 }
-exports.getClientSubcribers = getClientSubcribers;
 //# sourceMappingURL=get.js.map

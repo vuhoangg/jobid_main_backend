@@ -21,11 +21,11 @@ const JobApplyRepository_1 = __importDefault(require("../../../db/repositories/J
 const seo_1 = require("../../../helpers/seo");
 const JobPostReportRepository_1 = __importDefault(require("../../../db/repositories/JobPostReportRepository"));
 const geolib_1 = require("geolib");
-exports.getJobPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    const fields = helpers_1.rootField(info);
+const getJobPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    const fields = (0, helpers_1.rootField)(info);
     let getBy = args._id ? { _id: args._id } : { slug: args.slug };
     let jobPost = yield JobPostRepository_1.default.getBy(getBy, fields);
-    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(context, context.res);
     let loggedUser = null;
     if (isAuthenticated) {
         loggedUser = context.res.locals.fullUser;
@@ -64,7 +64,7 @@ exports.getJobPost = (source, args, context, info) => __awaiter(void 0, void 0, 
         report_count: report_count,
         status: jobPost.status,
         seo_title: jobPost.seo_title || jobPost.title,
-        seo_description: jobPost.seo_description || seo_1.seoDescription(jobPost.description),
+        seo_description: jobPost.seo_description || (0, seo_1.seoDescription)(jobPost.description),
         is_featured: is_featured,
         is_wishlist: is_wishlist,
         created_at: jobPost.created_at,
@@ -72,9 +72,10 @@ exports.getJobPost = (source, args, context, info) => __awaiter(void 0, void 0, 
     };
     return node;
 });
-exports.getJobPosts = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+exports.getJobPost = getJobPost;
+const getJobPosts = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     let limit = args.limit > 1000 ? 10 : args.limit;
     let page = args.page;
     if (filter.job_near) {
@@ -82,8 +83,8 @@ exports.getJobPosts = (source, args, context, info) => __awaiter(void 0, void 0,
         let latitude = Number(filter.latitude);
         let longitude = Number(filter.longitude);
         if (latitude && longitude) {
-            const bound = geolib_1.getBoundsOfDistance({ lat: latitude, lng: longitude }, range * 1000 / Math.sqrt(2));
-            let coordinate = geolib_1.getBounds(bound);
+            const bound = (0, geolib_1.getBoundsOfDistance)({ lat: latitude, lng: longitude }, range * 1000 / Math.sqrt(2));
+            let coordinate = (0, geolib_1.getBounds)(bound);
             filter = Object.assign(filter, { coordinate: coordinate });
         }
     }
@@ -91,7 +92,7 @@ exports.getJobPosts = (source, args, context, info) => __awaiter(void 0, void 0,
     if (jobPosts) {
         let edges = [];
         let loggedUser = null;
-        if (yield authenticate_1.authenticateUser(context, context.res)) {
+        if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
             loggedUser = context.res.locals.fullUser;
         }
         for (let i = 0; i < jobPosts.length; i++) {
@@ -109,7 +110,7 @@ exports.getJobPosts = (source, args, context, info) => __awaiter(void 0, void 0,
                 let address = jobPosts[i].address;
                 for (let x = 0; x < address.length; x++) {
                     if (address[x].lat && address[x].lng) {
-                        let computedRange = geolib_1.getDistance({ latitude: Number(filter.latitude), longitude: Number(filter.longitude) }, { latitude: Number(address[x].lat), longitude: Number(address[x].lng) });
+                        let computedRange = (0, geolib_1.getDistance)({ latitude: Number(filter.latitude), longitude: Number(filter.longitude) }, { latitude: Number(address[x].lat), longitude: Number(address[x].lng) });
                         if (computedRange < minRange) {
                             minRange = computedRange;
                             rangeLat = Number(filter.latitude);
@@ -147,7 +148,7 @@ exports.getJobPosts = (source, args, context, info) => __awaiter(void 0, void 0,
                     range_lng: rangeLng,
                     status: jobPosts[i].status,
                     seo_title: jobPosts[i].seo_title || jobPosts[i].title,
-                    seo_description: jobPosts[i].seo_description || seo_1.seoDescription(jobPosts[i].seo_description),
+                    seo_description: jobPosts[i].seo_description || (0, seo_1.seoDescription)(jobPosts[i].seo_description),
                     is_featured: is_featured,
                     is_wishlist: is_wishlist,
                     created_at: jobPosts[i].created_at,
@@ -165,4 +166,5 @@ exports.getJobPosts = (source, args, context, info) => __awaiter(void 0, void 0,
         return dataRet;
     }
 });
+exports.getJobPosts = getJobPosts;
 //# sourceMappingURL=get.js.map

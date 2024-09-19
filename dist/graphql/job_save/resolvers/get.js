@@ -12,11 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getJobSaves = exports.getJobSave = void 0;
+exports.getJobSave = getJobSave;
+exports.getJobSaves = getJobSaves;
 const JobSaveRepository_1 = __importDefault(require("../../../db/repositories/JobSaveRepository"));
 const helpers_1 = require("../../helpers");
 function getJobSave(source, args, context, info) {
-    const fields = helpers_1.rootField(info);
+    const fields = (0, helpers_1.rootField)(info);
     return JobSaveRepository_1.default.get(args._id, fields)
         .then((jobSave) => __awaiter(this, void 0, void 0, function* () {
         let node = {
@@ -29,10 +30,9 @@ function getJobSave(source, args, context, info) {
         return node;
     }));
 }
-exports.getJobSave = getJobSave;
 function getJobSaves(source, args, context, info) {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     let limit = args.limit > 1000 ? 10 : args.limit;
     let page = args.page;
     return JobSaveRepository_1.default.filter(filter, limit, page, infos.edges)
@@ -60,5 +60,4 @@ function getJobSaves(source, args, context, info) {
         return dataRet;
     }));
 }
-exports.getJobSaves = getJobSaves;
 //# sourceMappingURL=get.js.map

@@ -19,11 +19,11 @@ const permission_1 = require("../../../helpers/permission");
 const UserRepository_1 = __importDefault(require("../../../db/repositories/UserRepository"));
 const string_1 = require("../../../helpers/string");
 const authenticate_1 = require("../../../middlewares/authenticate");
-exports.updateCompany = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = authenticate_1.authenticateEmployer(context, context.res);
+const updateCompany = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = (0, authenticate_1.authenticateEmployer)(context, context.res);
     if (isAuthenticated) {
         let loggedEmployer = context.res.locals.fullEmployer;
-        if (permission_1.isSuperUser(loggedEmployer.email)) {
+        if ((0, permission_1.isSuperUser)(loggedEmployer.email)) {
             return CompanyRepository_1.default.update(args.input);
         }
         else {
@@ -38,17 +38,19 @@ exports.updateCompany = (source, args, context, info) => __awaiter(void 0, void 
         }
     }
 });
-exports.createCompany = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+exports.updateCompany = updateCompany;
+const createCompany = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     let input = args.input;
-    input.slug = string_1.toSlug(input.name, true).toLowerCase();
-    let isAuthenticated = yield authenticate_1.authenticateEmployer(context, context.res);
+    input.slug = (0, string_1.toSlug)(input.name, true).toLowerCase();
+    let isAuthenticated = yield (0, authenticate_1.authenticateEmployer)(context, context.res);
     if (isAuthenticated) {
         let loggedEmployer = context.res.locals.fullEmployer;
         input = Object.assign(input, { created_by: loggedEmployer._id });
         return CompanyRepository_1.default.create(input);
     }
 });
-exports.assignPermission = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+exports.createCompany = createCompany;
+const assignPermission = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     const dataUpdateUser = args.input.listUser.map((item) => ({
         _id: item,
         company_role: { company_id: args.input.company, group_permission: args.input.permission },
@@ -59,32 +61,35 @@ exports.assignPermission = (source, args, context, info) => __awaiter(void 0, vo
     }));
     Promise.all(dataUpdateUser.map((data) => UserRepository_1.default.updateCompanyPermission(data)));
     Promise.all(dataUpdateCompany.map((data) => CompanyRepository_1.default.updateUserPermission(data)));
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
         return { status: 200 };
     }
 });
-exports.verifyCompany = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
+exports.assignPermission = assignPermission;
+const verifyCompany = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
-        if (permission_1.isSuperUser(loggedUser.email)) {
+        if ((0, permission_1.isSuperUser)(loggedUser.email)) {
             return CompanyRepository_1.default.verify(input._id);
         }
     }
 });
-exports.premiumCompany = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
+exports.verifyCompany = verifyCompany;
+const premiumCompany = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
-        if (permission_1.isSuperUser(loggedUser.email)) {
+        if ((0, permission_1.isSuperUser)(loggedUser.email)) {
             return CompanyRepository_1.default.premium(input._id);
         }
     }
 });
-exports.trackingBySlug = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+exports.premiumCompany = premiumCompany;
+const trackingBySlug = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     let input = args.input;
     let company = yield CompanyRepository_1.default.increaseViewCountBySlug(input.slug);
-    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let payload = {
@@ -97,4 +102,5 @@ exports.trackingBySlug = (source, args, context, info) => __awaiter(void 0, void
         status: true
     };
 });
+exports.trackingBySlug = trackingBySlug;
 //# sourceMappingURL=update.js.map

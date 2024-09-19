@@ -42,8 +42,8 @@ class CandidateRepository {
             return Candidate_1.default.countDocuments(condition);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     create(data) {
@@ -51,8 +51,8 @@ class CandidateRepository {
             return Candidate_1.default.create(data);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     delete(id) {
@@ -60,8 +60,8 @@ class CandidateRepository {
             return Candidate_1.default.findByIdAndRemove(id);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     get(id, projection) {
@@ -69,8 +69,8 @@ class CandidateRepository {
             return Candidate_1.default.findById(id, projection).populate('upload_by');
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     filter(filter, limit, page, projection) {
@@ -80,8 +80,8 @@ class CandidateRepository {
             return Candidate_1.default.find(condition, projection).sort(sort).skip(limit * (page - 1)).limit(limit).populate('upload_by');
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     getBy(getBy, projection) {
@@ -90,12 +90,12 @@ class CandidateRepository {
                 return Candidate_1.default.findById(getBy._id, projection).populate('upload_by');
             }
             else {
-                return promise_1.promiseNull();
+                return (0, promise_1.promiseNull)();
             }
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     update(data) {
@@ -103,8 +103,8 @@ class CandidateRepository {
             return Candidate_1.default.findByIdAndUpdate(data._id, data, { new: true }).populate('upload_by');
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
 }

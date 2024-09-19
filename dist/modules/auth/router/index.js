@@ -77,7 +77,7 @@ router.post("/user/login", (req, res, next) => {
         next();
     }
 }, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(req, res);
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(req, res);
     if (isAuthenticated) {
         const user_id = res.locals.user;
         const user = yield UserRepository_1.default.getById(user_id);
@@ -95,7 +95,7 @@ router.post("/employer/login", (req, res, next) => {
         next();
     }
 }, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateEmployer(req, res);
+    let isAuthenticated = yield (0, authenticate_1.authenticateEmployer)(req, res);
     if (isAuthenticated) {
         const employer_id = res.locals.employer;
         const employer = yield EmployerRepository_1.default.getById(employer_id);
@@ -106,7 +106,7 @@ router.post("/employer/login", (req, res, next) => {
     }
 }));
 router.post("/user/logout", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(req, res);
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(req, res);
     if (isAuthenticated) {
         const user_id = res.locals.user;
         yield UserRepository_1.default.logout(user_id);
@@ -115,7 +115,7 @@ router.post("/user/logout", (req, res) => __awaiter(void 0, void 0, void 0, func
     }
 }));
 router.post("/employer/logout", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateEmployer(req, res);
+    let isAuthenticated = yield (0, authenticate_1.authenticateEmployer)(req, res);
     if (isAuthenticated) {
         const employer_id = res.locals.employer;
         yield EmployerRepository_1.default.logout(employer_id);
@@ -126,7 +126,7 @@ router.post("/employer/logout", (req, res) => __awaiter(void 0, void 0, void 0, 
 router.post("/user/refresh-token", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield UserRepository_1.default.findUserRefreshToken(req.body.accessToken);
     if (user) {
-        const accessToken = yield handles_1.handleTokenAuthUser(user);
+        const accessToken = yield (0, handles_1.handleTokenAuthUser)(user);
         res.json({ user_id: user.user_chiase, accessToken });
     }
     else {
@@ -136,7 +136,7 @@ router.post("/user/refresh-token", (req, res) => __awaiter(void 0, void 0, void 
 router.post("/employer/refresh-token", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const employer = yield EmployerRepository_1.default.findEmployerRefreshToken(req.body.accessToken);
     if (employer) {
-        const accessToken = yield handles_1.handleTokenAuthEmployer(employer);
+        const accessToken = yield (0, handles_1.handleTokenAuthEmployer)(employer);
         res.json({ accessToken });
     }
     else {

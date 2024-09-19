@@ -35,8 +35,8 @@ class EmployerRepository {
             return Employer_1.default.countDocuments(condition);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     create(data) {
@@ -44,8 +44,8 @@ class EmployerRepository {
             return Employer_1.default.create(data);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     delete(id) {
@@ -53,8 +53,8 @@ class EmployerRepository {
             return Employer_1.default.findByIdAndRemove(id);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     get(id, projection) {
@@ -62,8 +62,8 @@ class EmployerRepository {
             return Employer_1.default.findById(id, projection);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     filter(filter, limit, page, projection) {
@@ -76,8 +76,8 @@ class EmployerRepository {
                 .limit(limit);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     getBy(getBy, projection) {
@@ -89,12 +89,12 @@ class EmployerRepository {
                 return Employer_1.default.findOne({ email: getBy.email }, projection);
             }
             else {
-                return promise_1.promiseNull();
+                return (0, promise_1.promiseNull)();
             }
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     update(data) {
@@ -102,8 +102,8 @@ class EmployerRepository {
             return Employer_1.default.findByIdAndUpdate(data._id, data, { new: true });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     logout(_id) {
@@ -111,8 +111,8 @@ class EmployerRepository {
             return Employer_1.default.findByIdAndUpdate(_id, { accessToken: "", refreshToken: "" });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     findEmployerRefreshToken(accessToken) {
@@ -126,8 +126,8 @@ class EmployerRepository {
             return Employer_1.default.findByIdAndUpdate(data._id, { $addToSet: { company_role: data.company_role } }, { new: true });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     markSpam(_id) {
@@ -135,8 +135,8 @@ class EmployerRepository {
             return Employer_1.default.findByIdAndUpdate(_id, { $inc: { spam: 1 } }, { new: true });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     removeSpam(_id) {
@@ -144,8 +144,8 @@ class EmployerRepository {
             return Employer_1.default.findByIdAndUpdate(_id, { spam: 0 }, { new: true });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     getById(_id) {
@@ -153,8 +153,8 @@ class EmployerRepository {
             return Employer_1.default.findById(_id);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
 }

@@ -12,11 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCompanyFeatures = exports.getCompanyFeature = void 0;
+exports.getCompanyFeature = getCompanyFeature;
+exports.getCompanyFeatures = getCompanyFeatures;
 const helpers_1 = require("../../helpers");
 const CompanyFeatureRepository_1 = __importDefault(require("../../../db/repositories/CompanyFeatureRepository"));
 function getCompanyFeature(source, args, context, info) {
-    const fields = helpers_1.rootField(info);
+    const fields = (0, helpers_1.rootField)(info);
     return CompanyFeatureRepository_1.default.get(args._id, fields).then((companyFeature) => __awaiter(this, void 0, void 0, function* () {
         let node = {
             _id: companyFeature._id,
@@ -28,10 +29,9 @@ function getCompanyFeature(source, args, context, info) {
         return node;
     }));
 }
-exports.getCompanyFeature = getCompanyFeature;
 function getCompanyFeatures(source, args, context, info) {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     let limit = args.limit > 1000 ? 10 : args.limit;
     let page = args.page;
     return CompanyFeatureRepository_1.default.filter(filter, limit, page, infos.edges).then((companyFeature) => __awaiter(this, void 0, void 0, function* () {
@@ -56,5 +56,4 @@ function getCompanyFeatures(source, args, context, info) {
         return dataRet;
     }));
 }
-exports.getCompanyFeatures = getCompanyFeatures;
 //# sourceMappingURL=get.js.map

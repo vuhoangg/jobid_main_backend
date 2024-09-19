@@ -15,8 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateStatusJobApplyOther = exports.updateJobApplyOther = void 0;
 const JobApplyOtherRepository_1 = __importDefault(require("../../../db/repositories/JobApplyOtherRepository"));
 const authenticate_1 = require("../../../middlewares/authenticate");
-exports.updateJobApplyOther = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
+const updateJobApplyOther = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
         input = Object.assign(input, { user: loggedUser._id, status: "pending" });
@@ -55,10 +55,12 @@ exports.updateJobApplyOther = (source, args, context, info) => __awaiter(void 0,
         }));
     }
 });
-exports.updateStatusJobApplyOther = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
+exports.updateJobApplyOther = updateJobApplyOther;
+const updateStatusJobApplyOther = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
         let input = args.input;
         return JobApplyOtherRepository_1.default.update(input);
     }
 });
+exports.updateStatusJobApplyOther = updateStatusJobApplyOther;
 //# sourceMappingURL=update.js.map

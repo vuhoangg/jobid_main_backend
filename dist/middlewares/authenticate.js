@@ -17,7 +17,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const UserRepository_1 = __importDefault(require("../db/repositories/UserRepository"));
 const EmployerRepository_1 = __importDefault(require("../db/repositories/EmployerRepository"));
 const AdminRepository_1 = __importDefault(require("../db/repositories/AdminRepository"));
-exports.authenticateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const authenticateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const accessToken = req.cookies.knv_accessToken;
     if (!accessToken) {
         res.clearCookie("knv_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: true });
@@ -37,12 +37,13 @@ exports.authenticateUser = (req, res) => __awaiter(void 0, void 0, void 0, funct
             }
             else if (err.name === "TokenExpiredError") {
                 const user = yield UserRepository_1.default.findUserRefreshToken(accessToken);
-                return exports.handleRefreshTokenUser(res, user);
+                return (0, exports.handleRefreshTokenUser)(res, user);
             }
         }
     }
 });
-exports.handleRefreshTokenUser = (res, user) => __awaiter(void 0, void 0, void 0, function* () {
+exports.authenticateUser = authenticateUser;
+const handleRefreshTokenUser = (res, user) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const decoded = jsonwebtoken_1.default.verify(user.refreshToken, process.env.USER_JWT_SECRET);
         const accessToken = jsonwebtoken_1.default.sign({
@@ -67,7 +68,8 @@ exports.handleRefreshTokenUser = (res, user) => __awaiter(void 0, void 0, void 0
         return false;
     }
 });
-exports.authenticateEmployer = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.handleRefreshTokenUser = handleRefreshTokenUser;
+const authenticateEmployer = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const accessToken = req.cookies.employer_accessToken;
     if (!accessToken) {
         res.clearCookie("employer_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: true });
@@ -87,12 +89,13 @@ exports.authenticateEmployer = (req, res) => __awaiter(void 0, void 0, void 0, f
             }
             else if (err.name === "TokenExpiredError") {
                 const employer = yield EmployerRepository_1.default.findEmployerRefreshToken(accessToken);
-                return exports.handleRefreshTokenEmployer(res, employer);
+                return (0, exports.handleRefreshTokenEmployer)(res, employer);
             }
         }
     }
 });
-exports.handleRefreshTokenEmployer = (res, employer) => __awaiter(void 0, void 0, void 0, function* () {
+exports.authenticateEmployer = authenticateEmployer;
+const handleRefreshTokenEmployer = (res, employer) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const decoded = jsonwebtoken_1.default.verify(employer.refreshToken, process.env.EMPLOYER_JWT_SECRET);
         const accessToken = jsonwebtoken_1.default.sign({
@@ -117,7 +120,8 @@ exports.handleRefreshTokenEmployer = (res, employer) => __awaiter(void 0, void 0
         return false;
     }
 });
-exports.authenticateAdmin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.handleRefreshTokenEmployer = handleRefreshTokenEmployer;
+const authenticateAdmin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const accessToken = req.cookies.admin_accessToken;
     if (!accessToken) {
         res.clearCookie("admin_accessToken", { path: "/", domain: process.env.COOKIE_SHARE_DOMAIN, httpOnly: true });
@@ -137,12 +141,13 @@ exports.authenticateAdmin = (req, res) => __awaiter(void 0, void 0, void 0, func
             }
             else if (err.name === "TokenExpiredError") {
                 const admin = yield AdminRepository_1.default.findAdminRefreshToken(accessToken);
-                return exports.handleRefreshTokenAdmin(res, admin);
+                return (0, exports.handleRefreshTokenAdmin)(res, admin);
             }
         }
     }
 });
-exports.handleRefreshTokenAdmin = (res, admin) => __awaiter(void 0, void 0, void 0, function* () {
+exports.authenticateAdmin = authenticateAdmin;
+const handleRefreshTokenAdmin = (res, admin) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const decoded = jsonwebtoken_1.default.verify(admin.refreshToken, process.env.ADMIN_JWT_SECRET);
         const accessToken = jsonwebtoken_1.default.sign({
@@ -167,4 +172,5 @@ exports.handleRefreshTokenAdmin = (res, admin) => __awaiter(void 0, void 0, void
         return false;
     }
 });
+exports.handleRefreshTokenAdmin = handleRefreshTokenAdmin;
 //# sourceMappingURL=authenticate.js.map

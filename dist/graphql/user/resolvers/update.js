@@ -16,8 +16,8 @@ exports.removeSpam = exports.markSpam = exports.updateUser = void 0;
 const UserRepository_1 = __importDefault(require("../../../db/repositories/UserRepository"));
 const permission_1 = require("../../../helpers/permission");
 const authenticate_1 = require("../../../middlewares/authenticate");
-exports.updateUser = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
+const updateUser = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
         if (input && input.customize_info && input.customize_info.first_name && input.customize_info.last_name) {
@@ -27,22 +27,25 @@ exports.updateUser = (source, args, context, info) => __awaiter(void 0, void 0, 
         return UserRepository_1.default.update(input);
     }
 });
-exports.markSpam = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
+exports.updateUser = updateUser;
+const markSpam = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
-        if (permission_1.isSuperUser(loggedUser.email)) {
+        if ((0, permission_1.isSuperUser)(loggedUser.email)) {
             return UserRepository_1.default.markSpam(input._id);
         }
     }
 });
-exports.removeSpam = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
+exports.markSpam = markSpam;
+const removeSpam = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
-        if (permission_1.isSuperUser(loggedUser.email)) {
+        if ((0, permission_1.isSuperUser)(loggedUser.email)) {
             return UserRepository_1.default.removeSpam(input._id);
         }
     }
 });
+exports.removeSpam = removeSpam;
 //# sourceMappingURL=update.js.map

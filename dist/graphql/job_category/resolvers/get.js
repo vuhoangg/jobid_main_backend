@@ -12,11 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getJobCategorys = exports.getJobCategory = void 0;
+exports.getJobCategory = void 0;
+exports.getJobCategorys = getJobCategorys;
 const JobCategoryRepository_1 = __importDefault(require("../../../db/repositories/JobCategoryRepository"));
 const helpers_1 = require("../../helpers");
-exports.getJobCategory = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    const fields = helpers_1.rootField(info);
+const getJobCategory = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    const fields = (0, helpers_1.rootField)(info);
     let getBy = args._id ? { _id: args._id } : { slug: args.slug };
     let jobCategory = yield JobCategoryRepository_1.default.getBy(getBy, fields);
     if (jobCategory) {
@@ -32,9 +33,10 @@ exports.getJobCategory = (source, args, context, info) => __awaiter(void 0, void
         return node;
     }
 });
+exports.getJobCategory = getJobCategory;
 function getJobCategorys(source, args, context, info) {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     return JobCategoryRepository_1.default.filter(filter, args.limit, args.page, infos.edges)
         .then((jobCategorys) => __awaiter(this, void 0, void 0, function* () {
         let edges = [];
@@ -62,5 +64,4 @@ function getJobCategorys(source, args, context, info) {
         return dataRet;
     }));
 }
-exports.getJobCategorys = getJobCategorys;
 //# sourceMappingURL=get.js.map

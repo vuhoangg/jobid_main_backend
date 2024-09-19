@@ -45,8 +45,8 @@ class CommunityPostRepository {
             return CommunityPost_1.default.countDocuments(condition);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     create(data) {
@@ -54,8 +54,8 @@ class CommunityPostRepository {
             return CommunityPost_1.default.create(data);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     delete(id) {
@@ -63,8 +63,8 @@ class CommunityPostRepository {
             return CommunityPost_1.default.findByIdAndRemove(id);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     get(id, projection) {
@@ -72,8 +72,8 @@ class CommunityPostRepository {
             return CommunityPost_1.default.findById(id, projection).populate('user').populate('community_category');
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     filter(filter, limit, page, projection) {
@@ -93,8 +93,8 @@ class CommunityPostRepository {
             }
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     getBy(getBy, projection) {
@@ -102,8 +102,8 @@ class CommunityPostRepository {
             return CommunityPost_1.default.findOne(getBy, projection).populate('user').populate('community_category').populate('community_tag');
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     update(data) {
@@ -111,8 +111,8 @@ class CommunityPostRepository {
             return CommunityPost_1.default.findByIdAndUpdate(data._id, data, { new: true });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     increaseAnswerCount(_id) {
@@ -120,8 +120,8 @@ class CommunityPostRepository {
             return CommunityPost_1.default.findByIdAndUpdate(_id, { $inc: { answer_count: 1 } }, { new: true });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     decreaseAnswerCount(_id) {
@@ -129,8 +129,8 @@ class CommunityPostRepository {
             return CommunityPost_1.default.findByIdAndUpdate(_id, { $inc: { answer_count: -1 } }, { new: true });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     increaseLike(_id) {
@@ -138,8 +138,8 @@ class CommunityPostRepository {
             return CommunityPost_1.default.findByIdAndUpdate(_id, { $inc: { like_count: 1 } }, { new: true });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     decreaseLike(_id) {
@@ -147,8 +147,8 @@ class CommunityPostRepository {
             return CommunityPost_1.default.findByIdAndUpdate(_id, { $inc: { like_count: -1 } }, { new: true });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     increaseViewCountBySlug(slug) {
@@ -156,8 +156,8 @@ class CommunityPostRepository {
             return CommunityPost_1.default.findOneAndUpdate({ slug: slug }, { $inc: { view_count: 1 } }, { new: true });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
 }

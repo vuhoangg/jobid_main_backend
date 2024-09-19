@@ -12,11 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getBanners = exports.getBanner = void 0;
+exports.getBanner = getBanner;
+exports.getBanners = getBanners;
 const BannerRepository_1 = __importDefault(require("../../../db/repositories/BannerRepository"));
 const helpers_1 = require("../../helpers");
 function getBanner(source, args, context, info) {
-    const fields = helpers_1.rootField(info);
+    const fields = (0, helpers_1.rootField)(info);
     return BannerRepository_1.default.get(args._id, fields)
         .then((banner) => __awaiter(this, void 0, void 0, function* () {
         let node = {
@@ -31,10 +32,9 @@ function getBanner(source, args, context, info) {
         return node;
     }));
 }
-exports.getBanner = getBanner;
 function getBanners(source, args, context, info) {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     let limit = args.limit > 1000 ? 10 : args.limit;
     let page = args.page;
     return BannerRepository_1.default.filter(filter, limit, page, infos.edges)
@@ -64,5 +64,4 @@ function getBanners(source, args, context, info) {
         return dataRet;
     }));
 }
-exports.getBanners = getBanners;
 //# sourceMappingURL=get.js.map

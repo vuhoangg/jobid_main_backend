@@ -15,8 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCommunityPostLikes = exports.getCommunityPostLike = void 0;
 const CommunityPostLikeRepository_1 = __importDefault(require("../../../db/repositories/CommunityPostLikeRepository"));
 const helpers_1 = require("../../helpers");
-exports.getCommunityPostLike = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    const fields = helpers_1.rootField(info);
+const getCommunityPostLike = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    const fields = (0, helpers_1.rootField)(info);
     let communityPostLike = yield CommunityPostLikeRepository_1.default.get(args._id, fields);
     let node = {
         _id: communityPostLike._id,
@@ -27,9 +27,10 @@ exports.getCommunityPostLike = (source, args, context, info) => __awaiter(void 0
     };
     return node;
 });
-exports.getCommunityPostLikes = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+exports.getCommunityPostLike = getCommunityPostLike;
+const getCommunityPostLikes = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     let limit = args.limit > 1000 ? 10 : args.limit;
     let page = args.page;
     let communityPostLikes = yield CommunityPostLikeRepository_1.default.filter(filter, limit, page, infos.edges);
@@ -55,4 +56,5 @@ exports.getCommunityPostLikes = (source, args, context, info) => __awaiter(void 
         } });
     return dataRet;
 });
+exports.getCommunityPostLikes = getCommunityPostLikes;
 //# sourceMappingURL=get.js.map

@@ -15,8 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCvWarehouses = exports.getCvWarehouse = void 0;
 const CvWarehouseRepository_1 = __importDefault(require("../../../db/repositories/CvWarehouseRepository"));
 const helpers_1 = require("../../helpers");
-exports.getCvWarehouse = (source, args, context, info) => {
-    const fieldsRoot = helpers_1.rootField(info);
+const getCvWarehouse = (source, args, context, info) => {
+    const fieldsRoot = (0, helpers_1.rootField)(info);
     let getBy = args._id ? { _id: args._id } : { slug: args.slug };
     return CvWarehouseRepository_1.default.get(getBy, fieldsRoot).then((cvWarehouse) => {
         const dataCvWarehouse = {
@@ -33,9 +33,10 @@ exports.getCvWarehouse = (source, args, context, info) => {
         return dataCvWarehouse;
     });
 };
-exports.getCvWarehouses = (source, args, context, info) => {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+exports.getCvWarehouse = getCvWarehouse;
+const getCvWarehouses = (source, args, context, info) => {
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     return CvWarehouseRepository_1.default.filter(filter, args.page, args.limit, infos.edges).then((cvWarehouses) => __awaiter(void 0, void 0, void 0, function* () {
         let edges = [];
         for (let i = 0; i < cvWarehouses.length; i++) {
@@ -64,4 +65,5 @@ exports.getCvWarehouses = (source, args, context, info) => {
         return dataRet;
     }));
 };
+exports.getCvWarehouses = getCvWarehouses;
 //# sourceMappingURL=get.js.map

@@ -7,12 +7,12 @@ const types_2 = require("../types");
 const notificationQueries = {
     notification: {
         args: types_2.NotificationArguments,
-        resolve: (source, args, context, info) => get_1.getNotification(source, args, context, info),
+        resolve: (source, args, context, info) => (0, get_1.getNotification)(source, args, context, info),
         type: new graphql_1.GraphQLNonNull(types_2.Notification),
     },
     notifications: {
         args: types_1.PaginationArguments,
-        resolve: (source, args, context, info) => get_1.getNotifications(source, args, context, info),
+        resolve: (source, args, context, info) => (0, get_1.getNotifications)(source, args, context, info),
         type: new graphql_1.GraphQLNonNull(types_2.NotificationConnection),
     },
 };

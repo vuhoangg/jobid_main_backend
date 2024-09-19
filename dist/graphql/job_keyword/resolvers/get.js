@@ -12,11 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getJobKeywords = exports.getJobKeyword = void 0;
+exports.getJobKeyword = void 0;
+exports.getJobKeywords = getJobKeywords;
 const JobKeywordRepository_1 = __importDefault(require("../../../db/repositories/JobKeywordRepository"));
 const helpers_1 = require("../../helpers");
-exports.getJobKeyword = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    const fields = helpers_1.rootField(info);
+const getJobKeyword = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    const fields = (0, helpers_1.rootField)(info);
     let getBy = args._id ? { _id: args._id } : { slug: args.slug };
     let jobKeyword = yield JobKeywordRepository_1.default.getBy(getBy, fields);
     if (jobKeyword) {
@@ -33,9 +34,10 @@ exports.getJobKeyword = (source, args, context, info) => __awaiter(void 0, void 
         return node;
     }
 });
+exports.getJobKeyword = getJobKeyword;
 function getJobKeywords(source, args, context, info) {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     return JobKeywordRepository_1.default.filter(filter, args.limit, args.page, infos.edges)
         .then((jobKeywords) => __awaiter(this, void 0, void 0, function* () {
         let edges = [];
@@ -64,5 +66,4 @@ function getJobKeywords(source, args, context, info) {
         return dataRet;
     }));
 }
-exports.getJobKeywords = getJobKeywords;
 //# sourceMappingURL=get.js.map

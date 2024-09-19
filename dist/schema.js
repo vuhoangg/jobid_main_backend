@@ -9,6 +9,9 @@ const query_1 = __importDefault(require("./graphql/query"));
 const AppSchema = new graphql_1.GraphQLSchema({
     mutation: mutation_1.default,
     query: query_1.default,
+    // If you need to create or update a data source,
+    // you use mutations. Note:
+    // mutations will not be explored in this post.
 });
 exports.default = AppSchema;
 //# sourceMappingURL=schema.js.map

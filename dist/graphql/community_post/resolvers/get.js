@@ -18,12 +18,12 @@ const CommunityPostRepository_1 = __importDefault(require("../../../db/repositor
 const seo_1 = require("../../../helpers/seo");
 const authenticate_1 = require("../../../middlewares/authenticate");
 const helpers_1 = require("../../helpers");
-exports.getCommunityPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    const fields = helpers_1.rootField(info);
+const getCommunityPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    const fields = (0, helpers_1.rootField)(info);
     let getBy = args._id ? { _id: args._id } : { slug: args.slug };
     let communityPost = yield CommunityPostRepository_1.default.getBy(getBy, fields);
     let is_like = false;
-    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         is_like = !!(yield CommunityPostLikeRepository_1.default.count({ community_post: communityPost._id, user: loggedUser._id }));
@@ -43,19 +43,20 @@ exports.getCommunityPost = (source, args, context, info) => __awaiter(void 0, vo
         answer_count: communityPost.answer_count,
         status: communityPost.status,
         seo_title: communityPost.seo_title || communityPost.title,
-        seo_description: communityPost.seo_description || seo_1.seoDescription(communityPost.description),
+        seo_description: communityPost.seo_description || (0, seo_1.seoDescription)(communityPost.description),
         created_at: communityPost.created_at,
         updated_at: communityPost.updated_at,
     };
     return node;
 });
-exports.getCommunityPosts = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+exports.getCommunityPost = getCommunityPost;
+const getCommunityPosts = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     let limit = args.limit > 1000 ? 10 : args.limit;
     let page = args.page;
     let communityPosts = yield CommunityPostRepository_1.default.filter(filter, limit, page, infos.edges);
-    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(context, context.res);
     let edges = [];
     for (let i = 0; i < communityPosts.length; i++) {
         let is_like = false;
@@ -80,7 +81,7 @@ exports.getCommunityPosts = (source, args, context, info) => __awaiter(void 0, v
                 answer_count: communityPosts[i].answer_count,
                 status: communityPosts[i].status,
                 seo_title: communityPosts[i].seo_title || communityPosts[i].title,
-                seo_description: communityPosts[i].seo_description || seo_1.seoDescription(communityPosts[i].description),
+                seo_description: communityPosts[i].seo_description || (0, seo_1.seoDescription)(communityPosts[i].description),
                 created_at: communityPosts[i].created_at,
                 updated_at: communityPosts[i].updated_at,
             }
@@ -95,4 +96,5 @@ exports.getCommunityPosts = (source, args, context, info) => __awaiter(void 0, v
         } });
     return dataRet;
 });
+exports.getCommunityPosts = getCommunityPosts;
 //# sourceMappingURL=get.js.map

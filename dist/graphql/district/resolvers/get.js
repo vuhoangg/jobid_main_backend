@@ -16,8 +16,8 @@ exports.getDistricts = exports.getDistrict = void 0;
 const DistrictRepository_1 = __importDefault(require("../../../db/repositories/DistrictRepository"));
 const helpers_1 = require("../../helpers");
 const seo_1 = require("../../../helpers/seo");
-exports.getDistrict = (source, args, context, info) => {
-    const fieldsRoot = helpers_1.rootField(info);
+const getDistrict = (source, args, context, info) => {
+    const fieldsRoot = (0, helpers_1.rootField)(info);
     let getBy = args._id ? { _id: args._id } : { slug: args.slug };
     return DistrictRepository_1.default.get(getBy, fieldsRoot).then((district) => {
         const dataDistrict = {
@@ -30,7 +30,7 @@ exports.getDistrict = (source, args, context, info) => {
             image: district.image,
             image_description: district.image_description,
             seo_title: district.seo_title ? district.seo_title : district.title,
-            seo_description: district.seo_description ? district.seo_description : seo_1.seoDescription(district.description),
+            seo_description: district.seo_description ? district.seo_description : (0, seo_1.seoDescription)(district.description),
             focus_keyword: district.focus_keyword,
             created_at: district.created_at,
             updated_at: district.updated_at,
@@ -38,9 +38,10 @@ exports.getDistrict = (source, args, context, info) => {
         return dataDistrict;
     });
 };
-exports.getDistricts = (source, args, context, info) => {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+exports.getDistrict = getDistrict;
+const getDistricts = (source, args, context, info) => {
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     return DistrictRepository_1.default.filter(filter, args.limit, args.page, infos.edges).then((districts) => __awaiter(void 0, void 0, void 0, function* () {
         let edges = [];
         for (let i = 0; i < districts.length; i++) {
@@ -56,7 +57,7 @@ exports.getDistricts = (source, args, context, info) => {
                     image: districts[i].image,
                     image_description: districts[i].image_description,
                     seo_title: districts[i].seo_title ? districts[i].seo_title : districts[i].title,
-                    seo_description: districts[i].seo_description ? districts[i].seo_description : seo_1.seoDescription(districts[i].description),
+                    seo_description: districts[i].seo_description ? districts[i].seo_description : (0, seo_1.seoDescription)(districts[i].description),
                     focus_keyword: districts[i].focus_keyword,
                     created_at: districts[i].created_at,
                     updated_at: districts[i].updated_at,
@@ -73,4 +74,5 @@ exports.getDistricts = (source, args, context, info) => {
         return dataRet;
     }));
 };
+exports.getDistricts = getDistricts;
 //# sourceMappingURL=get.js.map

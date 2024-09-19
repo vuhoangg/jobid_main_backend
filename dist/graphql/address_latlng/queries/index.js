@@ -5,7 +5,7 @@ const types_1 = require("../types");
 const addressLatLngQueries = {
     addressLatLng: {
         args: types_1.AddressLatLngArguments,
-        resolve: (source, args, context, info) => get_1.getAddressLatLng(source, args, context, info),
+        resolve: (source, args, context, info) => (0, get_1.getAddressLatLng)(source, args, context, info),
         type: types_1.AddressLatLng,
     },
 };

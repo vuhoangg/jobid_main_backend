@@ -15,14 +15,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateCurriculumVitae = exports.createCurriculumVitae = void 0;
 const CurriculumVitaeRepository_1 = __importDefault(require("../../../db/repositories/CurriculumVitaeRepository"));
 const authenticate_1 = require("../../../middlewares/authenticate");
-exports.createCurriculumVitae = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
+const createCurriculumVitae = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
         return CurriculumVitaeRepository_1.default.create(args.input);
     }
 });
-exports.updateCurriculumVitae = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
+exports.createCurriculumVitae = createCurriculumVitae;
+const updateCurriculumVitae = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
         return CurriculumVitaeRepository_1.default.update(args.input);
     }
 });
+exports.updateCurriculumVitae = updateCurriculumVitae;
 //# sourceMappingURL=update.js.map

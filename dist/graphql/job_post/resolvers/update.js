@@ -19,12 +19,12 @@ const permission_1 = require("../../../helpers/permission");
 const authenticate_1 = require("../../../middlewares/authenticate");
 const JobViewRepository_1 = __importDefault(require("../../../db/repositories/JobViewRepository"));
 const mail_1 = require("../../../mail");
-exports.updateJobPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateEmployer(context, context.res);
+const updateJobPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield (0, authenticate_1.authenticateEmployer)(context, context.res);
     if (isAuthenticated) {
         let loggedEmployer = context.res.locals.fullEmployer;
         let input = args.input;
-        if (permission_1.isSuperUser(loggedEmployer.email)) {
+        if ((0, permission_1.isSuperUser)(loggedEmployer.email)) {
             return JobPostRepository_1.default.update(input);
         }
         else {
@@ -38,12 +38,13 @@ exports.updateJobPost = (source, args, context, info) => __awaiter(void 0, void 
         }
     }
 });
-exports.createJobPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateEmployer(context, context.res);
+exports.updateJobPost = updateJobPost;
+const createJobPost = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield (0, authenticate_1.authenticateEmployer)(context, context.res);
     if (isAuthenticated) {
         let loggedEmployer = context.res.locals.fullEmployer;
         let input = args.input;
-        let slug = string_1.toSlug(input.title, true);
+        let slug = (0, string_1.toSlug)(input.title, true);
         input = Object.assign(input, { slug: slug });
         input = Object.assign(input, { employer: loggedEmployer._id });
         let r = yield JobPostRepository_1.default.create(input);
@@ -56,15 +57,16 @@ exports.createJobPost = (source, args, context, info) => __awaiter(void 0, void 
             "{{employer_name}}": employer_name,
             "{{detail_link}}": detail_link,
         });
-        yield mail_1.sendEmployerNewJobPost(loggedEmployer.email, employer_name, mailData);
+        yield (0, mail_1.sendEmployerNewJobPost)(loggedEmployer.email, employer_name, mailData);
         // -- end followup email == //
         return r;
     }
 });
-exports.trackingBySlug = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+exports.createJobPost = createJobPost;
+const trackingBySlug = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     let input = args.input;
     let jobPost = yield JobPostRepository_1.default.increaseViewCountBySlug(input.slug);
-    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let payload = {
@@ -77,4 +79,5 @@ exports.trackingBySlug = (source, args, context, info) => __awaiter(void 0, void
         status: true
     };
 });
+exports.trackingBySlug = trackingBySlug;
 //# sourceMappingURL=update.js.map

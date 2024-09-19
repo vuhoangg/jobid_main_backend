@@ -30,16 +30,16 @@ const router_3 = require("./modules/cv/router");
 const router_4 = require("./modules/crawl/router");
 const schema_1 = __importDefault(require("./schema"));
 connection_1.Connection.connect();
-const app = express_1.default();
-const upload = multer_1.default({
+const app = (0, express_1.default)();
+const upload = (0, multer_1.default)({
     limits: { fieldSize: 50 * 1024 * 1024 }
 });
 app.use(body_parser_1.default.json({ limit: "50mb" }));
 app.use(body_parser_1.default.urlencoded({ limit: "50mb", extended: true }));
 app.use(upload.array());
-app.use(cookie_parser_1.default());
+app.use((0, cookie_parser_1.default)());
 app.use(passport_1.default.initialize());
-app.use(cors_1.default({
+app.use((0, cors_1.default)({
     credentials: true,
     origin: [
         /\.ketnoiviec\.net$/,
@@ -67,14 +67,14 @@ const googleUserStrategy = new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 }, (accessToken, refreshToken, profile, cb) => __awaiter(void 0, void 0, void 0, function* () {
-    const r1 = yield handles_1.isExistingEmailUser(profile.emails[0].value);
+    const r1 = yield (0, handles_1.isExistingEmailUser)(profile.emails[0].value);
     if (r1) {
-        const accessToken = yield handles_1.handleTokenAuthUser(r1);
+        const accessToken = yield (0, handles_1.handleTokenAuthUser)(r1);
         cb(null, { user: { accessToken: accessToken } });
     }
     else {
-        const r2 = yield handles_1.saveNewGoogleUser(profile);
-        const accessToken = yield handles_1.handleTokenAuthUser(r2);
+        const r2 = yield (0, handles_1.saveNewGoogleUser)(profile);
+        const accessToken = yield (0, handles_1.handleTokenAuthUser)(r2);
         cb(null, { user: { accessToken: accessToken } });
     }
 }));
@@ -83,14 +83,14 @@ const googleEmployerStrategy = new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 }, (accessToken, refreshToken, profile, cb) => __awaiter(void 0, void 0, void 0, function* () {
-    const r1 = yield handles_1.isExistingEmailEmployer(profile.emails[0].value);
+    const r1 = yield (0, handles_1.isExistingEmailEmployer)(profile.emails[0].value);
     if (r1) {
-        const accessToken = yield handles_1.handleTokenAuthEmployer(r1);
+        const accessToken = yield (0, handles_1.handleTokenAuthEmployer)(r1);
         cb(null, { employer: { accessToken: accessToken } });
     }
     else {
-        const r2 = yield handles_1.saveNewGoogleEmployer(profile);
-        const accessToken = yield handles_1.handleTokenAuthEmployer(r2);
+        const r2 = yield (0, handles_1.saveNewGoogleEmployer)(profile);
+        const accessToken = yield (0, handles_1.handleTokenAuthEmployer)(r2);
         cb(null, { employer: { accessToken: accessToken } });
     }
 }));
@@ -115,14 +115,14 @@ const facebookUserStrategy = new FacebookStrategy({
     ],
 }, function (accessToken, refreshToken, profile, cb) {
     return __awaiter(this, void 0, void 0, function* () {
-        const r1 = yield handles_1.isExistingFbUser(profile.id);
+        const r1 = yield (0, handles_1.isExistingFbUser)(profile.id);
         if (r1) {
-            const accessToken = yield handles_1.handleTokenAuthUser(r1);
+            const accessToken = yield (0, handles_1.handleTokenAuthUser)(r1);
             cb(null, { user: { accessToken: accessToken } });
         }
         else {
-            const r2 = yield handles_1.saveNewFacebookUser(profile);
-            const accessToken = yield handles_1.handleTokenAuthUser(r2);
+            const r2 = yield (0, handles_1.saveNewFacebookUser)(profile);
+            const accessToken = yield (0, handles_1.handleTokenAuthUser)(r2);
             cb(null, { user: { accessToken: accessToken } });
         }
     });
@@ -144,14 +144,14 @@ const facebookEmployerStrategy = new FacebookStrategy({
 }, function (accessToken, refreshToken, profile, cb) {
     return __awaiter(this, void 0, void 0, function* () {
         if (profile.emails) {
-            const r1 = yield handles_1.isExistingEmailUser(profile.emails[0].value);
+            const r1 = yield (0, handles_1.isExistingEmailUser)(profile.emails[0].value);
             if (r1) {
-                const accessToken = yield handles_1.handleTokenAuthUser(r1);
+                const accessToken = yield (0, handles_1.handleTokenAuthUser)(r1);
                 cb(null, { employer: { accessToken: accessToken } });
             }
             else {
-                const r2 = yield handles_1.saveNewGoogleUser(profile);
-                const accessToken = yield handles_1.handleTokenAuthUser(r2);
+                const r2 = yield (0, handles_1.saveNewGoogleUser)(profile);
+                const accessToken = yield (0, handles_1.handleTokenAuthUser)(r2);
                 cb(null, { employer: { accessToken: accessToken } });
             }
         }
@@ -169,7 +169,7 @@ app.use("/upload", router_2.UploadRouter);
 app.use("/auth", router_1.AuthRouter);
 app.use("/cv", router_3.CvRouter);
 app.use("/crawl", router_4.CrawlRouter);
-app.use("/graphql", express_graphql_1.default({
+app.use("/graphql", (0, express_graphql_1.default)({
     graphiql: process.env.APP_ENV !== "production",
     schema: schema_1.default,
 }));

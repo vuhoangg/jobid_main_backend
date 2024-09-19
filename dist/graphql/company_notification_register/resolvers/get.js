@@ -16,9 +16,9 @@ exports.getCompanyNotificationRegisters = exports.getCompanyNotificationRegister
 const CompanyNotificationRegisterRepository_1 = __importDefault(require("../../../db/repositories/CompanyNotificationRegisterRepository"));
 const helpers_1 = require("../../helpers");
 const authenticate_1 = require("../../../middlewares/authenticate");
-exports.getCompanyNotificationRegister = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    const fields = helpers_1.rootField(info);
-    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+const getCompanyNotificationRegister = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    const fields = (0, helpers_1.rootField)(info);
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let getBy = {
@@ -36,12 +36,13 @@ exports.getCompanyNotificationRegister = (source, args, context, info) => __awai
         return node;
     }
 });
-exports.getCompanyNotificationRegisters = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+exports.getCompanyNotificationRegister = getCompanyNotificationRegister;
+const getCompanyNotificationRegisters = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     let limit = args.limit > 1000 ? 10 : args.limit;
     let page = args.page;
-    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         filter = Object.assign(filter, { user: loggedUser._id });
@@ -69,4 +70,5 @@ exports.getCompanyNotificationRegisters = (source, args, context, info) => __awa
         return dataRet;
     }
 });
+exports.getCompanyNotificationRegisters = getCompanyNotificationRegisters;
 //# sourceMappingURL=get.js.map

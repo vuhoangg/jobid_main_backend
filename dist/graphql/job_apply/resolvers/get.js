@@ -17,9 +17,9 @@ const JobApplyRepository_1 = __importDefault(require("../../../db/repositories/J
 const helpers_1 = require("../../helpers");
 const authenticate_1 = require("../../../middlewares/authenticate");
 const permission_1 = require("../../../helpers/permission");
-exports.getJobApply = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    const fields = helpers_1.rootField(info);
-    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+const getJobApply = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    const fields = (0, helpers_1.rootField)(info);
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let getBy = {
@@ -41,12 +41,13 @@ exports.getJobApply = (source, args, context, info) => __awaiter(void 0, void 0,
         return node;
     }
 });
-exports.getJobApplys = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+exports.getJobApply = getJobApply;
+const getJobApplys = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     let limit = args.limit > 1000 ? 10 : args.limit;
     let page = args.page;
-    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         filter = Object.assign(filter, { user: loggedUser._id });
@@ -78,9 +79,10 @@ exports.getJobApplys = (source, args, context, info) => __awaiter(void 0, void 0
         return dataRet;
     }
 });
-exports.getEmployerJobApply = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    const fields = helpers_1.rootField(info);
-    let isAuthenticated = yield authenticate_1.authenticateEmployer(context, context.res);
+exports.getJobApplys = getJobApplys;
+const getEmployerJobApply = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    const fields = (0, helpers_1.rootField)(info);
+    let isAuthenticated = yield (0, authenticate_1.authenticateEmployer)(context, context.res);
     if (isAuthenticated) {
         let loggedEmployer = context.res.locals.fullEmployer;
         let getBy = {
@@ -102,12 +104,13 @@ exports.getEmployerJobApply = (source, args, context, info) => __awaiter(void 0,
         return node;
     }
 });
-exports.getEmployerJobApplys = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+exports.getEmployerJobApply = getEmployerJobApply;
+const getEmployerJobApplys = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     let limit = args.limit > 1000 ? 10 : args.limit;
     let page = args.page;
-    let isAuthenticated = yield authenticate_1.authenticateEmployer(context, context.res);
+    let isAuthenticated = yield (0, authenticate_1.authenticateEmployer)(context, context.res);
     if (isAuthenticated) {
         let loggedEmployer = context.res.locals.fullEmployer;
         filter = Object.assign(filter, { employer: loggedEmployer._id });
@@ -139,12 +142,13 @@ exports.getEmployerJobApplys = (source, args, context, info) => __awaiter(void 0
         return dataRet;
     }
 });
-exports.getAdminJobApply = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    const fields = helpers_1.rootField(info);
-    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+exports.getEmployerJobApplys = getEmployerJobApplys;
+const getAdminJobApply = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    const fields = (0, helpers_1.rootField)(info);
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
-        if (permission_1.isSuperUser(loggedUser.email)) {
+        if ((0, permission_1.isSuperUser)(loggedUser.email)) {
             let getBy = {
                 _id: args._id,
             };
@@ -164,15 +168,16 @@ exports.getAdminJobApply = (source, args, context, info) => __awaiter(void 0, vo
         }
     }
 });
-exports.getAdminJobApplys = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+exports.getAdminJobApply = getAdminJobApply;
+const getAdminJobApplys = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     let limit = args.limit > 1000 ? 10 : args.limit;
     let page = args.page;
-    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
-        if (permission_1.isSuperUser(loggedUser.email)) {
+        if ((0, permission_1.isSuperUser)(loggedUser.email)) {
             let jobApplys = yield JobApplyRepository_1.default.filter(filter, limit, page, infos.edges);
             let edges = [];
             for (let i = 0; i < jobApplys.length; i++) {
@@ -202,4 +207,5 @@ exports.getAdminJobApplys = (source, args, context, info) => __awaiter(void 0, v
         }
     }
 });
+exports.getAdminJobApplys = getAdminJobApplys;
 //# sourceMappingURL=get.js.map

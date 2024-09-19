@@ -17,17 +17,18 @@ const CommunityPostAnswerRepository_1 = __importDefault(require("../../../db/rep
 const CommunityPostRepository_1 = __importDefault(require("../../../db/repositories/CommunityPostRepository"));
 const permission_1 = require("../../../helpers/permission");
 const authenticate_1 = require("../../../middlewares/authenticate");
-exports.updateCommunityPostAnswer = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+const updateCommunityPostAnswer = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
-        if (permission_1.isSuperUser(loggedUser.email)) {
+        if ((0, permission_1.isSuperUser)(loggedUser.email)) {
             return CommunityPostAnswerRepository_1.default.update(args.input);
         }
     }
 });
-exports.createCommunityPostAnswer = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+exports.updateCommunityPostAnswer = updateCommunityPostAnswer;
+const createCommunityPostAnswer = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
@@ -37,4 +38,5 @@ exports.createCommunityPostAnswer = (source, args, context, info) => __awaiter(v
         return r;
     }
 });
+exports.createCommunityPostAnswer = createCommunityPostAnswer;
 //# sourceMappingURL=update.js.map

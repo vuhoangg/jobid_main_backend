@@ -5,8 +5,8 @@ const graphql_1 = require("graphql");
 const update_1 = require("../resolvers/update");
 const districtMutations = {
     district: {
-        args: { input: { type: graphql_1.GraphQLNonNull(types_1.DistrictInput) } },
-        resolve: (source, args, context) => update_1.updateDistrict(args, context),
+        args: { input: { type: (0, graphql_1.GraphQLNonNull)(types_1.DistrictInput) } },
+        resolve: (source, args, context) => (0, update_1.updateDistrict)(args, context),
         type: new graphql_1.GraphQLNonNull(types_1.District),
     },
 };

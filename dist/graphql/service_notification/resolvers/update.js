@@ -16,15 +16,16 @@ exports.createServiceWorkerNotification = exports.updateServiceWorkerNotificatio
 const ServiceNotificationRepository_1 = __importDefault(require("../../../db/repositories/ServiceNotificationRepository"));
 const permission_1 = require("../../../helpers/permission");
 const authenticate_1 = require("../../../middlewares/authenticate");
-exports.updateServiceWorkerNotification = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    if (yield authenticate_1.authenticateUser(context, context.res)) {
+const updateServiceWorkerNotification = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
         let loggedUser = context.res.locals.fullUser;
-        if (permission_1.isSuperUser(loggedUser.email)) {
+        if ((0, permission_1.isSuperUser)(loggedUser.email)) {
             return ServiceNotificationRepository_1.default.update(args.input);
         }
     }
 });
-exports.createServiceWorkerNotification = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+exports.updateServiceWorkerNotification = updateServiceWorkerNotification;
+const createServiceWorkerNotification = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     // if (await authenticate(context, context.res)) {
     //   let loggedUser = context.res.locals.fullUser;
     //   if (isSuperUser(loggedUser.email)) {
@@ -32,4 +33,5 @@ exports.createServiceWorkerNotification = (source, args, context, info) => __awa
     //   }
     // }
 });
+exports.createServiceWorkerNotification = createServiceWorkerNotification;
 //# sourceMappingURL=update.js.map

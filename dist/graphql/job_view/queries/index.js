@@ -7,12 +7,12 @@ const types_2 = require("../types");
 const jobViewQueries = {
     jobView: {
         args: types_2.JobViewArguments,
-        resolve: (source, args, context, info) => get_1.getJobView(source, args, context, info),
+        resolve: (source, args, context, info) => (0, get_1.getJobView)(source, args, context, info),
         type: new graphql_1.GraphQLNonNull(types_2.JobView),
     },
     jobViews: {
         args: types_1.PaginationArguments,
-        resolve: (source, args, context, info) => get_1.getJobViews(source, args, context, info),
+        resolve: (source, args, context, info) => (0, get_1.getJobViews)(source, args, context, info),
         type: new graphql_1.GraphQLNonNull(types_2.JobViewConnection),
     }
 };

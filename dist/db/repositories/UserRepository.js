@@ -58,8 +58,8 @@ function getCondition(filter) {
         condition = Object.assign(Object.assign({}, condition), { "customize_info.nation": filter.nation });
     }
     if (filter.age_from || filter.age_to) {
-        const from = moment_1.default().subtract(parseInt(filter.age_from), "years").toISOString();
-        const to = moment_1.default().subtract(parseInt(filter.age_to), "years").toISOString();
+        const from = (0, moment_1.default)().subtract(parseInt(filter.age_from), "years").toISOString();
+        const to = (0, moment_1.default)().subtract(parseInt(filter.age_to), "years").toISOString();
         condition = Object.assign(Object.assign({}, condition), { "customize_info.birthday": { $gte: to, $lte: from } });
     }
     if (filter.gender) {
@@ -84,8 +84,8 @@ class UserRepository {
             return User_1.default.countDocuments(condition);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     create(data) {
@@ -93,8 +93,8 @@ class UserRepository {
             return User_1.default.create(data);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     delete(id) {
@@ -102,8 +102,8 @@ class UserRepository {
             return User_1.default.findByIdAndRemove(id);
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     get(id, projection) {
@@ -127,8 +127,8 @@ class UserRepository {
                 .populate("info.favorite_job.job_location.ward");
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     filter(filter, limit, page, projection) {
@@ -157,8 +157,8 @@ class UserRepository {
                 .populate("info.favorite_job.job_location.ward");
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     getBy(getBy, projection) {
@@ -182,18 +182,18 @@ class UserRepository {
                 .populate("info.favorite_job.job_location.ward");
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     update(data) {
         try {
-            let dataUpdate = flattenNestedObject_1.processDataUpdate(data);
+            let dataUpdate = (0, flattenNestedObject_1.processDataUpdate)(data);
             return User_1.default.findByIdAndUpdate(data._id, dataUpdate, { new: true });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     logout(_id) {
@@ -202,8 +202,8 @@ class UserRepository {
                 return User_1.default.findByIdAndUpdate(_id, { accessToken: "", refreshToken: "" });
             }
             catch (e) {
-                log_1.errorLog(e);
-                return promise_1.promiseNull();
+                (0, log_1.errorLog)(e);
+                return (0, promise_1.promiseNull)();
             }
         });
     }
@@ -222,8 +222,8 @@ class UserRepository {
             return User_1.default.findByIdAndUpdate(data._id, { $addToSet: { company_role: data.company_role } }, { new: true });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     markSpam(_id) {
@@ -231,8 +231,8 @@ class UserRepository {
             return User_1.default.findByIdAndUpdate(_id, { $inc: { spam: 1 } }, { new: true });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     removeSpam(_id) {
@@ -240,8 +240,8 @@ class UserRepository {
             return User_1.default.findByIdAndUpdate(_id, { spam: 0 }, { new: true });
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
     getById(_id) {
@@ -265,8 +265,8 @@ class UserRepository {
                 .populate("info.favorite_job.job_location.ward");
         }
         catch (e) {
-            log_1.errorLog(e);
-            return promise_1.promiseNull();
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
         }
     }
 }

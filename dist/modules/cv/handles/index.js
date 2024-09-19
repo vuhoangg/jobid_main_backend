@@ -18,7 +18,7 @@ const CvUserRepository_1 = __importDefault(require("../../../db/repositories/CvU
 const CvRequestRepository_1 = __importDefault(require("../../../db/repositories/CvRequestRepository"));
 const authenticate_1 = require("../../../middlewares/authenticate");
 const permission_1 = require("../../../helpers/permission");
-exports.getListTheme = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getListTheme = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let page = Number(req.query.page);
     let limit = Number(req.query.limit);
     let created_by = req.query.created_by;
@@ -33,13 +33,15 @@ exports.getListTheme = (req, res) => __awaiter(void 0, void 0, void 0, function*
     const themes = yield CvThemeRepository_1.default.filter(filter, page, limit, {});
     res.json({ status: true, themes: themes });
 });
-exports.getTheme = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getListTheme = getListTheme;
+const getTheme = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let id = req.params.id;
     const theme = yield CvThemeRepository_1.default.get(id, {});
     res.json({ status: true, theme: theme });
 });
-exports.putTheme = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(req, res);
+exports.getTheme = getTheme;
+const putTheme = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(req, res);
     if (isAuthenticated) {
         let data = req.body;
         let userId = res.locals.user;
@@ -56,8 +58,9 @@ exports.putTheme = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.json({ status: false });
     }
 });
-exports.createTheme = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(req, res);
+exports.putTheme = putTheme;
+const createTheme = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(req, res);
     if (isAuthenticated) {
         let data = req.body;
         let userId = res.locals.user;
@@ -69,8 +72,9 @@ exports.createTheme = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         res.json({ status: false });
     }
 });
-exports.previewCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(req, res);
+exports.createTheme = createTheme;
+const previewCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(req, res);
     if (isAuthenticated) {
         let data = req.body;
         let title = data.title;
@@ -83,8 +87,9 @@ exports.previewCv = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         res.json({ status: false, pdf: null });
     }
 });
-exports.createCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(req, res);
+exports.previewCv = previewCv;
+const createCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(req, res);
     if (isAuthenticated) {
         let { title, html_view, html_full, html_view_height, cv_data } = req.body;
         let user = res.locals.user;
@@ -95,8 +100,9 @@ exports.createCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.json({ status: false });
     }
 });
-exports.getListCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(req, res);
+exports.createCv = createCv;
+const getListCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(req, res);
     if (isAuthenticated) {
         let user = res.locals.user;
         let page = Number(req.query.page);
@@ -122,8 +128,9 @@ exports.getListCv = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         res.json({ status: false });
     }
 });
-exports.getCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(req, res);
+exports.getListCv = getListCv;
+const getCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(req, res);
     if (isAuthenticated) {
         let user = res.locals.user;
         let id = req.params.id;
@@ -134,8 +141,9 @@ exports.getCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.json({ status: false, cv: null });
     }
 });
-exports.updateCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(req, res);
+exports.getCv = getCv;
+const updateCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(req, res);
     if (isAuthenticated) {
         let user = res.locals.user;
         let id = req.params.id;
@@ -150,8 +158,9 @@ exports.updateCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.json({ status: false, cv: null });
     }
 });
-exports.deleteCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(req, res);
+exports.updateCv = updateCv;
+const deleteCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(req, res);
     if (isAuthenticated) {
         let user = res.locals.user;
         let id = req.params.id;
@@ -165,8 +174,9 @@ exports.deleteCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.json({ status: false, cv: null });
     }
 });
-exports.makeMainCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(req, res);
+exports.deleteCv = deleteCv;
+const makeMainCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(req, res);
     if (isAuthenticated) {
         let user = res.locals.user;
         let _id = req.body._id;
@@ -185,8 +195,9 @@ exports.makeMainCv = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         res.json({ status: false });
     }
 });
-exports.requestCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(req, res);
+exports.makeMainCv = makeMainCv;
+const requestCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(req, res);
     if (isAuthenticated) {
         let user = res.locals.user;
         let cv = req.body.cv;
@@ -214,12 +225,13 @@ exports.requestCv = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         res.json({ status: false });
     }
 });
-exports.getRequestCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(req, res);
+exports.requestCv = requestCv;
+const getRequestCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(req, res);
     if (isAuthenticated) {
         let user = res.locals.user;
         let fullUser = res.locals.fullUser;
-        if (permission_1.isSuperUser(fullUser.email)) {
+        if ((0, permission_1.isSuperUser)(fullUser.email)) {
             let id = req.params.id;
             let request = yield CvRequestRepository_1.default.get(id, {});
             let cv_user = yield CvUserRepository_1.default.get(request.cv_user, {});
@@ -236,8 +248,9 @@ exports.getRequestCv = (req, res) => __awaiter(void 0, void 0, void 0, function*
         res.json({ status: false });
     }
 });
-exports.getHistoryRequestCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(req, res);
+exports.getRequestCv = getRequestCv;
+const getHistoryRequestCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(req, res);
     if (isAuthenticated) {
         let user = res.locals.user;
         let cv_user = req.params.cv_user_id;
@@ -256,12 +269,13 @@ exports.getHistoryRequestCv = (req, res) => __awaiter(void 0, void 0, void 0, fu
         res.json({ status: false });
     }
 });
-exports.getAllRequestCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(req, res);
+exports.getHistoryRequestCv = getHistoryRequestCv;
+const getAllRequestCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(req, res);
     if (isAuthenticated) {
         let user = res.locals.user;
         let fullUser = res.locals.fullUser;
-        if (permission_1.isSuperUser(fullUser.email)) {
+        if ((0, permission_1.isSuperUser)(fullUser.email)) {
             let page = Number(req.query.page);
             let limit = Number(req.query.limit);
             let findRequest = yield CvRequestRepository_1.default.filter({}, page, limit, {});
@@ -282,12 +296,13 @@ exports.getAllRequestCv = (req, res) => __awaiter(void 0, void 0, void 0, functi
         res.json({ status: false });
     }
 });
-exports.putRequestCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(req, res);
+exports.getAllRequestCv = getAllRequestCv;
+const putRequestCv = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(req, res);
     if (isAuthenticated) {
         let user = res.locals.user;
         let fullUser = res.locals.fullUser;
-        if (permission_1.isSuperUser(fullUser.email)) {
+        if ((0, permission_1.isSuperUser)(fullUser.email)) {
             let data = req.body;
             data = Object.assign(data, { _id: req.params.id });
             let request = yield CvRequestRepository_1.default.update(data);
@@ -301,4 +316,5 @@ exports.putRequestCv = (req, res) => __awaiter(void 0, void 0, void 0, function*
         res.json({ status: false });
     }
 });
+exports.putRequestCv = putRequestCv;
 //# sourceMappingURL=index.js.map

@@ -20,8 +20,8 @@ const EmployerRepository_1 = __importDefault(require("../../../db/repositories/E
 const mail_1 = require("../../../mail");
 const UserRepository_1 = __importDefault(require("../../../db/repositories/UserRepository"));
 const log_1 = require("../../../helpers/log");
-exports.createJobApply = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+const createJobApply = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
         let input = args.input;
@@ -40,18 +40,19 @@ exports.createJobApply = (source, args, context, info) => __awaiter(void 0, void
                 "{{employer_name}}": employer_name,
                 "{{detail_link}}": detail_link,
             });
-            yield mail_1.sendEmployerUserApply(employer.email, employer_name, mailData);
+            yield (0, mail_1.sendEmployerUserApply)(employer.email, employer_name, mailData);
         }
         catch (e) {
-            log_1.errorLog(e);
+            (0, log_1.errorLog)(e);
         }
         // == followup email -= //
         // -- end followup email == //
         return data;
     }
 });
-exports.employerUpdateJobApply = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateEmployer(context, context.res);
+exports.createJobApply = createJobApply;
+const employerUpdateJobApply = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield (0, authenticate_1.authenticateEmployer)(context, context.res);
     if (isAuthenticated) {
         let loggedEmployer = context.res.locals.fullEmployer;
         let input = args.input;
@@ -74,14 +75,14 @@ exports.employerUpdateJobApply = (source, args, context, info) => __awaiter(void
                         "{{detail_link}}": detail_link,
                     });
                     if (input.status == "approve") {
-                        yield mail_1.sendUserApproveCv(user.email, user_name, mailData);
+                        yield (0, mail_1.sendUserApproveCv)(user.email, user_name, mailData);
                     }
                     else if (input.status == "decline") {
-                        yield mail_1.sendUserDeclineCv(user.email, user_name, mailData);
+                        yield (0, mail_1.sendUserDeclineCv)(user.email, user_name, mailData);
                     }
                 }
                 catch (e) {
-                    log_1.errorLog(e);
+                    (0, log_1.errorLog)(e);
                 }
                 // -- end followup email == //
                 return r;
@@ -89,4 +90,5 @@ exports.employerUpdateJobApply = (source, args, context, info) => __awaiter(void
         }
     }
 });
+exports.employerUpdateJobApply = employerUpdateJobApply;
 //# sourceMappingURL=update.js.map

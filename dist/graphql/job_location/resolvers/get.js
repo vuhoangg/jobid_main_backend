@@ -12,11 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getJobLocations = exports.getJobLocation = void 0;
+exports.getJobLocation = getJobLocation;
+exports.getJobLocations = getJobLocations;
 const JobLocationRepository_1 = __importDefault(require("../../../db/repositories/JobLocationRepository"));
 const helpers_1 = require("../../helpers");
 function getJobLocation(source, args, context, info) {
-    const fields = helpers_1.rootField(info);
+    const fields = (0, helpers_1.rootField)(info);
     let getBy = args._id ? { _id: args._id } : { slug: args.slug };
     return JobLocationRepository_1.default.getBy(getBy, fields)
         .then((jobLocation) => __awaiter(this, void 0, void 0, function* () {
@@ -32,10 +33,9 @@ function getJobLocation(source, args, context, info) {
         return node;
     }));
 }
-exports.getJobLocation = getJobLocation;
 function getJobLocations(source, args, context, info) {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     return JobLocationRepository_1.default.filter(filter, args.limit, args.page, infos.edges)
         .then((jobLocations) => __awaiter(this, void 0, void 0, function* () {
         let edges = [];
@@ -65,5 +65,4 @@ function getJobLocations(source, args, context, info) {
         return dataRet;
     }));
 }
-exports.getJobLocations = getJobLocations;
 //# sourceMappingURL=get.js.map

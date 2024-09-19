@@ -16,22 +16,24 @@ exports.createCommunityCategory = exports.updateCommunityCategory = void 0;
 const CommunityCategoryRepository_1 = __importDefault(require("../../../db/repositories/CommunityCategoryRepository"));
 const permission_1 = require("../../../helpers/permission");
 const authenticate_1 = require("../../../middlewares/authenticate");
-exports.updateCommunityCategory = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+const updateCommunityCategory = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
-        if (permission_1.isSuperUser(loggedUser.email)) {
+        if ((0, permission_1.isSuperUser)(loggedUser.email)) {
             return CommunityCategoryRepository_1.default.update(args.input);
         }
     }
 });
-exports.createCommunityCategory = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
-    let isAuthenticated = yield authenticate_1.authenticateUser(context, context.res);
+exports.updateCommunityCategory = updateCommunityCategory;
+const createCommunityCategory = (source, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+    let isAuthenticated = yield (0, authenticate_1.authenticateUser)(context, context.res);
     if (isAuthenticated) {
         let loggedUser = context.res.locals.fullUser;
-        if (permission_1.isSuperUser(loggedUser.email)) {
+        if ((0, permission_1.isSuperUser)(loggedUser.email)) {
             return CommunityCategoryRepository_1.default.create(args.input);
         }
     }
 });
+exports.createCommunityCategory = createCommunityCategory;
 //# sourceMappingURL=update.js.map

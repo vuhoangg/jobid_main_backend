@@ -12,12 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getActivitys = void 0;
+exports.getActivitys = getActivitys;
 const helpers_1 = require("../../helpers");
 const ActivityRepository_1 = __importDefault(require("../../../db/repositories/ActivityRepository"));
 function getActivitys(source, args, context, info) {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     let limit = args.limit > 1000 ? 10 : args.limit;
     let page = args.page;
     return ActivityRepository_1.default.filter(filter, limit, page, infos.edges)
@@ -47,5 +47,4 @@ function getActivitys(source, args, context, info) {
         return dataRet;
     }));
 }
-exports.getActivitys = getActivitys;
 //# sourceMappingURL=get.js.map

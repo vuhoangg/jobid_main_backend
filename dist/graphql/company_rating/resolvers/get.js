@@ -12,11 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCompanyRatings = exports.getCompanyRating = void 0;
+exports.getCompanyRating = getCompanyRating;
+exports.getCompanyRatings = getCompanyRatings;
 const CompanyRatingRepository_1 = __importDefault(require("../../../db/repositories/CompanyRatingRepository"));
 const helpers_1 = require("../../helpers");
 function getCompanyRating(source, args, context, info) {
-    const fields = helpers_1.rootField(info);
+    const fields = (0, helpers_1.rootField)(info);
     let getBy = args._id ? { _id: args._id } : { job_post: args.job_post };
     return CompanyRatingRepository_1.default.getBy(getBy, fields).then((companyRating) => __awaiter(this, void 0, void 0, function* () {
         let node = {
@@ -35,10 +36,9 @@ function getCompanyRating(source, args, context, info) {
         return node;
     }));
 }
-exports.getCompanyRating = getCompanyRating;
 function getCompanyRatings(source, args, context, info) {
-    let infos = helpers_1.rootInfo(info);
-    let filter = helpers_1.filterObject(args.filter);
+    let infos = (0, helpers_1.rootInfo)(info);
+    let filter = (0, helpers_1.filterObject)(args.filter);
     let limit = args.limit > 1000 ? 10 : args.limit;
     let page = args.page;
     return CompanyRatingRepository_1.default.filter(filter, limit, page, infos.edges).then((companyRatings) => __awaiter(this, void 0, void 0, function* () {
@@ -71,5 +71,4 @@ function getCompanyRatings(source, args, context, info) {
         return dataRet;
     }));
 }
-exports.getCompanyRatings = getCompanyRatings;
 //# sourceMappingURL=get.js.map
