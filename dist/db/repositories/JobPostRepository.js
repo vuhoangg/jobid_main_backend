@@ -150,8 +150,11 @@ class JobPostRepository {
                 });
             }
             else {
-                projection = Object.assign(projection, { score: { $meta: "textScore" } });
-                let sortScore = { score: { $meta: "textScore" } };
+                let sortScore = {};
+                if (filter.title) {
+                    projection = Object.assign(projection, { score: { $meta: "textScore" } });
+                    sortScore = Object.assign(Object.assign({}, sortScore), { score: { $meta: "textScore" } });
+                }
                 sort = Object.assign(sortScore, sort);
                 let response = JobPost_1.default.find(condition, projection)
                     .sort(sort)
@@ -188,6 +191,7 @@ class JobPostRepository {
             }
         }
         catch (e) {
+            console.log(e);
             (0, log_1.errorLog)(e);
             return (0, promise_1.promiseNull)();
         }

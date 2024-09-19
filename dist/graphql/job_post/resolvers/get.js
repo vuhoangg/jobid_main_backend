@@ -88,82 +88,87 @@ const getJobPosts = (source, args, context, info) => __awaiter(void 0, void 0, v
             filter = Object.assign(filter, { coordinate: coordinate });
         }
     }
-    let jobPosts = yield JobPostRepository_1.default.filter(filter, limit, page, infos.edges);
-    if (jobPosts) {
-        let edges = [];
-        let loggedUser = null;
-        if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
-            loggedUser = context.res.locals.fullUser;
-        }
-        for (let i = 0; i < jobPosts.length; i++) {
-            let is_featured = false;
-            let is_wishlist = false;
-            if (loggedUser) {
-                if (infos.edges['is_wishlist']) {
-                    is_wishlist = !!(yield JobPostWishlistRepository_1.default.count({ job_post: jobPosts[i]._id, user: loggedUser._id }));
-                }
+    try {
+        let jobPosts = yield JobPostRepository_1.default.filter(filter, limit, page, infos.edges);
+        if (jobPosts) {
+            let edges = [];
+            let loggedUser = null;
+            if (yield (0, authenticate_1.authenticateUser)(context, context.res)) {
+                loggedUser = context.res.locals.fullUser;
             }
-            let minRange = 1000000;
-            let rangeLat = 0;
-            let rangeLng = 0;
-            if (filter.coordinate) {
-                let address = jobPosts[i].address;
-                for (let x = 0; x < address.length; x++) {
-                    if (address[x].lat && address[x].lng) {
-                        let computedRange = (0, geolib_1.getDistance)({ latitude: Number(filter.latitude), longitude: Number(filter.longitude) }, { latitude: Number(address[x].lat), longitude: Number(address[x].lng) });
-                        if (computedRange < minRange) {
-                            minRange = computedRange;
-                            rangeLat = Number(filter.latitude);
-                            rangeLng = Number(filter.longitude);
+            for (let i = 0; i < jobPosts.length; i++) {
+                let is_featured = false;
+                let is_wishlist = false;
+                if (loggedUser) {
+                    if (infos.edges['is_wishlist']) {
+                        is_wishlist = !!(yield JobPostWishlistRepository_1.default.count({ job_post: jobPosts[i]._id, user: loggedUser._id }));
+                    }
+                }
+                let minRange = 1000000;
+                let rangeLat = 0;
+                let rangeLng = 0;
+                if (filter.coordinate) {
+                    let address = jobPosts[i].address;
+                    for (let x = 0; x < address.length; x++) {
+                        if (address[x].lat && address[x].lng) {
+                            let computedRange = (0, geolib_1.getDistance)({ latitude: Number(filter.latitude), longitude: Number(filter.longitude) }, { latitude: Number(address[x].lat), longitude: Number(address[x].lng) });
+                            if (computedRange < minRange) {
+                                minRange = computedRange;
+                                rangeLat = Number(filter.latitude);
+                                rangeLng = Number(filter.longitude);
+                            }
                         }
                     }
                 }
+                let range = minRange == 1000000 ? 0 : minRange;
+                let jobPost = {
+                    cursor: jobPosts[i]._id,
+                    node: {
+                        _id: jobPosts[i]._id,
+                        title: jobPosts[i].title,
+                        slug: jobPosts[i].slug,
+                        job_type: jobPosts[i].job_type,
+                        job_level: jobPosts[i].job_level,
+                        job_category: jobPosts[i].job_category,
+                        number: jobPosts[i].number,
+                        description: jobPosts[i].description,
+                        requirement: jobPosts[i].requirement,
+                        salary: jobPosts[i].salary,
+                        address: jobPosts[i].address,
+                        company: jobPosts[i].company,
+                        contact: jobPosts[i].contact,
+                        image: jobPosts[i].image,
+                        photos: jobPosts[i].photos,
+                        video: jobPosts[i].video,
+                        benefit: jobPosts[i].benefit,
+                        end_date: jobPosts[i].end_date,
+                        user: jobPosts[i].user,
+                        view_count: jobPosts[i].view_count,
+                        range: range,
+                        range_lat: rangeLat,
+                        range_lng: rangeLng,
+                        status: jobPosts[i].status,
+                        seo_title: jobPosts[i].seo_title || jobPosts[i].title,
+                        seo_description: jobPosts[i].seo_description || (0, seo_1.seoDescription)(jobPosts[i].seo_description),
+                        is_featured: is_featured,
+                        is_wishlist: is_wishlist,
+                        created_at: jobPosts[i].created_at,
+                        updated_at: jobPosts[i].updated_at,
+                    },
+                };
+                edges.push(jobPost);
             }
-            let range = minRange == 1000000 ? 0 : minRange;
-            let jobPost = {
-                cursor: jobPosts[i]._id,
-                node: {
-                    _id: jobPosts[i]._id,
-                    title: jobPosts[i].title,
-                    slug: jobPosts[i].slug,
-                    job_type: jobPosts[i].job_type,
-                    job_level: jobPosts[i].job_level,
-                    job_category: jobPosts[i].job_category,
-                    number: jobPosts[i].number,
-                    description: jobPosts[i].description,
-                    requirement: jobPosts[i].requirement,
-                    salary: jobPosts[i].salary,
-                    address: jobPosts[i].address,
-                    company: jobPosts[i].company,
-                    contact: jobPosts[i].contact,
-                    image: jobPosts[i].image,
-                    photos: jobPosts[i].photos,
-                    video: jobPosts[i].video,
-                    benefit: jobPosts[i].benefit,
-                    end_date: jobPosts[i].end_date,
-                    user: jobPosts[i].user,
-                    view_count: jobPosts[i].view_count,
-                    range: range,
-                    range_lat: rangeLat,
-                    range_lng: rangeLng,
-                    status: jobPosts[i].status,
-                    seo_title: jobPosts[i].seo_title || jobPosts[i].title,
-                    seo_description: jobPosts[i].seo_description || (0, seo_1.seoDescription)(jobPosts[i].seo_description),
-                    is_featured: is_featured,
-                    is_wishlist: is_wishlist,
-                    created_at: jobPosts[i].created_at,
-                    updated_at: jobPosts[i].updated_at,
-                },
-            };
-            edges.push(jobPost);
+            let countData = infos.pageInfo && infos.pageInfo.length ? yield JobPostRepository_1.default.count(filter) : 0;
+            let dataRet = Object.assign({ edges }, { pageInfo: {
+                    length: countData,
+                    hasNextPage: jobPosts.length >= limit,
+                    hasPreviousPage: args.page > 1,
+                } });
+            return dataRet;
         }
-        let countData = infos.pageInfo && infos.pageInfo.length ? yield JobPostRepository_1.default.count(filter) : 0;
-        let dataRet = Object.assign({ edges }, { pageInfo: {
-                length: countData,
-                hasNextPage: jobPosts.length >= limit,
-                hasPreviousPage: args.page > 1,
-            } });
-        return dataRet;
+    }
+    catch (error) {
+        console.log(error);
     }
 });
 exports.getJobPosts = getJobPosts;

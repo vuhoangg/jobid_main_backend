@@ -201,9 +201,14 @@ class JobPostRepository implements CrudContract {
             .limit(limit);
         })
       } else {
-        projection = Object.assign(projection, { score: { $meta: "textScore" } });
+        let sortScore = { };
 
-        let sortScore = { score: { $meta: "textScore" } };
+        if (filter.title) {
+          projection = Object.assign(projection, { score: { $meta: "textScore" } });
+          sortScore = {...sortScore, ...{ score: { $meta: "textScore" }}}
+        }
+
+
 
         sort = Object.assign(sortScore, sort);
         let response = JobPost.find(condition, projection)
@@ -243,6 +248,7 @@ class JobPostRepository implements CrudContract {
 
 
     } catch (e) {
+      console.log(e);
       errorLog(e);
       return promiseNull();
     }
