@@ -186,7 +186,7 @@ class JobPostRepository implements CrudContract {
     }
   }
 
-  async filter(filter: IFilter, limit, page, projection) {
+  filter(filter: IFilter, limit, page, projection) {
     try {
       let condition = getCondition(filter);
       let sort = filter.sort_by ? getSort(filter.sort_by) : { created_at: "desc" };
@@ -208,40 +208,38 @@ class JobPostRepository implements CrudContract {
           sortScore = {...sortScore, ...{ score: { $meta: "textScore" }}}
         }
 
-
-
         sort = Object.assign(sortScore, sort);
-        let response = await JobPost.find(condition, projection)
+        let response = JobPost.find(condition, projection)
           .sort(sort)
           .skip(limit * (page - 1))
           .limit(limit);
 
         if (projection.job_category) {
-          response = await response.populate("job_category");
+          response = response.populate("job_category");
         }
         if (projection.job_level) {
-          response = await response.populate("job_level");
+          response = response.populate("job_level");
         }
         if (projection["address"]) {
-          response = await response.populate("address.city");
+          response = response.populate("address.city");
         }
         if (projection["address"]) {
-          response = await response.populate("address.district");
+          response = response.populate("address.district");
         }
         if (projection["address"]) {
-          response = await response.populate("address.ward");
+          response = response.populate("address.ward");
         }
         if (projection.job_type) {
-          response = await response.populate("job_type");
+          response = response.populate("job_type");
         }
         if (projection['benefit']) {
-          response = await response.populate("benefit.benefit_id");
+          response = response.populate("benefit.benefit_id");
         }
         if (projection["company"]) {
-          response = await response.populate("company.ref");
+          response = response.populate("company.ref");
         }
         if (projection.user) {
-          response = await response.populate("user");
+          response = response.populate("user");
         }
         return response;
       }

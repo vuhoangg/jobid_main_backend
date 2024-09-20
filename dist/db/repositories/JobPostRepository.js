@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -145,67 +136,65 @@ class JobPostRepository {
         }
     }
     filter(filter, limit, page, projection) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                let condition = getCondition(filter);
-                let sort = filter.sort_by ? getSort(filter.sort_by) : { created_at: "desc" };
-                if (filter.suggestion) {
-                    return User_1.default.findById(filter.suggestion).then(r1 => {
-                        let favorite_job = r1.info.favorite_job || [];
-                        let job_category = favorite_job.map((item) => item.job_category);
-                        return JobPost_1.default.find({ status: "active", job_category: { "$in": job_category } }, projection)
-                            .sort(sort)
-                            .skip(limit * (page - 1))
-                            .limit(limit);
-                    });
-                }
-                else {
-                    let sortScore = {};
-                    if (filter.title) {
-                        projection = Object.assign(projection, { score: { $meta: "textScore" } });
-                        sortScore = Object.assign(Object.assign({}, sortScore), { score: { $meta: "textScore" } });
-                    }
-                    sort = Object.assign(sortScore, sort);
-                    let response = yield JobPost_1.default.find(condition, projection)
+        try {
+            let condition = getCondition(filter);
+            let sort = filter.sort_by ? getSort(filter.sort_by) : { created_at: "desc" };
+            if (filter.suggestion) {
+                return User_1.default.findById(filter.suggestion).then(r1 => {
+                    let favorite_job = r1.info.favorite_job || [];
+                    let job_category = favorite_job.map((item) => item.job_category);
+                    return JobPost_1.default.find({ status: "active", job_category: { "$in": job_category } }, projection)
                         .sort(sort)
                         .skip(limit * (page - 1))
                         .limit(limit);
-                    if (projection.job_category) {
-                        response = yield response.populate("job_category");
-                    }
-                    if (projection.job_level) {
-                        response = yield response.populate("job_level");
-                    }
-                    if (projection["address"]) {
-                        response = yield response.populate("address.city");
-                    }
-                    if (projection["address"]) {
-                        response = yield response.populate("address.district");
-                    }
-                    if (projection["address"]) {
-                        response = yield response.populate("address.ward");
-                    }
-                    if (projection.job_type) {
-                        response = yield response.populate("job_type");
-                    }
-                    if (projection['benefit']) {
-                        response = yield response.populate("benefit.benefit_id");
-                    }
-                    if (projection["company"]) {
-                        response = yield response.populate("company.ref");
-                    }
-                    if (projection.user) {
-                        response = yield response.populate("user");
-                    }
-                    return response;
+                });
+            }
+            else {
+                let sortScore = {};
+                if (filter.title) {
+                    projection = Object.assign(projection, { score: { $meta: "textScore" } });
+                    sortScore = Object.assign(Object.assign({}, sortScore), { score: { $meta: "textScore" } });
                 }
+                sort = Object.assign(sortScore, sort);
+                let response = JobPost_1.default.find(condition, projection)
+                    .sort(sort)
+                    .skip(limit * (page - 1))
+                    .limit(limit);
+                if (projection.job_category) {
+                    response = response.populate("job_category");
+                }
+                if (projection.job_level) {
+                    response = response.populate("job_level");
+                }
+                if (projection["address"]) {
+                    response = response.populate("address.city");
+                }
+                if (projection["address"]) {
+                    response = response.populate("address.district");
+                }
+                if (projection["address"]) {
+                    response = response.populate("address.ward");
+                }
+                if (projection.job_type) {
+                    response = response.populate("job_type");
+                }
+                if (projection['benefit']) {
+                    response = response.populate("benefit.benefit_id");
+                }
+                if (projection["company"]) {
+                    response = response.populate("company.ref");
+                }
+                if (projection.user) {
+                    response = response.populate("user");
+                }
+                return response;
             }
-            catch (e) {
-                console.log(e);
-                (0, log_1.errorLog)(e);
-                return (0, promise_1.promiseNull)();
-            }
-        });
+        }
+        catch (e) {
+            console.log(e);
+            (0, log_1.errorLog)(e);
+            return (0, promise_1.promiseNull)();
+        }
     }
     getBy(getBy, projection) {
         try {
