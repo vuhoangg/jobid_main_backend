@@ -107,7 +107,7 @@ class CompanyRepository implements CrudContract {
     }
   }
 
-  filter(filter: IFilter, limit, page, projection) {
+  async filter(filter: IFilter, limit, page, projection) {
     try {
       let condition = getCondition(filter);
       let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
@@ -121,25 +121,26 @@ class CompanyRepository implements CrudContract {
             .limit(limit);
         })
       } else {
-        let response = Company.find(condition, projection)
+        let response = await Company.find(condition, projection)
           .sort(sort)
           .skip(limit * (page - 1))
           .limit(limit);
-        if (response["office"]) {
-          response = response.populate("office.city");
+
+        if (response.some((company: any) => company.office)) {
+          response = await Company.populate(response, { path: "office.city" });
+          response = await Company.populate(response, { path: "office.district" });
+          response = await Company.populate(response, { path: "office.ward" });
         }
-        if (response["office"]) {
-          response = response.populate("office.district");
+
+        if (response.some((company: any) => company.created_by)) {
+          response = await Company.populate(response, { path: "created_by" });
         }
-        if (response["office"]) {
-          response = response.populate("office.ward");
+
+        if (response.some((company: any) => company.job_category)) {
+          console.log("HELLO");
+          response = await Company.populate(response, { path: "job_category" });
         }
-        if (response["created_by"]) {
-          response = response.populate("created_by");
-        }
-        if (response["job_category"]) {
-          response = response.populate("job_category");
-        }
+
 
         return response;
 

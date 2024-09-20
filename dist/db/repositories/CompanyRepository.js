@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -85,46 +94,45 @@ class CompanyRepository {
         }
     }
     filter(filter, limit, page, projection) {
-        try {
-            let condition = getCondition(filter);
-            let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
-            if (filter.suggestion) {
-                return User_1.default.findById(filter.suggestion).then(r1 => {
-                    let favorite_job = r1.info.favorite_job || [];
-                    let job_category = favorite_job.map((item) => item.job_category);
-                    return Company_1.default.find({ verify_status: true, job_category: { "$in": job_category } }, projection)
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                let condition = getCondition(filter);
+                let sort = filter.sort_by ? getSort(filter.sort_by) : { _id: "desc" };
+                if (filter.suggestion) {
+                    return User_1.default.findById(filter.suggestion).then(r1 => {
+                        let favorite_job = r1.info.favorite_job || [];
+                        let job_category = favorite_job.map((item) => item.job_category);
+                        return Company_1.default.find({ verify_status: true, job_category: { "$in": job_category } }, projection)
+                            .sort(sort)
+                            .skip(limit * (page - 1))
+                            .limit(limit);
+                    });
+                }
+                else {
+                    let response = yield Company_1.default.find(condition, projection)
                         .sort(sort)
                         .skip(limit * (page - 1))
                         .limit(limit);
-                });
+                    if (response.some((company) => company.office)) {
+                        response = yield Company_1.default.populate(response, { path: "office.city" });
+                        response = yield Company_1.default.populate(response, { path: "office.district" });
+                        response = yield Company_1.default.populate(response, { path: "office.ward" });
+                    }
+                    if (response.some((company) => company.created_by)) {
+                        response = yield Company_1.default.populate(response, { path: "created_by" });
+                    }
+                    if (response.some((company) => company.job_category)) {
+                        console.log("HELLO");
+                        response = yield Company_1.default.populate(response, { path: "job_category" });
+                    }
+                    return response;
+                }
             }
-            else {
-                let response = Company_1.default.find(condition, projection)
-                    .sort(sort)
-                    .skip(limit * (page - 1))
-                    .limit(limit);
-                if (response["office"]) {
-                    response = response.populate("office.city");
-                }
-                if (response["office"]) {
-                    response = response.populate("office.district");
-                }
-                if (response["office"]) {
-                    response = response.populate("office.ward");
-                }
-                if (response["created_by"]) {
-                    response = response.populate("created_by");
-                }
-                if (response["job_category"]) {
-                    response = response.populate("job_category");
-                }
-                return response;
+            catch (e) {
+                (0, log_1.errorLog)(e);
+                return (0, promise_1.promiseNull)();
             }
-        }
-        catch (e) {
-            (0, log_1.errorLog)(e);
-            return (0, promise_1.promiseNull)();
-        }
+        });
     }
     getBy(getBy, projection) {
         try {

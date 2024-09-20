@@ -186,7 +186,7 @@ class JobPostRepository implements CrudContract {
     }
   }
 
-  filter(filter: IFilter, limit, page, projection) {
+  async filter(filter: IFilter, limit, page, projection) {
     try {
       let condition = getCondition(filter);
       let sort = filter.sort_by ? getSort(filter.sort_by) : { created_at: "desc" };
@@ -211,37 +211,37 @@ class JobPostRepository implements CrudContract {
 
 
         sort = Object.assign(sortScore, sort);
-        let response = JobPost.find(condition, projection)
+        let response = await JobPost.find(condition, projection)
           .sort(sort)
           .skip(limit * (page - 1))
           .limit(limit);
 
         if (projection.job_category) {
-          response = response.populate("job_category");
+          response = await response.populate("job_category");
         }
         if (projection.job_level) {
-          response = response.populate("job_level");
+          response = await response.populate("job_level");
         }
         if (projection["address"]) {
-          response = response.populate("address.city");
+          response = await response.populate("address.city");
         }
         if (projection["address"]) {
-          response = response.populate("address.district");
+          response = await response.populate("address.district");
         }
         if (projection["address"]) {
-          response = response.populate("address.ward");
+          response = await response.populate("address.ward");
         }
         if (projection.job_type) {
-          response = response.populate("job_type");
+          response = await response.populate("job_type");
         }
         if (projection['benefit']) {
-          response = response.populate("benefit.benefit_id");
+          response = await response.populate("benefit.benefit_id");
         }
         if (projection["company"]) {
-          response = response.populate("company.ref");
+          response = await response.populate("company.ref");
         }
         if (projection.user) {
-          response = response.populate("user");
+          response = await response.populate("user");
         }
         return response;
       }
