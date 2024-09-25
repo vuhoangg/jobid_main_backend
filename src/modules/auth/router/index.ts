@@ -30,7 +30,7 @@ router.get(
 
     res.cookie("knv_accessToken", accessToken, {
       domain: process.env.COOKIE_SHARE_DOMAIN,
-      httpOnly: true,
+      httpOnly: false,
       path: "/",
       maxAge: Number(process.env.USER_EXPIRES_ACCESS_TOKEN),
     });
@@ -48,7 +48,7 @@ router.get(
 
     res.cookie("employer_accessToken", accessToken, {
       domain: process.env.COOKIE_SHARE_DOMAIN,
-      httpOnly: true,
+      httpOnly: false,
       path: "/",
       maxAge: Number(process.env.EMPLOYER_EXPIRES_ACCESS_TOKEN),
     });
@@ -64,7 +64,7 @@ router.get(
     const accessToken = req.user.user.accessToken;
     res.cookie("knv_accessToken", accessToken, {
       domain: process.env.COOKIE_SHARE_DOMAIN,
-      httpOnly: true,
+      httpOnly: false,
       path: "/",
       maxAge: Number(process.env.USER_EXPIRES_ACCESS_TOKEN),
     });
@@ -78,7 +78,7 @@ router.get("/user/zalo/callback", passport.authenticate("zalo", { failureRedirec
   res.cookie("knv_accessToken", req.user, {
     domain: process.env.COOKIE_SHARE_DOMAIN,
     maxAge: Number(process.env.USER_EXPIRES_ACCESS_TOKEN),
-    httpOnly: true,
+    httpOnly: false,
   });
   res.redirect(process.env.SITE_URL);
 });

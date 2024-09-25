@@ -31,7 +31,7 @@ router.get("/user/google/callback", passport_1.default.authenticate("google_user
     const accessToken = req.user.user.accessToken;
     res.cookie("knv_accessToken", accessToken, {
         domain: process.env.COOKIE_SHARE_DOMAIN,
-        httpOnly: true,
+        httpOnly: false,
         path: "/",
         maxAge: Number(process.env.USER_EXPIRES_ACCESS_TOKEN),
     });
@@ -42,7 +42,7 @@ router.get("/employer/google/callback", passport_1.default.authenticate("google_
     const accessToken = req.user.employer.accessToken;
     res.cookie("employer_accessToken", accessToken, {
         domain: process.env.COOKIE_SHARE_DOMAIN,
-        httpOnly: true,
+        httpOnly: false,
         path: "/",
         maxAge: Number(process.env.EMPLOYER_EXPIRES_ACCESS_TOKEN),
     });
@@ -53,7 +53,7 @@ router.get("/user/facebook/callback", passport_1.default.authenticate("facebook_
     const accessToken = req.user.user.accessToken;
     res.cookie("knv_accessToken", accessToken, {
         domain: process.env.COOKIE_SHARE_DOMAIN,
-        httpOnly: true,
+        httpOnly: false,
         path: "/",
         maxAge: Number(process.env.USER_EXPIRES_ACCESS_TOKEN),
     });
@@ -65,7 +65,7 @@ router.get("/user/zalo/callback", passport_1.default.authenticate("zalo", { fail
     res.cookie("knv_accessToken", req.user, {
         domain: process.env.COOKIE_SHARE_DOMAIN,
         maxAge: Number(process.env.USER_EXPIRES_ACCESS_TOKEN),
-        httpOnly: true,
+        httpOnly: false,
     });
     res.redirect(process.env.SITE_URL);
 }));
