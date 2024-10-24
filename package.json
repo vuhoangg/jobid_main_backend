@@ -8,7 +8,8 @@
     "start": "node dist/app.js",
     "ts": "tsc --watch",
     "server": "nodemon dist/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --exec ts-node src/app.ts"
   },
   "repository": {
     "type": "git",
@@ -38,7 +39,7 @@
     "jsdom": "^16.4.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.27.0",
-    "mongodb": "^3.6.2",
+    "mongodb": "^3.7.4",
     "mongoosastic": "^4.6.0",
     "mongoose": "^5.9.7",
     "multer": "^1.4.2",
@@ -62,6 +63,7 @@
     "@types/passport-google-oauth20": "^2.0.3",
     "axios": "^0.19.2",
     "nodemon": "^2.0.4",
-    "typescript": "^5.6.2"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
   }
 }

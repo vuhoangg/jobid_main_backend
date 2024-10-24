@@ -193,4 +193,4 @@ app.use(
 );
 
 app.listen(process.env.APP_PORT);
-console.log(`NodeJS Server running at port ${process.env.APP_PORT}`);
+console.log(`NodeJS Server running  at http://localhost:${process.env.APP_PORT}`);
